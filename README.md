@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>🧬 Myntra Identity</h1>
+
   <p><strong>Fashion that understands you. .</strong></p>
   <p>Built with React, FastAPI, SQLite, and Scikit-Learn.</p>
 </div>
