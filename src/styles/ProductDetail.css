@@ -1,0 +1,33 @@
+.det-screen { overflow: hidden; display: flex; flex-direction: column; }
+.det-img-wrap { width: 100%; height: 420px; position: relative; overflow: hidden; flex-shrink: 0; background: var(--surface-2); }
+.det-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.det-hdr-btns { position: absolute; top: 48px; left: 0; right: 0; padding: 0 16px; display: flex; justify-content: space-between; align-items: center; }
+.wish-top-btn { width: 36px; height: 36px; background: white; border-radius: 50%; border: none; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.det-conf-pill { position: absolute; bottom: 14px; left: 14px; background: rgba(255,255,255,0.95); border-radius: 4px; padding: 7px 14px; display: flex; align-items: center; gap: 7px; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.det-score { font-size: 15px; font-weight: 900; color: var(--accent); }
+.det-score-lbl { font-size: 11px; color: var(--text-2); }
+.det-body { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 16px; padding-bottom: 10px; }
+.det-body::-webkit-scrollbar { display: none; }
+.det-brand { font-size: 14px; font-weight: 700; color: var(--text); }
+.det-name { font-size: 14px; font-weight: 400; color: var(--text-2); margin-top: 4px; line-height: 1.3; }
+.det-pr-row { display: flex; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+.det-price { font-size: 22px; font-weight: 800; color: var(--text); }
+.det-og { font-size: 16px; color: var(--text-2); text-decoration: line-through; }
+.det-disc { font-size: 16px; font-weight: 700; color: var(--accent); }
+.conf-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 18px; margin-top: 10px; }
+.conf-card-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.conf-card-hdr h3 { font-size: 16px; font-weight: 700; color: var(--text); }
+.conf-card-hdr p { font-size: 13px; color: var(--text-2); margin-top: 4px; }
+.conf-big { font-size: 32px; font-weight: 800; color: var(--accent); }
+.conf-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.conf-row:last-child { margin-bottom: 0; }
+.conf-icon { font-size: 16px; width: 22px; text-align: center; flex-shrink: 0; }
+.conf-lbl { font-size: 14px; font-weight: 400; color: var(--text-2); flex: 1; }
+.conf-bar-wrap { flex: 1; height: 4px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
+.conf-bar-fill { height: 100%; border-radius: 4px; background: var(--accent); width: 0; animation: barGrow 1s cubic-bezier(.16,1,.3,1) forwards; }
+@keyframes barGrow { from { width: 0; } to { width: var(--target-w); } }
+.conf-pct { font-size: 14px; font-weight: 700; color: var(--text); width: 32px; text-align: right; flex-shrink: 0; }
+.size-label { font-size: 16px; font-weight: 700; margin-bottom: 12px; margin-top: 10px; color: var(--text); }
+.size-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.size-chip { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: white; border-radius: 50%; font-size: 14px; font-weight: 700; cursor: pointer; transition: all .2s; border: 1px solid var(--border); color: var(--text); }
+.size-chip.active { background: white; color: var(--accent); border-color: var(--accent); }

@@ -1,0 +1,35 @@
+.com-screen { overflow: hidden; display: flex; flex-direction: column; background: var(--bg); }
+.com-hdr { padding: 48px 18px 18px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.com-title { font-size: 26px; font-weight: 900; margin-bottom: 5px; }
+.com-sub { font-size: 13px; color: var(--text-2); }
+.com-body { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 24px; padding-bottom: 40px; }
+.com-body::-webkit-scrollbar { display: none; }
+.com-section { display: flex; flex-direction: column; gap: 10px; }
+.com-sec-title { font-size: 16px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+.com-sec-sub { font-size: 12px; color: var(--text-2); margin-bottom: 5px; }
+.creator-list, .twin-list { display: flex; flex-direction: column; gap: 12px; }
+.creator-card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 14px; display: flex; align-items: center; gap: 14px; }
+.creator-img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); }
+.creator-info { flex: 1; }
+.creator-name { font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 5px; }
+.creator-handle { font-size: 11px; color: var(--text-3); margin-bottom: 4px; }
+.creator-dna { font-size: 11px; font-weight: 700; color: var(--accent); background: rgba(255,63,108,.08); padding: 2px 6px; border-radius: 2px; width: fit-content; }
+.blend-btn { padding: 8px 14px; background: white; border: 1px solid var(--accent); border-radius: 4px; font-family: inherit; font-size: 12px; font-weight: 700; color: var(--accent); cursor: pointer; transition: all .2s; }
+.blend-btn:hover { background: var(--accent); color: white; }
+.twin-card { background: var(--surface-2); border-radius: 8px; padding: 14px; border: 1px solid var(--border); }
+.twin-top { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.twin-img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.twin-name { font-size: 14px; font-weight: 700; color: var(--text); }
+.twin-match { font-size: 11px; font-weight: 800; color: var(--green); }
+.twin-msg { font-size: 12px; color: var(--text-2); font-style: italic; background: rgba(0,0,0,.05); padding: 10px; border-radius: 4px; border-left: 3px solid var(--accent); }
+.no-twins { font-size: 12px; color: var(--text-3); text-align: center; padding: 20px; border: 1px dashed var(--border); border-radius: 8px; }
+.blend-modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.4); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.blend-modal { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 24px; width: 100%; max-width: 340px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+.bm-close { position: absolute; top: 15px; right: 15px; font-size: 24px; color: var(--text-2); cursor: pointer; }
+.bm-avatar { width: 70px; height: 70px; border-radius: 50%; margin-bottom: 12px; border: 3px solid var(--accent); }
+.bm-title { font-size: 18px; font-weight: 900; margin-bottom: 8px; color: var(--text); }
+.bm-sub { font-size: 12px; color: var(--text-2); margin-bottom: 24px; line-height: 1.5; }
+.bm-slider-wrap { width: 100%; display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+.bm-slider { flex: 1; accent-color: var(--accent); }
+.bm-val { font-size: 16px; font-weight: 800; color: var(--accent); width: 45px; }
+.bm-confirm { width: 100%; padding: 14px; background: var(--accent); border: none; border-radius: 4px; font-family: inherit; font-size: 14px; font-weight: 700; color: white; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }

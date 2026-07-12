@@ -1,0 +1,40 @@
+.ob-screen { padding: 52px 24px 24px; gap: 0; }
+.ob-prog-wrap { display: flex; gap: 5px; margin-bottom: 30px; }
+.ob-dot { height: 4px; flex: 1; background: var(--surface-2); border-radius: 4px; transition: background .3s; }
+.ob-dot.active { background: var(--gradient); }
+.ob-dot.done { background: var(--accent); }
+.ob-title { font-size: 24px; font-weight: 800; margin-bottom: 7px; line-height: 1.25; }
+.ob-sub { font-size: 13px; color: var(--text-2); margin-bottom: 24px; line-height: 1.5; }
+.ob-label { font-size: 13px; font-weight: 600; color: var(--text-2); margin-bottom: 11px; display: block; }
+.ob-footer { margin-top: auto; padding-top: 24px; }
+
+/* Gender */
+.gender-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 22px; }
+.gender-card { background: var(--surface); border: 2px solid var(--border); border-radius: var(--radius); padding: 22px 14px; text-align: center; cursor: pointer; transition: all .2s; display: flex; flex-direction: column; align-items: center; gap: 9px; }
+.gender-card.wide { grid-column: 1 / -1; }
+.gender-card.sel { border-color: var(--accent); background: rgba(255,60,172,.08); }
+.g-icon { font-size: 28px; }
+.g-label { font-size: 13px; font-weight: 700; }
+
+/* Age */
+.age-num { font-size: 64px; font-weight: 900; text-align: center; margin: 14px 0 2px; }
+.age-slider { -webkit-appearance: none; width: 100%; height: 6px; border-radius: 6px; background: var(--surface-2); outline: none; margin: 10px 0 22px; cursor: pointer; }
+.age-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; border-radius: 50%; background: var(--gradient); cursor: pointer; box-shadow: 0 4px 16px rgba(255,60,172,.4); }
+
+/* Budget */
+.budget-list { display: flex; flex-direction: column; gap: 9px; flex: 1; }
+.budget-opt { background: var(--surface); border: 2px solid var(--border); border-radius: var(--radius-sm); padding: 15px 18px; cursor: pointer; transition: all .2s; display: flex; align-items: center; justify-content: space-between; }
+.budget-opt.sel { border-color: var(--accent); background: rgba(255,60,172,.08); }
+.budget-name { font-size: 14px; font-weight: 700; }
+.budget-range { font-size: 12px; color: var(--text-2); margin-top: 2px; }
+.budget-chk { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; background: transparent; color: white; transition: all .2s; }
+.budget-opt.sel .budget-chk { background: var(--accent); border-color: var(--accent); }
+
+/* Colours */
+.colour-grid { display: flex; flex-wrap: wrap; gap: 11px; margin-bottom: 8px; }
+.col-chip { width: 50px; height: 50px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: all .2s; position: relative; flex-shrink: 0; }
+.col-chip.sel { border-color: white !important; transform: scale(1.18); }
+.col-chip.sel::after { content: '✓'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: white; font-size: 17px; font-weight: 800; text-shadow: 0 1px 3px rgba(0,0,0,.6); }
+
+/* Occasions */
+.chip-grid { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 8px; }

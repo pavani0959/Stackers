@@ -1,0 +1,14 @@
+.quiz-screen { padding: 0; }
+.quiz-hdr { padding: 48px 22px 18px; background: var(--bg); position: sticky; top: 0; z-index: 5; }
+.quiz-prog-wrap { height: 4px; background: var(--surface-2); border-radius: 4px; margin-bottom: 14px; overflow: hidden; }
+.quiz-prog-fill { height: 100%; background: var(--gradient); border-radius: 4px; transition: width .5s cubic-bezier(.16,1,.3,1); }
+.quiz-q-num { font-size: 12px; color: var(--text-2); margin-bottom: 7px; font-weight: 500; }
+.quiz-question { font-size: 20px; font-weight: 800; line-height: 1.3; }
+.choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 14px 22px 100px; }
+.choice-card { border-radius: var(--radius); overflow: hidden; border: 3px solid transparent; cursor: pointer; transition: all .25s; position: relative; aspect-ratio: 0.75; }
+.choice-card:hover { transform: scale(1.02); }
+.choice-card.sel { border-color: var(--accent); }
+.choice-bg { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 10px; }
+.choice-label { font-size: 11px; font-weight: 700; color: white; text-align: center; background: rgba(0,0,0,.55); backdrop-filter: blur(4px); padding: 5px 10px; border-radius: 100px; line-height: 1.4; }
+.choice-card.sel::after { content: '✓'; position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: white; }
+.quiz-nav { position: absolute; bottom: 0; left: 0; right: 0; padding: 14px 22px 28px; background: linear-gradient(to top, var(--bg) 75%, transparent); }

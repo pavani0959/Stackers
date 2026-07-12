@@ -1,0 +1,33 @@
+.fm-screen { overflow: hidden; display: flex; flex-direction: column; background: var(--bg); }
+.fm-hdr { padding: 48px 18px 18px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.fm-back-row { display: flex; align-items: center; gap: 12px; }
+.fm-title { font-size: 22px; font-weight: 900; margin-bottom: 5px; }
+.fm-sub { font-size: 12px; color: var(--text-2); }
+.fm-body { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 16px; padding-bottom: 40px; }
+.fm-body::-webkit-scrollbar { display: none; }
+.dna-shift { background: #F0F8FF; border: 1px solid #D0E8FF; border-radius: 8px; padding: 18px; }
+.dna-shift-title { font-size: 13px; font-weight: 800; margin-bottom: 12px; color: var(--text); }
+.shift-row { display: flex; justify-content: space-between; margin-bottom: 7px; font-size: 13px; }
+.shift-name { font-weight: 700; color: var(--text); }
+.shift-delta { color: var(--green); font-weight: 800; }
+.shift-down { color: var(--text-3); }
+.shift-note { margin-top: 10px; font-size: 12px; color: var(--text-2); border-top: 1px solid var(--border); padding-top: 10px; line-height: 1.4; }
+.regret-card { background: #FFF4F7; border: 1px solid #FFE4EA; border-radius: 8px; padding: 18px; }
+.regret-title { font-size: 13px; font-weight: 800; margin-bottom: 7px; display: flex; align-items: center; gap: 6px; color: var(--text); }
+.regret-body { font-size: 12px; color: var(--text-2); line-height: 1.5; margin-bottom: 12px; }
+.regret-stat { font-size: 13px; font-weight: 700; color: var(--accent); }
+.month-label { font-size: 11px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 1px; margin-top: 8px; }
+.mem-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; cursor: pointer; transition: transform .2s; }
+.mem-item:hover { transform: scale(1.02); }
+.mem-top { display: flex; align-items: stretch; border-bottom: 1px solid var(--border); }
+.mem-img { width: 85px; height: 100px; object-fit: cover; }
+.mem-info { padding: 11px 13px; display: flex; flex-direction: column; justify-content: center; }
+.mem-date { font-size: 10px; color: var(--text-3); margin-bottom: 3px; }
+.mem-name { font-size: 13px; font-weight: 800; margin-bottom: 3px; }
+.mem-price { font-size: 12px; font-weight: 700; color: var(--text-2); margin-bottom: 5px; }
+.mem-occ { font-size: 11px; background: var(--surface-2); padding: 2px 7px; border-radius: 4px; width: fit-content; }
+.mem-bottom { padding: 11px 13px; background: rgba(0,0,0,.2); }
+.mem-reason { font-size: 11px; font-style: italic; color: var(--text-2); line-height: 1.4; margin-bottom: 7px; }
+.mem-dna { font-size: 11px; font-weight: 700; display: flex; align-items: center; gap: 5px; }
+.mem-dna.good { color: var(--accent); }
+.mem-dna.warn { color: var(--yellow); }
