@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     database_url: str
     frontend_origins: list[str]
     environment: str = "development"
+    demo_user_id: int = 1
 
     model_config = SettingsConfigDict(
         env_file=PROJECT_ROOT / ".env",

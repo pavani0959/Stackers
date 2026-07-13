@@ -9,11 +9,42 @@ const BAR_COLORS = [
   'linear-gradient(90deg,#555,#9090B0)',
 ];
 
+function formatDnaLabel(value) {
+  return value
+    .replace(/[_-]/g, ' ')
+    .replace(/\b\w/g, (character) =>
+      character.toUpperCase(),
+    );
+}
+
+function buildDnaBars(user) {
+  if (user.dnaTopBars?.length) {
+    return user.dnaTopBars;
+  }
+
+  return Object.entries(user.dna ?? {})
+    .sort(
+      ([, firstValue], [, secondValue]) =>
+        secondValue - firstValue,
+    )
+    .slice(0, 4)
+    .map(([tag, percentage]) => ({
+      tag,
+      label: formatDnaLabel(tag),
+      percentage: Math.round(percentage),
+    }));
+}
+
 export default function DNAResult() {
   const navigate = useNavigate();
   const { user } = useUser();
-  const bars = user.dnaTopBars || [];
-  const identity = { name: user.identityName, desc: user.identityDesc };
+  const bars = buildDnaBars(user);
+  const identity = {
+    name: user.identityName,
+    desc:
+      user.identityDesc ||
+      'A style identity shaped by your preferences and Fashion DNA.',
+  };
 
   return (
     <div className="screen dna-result-screen">

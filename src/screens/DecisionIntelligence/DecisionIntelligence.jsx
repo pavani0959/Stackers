@@ -8,7 +8,10 @@ import '../../styles/DecisionIntelligence.css';
 export default function DecisionIntelligence() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user, addToCart } = useUser();
+  const {
+    user,
+    addToCart,
+  } = useUser();
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -58,8 +61,6 @@ export default function DecisionIntelligence() {
   }, [id, user, retryKey]);
 
 
-  const conf = product.confidence;
-
   if (loading) {
     return (
       <div className="screen">
@@ -89,6 +90,9 @@ export default function DecisionIntelligence() {
       </div>
     );
   }
+
+  const conf = product.confidence;
+
 
   return (
     <div className="screen di-screen">
@@ -153,7 +157,7 @@ export default function DecisionIntelligence() {
           </div>
         )}
 
-        <button className="btn-primary" onClick={() => { addToCart(product, 'Added after viewing Decision Intelligence'); navigate(-1); }}>
+        <button className="btn-primary" onClick={() => { addToCart(product); navigate(-1); }}>
           Got it — Add to Cart
         </button>
       </div>

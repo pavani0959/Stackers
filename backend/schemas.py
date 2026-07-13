@@ -1,4 +1,243 @@
-from pydantic import BaseModel, ConfigDict, Field
+from datetime import datetime
+from enum import StrEnum
+from typing import Any
+
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    field_validator,
+    model_validator,
+)
+
+class EventType(StrEnum):
+    VIEW = "view"
+    SAVE = "save"
+    WISHLIST = "wishlist"
+    CART_ADD = "cart_add"
+    CART_REMOVE = "cart_remove"
+    PURCHASE = "purchase"
+    RETURN = "return"
+    KEEP = "keep"
+    WEAR = "wear"
+    WARDROBE_UPLOAD = "wardrobe_upload"
+    RECOMMENDATION_ACCEPT = "recommendation_accept"
+    RECOMMENDATION_REJECT = "recommendation_reject"
+
+
+class UserResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    name: str
+    email: str
+    gender: str | None
+    age: int | None
+    avatar_url: str | None
+    onboarding_completed: bool
+    created_at: datetime
+    updated_at: datetime
+
+
+class UserPreferenceUpdate(BaseModel):
+    budget_min: int | None = Field(default=None, ge=0)
+    budget_max: int | None = Field(default=None, ge=0)
+    budget_tier: str | None = None
+
+    preferred_colours: list[str] = Field(default_factory=list)
+    preferred_brands: list[str] = Field(default_factory=list)
+    preferred_occasions: list[str] = Field(default_factory=list)
+    preferred_aesthetics: list[str] = Field(default_factory=list)
+    fit_preferences: list[str] = Field(default_factory=list)
+
+    comfort_priority: float = Field(default=0.5, ge=0, le=1)
+    trend_openness: float = Field(default=0.5, ge=0, le=1)
+
+    @model_validator(mode="after")
+    def validate_budget_range(self):
+        if (
+            self.budget_min is not None
+            and self.budget_max is not None
+            and self.budget_min > self.budget_max
+        ):
+            raise ValueError(
+                "budget_min cannot be greater than budget_max"
+            )
+
+        return self
+
+
+class UserPreferenceResponse(UserPreferenceUpdate):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    user_id: int
+    created_at: datetime
+    updated_at: datetime
+
+class UserIdentityUpdate(BaseModel):
+    name: str | None = Field(
+        default=None,
+        min_length=1,
+        max_length=100,
+    )
+    gender: str | None = Field(
+        default=None,
+        min_length=1,
+        max_length=50,
+    )
+    age: int | None = Field(
+        default=None,
+        ge=13,
+        le=120,
+    )
+    avatar_url: str | None = Field(
+        default=None,
+        max_length=2048,
+    )
+    onboarding_completed: bool | None = None
+
+
+class StyleProfileCreate(BaseModel):
+    dna_vector: dict[str, float]
+    primary_identity: str = Field(min_length=1, max_length=100)
+    secondary_identity: str | None = Field(
+        default=None,
+        max_length=100,
+    )
+    profile_confidence: float = Field(ge=0, le=100)
+    source: str = "quiz"
+    model_version: str = "dna-v1"
+
+    @field_validator("dna_vector")
+    @classmethod
+    def validate_dna_vector(
+        cls,
+        value: dict[str, float],
+    ) -> dict[str, float]:
+        if not value:
+            raise ValueError("dna_vector cannot be empty")
+
+        if any(score < 0 for score in value.values()):
+            raise ValueError(
+                "dna_vector values cannot be negative"
+            )
+
+        if sum(value.values()) <= 0:
+            raise ValueError(
+                "dna_vector must contain a positive total"
+            )
+
+        return value
+
+
+class StyleProfileResponse(StyleProfileCreate):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    user_id: int
+    version: int
+    created_at: datetime
+
+
+class CurrentProfileResponse(BaseModel):
+    user: UserResponse
+    preferences: UserPreferenceResponse | None
+    style_profile: StyleProfileResponse | None
+
+
+class ProductStructuredResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    sku: str | None
+    name: str
+    brand: str
+    description: str | None
+    price: float
+    originalPrice: float
+    image: str
+
+    category: str | None
+    subcategory: str | None
+    primary_colour: str | None
+    gender_segment: str | None
+
+    tags: list[str]
+    occasions: list[str]
+    sizes: list[str]
+
+    budgetTier: str
+    season: str
+    stock_quantity: int
+    is_active: bool
+
+
+class UserEventCreate(BaseModel):
+    event_type: EventType
+    product_id: int | None = None
+    wardrobe_item_id: int | None = None
+    recommendation_item_id: int | None = None
+    metadata: dict[str, Any] = Field(default_factory=dict)
+    occurred_at: datetime | None = None
+
+
+class UserEventResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    user_id: int
+    event_type: str
+    product_id: int | None
+    wardrobe_item_id: int | None
+    recommendation_item_id: int | None
+    event_metadata: dict[str, Any]
+    occurred_at: datetime
+    created_at: datetime
+
+
+class WardrobeItemCreate(BaseModel):
+    product_id: int | None = None
+    source: str = "purchase"
+    name: str
+    category: str
+    subcategory: str | None = None
+    primary_colour: str | None = None
+    size: str | None = None
+    image_url: str | None = None
+    tags: list[str] = Field(default_factory=list)
+    purchase_price: float | None = Field(default=None, ge=0)
+    purchase_date: datetime | None = None
+
+
+class WardrobeItemResponse(WardrobeItemCreate):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    user_id: int
+    wear_count: int
+    last_worn_at: datetime | None
+    is_active: bool
+    created_at: datetime
+    updated_at: datetime
+
+
+class RecommendationSessionCreate(BaseModel):
+    session_type: str = "feed"
+    raw_prompt: str | None = None
+    parsed_intent: dict[str, Any] = Field(default_factory=dict)
+    model_version: str = "recommendation-v1"
+
+
+class RecommendationItemCreate(BaseModel):
+    product_id: int
+    rank: int = Field(ge=1)
+    overall_score: float = Field(ge=0, le=100)
+    score_breakdown: dict[str, float] = Field(
+        default_factory=dict
+    )
+    explanation: dict[str, Any] = Field(default_factory=dict)
+    warning: dict[str, Any] = Field(default_factory=dict)
 
 
 class ProductBase(BaseModel):

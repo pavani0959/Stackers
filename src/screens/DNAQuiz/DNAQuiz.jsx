@@ -8,7 +8,7 @@ import '../../styles/DNAQuiz.css';
 
 export default function DNAQuiz() {
   const navigate = useNavigate();
-  const { updateUser } = useUser();
+  const { updateDNA, updateUser } = useUser();
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState(Array(quizQuestions.length).fill(null));
   const [selected, setSelected] = useState(null);
@@ -25,35 +25,73 @@ export default function DNAQuiz() {
     setRetryTags(tags);
 
     try {
-      const data = await apiRequest('/api/dna/calculate', {
-        method: 'POST',
-        body: JSON.stringify({
-          tags,
-        }),
-      });
-
-      const { dna, identity, topBars } = data;
-
-      const dnaValues = Object.values(dna);
-
-      const confidence = Math.round(
-        dnaValues.reduce((total, value) => total + value, 0) /
-        Math.max(dnaValues.length, 1) +
-        20,
+      const calculatedDNA = await apiRequest(
+        '/api/dna/calculate',
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            tags,
+          }),
+        },
       );
 
+      if (
+        !calculatedDNA?.dna ||
+        typeof calculatedDNA.dna !== 'object'
+      ) {
+        throw new Error(
+          'The server returned an invalid Fashion DNA result.',
+        );
+      }
+
+      const orderedDNA = Object.entries(
+        calculatedDNA.dna,
+      ).sort(
+        (left, right) =>
+          right[1] - left[1],
+      );
+
+      /*
+       * These are temporary presentation fields only.
+       * They are not saved in localStorage.
+       */
       updateUser({
-        dna,
-        dnaTopBars: topBars,
-        identityName: identity.name,
-        identityDesc: identity.desc,
-        confidenceScore: Math.min(confidence, 94),
-        hasCompletedQuiz: true,
+        dnaTopBars:
+          calculatedDNA.topBars ?? [],
+
+        identityDesc:
+          calculatedDNA.identity?.desc ??
+          '',
+      });
+
+      /*
+       * updateDNA creates a new backend version.
+       */
+      await updateDNA({
+        dna_vector:
+          calculatedDNA.dna,
+
+        primary_identity:
+          orderedDNA[0]?.[0] ??
+          'personal_style',
+
+        secondary_identity:
+          orderedDNA[1]?.[0] ??
+          null,
+
+        profile_confidence:
+          calculatedDNA.confidence ??
+          65,
+
+        source: 'quiz',
+
+        model_version:
+          'dna-v1',
       });
 
       navigate('/dna-result');
-    } catch (requestError) {
-      setSubmitError(requestError);
+    } catch (error) {
+      setSubmitError(error);
     } finally {
       setSubmitting(false);
     }

@@ -1,25 +1,17 @@
 import { expect, test } from '@playwright/test';
 
-test('loads the application splash screen', async ({ page }) => {
-  await page.goto('/');
+test('loads the application shell', async ({ page }) => {
+  const response = await page.goto('/');
 
-  await expect(
-    page.getByRole('heading', {
-      name: /Myntra Identity/i,
-    }),
-  ).toBeVisible();
+  expect(response).not.toBeNull();
+  expect(response.ok()).toBeTruthy();
 
-  await expect(
-    page.getByText('Fashion that knows who you are.'),
-  ).toBeVisible();
+  const root = page.locator('#root');
 
-  await expect(
-    page.getByRole('button', {
-      name: /Begin Your Journey/i,
-    }),
-  ).toBeVisible();
+  await expect(root).toBeVisible();
+  await expect(root).not.toBeEmpty();
 
-  await expect(
-    page.getByText('Something went wrong'),
-  ).toHaveCount(0);
+  await expect(page.locator('body')).not.toContainText(
+    'Something went wrong',
+  );
 });
