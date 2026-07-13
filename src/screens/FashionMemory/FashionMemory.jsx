@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../../context/UserContext';
+import { useUser } from '../../context/useUser';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import '../../styles/FashionMemory.css';
 

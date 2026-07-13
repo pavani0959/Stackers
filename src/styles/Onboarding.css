@@ -38,3 +38,24 @@
 
 /* Occasions */
 .chip-grid { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 8px; }
+
+/* Personal name */
+.ob-name-input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.ob-name-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255, 63, 108, .08);
+}
+.ob-name-input.error { border-color: #d93025; margin-bottom: 6px; }
+.ob-field-error { color: #d93025; font-size: 11px; margin-bottom: 14px; line-height: 1.35; }

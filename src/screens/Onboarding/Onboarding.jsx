@@ -1,17 +1,26 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../../context/UserContext';
+import { useUser } from '../../context/useUser';
 import '../../styles/Onboarding.css';
 
 // Step 1: Gender + Age
 export function OnboardGender() {
   const navigate = useNavigate();
   const { user, updateUser } = useUser();
+  const [name, setName] = useState(user.name || '');
   const [gender, setGender] = useState(user.gender || 'female');
   const [age, setAge] = useState(user.age || 21);
+  const [nameError, setNameError] = useState('');
 
   const next = () => {
-    updateUser({ gender, age });
+    const cleanName = name.trim().replace(/\s+/g, ' ');
+
+    if (cleanName.length < 2) {
+      setNameError('Please enter the name you want Myntra Identity to use.');
+      return;
+    }
+
+    updateUser({ name: cleanName, gender, age });
     navigate('/onboard/budget');
   };
 
@@ -22,6 +31,23 @@ export function OnboardGender() {
       </div>
       <h1 className="ob-title">Before we begin,<br />let's understand you 👋</h1>
       <p className="ob-sub">No boring signup. Just a quick conversation.</p>
+
+      <label className="ob-label" htmlFor="profile-name">What should we call you?</label>
+      <input
+        id="profile-name"
+        className={`ob-name-input ${nameError ? 'error' : ''}`}
+        type="text"
+        value={name}
+        maxLength={50}
+        autoComplete="name"
+        placeholder="Enter your name"
+        onChange={(event) => {
+          setName(event.target.value);
+          if (nameError) setNameError('');
+        }}
+        onKeyDown={(event) => event.key === 'Enter' && next()}
+      />
+      {nameError && <div className="ob-field-error">{nameError}</div>}
 
       <label className="ob-label">How do you identify?</label>
       <div className="gender-grid">
