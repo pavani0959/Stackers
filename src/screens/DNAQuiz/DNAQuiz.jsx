@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/useUser';
 import { quizQuestions } from '../../data/quizQuestions';
+import { apiRequest } from '../../api/client';
 import '../../styles/DNAQuiz.css';
 
 export default function DNAQuiz() {
@@ -36,12 +37,10 @@ export default function DNAQuiz() {
       });
 
       // Call the real ML Backend
-      fetch('http://localhost:8000/api/dna/calculate', {
+      apiRequest('/api/dna/calculate', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tags: allTags })
       })
-      .then(res => res.json())
       .then(data => {
         const { dna, identity, topBars } = data;
         const confidence = Math.round(Object.values(dna).reduce((a, b) => a + b, 0) / Math.max(Object.keys(dna).length, 1) + 20);

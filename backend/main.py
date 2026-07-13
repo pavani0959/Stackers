@@ -2,12 +2,22 @@ import json
 from typing import List
 
 from fastapi import Depends, FastAPI, HTTPException
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 import models
 import schemas
-from database import Base, engine, get_db
+from config import get_settings
+from database import get_db
+from errors import (
+    AppError,
+    NotFoundError,
+    app_error_handler,
+    http_exception_handler,
+    unhandled_error_handler,
+    validation_error_handler,
+)
 from ml import (
     blend_dna,
     calc_confidence_ml,
@@ -17,13 +27,18 @@ from ml import (
     muse_chat_response,
 )
 
-Base.metadata.create_all(bind=engine)
+settings = get_settings()
 
 app = FastAPI(title="Myntra Identity API")
 
+app.add_exception_handler(AppError, app_error_handler)
+app.add_exception_handler(HTTPException, http_exception_handler)
+app.add_exception_handler(RequestValidationError, validation_error_handler)
+app.add_exception_handler(Exception, unhandled_error_handler)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=settings.frontend_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -49,6 +64,11 @@ def product_to_dict(product: models.Product) -> dict:
 @app.get("/")
 def read_root():
     return {"message": "Welcome to Myntra Identity API"}
+
+
+@app.get("/api/health")
+def health_check():
+    return {"status": "ok", "environment": settings.environment}
 
 
 @app.get("/api/products", response_model=List[schemas.ProductResponse])
@@ -91,7 +111,7 @@ def get_product_confidence(
 ):
     product = db.query(models.Product).filter(models.Product.id == product_id).first()
     if not product:
-        raise HTTPException(status_code=404, detail="Product not found")
+        raise NotFoundError("Product not found")
 
     return calc_confidence_ml(
         product_to_dict(product),

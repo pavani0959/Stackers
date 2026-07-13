@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUser } from '../../context/useUser';
+import { apiRequest } from '../../api/client';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import '../../styles/ProductDetail.css';
 
@@ -20,12 +21,10 @@ export default function ProductDetail() {
 
   useEffect(() => {
     // Fetch product details and ML Confidence Score
-    fetch(`http://localhost:8000/api/recommend/confidence/${id}`, {
+    apiRequest(`/api/recommend/confidence/${id}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ user_profile: user })
     })
-    .then(res => res.json())
     .then(confidenceData => {
       // We also need the product data. Let's fetch it from the global products list if available,
       // or we should have the backend return it. For now, since user.products exists:

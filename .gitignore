@@ -26,3 +26,19 @@ backend/venv
 backend/__pycache__
 *.pyc
 *.db
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Test and coverage output
+.pytest_cache/
+.coverage
+htmlcov/
+playwright-report/
+test-results/
+
+# Local migration/test databases
+backend/alembic_bootstrap.db
+backend/test.db

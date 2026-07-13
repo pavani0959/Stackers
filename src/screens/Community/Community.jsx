@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useUser } from '../../context/useUser';
 import BottomNav from '../../components/BottomNav/BottomNav';
+import { apiRequest } from '../../api/client';
 import '../../styles/Community.css';
 
 export default function Community() {
@@ -15,12 +16,10 @@ export default function Community() {
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(''), 2500); };
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/community/twins', {
+    apiRequest('/api/community/twins', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ user_profile: user })
     })
-    .then(res => res.json())
     .then(data => {
       setTwins(data);
       setLoading(false);
@@ -34,16 +33,14 @@ export default function Community() {
   const handleBlend = () => {
     if (!blendingCreator) return;
     
-    fetch('http://localhost:8000/api/dna/blend', {
+    apiRequest('/api/dna/blend', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ 
         user_profile: user,
         creator_dna: blendingCreator.dna,
         blend_percentage: blendValue
       })
     })
-    .then(res => res.json())
     .then(data => {
       updateUser({ dna: data.merged_dna });
       showToast(`Merged ${blendValue}% of ${blendingCreator.name}'s vibe into your DNA! 🧬`);

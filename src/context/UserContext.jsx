@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { UserContext } from './UserContextBase';
+import { apiRequest } from '../api/client';
 
 const DEFAULT_STATE = {
   // Onboarding
@@ -40,8 +41,7 @@ export function UserProvider({ children }) {
 
   // Fetch real products from backend
   useEffect(() => {
-    fetch('http://localhost:8000/api/products')
-      .then((res) => res.json())
+    apiRequest('/api/products')
       .then((data) => {
         setUser((prev) => ({ ...prev, products: data }));
       })
