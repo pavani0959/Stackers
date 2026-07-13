@@ -1,28 +1,732 @@
+from __future__ import annotations
+
 from sqlalchemy import Column, Integer, String
 from database import Base
+
+
+
+from datetime import datetime, timezone
+
+from sqlalchemy import (
+    JSON,
+    Boolean,
+    Column,
+    DateTime,
+    Float,
+    ForeignKey,
+    Integer,
+    String,
+    Text,
+    UniqueConstraint,
+)
+from sqlalchemy.orm import relationship
+
+from database import Base
+
+
+def utc_now() -> datetime:
+    return datetime.now(timezone.utc)
+
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True,
+    )
+    seed_key = Column(
+        String(100),
+        unique=True,
+        nullable=True,
+        index=True,
+    )
+    name = Column(
+        String(120),
+        nullable=False,
+    )
+    email = Column(
+        String(255),
+        unique=True,
+        nullable=False,
+        index=True,
+    )
+    gender = Column(
+        String(30),
+        nullable=True,
+    )
+    age = Column(
+        Integer,
+        nullable=True,
+    )
+    avatar_url = Column(
+        Text,
+        nullable=True,
+    )
+    onboarding_completed = Column(
+        Boolean,
+        nullable=False,
+        default=False,
+    )
+    is_synthetic = Column(
+        Boolean,
+        nullable=False,
+        default=False,
+    )
+    created_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        default=utc_now,
+    )
+    updated_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        default=utc_now,
+        onupdate=utc_now,
+    )
+
+    preferences = relationship(
+        "UserPreference",
+        back_populates="user",
+        uselist=False,
+        cascade="all, delete-orphan",
+    )
+    style_profiles = relationship(
+        "StyleProfile",
+        back_populates="user",
+        cascade="all, delete-orphan",
+        order_by="StyleProfile.version",
+    )
+    wardrobe_items = relationship(
+        "WardrobeItem",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+    events = relationship(
+        "UserEvent",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+    recommendation_sessions = relationship(
+        "RecommendationSession",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+
+
+class UserPreference(Base):
+    __tablename__ = "user_preferences"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+    )
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id", ondelete="CASCADE"),
+        unique=True,
+        nullable=False,
+        index=True,
+    )
+
+    budget_min = Column(
+        Integer,
+        nullable=True,
+    )
+    budget_max = Column(
+        Integer,
+        nullable=True,
+    )
+    budget_tier = Column(
+        String(50),
+        nullable=True,
+    )
+
+    preferred_colours = Column(
+        JSON,
+        nullable=False,
+        default=list,
+    )
+    preferred_brands = Column(
+        JSON,
+        nullable=False,
+        default=list,
+    )
+    preferred_occasions = Column(
+        JSON,
+        nullable=False,
+        default=list,
+    )
+    preferred_aesthetics = Column(
+        JSON,
+        nullable=False,
+        default=list,
+    )
+    fit_preferences = Column(
+        JSON,
+        nullable=False,
+        default=list,
+    )
+
+    comfort_priority = Column(
+        Float,
+        nullable=False,
+        default=0.5,
+    )
+    trend_openness = Column(
+        Float,
+        nullable=False,
+        default=0.5,
+    )
+
+    created_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        default=utc_now,
+    )
+    updated_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        default=utc_now,
+        onupdate=utc_now,
+    )
+
+    user = relationship(
+        "User",
+        back_populates="preferences",
+    )
+
+
+class StyleProfile(Base):
+    __tablename__ = "style_profiles"
+    __table_args__ = (
+        UniqueConstraint(
+            "user_id",
+            "version",
+            name="uq_style_profile_user_version",
+        ),
+    )
+
+    id = Column(
+        Integer,
+        primary_key=True,
+    )
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    version = Column(
+        Integer,
+        nullable=False,
+    )
+
+    dna_vector = Column(
+        JSON,
+        nullable=False,
+        default=dict,
+    )
+    primary_identity = Column(
+        String(100),
+        nullable=False,
+    )
+    secondary_identity = Column(
+        String(100),
+        nullable=True,
+    )
+    profile_confidence = Column(
+        Float,
+        nullable=False,
+        default=0,
+    )
+
+    source = Column(
+        String(50),
+        nullable=False,
+        default="quiz",
+    )
+    model_version = Column(
+        String(50),
+        nullable=False,
+        default="dna-v1",
+    )
+    created_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        default=utc_now,
+    )
+
+    user = relationship(
+        "User",
+        back_populates="style_profiles",
+    )
+
 
 class Product(Base):
     __tablename__ = "products"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
-    brand = Column(String, index=True)
-    price = Column(Integer)
-    originalPrice = Column(Integer)
-    image = Column(String)
-    tags = Column(String) # Comma separated list of tags
-    occasions = Column(String) # Comma separated list of occasions
-    budgetTier = Column(String)
-    season = Column(String)
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True,
+    )
 
+    sku = Column(
+        String(64),
+        unique=True,
+        nullable=False,
+        index=True,
+    )
+
+    name = Column(
+        String,
+        nullable=False,
+    )
+    brand = Column(
+        String,
+        nullable=False,
+    )
+    description = Column(
+        Text,
+        nullable=True,
+    )
+
+    price = Column(
+        Float,
+        nullable=False,
+    )
+    originalPrice = Column(
+        Float,
+        nullable=False,
+    )
+
+    image = Column(
+        Text,
+        nullable=False,
+    )
+
+    category = Column(
+        String(50),
+        nullable=False,
+        index=True,
+    )
+    subcategory = Column(
+        String(80),
+        nullable=False,
+        index=True,
+    )
+    primary_colour = Column(
+        String(40),
+        nullable=False,
+        index=True,
+    )
+    gender_segment = Column(
+        String(30),
+        nullable=False,
+        index=True,
+    )
+
+    tags = Column(
+        JSON,
+        nullable=False,
+        default=list,
+    )
+    occasions = Column(
+        JSON,
+        nullable=False,
+        default=list,
+    )
+    sizes = Column(
+        JSON,
+        nullable=False,
+        default=list,
+    )
+
+    budgetTier = Column(
+        String,
+        nullable=False,
+    )
+    season = Column(
+        String,
+        nullable=False,
+    )
+
+    stock_quantity = Column(
+        Integer,
+        nullable=False,
+        default=0,
+    )
+    is_active = Column(
+        Boolean,
+        nullable=False,
+        default=True,
+        index=True,
+    )
+
+    wardrobe_items = relationship(
+        "WardrobeItem",
+        back_populates="product",
+    )
+    events = relationship(
+        "UserEvent",
+        back_populates="product",
+    )
+    recommendation_items = relationship(
+        "RecommendationItem",
+        back_populates="product",
+    )
+
+
+class WardrobeItem(Base):
+    __tablename__ = "wardrobe_items"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+    )
+    seed_key = Column(
+        String(120),
+        unique=True,
+        nullable=True,
+        index=True,
+    )
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    product_id = Column(
+        Integer,
+        ForeignKey("products.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+
+    source = Column(
+        String(40),
+        nullable=False,
+        default="purchase",
+    )
+    name = Column(
+        String(160),
+        nullable=False,
+    )
+    category = Column(
+        String(50),
+        nullable=False,
+    )
+    subcategory = Column(
+        String(80),
+        nullable=True,
+    )
+    primary_colour = Column(
+        String(40),
+        nullable=True,
+    )
+    size = Column(
+        String(30),
+        nullable=True,
+    )
+    image_url = Column(
+        Text,
+        nullable=True,
+    )
+    tags = Column(
+        JSON,
+        nullable=False,
+        default=list,
+    )
+
+    purchase_price = Column(
+        Float,
+        nullable=True,
+    )
+    purchase_date = Column(
+        DateTime(timezone=True),
+        nullable=True,
+    )
+    wear_count = Column(
+        Integer,
+        nullable=False,
+        default=0,
+    )
+    last_worn_at = Column(
+        DateTime(timezone=True),
+        nullable=True,
+    )
+    is_active = Column(
+        Boolean,
+        nullable=False,
+        default=True,
+    )
+    created_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        default=utc_now,
+    )
+    updated_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        default=utc_now,
+        onupdate=utc_now,
+    )
+
+    user = relationship(
+        "User",
+        back_populates="wardrobe_items",
+    )
+    product = relationship(
+        "Product",
+        back_populates="wardrobe_items",
+    )
+
+
+class RecommendationSession(Base):
+    __tablename__ = "recommendation_sessions"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+    )
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    style_profile_id = Column(
+        Integer,
+        ForeignKey("style_profiles.id", ondelete="SET NULL"),
+        nullable=True,
+    )
+
+    session_type = Column(
+        String(50),
+        nullable=False,
+        default="feed",
+    )
+    raw_prompt = Column(
+        Text,
+        nullable=True,
+    )
+    parsed_intent = Column(
+        JSON,
+        nullable=False,
+        default=dict,
+    )
+    model_version = Column(
+        String(50),
+        nullable=False,
+        default="recommendation-v1",
+    )
+    created_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        default=utc_now,
+    )
+
+    user = relationship(
+        "User",
+        back_populates="recommendation_sessions",
+    )
+    items = relationship(
+        "RecommendationItem",
+        back_populates="session",
+        cascade="all, delete-orphan",
+        order_by="RecommendationItem.rank",
+    )
+
+
+class RecommendationItem(Base):
+    __tablename__ = "recommendation_items"
+    __table_args__ = (
+        UniqueConstraint(
+            "session_id",
+            "rank",
+            name="uq_recommendation_session_rank",
+        ),
+    )
+
+    id = Column(
+        Integer,
+        primary_key=True,
+    )
+    session_id = Column(
+        Integer,
+        ForeignKey(
+            "recommendation_sessions.id",
+            ondelete="CASCADE",
+        ),
+        nullable=False,
+        index=True,
+    )
+    product_id = Column(
+        Integer,
+        ForeignKey("products.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+
+    rank = Column(
+        Integer,
+        nullable=False,
+    )
+    overall_score = Column(
+        Float,
+        nullable=False,
+    )
+    score_breakdown = Column(
+        JSON,
+        nullable=False,
+        default=dict,
+    )
+    explanation = Column(
+        JSON,
+        nullable=False,
+        default=dict,
+    )
+    warning = Column(
+        JSON,
+        nullable=False,
+        default=dict,
+    )
+    created_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        default=utc_now,
+    )
+
+    session = relationship(
+        "RecommendationSession",
+        back_populates="items",
+    )
+    product = relationship(
+        "Product",
+        back_populates="recommendation_items",
+    )
+    events = relationship(
+        "UserEvent",
+        back_populates="recommendation_item",
+    )
+
+
+class UserEvent(Base):
+    __tablename__ = "user_events"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+    )
+    seed_key = Column(
+        String(150),
+        unique=True,
+        nullable=True,
+        index=True,
+    )
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    product_id = Column(
+        Integer,
+        ForeignKey("products.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    wardrobe_item_id = Column(
+        Integer,
+        ForeignKey("wardrobe_items.id", ondelete="SET NULL"),
+        nullable=True,
+    )
+    recommendation_item_id = Column(
+        Integer,
+        ForeignKey(
+            "recommendation_items.id",
+            ondelete="SET NULL",
+        ),
+        nullable=True,
+    )
+
+    event_type = Column(
+        String(50),
+        nullable=False,
+        index=True,
+    )
+
+    # "metadata" is reserved by SQLAlchemy Declarative, so the Python
+    # attribute uses event_metadata while the database column remains metadata.
+    event_metadata = Column(
+        "metadata",
+        JSON,
+        nullable=False,
+        default=dict,
+    )
+
+    occurred_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        default=utc_now,
+        index=True,
+    )
+    created_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        default=utc_now,
+    )
+
+    user = relationship(
+        "User",
+        back_populates="events",
+    )
+    product = relationship(
+        "Product",
+        back_populates="events",
+    )
+    recommendation_item = relationship(
+        "RecommendationItem",
+        back_populates="events",
+    )
+
+
+# Keep your current CommunityProfile model here.
 class CommunityProfile(Base):
     __tablename__ = "community_profiles"
-    
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
-    handle = Column(String, index=True)
-    avatar = Column(String)
-    role = Column(String) # 'creator' or 'user'
-    dna_json = Column(String) # JSON string of their DNA percentages
-    dna_label = Column(String) # e.g. "Y2K Minimalist"
-    recent_purchases = Column(String) # JSON list of product IDs they bought
+
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True,
+    )
+    name = Column(
+        String,
+        nullable=False,
+    )
+    handle = Column(
+        String,
+        nullable=False,
+    )
+    avatar = Column(
+        String,
+        nullable=False,
+    )
+    role = Column(
+        String,
+        nullable=False,
+    )
+    dna_json = Column(
+        Text,
+        nullable=False,
+    )
+    dna_label = Column(
+        String,
+        nullable=False,
+    )
+    recent_purchases = Column(
+        Text,
+        nullable=False,
+    )
