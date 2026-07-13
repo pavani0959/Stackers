@@ -32,7 +32,7 @@ export default function FashionMemory() {
             <div className="shift-name">Streetwear</div>
             <div className="shift-delta shift-down">−2% this month ↓</div>
           </div>
-          <div className="shift-note">Your purchases are making your style more consistent. Confidence: 87% → {user.confidenceScore || 91}%</div>
+          <div className="shift-note">Your purchases are making your style more consistent. Confidence: 87% → {user.profileConfidence ?? 0}%</div>
         </div>
 
         {/* AI Regret Prevention */}

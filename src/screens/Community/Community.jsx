@@ -6,7 +6,11 @@ import ApiErrorState from '../../components/ApiErrorState/ApiErrorState';
 import '../../styles/Community.css';
 
 export default function Community() {
-  const { user, updateUser } = useUser();
+  const {
+    user,
+    profileLoading,
+    updateDNA,
+  } = useUser();
   const [twins, setTwins] = useState([]);
   const [loading, setLoading] = useState(true);
   const [blendingCreator, setBlendingCreator] = useState(null);
@@ -20,6 +24,10 @@ export default function Community() {
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(''), 2500); };
 
   useEffect(() => {
+    if (profileLoading || !user?.id) {
+      return undefined;
+    }
+
     let cancelled = false;
 
     async function loadTwins() {
@@ -27,12 +35,15 @@ export default function Community() {
       setError(null);
 
       try {
-        const data = await apiRequest('/api/community/twins', {
-          method: 'POST',
-          body: JSON.stringify({
-            user_profile: user,
-          }),
-        });
+        const data = await apiRequest(
+          '/api/community/twins',
+          {
+            method: 'POST',
+            body: JSON.stringify({
+              user_profile: user,
+            }),
+          },
+        );
 
         if (!cancelled) {
           setTwins(data);
@@ -53,7 +64,7 @@ export default function Community() {
     return () => {
       cancelled = true;
     };
-  }, [user, retryKey]);
+  }, [user, profileLoading, retryKey]);
 
   const handleBlend = async () => {
     if (!blendingCreator || blending) {
@@ -73,8 +84,16 @@ export default function Community() {
         }),
       });
 
-      updateUser({
-        dna: data.merged_dna,
+      await updateDNA({
+        dna_vector: data.merged_dna,
+        primary_identity:
+          user.identityName || 'Blended Style',
+        secondary_identity:
+          user.secondaryIdentity ?? null,
+        profile_confidence:
+          user.profileConfidence ?? 0,
+        source: 'community_blend',
+        model_version: '1.0',
       });
 
       showToast(
