@@ -4,11 +4,12 @@ import { useUser } from '../../context/useUser';
 import { apiRequest } from '../../api/client';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import BottomNav from '../../components/BottomNav/BottomNav';
+import ApiErrorState from '../../components/ApiErrorState/ApiErrorState';
 import '../../styles/Home.css';
 
 const MOODS = [
   { id: 'quiet', icon: '😌', label: 'Quiet' },
-  { id: 'bold',  icon: '⚡', label: 'Bold' },
+  { id: 'bold', icon: '⚡', label: 'Bold' },
   { id: 'grind', icon: '💼', label: 'Grind' },
   { id: 'night', icon: '🌙', label: 'Night' },
 ];
@@ -19,19 +20,48 @@ export default function Home() {
   const [mood, setMood] = useState(user.moodState || 'quiet');
   const [feed, setFeed] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [retryKey, setRetryKey] = useState(0);
   const [antiTrend, setAntiTrend] = useState(false);
   const [showAllProducts, setShowAllProducts] = useState(false);
   const [showAllRealEyes, setShowAllRealEyes] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    apiRequest('/api/recommend/feed', {
-      method: 'POST',
-      body: JSON.stringify({ user_profile: user, anti_trend: antiTrend })
-    })
-    .then(data => { setFeed(data); setLoading(false); })
-    .catch(err => { console.error(err); setLoading(false); });
-  }, [user, antiTrend]);
+    let cancelled = false;
+
+    async function loadFeed() {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const data = await apiRequest('/api/recommend/feed', {
+          method: 'POST',
+          body: JSON.stringify({
+            user_profile: user,
+            anti_trend: antiTrend,
+          }),
+        });
+
+        if (!cancelled) {
+          setFeed(data);
+        }
+      } catch (requestError) {
+        if (!cancelled) {
+          setError(requestError);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    }
+
+    loadFeed();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user, antiTrend, retryKey]);
 
   const setMoodState = (m) => { setMood(m); updateUser({ moodState: m }); };
   const firstName = user.name?.trim().split(' ')[0] || 'Style Explorer';
@@ -39,6 +69,28 @@ export default function Home() {
   // Products to show - all 20 if "See all" clicked, else 4
   const gridProducts = showAllProducts ? feed : feed.slice(0, 4);
   const realEyesProducts = showAllRealEyes ? feed.slice(4) : feed.slice(6, 10);
+
+  if (loading) {
+    return (
+      <div className="screen">
+        <div className="page-loading">
+          Loading your recommendations…
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="screen">
+        <ApiErrorState
+          error={error}
+          title="Recommendations unavailable"
+          onRetry={() => setRetryKey((value) => value + 1)}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="screen home-screen">
@@ -63,8 +115,8 @@ export default function Home() {
         {/* Anti-Trend Toggle */}
         <div className="anti-trend-bar">
           <div>
-            <div style={{fontWeight: 800, fontSize: 14}}>🔀 Anti-Trend Mode</div>
-            <div style={{fontSize: 11, color: 'var(--text-2)'}}>Break out of your algorithm.</div>
+            <div style={{ fontWeight: 800, fontSize: 14 }}>🔀 Anti-Trend Mode</div>
+            <div style={{ fontSize: 11, color: 'var(--text-2)' }}>Break out of your algorithm.</div>
           </div>
           <div className={`at-toggle ${antiTrend ? 'active' : ''}`} onClick={() => setAntiTrend(!antiTrend)}>
             <div className="at-knob"></div>
@@ -85,8 +137,8 @@ export default function Home() {
         </div>
 
         {loading ? (
-          <div style={{padding: 40, textAlign: 'center', color: 'var(--text-2)'}}>
-            <div style={{fontSize: 28, marginBottom: 10}}>🧬</div>
+          <div style={{ padding: 40, textAlign: 'center', color: 'var(--text-2)' }}>
+            <div style={{ fontSize: 28, marginBottom: 10 }}>🧬</div>
             Loading ML Recommendations...
           </div>
         ) : (
@@ -118,10 +170,10 @@ export default function Home() {
                 {gridProducts.map(p => <ProductCard key={p.id} product={p} />)}
               </div>
               {showAllProducts && (
-                <div style={{textAlign:'center', marginTop: 12}}>
+                <div style={{ textAlign: 'center', marginTop: 12 }}>
                   <button
                     onClick={() => setShowAllProducts(false)}
-                    style={{background:'none', border:'1px solid var(--border)', borderRadius:4, padding:'8px 20px', color:'var(--text-2)', fontSize:13, cursor:'pointer'}}
+                    style={{ background: 'none', border: '1px solid var(--border)', borderRadius: 4, padding: '8px 20px', color: 'var(--text-2)', fontSize: 13, cursor: 'pointer' }}
                   >
                     Show Less
                   </button>

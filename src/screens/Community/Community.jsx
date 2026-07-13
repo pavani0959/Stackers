@@ -2,55 +2,117 @@ import { useState, useEffect } from 'react';
 import { useUser } from '../../context/useUser';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import { apiRequest } from '../../api/client';
+import ApiErrorState from '../../components/ApiErrorState/ApiErrorState';
 import '../../styles/Community.css';
 
 export default function Community() {
   const { user, updateUser } = useUser();
   const [twins, setTwins] = useState([]);
   const [loading, setLoading] = useState(true);
-  
   const [blendingCreator, setBlendingCreator] = useState(null);
   const [blendValue, setBlendValue] = useState(20);
   const [toast, setToast] = useState('');
+  const [error, setError] = useState(null);
+  const [retryKey, setRetryKey] = useState(0);
+  const [blending, setBlending] = useState(false);
+  const [blendError, setBlendError] = useState(null);
 
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(''), 2500); };
 
   useEffect(() => {
-    apiRequest('/api/community/twins', {
-      method: 'POST',
-      body: JSON.stringify({ user_profile: user })
-    })
-    .then(data => {
-      setTwins(data);
-      setLoading(false);
-    })
-    .catch(err => {
-      console.error(err);
-      setLoading(false);
-    });
-  }, [user]);
+    let cancelled = false;
 
-  const handleBlend = () => {
-    if (!blendingCreator) return;
-    
-    apiRequest('/api/dna/blend', {
-      method: 'POST',
-      body: JSON.stringify({ 
-        user_profile: user,
-        creator_dna: blendingCreator.dna,
-        blend_percentage: blendValue
-      })
-    })
-    .then(data => {
-      updateUser({ dna: data.merged_dna });
-      showToast(`Merged ${blendValue}% of ${blendingCreator.name}'s vibe into your DNA! 🧬`);
+    async function loadTwins() {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const data = await apiRequest('/api/community/twins', {
+          method: 'POST',
+          body: JSON.stringify({
+            user_profile: user,
+          }),
+        });
+
+        if (!cancelled) {
+          setTwins(data);
+        }
+      } catch (requestError) {
+        if (!cancelled) {
+          setError(requestError);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    }
+
+    loadTwins();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user, retryKey]);
+
+  const handleBlend = async () => {
+    if (!blendingCreator || blending) {
+      return;
+    }
+
+    setBlending(true);
+    setBlendError(null);
+
+    try {
+      const data = await apiRequest('/api/dna/blend', {
+        method: 'POST',
+        body: JSON.stringify({
+          user_profile: user,
+          creator_dna: blendingCreator.dna,
+          blend_percentage: blendValue,
+        }),
+      });
+
+      updateUser({
+        dna: data.merged_dna,
+      });
+
+      showToast(
+        `Merged ${blendValue}% of ${blendingCreator.name}'s vibe into your DNA! 🧬`,
+      );
+
       setBlendingCreator(null);
-    })
-    .catch(err => console.error(err));
+    } catch (requestError) {
+      setBlendError(requestError);
+    } finally {
+      setBlending(false);
+    }
   };
 
   const creators = twins.filter(t => t.role === 'creator');
   const pureTwins = twins.filter(t => t.role === 'user');
+
+  if (loading) {
+    return (
+      <div className="screen">
+        <div className="page-loading">
+          Finding your wardrobe twins…
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="screen">
+        <ApiErrorState
+          error={error}
+          title="Community unavailable"
+          onRetry={() => setRetryKey((value) => value + 1)}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="screen com-screen">
@@ -61,14 +123,14 @@ export default function Community() {
 
       <div className="com-body">
         {loading ? (
-          <div style={{padding: 40, textAlign: 'center'}}>Syncing with community...</div>
+          <div style={{ padding: 40, textAlign: 'center' }}>Syncing with community...</div>
         ) : (
           <>
             {/* Creators Section */}
             <div className="com-section">
               <div className="com-sec-title">Steal Their Vibe <span className="new-badge">NEW</span></div>
               <p className="com-sec-sub">Merge a creator's Fashion DNA with yours.</p>
-              
+
               <div className="creator-list">
                 {creators.map(c => (
                   <div key={c.id} className="creator-card">
@@ -88,7 +150,7 @@ export default function Community() {
             <div className="com-section">
               <div className="com-sec-title">Wardrobe Twins</div>
               <p className="com-sec-sub">Users with a &gt;90% match to your exact aesthetic.</p>
-              
+
               <div className="twin-list">
                 {pureTwins.length > 0 ? pureTwins.map(t => (
                   <div key={t.id} className="twin-card">
@@ -115,22 +177,29 @@ export default function Community() {
         <div className="blend-modal-overlay">
           <div className="blend-modal">
             <div className="bm-close" onClick={() => setBlendingCreator(null)}>×</div>
-            <img src={blendingCreator.avatar} className="bm-avatar" alt=""/>
+            <img src={blendingCreator.avatar} className="bm-avatar" alt="" />
             <h3 className="bm-title">Steal {blendingCreator.name}'s Vibe</h3>
             <p className="bm-sub">How much of their <strong>{blendingCreator.dna_label}</strong> DNA do you want to merge into yours?</p>
-            
+
             <div className="bm-slider-wrap">
-              <input 
-                type="range" 
-                min="10" max="100" step="10" 
-                value={blendValue} 
+              <input
+                type="range"
+                min="10" max="100" step="10"
+                value={blendValue}
                 onChange={(e) => setBlendValue(Number(e.target.value))}
-                className="bm-slider" 
+                className="bm-slider"
               />
               <div className="bm-val">{blendValue}%</div>
             </div>
-            
-            <button className="bm-confirm" onClick={handleBlend}>Confirm Identity Shift</button>
+
+            {blendError && (
+              <ApiErrorState
+                error={blendError}
+                title="Could not blend Fashion DNA"
+                onRetry={handleBlend}
+              />
+            )}
+            <button className="bm-confirm" type="button" onClick={handleBlend} disabled={blending}>{blending ? 'Blending...' : 'Confirm DNA Blend'}</button>
           </div>
         </div>
       )}

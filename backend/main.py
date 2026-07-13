@@ -76,6 +76,25 @@ def get_products(skip: int = 0, limit: int = 100, db: Session = Depends(get_db))
     products = db.query(models.Product).offset(skip).limit(limit).all()
     return [product_to_dict(product) for product in products]
 
+@app.get(
+    "/api/products/{product_id}",
+    response_model=schemas.ProductResponse,
+)
+def get_product(
+    product_id: int,
+    db: Session = Depends(get_db),
+):
+    product = (
+        db.query(models.Product)
+        .filter(models.Product.id == product_id)
+        .first()
+    )
+
+    if not product:
+        raise NotFoundError("Product not found")
+
+    return product_to_dict(product)
+
 
 @app.post("/api/dna/calculate")
 def calculate_dna(request: schemas.DNARequest):

@@ -239,3 +239,49 @@ body::before {
   z-index: -1;
   pointer-events: none;
 }
+
+
+/* ApiErrorState.jsx */
+
+.api-error-state {
+  margin: 32px 18px;
+  padding: 24px;
+  text-align: center;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.api-error-state h2 {
+  margin: 10px 0 6px;
+  font-size: 18px;
+}
+
+.api-error-state p {
+  color: var(--text-2);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.api-error-state button {
+  margin-top: 16px;
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 18px;
+  background: var(--accent);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.api-error-icon {
+  width: 38px;
+  height: 38px;
+  margin: auto;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(216, 58, 86, 0.12);
+  color: var(--danger);
+  font-weight: 800;
+}
