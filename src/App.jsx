@@ -1,7 +1,21 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
+
 import { UserProvider } from './context/UserContext';
+import { useUser } from './context/useUser';
+
 import Splash from './screens/Splash/Splash';
-import { OnboardGender, OnboardBudget, OnboardColours, OnboardOccasions } from './screens/Onboarding/Onboarding';
+import {
+  OnboardGender,
+  OnboardBudget,
+  OnboardColours,
+  OnboardOccasions,
+} from './screens/Onboarding/Onboarding';
+
 import DNAQuiz from './screens/DNAQuiz/DNAQuiz';
 import DNAResult from './screens/DNAResult/DNAResult';
 import IdentityCard from './screens/IdentityCard/IdentityCard';
@@ -11,15 +25,104 @@ import DecisionIntelligence from './screens/DecisionIntelligence/DecisionIntelli
 import ReverseShopping from './screens/ReverseShopping/ReverseShopping';
 import FashionMemory from './screens/FashionMemory/FashionMemory';
 import Community from './screens/Community/Community';
+
 import MyntraMuse from './components/MyntraMuse/MyntraMuse';
+import ApiErrorState from './components/ApiErrorState/ApiErrorState';
 
 // Simple Phone Wrapper to make the desktop preview look good
 function PhoneWrapper({ children }) {
   return (
     <div className="phone-frame">
-      <div className="desktop-hint">Built for Hackathon Demo • 390x844px</div>
+      <div className="desktop-hint">
+        Built for Hackathon Demo • 390x844px
+      </div>
+
       {children}
     </div>
+  );
+}
+
+/*
+ * This component is rendered inside UserProvider,
+ * so it can safely use useUser().
+ */
+function AppRoutes() {
+  const {
+    profileLoading,
+    profileError,
+    refreshProfile,
+  } = useUser();
+
+  // Do not render routes while the profile is loading.
+  if (profileLoading) {
+    return (
+      <PhoneWrapper>
+        <div className="app-loading">
+          Loading your fashion identity…
+        </div>
+      </PhoneWrapper>
+    );
+  }
+
+  // Do not render routes when profile loading fails.
+  if (profileError) {
+    return (
+      <PhoneWrapper>
+        <ApiErrorState
+          title="Unable to load your profile"
+          error={profileError}
+          onRetry={refreshProfile}
+        />
+      </PhoneWrapper>
+    );
+  }
+
+  // The main application is rendered only after profile loading succeeds.
+  return (
+    <PhoneWrapper>
+      <Routes>
+        <Route path="/" element={<Splash />} />
+
+        {/* Onboarding Flow */}
+        <Route
+          path="/onboard/gender"
+          element={<OnboardGender />}
+        />
+        <Route
+          path="/onboard/budget"
+          element={<OnboardBudget />}
+        />
+        <Route
+          path="/onboard/colours"
+          element={<OnboardColours />}
+        />
+        <Route
+          path="/onboard/occasions"
+          element={<OnboardOccasions />}
+        />
+
+        {/* DNA Flow */}
+        <Route path="/quiz" element={<DNAQuiz />} />
+        <Route path="/dna-result" element={<DNAResult />} />
+        <Route path="/identity-card" element={<IdentityCard />} />
+
+        {/* Core App */}
+        <Route path="/home" element={<Home />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
+        <Route
+          path="/decision/:id"
+          element={<DecisionIntelligence />}
+        />
+        <Route path="/reverse" element={<ReverseShopping />} />
+        <Route path="/memory" element={<FashionMemory />} />
+        <Route path="/community" element={<Community />} />
+
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+
+      <MyntraMuse />
+    </PhoneWrapper>
   );
 }
 
@@ -27,34 +130,7 @@ export default function App() {
   return (
     <UserProvider>
       <Router>
-        <PhoneWrapper>
-          <Routes>
-            <Route path="/" element={<Splash />} />
-            
-            {/* Onboarding Flow */}
-            <Route path="/onboard/gender" element={<OnboardGender />} />
-            <Route path="/onboard/budget" element={<OnboardBudget />} />
-            <Route path="/onboard/colours" element={<OnboardColours />} />
-            <Route path="/onboard/occasions" element={<OnboardOccasions />} />
-            
-            {/* DNA Flow */}
-            <Route path="/quiz" element={<DNAQuiz />} />
-            <Route path="/dna-result" element={<DNAResult />} />
-            <Route path="/identity-card" element={<IdentityCard />} />
-            
-            {/* Core App */}
-            <Route path="/home" element={<Home />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
-            <Route path="/decision/:id" element={<DecisionIntelligence />} />
-            <Route path="/reverse" element={<ReverseShopping />} />
-            <Route path="/memory" element={<FashionMemory />} />
-            <Route path="/community" element={<Community />} />
-
-            {/* Fallback */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-          <MyntraMuse />
-        </PhoneWrapper>
+        <AppRoutes />
       </Router>
     </UserProvider>
   );
