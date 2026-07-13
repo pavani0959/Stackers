@@ -1,3 +1,9 @@
+from routers.events import router as events_router
+from routers.profile import router as profile_router
+from routers.recommendations import (
+    router as recommendation_sessions_router,
+)
+from routers.wardrobe import router as wardrobe_router
 import json
 from typing import List
 
@@ -30,6 +36,10 @@ from ml import (
 settings = get_settings()
 
 app = FastAPI(title="Myntra Identity API")
+app.include_router(profile_router)
+app.include_router(events_router)
+app.include_router(wardrobe_router)
+app.include_router(recommendation_sessions_router)
 
 app.add_exception_handler(AppError, app_error_handler)
 app.add_exception_handler(HTTPException, http_exception_handler)
