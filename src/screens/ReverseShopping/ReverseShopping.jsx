@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/useUser';
+import { apiRequest } from '../../api/client';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import '../../styles/ReverseShopping.css';
 
@@ -90,17 +91,10 @@ export default function ReverseShopping() {
     setResults(null);
 
     try {
-      const response = await fetch('http://localhost:8000/api/recommend/reverse', {
+      const data = await apiRequest('/api/recommend/reverse', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt: input, user_profile: user }),
       });
-
-      if (!response.ok) {
-        throw new Error(`Reverse Shopping failed with HTTP ${response.status}`);
-      }
-
-      const data = await response.json();
       setResults(data);
     } catch (error) {
       console.error(error);

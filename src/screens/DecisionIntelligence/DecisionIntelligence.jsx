@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUser } from '../../context/useUser';
+import { apiRequest } from '../../api/client';
 import '../../styles/DecisionIntelligence.css';
 
 export default function DecisionIntelligence() {
@@ -11,12 +12,10 @@ export default function DecisionIntelligence() {
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/recommend/confidence/${id}`, {
+    apiRequest(`/api/recommend/confidence/${id}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ user_profile: user })
     })
-    .then(res => res.json())
     .then(confidenceData => {
       const p = user.products.find(x => x.id === Number(id));
       if (p) {

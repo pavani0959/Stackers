@@ -12,7 +12,6 @@ import ReverseShopping from './screens/ReverseShopping/ReverseShopping';
 import FashionMemory from './screens/FashionMemory/FashionMemory';
 import Community from './screens/Community/Community';
 import MyntraMuse from './components/MyntraMuse/MyntraMuse';
-import './styles/global.css';
 
 // Simple Phone Wrapper to make the desktop preview look good
 function PhoneWrapper({ children }) {

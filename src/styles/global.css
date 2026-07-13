@@ -1,24 +1,3 @@
-:root {
-  --bg: #FFFFFF;
-  --surface: #FFFFFF;
-  --surface-2: #F4F4F5;
-  --border: #EAEAEC;
-  --accent: #FF3F6C;
-  --accent-2: #FFA1B5;
-  --accent-3: #282C3F;
-  --gradient: #FF3F6C;
-  --gradient-soft: rgba(255, 63, 108, 0.1);
-  --text: #282C3F;
-  --text-2: #535766;
-  --text-3: #7E818C;
-  --green: #03A685;
-  --yellow: #F4B814;
-  --radius: 4px;
-  --radius-sm: 2px;
-  --radius-lg: 8px;
-  font-family: 'Assistant', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
-
 *, *::before, *::after {
   margin: 0;
   padding: 0;

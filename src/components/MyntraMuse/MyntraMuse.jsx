@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/useUser';
+import { apiRequest } from '../../api/client';
 import './MyntraMuse.css';
 
 export default function MyntraMuse() {
@@ -42,17 +43,10 @@ export default function MyntraMuse() {
     setSending(true);
 
     try {
-      const response = await fetch('http://localhost:8000/api/muse/chat', {
+      const data = await apiRequest('/api/muse/chat', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: userMessage, user_profile: user }),
       });
-
-      if (!response.ok) {
-        throw new Error(`Muse failed with HTTP ${response.status}`);
-      }
-
-      const data = await response.json();
       setMessages((previous) => [
         ...previous,
         {

@@ -83,3 +83,71 @@ Open **[http://localhost:5173](http://localhost:5173)** in your browser!
 1. **Reduced Return Rates:** By using DNA Dynamic Pricing and Confidence Scores, users buy items they actually keep.
 2. **Higher AOV (Average Order Value):** Reverse Shopping NLP bundles 3-piece outfits instead of single items.
 3. **Community Retention:** Wardrobe Twins and Creator Merging turns Myntra from a utility app into a daily-use social network.
+
+---
+
+## Production foundation setup
+
+### Environment
+
+Copy the documented environment template before starting either service:
+
+```bash
+cp .env.example .env
+```
+
+`VITE_API_BASE_URL` is exposed to the frontend by Vite. `DATABASE_URL`,
+`FRONTEND_ORIGINS`, and `ENVIRONMENT` are loaded by the FastAPI settings class.
+For `FRONTEND_ORIGINS`, use a JSON list such as
+`["http://localhost:5173"]`.
+
+### Frontend commands
+
+```bash
+npm install
+npm run lint
+npm run test
+npm run build
+```
+
+Install the Playwright Chromium binary once, then run the browser smoke test:
+
+```bash
+npm run test:e2e:install
+npm run test:e2e
+```
+
+Run all frontend CI checks with:
+
+```bash
+npm run check
+```
+
+### Backend commands
+
+```bash
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+alembic upgrade head
+python seed.py
+pytest --cov=. --cov-report=term-missing
+uvicorn main:app --reload --port 8000
+```
+
+### Existing local SQLite database
+
+The repository originally created tables with `Base.metadata.create_all()`. If your
+local `backend/myntra.db` already contains the `products` and
+`community_profiles` tables but has no `alembic_version` table, mark it at the
+initial revision once instead of running the create-table migration:
+
+```bash
+cd backend
+source venv/bin/activate
+alembic stamp head
+```
+
+After that one-time stamp, use `alembic upgrade head` normally for every future
+migration.

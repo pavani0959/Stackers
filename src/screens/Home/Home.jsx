@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/useUser';
+import { apiRequest } from '../../api/client';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import '../../styles/Home.css';
@@ -24,12 +25,10 @@ export default function Home() {
 
   useEffect(() => {
     setLoading(true);
-    fetch('http://localhost:8000/api/recommend/feed', {
+    apiRequest('/api/recommend/feed', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ user_profile: user, anti_trend: antiTrend })
     })
-    .then(res => res.json())
     .then(data => { setFeed(data); setLoading(false); })
     .catch(err => { console.error(err); setLoading(false); });
   }, [user, antiTrend]);
