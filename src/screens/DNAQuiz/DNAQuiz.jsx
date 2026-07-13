@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/useUser';
 import { quizQuestions } from '../../data/quizQuestions';
 import { apiRequest } from '../../api/client';
+import ApiErrorState from '../../components/ApiErrorState/ApiErrorState';
 import '../../styles/DNAQuiz.css';
 
 export default function DNAQuiz() {
@@ -11,9 +12,52 @@ export default function DNAQuiz() {
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState(Array(quizQuestions.length).fill(null));
   const [selected, setSelected] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
+  const [retryTags, setRetryTags] = useState(null);
 
   const question = quizQuestions[currentQ];
   const progress = Math.round(((currentQ + 1) / quizQuestions.length) * 100);
+
+  async function calculateAndSaveDNA(tags) {
+    setSubmitting(true);
+    setSubmitError(null);
+    setRetryTags(tags);
+
+    try {
+      const data = await apiRequest('/api/dna/calculate', {
+        method: 'POST',
+        body: JSON.stringify({
+          tags,
+        }),
+      });
+
+      const { dna, identity, topBars } = data;
+
+      const dnaValues = Object.values(dna);
+
+      const confidence = Math.round(
+        dnaValues.reduce((total, value) => total + value, 0) /
+        Math.max(dnaValues.length, 1) +
+        20,
+      );
+
+      updateUser({
+        dna,
+        dnaTopBars: topBars,
+        identityName: identity.name,
+        identityDesc: identity.desc,
+        confidenceScore: Math.min(confidence, 94),
+        hasCompletedQuiz: true,
+      });
+
+      navigate('/dna-result');
+    } catch (requestError) {
+      setSubmitError(requestError);
+    } finally {
+      setSubmitting(false);
+    }
+  }
 
   const pickChoice = (choice, idx) => {
     setSelected(idx);
@@ -22,46 +66,66 @@ export default function DNAQuiz() {
     setAnswers(newAnswers);
   };
 
-  const next = () => {
-    if (selected === null) return;
-    if (currentQ < quizQuestions.length - 1) {
-      setCurrentQ(c => c + 1);
-      setSelected(null);
-    } else {
-      // Gather all tags from selected answers
-      const allTags = [];
-      answers.forEach(ans => {
-        if (ans && ans.tags) {
-          allTags.push(...ans.tags);
-        }
-      });
-
-      // Call the real ML Backend
-      apiRequest('/api/dna/calculate', {
-        method: 'POST',
-        body: JSON.stringify({ tags: allTags })
-      })
-      .then(data => {
-        const { dna, identity, topBars } = data;
-        const confidence = Math.round(Object.values(dna).reduce((a, b) => a + b, 0) / Math.max(Object.keys(dna).length, 1) + 20);
-        updateUser({
-          dna,
-          dnaTopBars: topBars,
-          identityName: identity.name,
-          identityDesc: identity.desc,
-          confidenceScore: Math.min(confidence, 94),
-          hasCompletedQuiz: true,
-        });
-        navigate('/dna-result');
-      })
-      .catch(err => {
-        console.error("Failed to run ML model:", err);
-        // Fallback or error state could be handled here
-      });
+  const next = async () => {
+    if (selected === null || submitting) {
+      return;
     }
+
+    if (currentQ < quizQuestions.length - 1) {
+      setCurrentQ((currentQuestion) => currentQuestion + 1);
+      setSelected(null);
+      return;
+    }
+
+    const allTags = [];
+
+    answers.forEach((answer) => {
+      if (answer?.tags) {
+        allTags.push(...answer.tags);
+      }
+    });
+
+    await calculateAndSaveDNA(allTags);
   };
 
+  if (submitting) {
+    return (
+      <div className="screen">
+        <div className="page-loading">
+          Calculating your Fashion DNA…
+        </div>
+      </div>
+    );
+  }
+
+  if (submitError) {
+    return (
+      <div className="screen">
+        <ApiErrorState
+          error={submitError}
+          title="Fashion DNA calculation failed"
+          onRetry={
+            retryTags
+              ? () => calculateAndSaveDNA(retryTags)
+              : undefined
+          }
+        />
+
+        <div className="quiz-nav">
+          <button
+            type="button"
+            className="btn-primary"
+            onClick={() => setSubmitError(null)}
+          >
+            Return to quiz
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
+
     <div className="screen quiz-screen">
       <div className="quiz-hdr">
         <div className="quiz-prog-wrap">
@@ -87,11 +151,20 @@ export default function DNAQuiz() {
 
       <div className="quiz-nav">
         <button
+          type="button"
           className="btn-primary"
-          style={{ opacity: selected === null ? 0.45 : 1, pointerEvents: selected === null ? 'none' : 'auto' }}
+          disabled={selected === null || submitting}
+          style={{
+            opacity: selected === null || submitting ? 0.45 : 1,
+            pointerEvents: selected === null || submitting ? 'none' : 'auto',
+          }}
           onClick={next}
         >
-          {currentQ === quizQuestions.length - 1 ? 'See My DNA →' : 'Next →'}
+          {submitting
+            ? 'Calculating…'
+            : currentQ === quizQuestions.length - 1
+              ? 'See My DNA →'
+              : 'Next →'}
         </button>
       </div>
     </div>

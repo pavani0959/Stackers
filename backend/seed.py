@@ -1,12 +1,9 @@
-import os
 import json
-from sqlalchemy.orm import Session
-from database import SessionLocal, engine, Base
-from models import Product, CommunityProfile
 
-# Re-create all tables
-Base.metadata.drop_all(bind=engine)
-Base.metadata.create_all(bind=engine)
+from sqlalchemy.orm import Session
+
+from database import SessionLocal
+from models import CommunityProfile, Product
 
 # The real product data
 INITIAL_PRODUCTS = [
@@ -34,6 +31,7 @@ INITIAL_PRODUCTS = [
 
 INITIAL_COMMUNITY = [
     {
+        "id": 1,
         "name": "Zendaya",
         "handle": "@zendayastyle",
         "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop",
@@ -43,6 +41,7 @@ INITIAL_COMMUNITY = [
         "recent_purchases": json.dumps([9, 16, 7])
     },
     {
+        "id": 2,
         "name": "Ahaan Panday",
         "handle": "@ahaanp",
         "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=200&auto=format&fit=crop",
@@ -52,6 +51,7 @@ INITIAL_COMMUNITY = [
         "recent_purchases": json.dumps([2, 4, 18, 15])
     },
     {
+        "id": 3,
         "name": "Tanya G",
         "handle": "@tanyastyles",
         "avatar": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=200&auto=format&fit=crop",
@@ -61,6 +61,7 @@ INITIAL_COMMUNITY = [
         "recent_purchases": json.dumps([1, 3, 5])
     },
     {
+        "id": 4,
         "name": "Rahul M",
         "handle": "@rahul_m",
         "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop",
@@ -71,25 +72,40 @@ INITIAL_COMMUNITY = [
     }
 ]
 
-def seed_db():
+def upsert_rows(
+    db: Session,
+    model: type[Product] | type[CommunityProfile],
+    rows: list[dict],
+) -> None:
+    for payload in rows:
+        row_id = payload["id"]
+        existing = db.get(model, row_id)
+
+        if existing is None:
+            db.add(model(**payload))
+            continue
+
+        for field, value in payload.items():
+            setattr(existing, field, value)
+
+
+def seed_db() -> None:
     db: Session = SessionLocal()
+
     try:
-        if db.query(Product).count() == 0:
-            print("Seeding database...")
-            for p_data in INITIAL_PRODUCTS:
-                product = Product(**p_data)
-                db.add(product)
-                
-            for c_data in INITIAL_COMMUNITY:
-                profile = CommunityProfile(**c_data)
-                db.add(profile)
-                
-            db.commit()
-            print("Database seeded successfully with products and community!")
-        else:
-            print("Database already contains data.")
+        upsert_rows(db, Product, INITIAL_PRODUCTS)
+        upsert_rows(db, CommunityProfile, INITIAL_COMMUNITY)
+
+        db.commit()
+        print(
+            "Demo data seeded safely. Existing unrelated records were preserved."
+        )
+    except Exception:
+        db.rollback()
+        raise
     finally:
         db.close()
+
 
 if __name__ == "__main__":
     seed_db()

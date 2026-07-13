@@ -1,0 +1,55 @@
+.api-error-state {
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.api-error-state__icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 16px;
+  border-radius: 50%;
+  background: rgba(255, 63, 108, 0.12);
+  color: var(--accent, #ff3f6c);
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.api-error-state__title {
+  margin: 0;
+  color: var(--text, #282c3f);
+  font-size: 20px;
+}
+
+.api-error-state__message {
+  max-width: 440px;
+  margin: 8px 0 20px;
+  color: var(--text-2, #535766);
+  line-height: 1.5;
+}
+
+.api-error-state__retry {
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 18px;
+  background: var(--accent, #ff3f6c);
+  color: white;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.api-error-state__retry:hover {
+  opacity: 0.9;
+}
+
+.api-error-state__retry:focus-visible {
+  outline: 3px solid rgba(255, 63, 108, 0.3);
+  outline-offset: 3px;
+}

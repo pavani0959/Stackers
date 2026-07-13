@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useUser } from '../../context/useUser';
 import { apiRequest } from '../../api/client';
 import BottomNav from '../../components/BottomNav/BottomNav';
+import ApiErrorState from '../../components/ApiErrorState/ApiErrorState';
 import '../../styles/ProductDetail.css';
 
 const SIZES = ['XS', 'S', 'M', 'L', 'XL'];
@@ -11,35 +12,64 @@ export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user, addToCart, addToWishlist } = useUser();
-  
+
   const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [retryKey, setRetryKey] = useState(0);
   const [size, setSize] = useState('S');
   const [toast, setToast] = useState('');
   const [showAR, setShowAR] = useState(false);
 
+
+
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(''), 2500); };
 
   useEffect(() => {
-    // Fetch product details and ML Confidence Score
-    apiRequest(`/api/recommend/confidence/${id}`, {
-      method: 'POST',
-      body: JSON.stringify({ user_profile: user })
-    })
-    .then(confidenceData => {
-      // We also need the product data. Let's fetch it from the global products list if available,
-      // or we should have the backend return it. For now, since user.products exists:
-      const p = user.products.find(x => x.id === Number(id));
-      if (p) {
-        setProduct({ ...p, confidence: confidenceData });
-      }
-    });
-  }, [id, user]);
+    let cancelled = false;
 
-  if (!product) return <div className="screen"><div style={{padding: 40, textAlign: 'center'}}>Loading...</div></div>;
+    async function loadProduct() {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const [productData, confidenceData] = await Promise.all([
+          apiRequest(`/api/products/${id}`),
+          apiRequest(`/api/recommend/confidence/${id}`, {
+            method: 'POST',
+            body: JSON.stringify({
+              user_profile: user,
+            }),
+          }),
+        ]);
+
+        if (!cancelled) {
+          setProduct({
+            ...productData,
+            confidence: confidenceData,
+          });
+        }
+      } catch (requestError) {
+        if (!cancelled) {
+          setError(requestError);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    }
+
+    loadProduct();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [id, user, retryKey]);
 
   const conf = product.confidence;
   const isWished = user.wishlist.includes(product.id);
-  
+
   // Feature 7: DNA Dynamic Pricing (15% off if confidence >= 90)
   const isDnaDiscount = conf.overall >= 90;
   const finalPrice = isDnaDiscount ? Math.round(product.price * 0.85) : product.price;
@@ -51,6 +81,34 @@ export default function ProductDetail() {
     addToCart(productToBuy, 'Added from product detail');
     showToast('Added to cart! Fashion Memory will track this 📖');
   };
+
+  if (loading) {
+    return (
+      <div className="screen">
+        <div className="page-loading">Loading product…</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="screen">
+        <ApiErrorState
+          error={error}
+          title="Product unavailable"
+          onRetry={() => setRetryKey((value) => value + 1)}
+        />
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className="screen">
+        <ApiErrorState title="Product not found" />
+      </div>
+    );
+  }
 
   return (
     <div className="screen det-screen">
@@ -67,8 +125,8 @@ export default function ProductDetail() {
           <span className="det-score">{conf.overall}</span>
           <span className="det-score-lbl">Confidence Score</span>
         </div>
-        <button 
-          className="ar-btn" 
+        <button
+          className="ar-btn"
           onClick={() => setShowAR(true)}
           style={{ position: 'absolute', bottom: 15, left: 15, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(10px)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', padding: '6px 12px', borderRadius: 20, fontSize: 12, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}
         >
@@ -100,11 +158,11 @@ export default function ProductDetail() {
             <div className="conf-big grad-text">{conf.overall}</div>
           </div>
           {[
-            { icon: '🧬', label: 'Style Match',      val: conf.styleMatch },
-            { icon: '📅', label: 'Occasion Match',   val: conf.occasionMatch },
-            { icon: '💰', label: 'Budget Match',     val: conf.budgetMatch },
-            { icon: '☁️', label: 'Weather Match',    val: conf.weatherMatch },
-            { icon: '👗', label: 'Wardrobe Fit',     val: conf.wardrobeMatch },
+            { icon: '🧬', label: 'Style Match', val: conf.styleMatch },
+            { icon: '📅', label: 'Occasion Match', val: conf.occasionMatch },
+            { icon: '💰', label: 'Budget Match', val: conf.budgetMatch },
+            { icon: '☁️', label: 'Weather Match', val: conf.weatherMatch },
+            { icon: '👗', label: 'Wardrobe Fit', val: conf.wardrobeMatch },
           ].map(row => (
             <div key={row.label} className="conf-row">
               <span className="conf-icon">{row.icon}</span>
@@ -143,10 +201,10 @@ export default function ProductDetail() {
           {/* Header */}
           <div style={{ padding: '48px 18px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
-              <div style={{fontWeight: 800, color: '#fff', fontSize: 16}}>📸 Virtual Try-On</div>
-              <div style={{fontSize: 11, color: 'rgba(255,255,255,0.5)', marginTop: 2}}>See how it looks on you</div>
+              <div style={{ fontWeight: 800, color: '#fff', fontSize: 16 }}>📸 Virtual Try-On</div>
+              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>See how it looks on you</div>
             </div>
-            <div onClick={() => setShowAR(false)} style={{fontSize: 28, cursor: 'pointer', color: '#fff', lineHeight: 1}}>×</div>
+            <div onClick={() => setShowAR(false)} style={{ fontSize: 28, cursor: 'pointer', color: '#fff', lineHeight: 1 }}>×</div>
           </div>
 
           {/* Camera Frame */}
@@ -163,8 +221,8 @@ export default function ProductDetail() {
                 borderRadius: 80, display: 'flex', alignItems: 'center', justifyContent: 'center',
                 flexDirection: 'column', gap: 8
               }}>
-                <span style={{fontSize: 32}}>🧍</span>
-                <span style={{fontSize: 11, color: 'rgba(255,255,255,0.3)', textAlign: 'center'}}>Stand here</span>
+                <span style={{ fontSize: 32 }}>🧍</span>
+                <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', textAlign: 'center' }}>Stand here</span>
               </div>
             </div>
 
@@ -181,7 +239,7 @@ export default function ProductDetail() {
             />
 
             {/* Corner guides */}
-            {['0 auto auto 0','0 0 auto auto','auto auto 0 0','auto 0 0 auto'].map((pos, i) => (
+            {['0 auto auto 0', '0 0 auto auto', 'auto auto 0 0', 'auto 0 0 auto'].map((pos, i) => (
               <div key={i} style={{
                 position: 'absolute', width: 20, height: 20,
                 top: i < 2 ? 20 : 'auto', bottom: i >= 2 ? 20 : 'auto',
@@ -197,14 +255,15 @@ export default function ProductDetail() {
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'var(--accent)', boxShadow: '0 0 12px var(--accent)', animation: 'scan 2.5s infinite linear' }} />
           </div>
 
-          <style dangerouslySetInnerHTML={{__html: `
+          <style dangerouslySetInnerHTML={{
+            __html: `
             @keyframes scan { 0% { top: 0%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
           `}} />
 
           {/* Bottom info */}
           <div style={{ padding: '14px 18px 40px', textAlign: 'center' }}>
-            <div style={{color: '#fff', fontSize: 14, fontWeight: 700, marginBottom: 4}}>{product.name}</div>
-            <div style={{color: 'rgba(255,255,255,0.5)', fontSize: 12, lineHeight: 1.5}}>
+            <div style={{ color: '#fff', fontSize: 14, fontWeight: 700, marginBottom: 4 }}>{product.name}</div>
+            <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, lineHeight: 1.5 }}>
               This shows how the item would look on you.<br />
               In the full app, your camera would be used for a live preview.
             </div>

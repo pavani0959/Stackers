@@ -24,6 +24,7 @@ echo "Preparing database..."
 (
   cd backend
   source venv/bin/activate
+  python scripts/bootstrap_legacy_sqlite.py
   alembic upgrade head
   python seed.py
 )

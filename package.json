@@ -12,7 +12,8 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "test:e2e:install": "playwright install chromium",
-    "check": "npm run lint && npm run test && npm run build"
+    "check": "npm run lint && npm run test && npm run build",
+    "check:ci": "npm run check && npm run test:e2e"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
