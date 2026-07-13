@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../../context/UserContext';
+import { useUser } from '../../context/useUser';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import '../../styles/Home.css';
@@ -35,7 +35,7 @@ export default function Home() {
   }, [user, antiTrend]);
 
   const setMoodState = (m) => { setMood(m); updateUser({ moodState: m }); };
-  const firstName = user.gender === 'male' ? 'Arjun' : 'Bhavika';
+  const firstName = user.name?.trim().split(' ')[0] || 'Style Explorer';
 
   // Products to show - all 20 if "See all" clicked, else 4
   const gridProducts = showAllProducts ? feed : feed.slice(0, 4);

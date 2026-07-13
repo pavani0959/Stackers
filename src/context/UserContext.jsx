@@ -1,9 +1,9 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-
-const UserContext = createContext(null);
+import { useEffect, useState } from 'react';
+import { UserContext } from './UserContextBase';
 
 const DEFAULT_STATE = {
   // Onboarding
+  name: '',
   gender: '',
   age: 21,
   budget: 'campus-casual',
@@ -30,7 +30,9 @@ export function UserProvider({ children }) {
   const [user, setUser] = useState(() => {
     try {
       const saved = localStorage.getItem('myntra_identity_user');
-      return saved ? { ...DEFAULT_STATE, ...JSON.parse(saved), products: [] } : DEFAULT_STATE;
+      return saved
+        ? { ...DEFAULT_STATE, ...JSON.parse(saved), products: [] }
+        : DEFAULT_STATE;
     } catch {
       return DEFAULT_STATE;
     }
@@ -39,11 +41,13 @@ export function UserProvider({ children }) {
   // Fetch real products from backend
   useEffect(() => {
     fetch('http://localhost:8000/api/products')
-      .then(res => res.json())
-      .then(data => {
-        setUser(prev => ({ ...prev, products: data }));
+      .then((res) => res.json())
+      .then((data) => {
+        setUser((prev) => ({ ...prev, products: data }));
       })
-      .catch(err => console.error("Failed to fetch products from backend:", err));
+      .catch((err) =>
+        console.error('Failed to fetch products from backend:', err)
+      );
   }, []);
 
   // Auto-save to localStorage whenever user changes
@@ -56,7 +60,7 @@ export function UserProvider({ children }) {
   }, [user]);
 
   const updateUser = (updates) => {
-    setUser(prev => ({ ...prev, ...updates }));
+    setUser((prev) => ({ ...prev, ...updates }));
   };
 
   const buyItem = (product, confidenceOverall = 85) => {
@@ -65,23 +69,29 @@ export function UserProvider({ children }) {
       name: product.name,
       price: product.price,
       image: product.image,
-      date: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }),
+      date: new Date().toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'short',
+      }),
       occasion: product.occasions?.[0] || 'Casual',
       dnaMatch: confidenceOverall,
-      reason: `Bought because it matched your ${user.identityName || 'vibe'}.`
+      reason: `Bought because it matched your ${
+        user.identityName || 'vibe'
+      }.`,
+      tags: product.tags || [],
     };
 
-    setUser(prev => ({
+    setUser((prev) => ({
       ...prev,
-      purchaseMemory: [memoryItem, ...(prev.purchaseMemory || [])]
+      purchaseMemory: [memoryItem, ...(prev.purchaseMemory || [])],
     }));
   };
 
   const addToWishlist = (productId) => {
-    setUser(prev => ({
+    setUser((prev) => ({
       ...prev,
       wishlist: prev.wishlist.includes(productId)
-        ? prev.wishlist.filter(id => id !== productId)
+        ? prev.wishlist.filter((id) => id !== productId)
         : [...prev.wishlist, productId],
     }));
   };
@@ -96,14 +106,17 @@ export function UserProvider({ children }) {
   };
 
   return (
-    <UserContext.Provider value={{ user, updateUser, addToWishlist, addToCart, buyItem, resetAll }}>
+    <UserContext.Provider
+      value={{
+        user,
+        updateUser,
+        addToWishlist,
+        addToCart,
+        buyItem,
+        resetAll,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
-}
-
-export function useUser() {
-  const ctx = useContext(UserContext);
-  if (!ctx) throw new Error('useUser must be used inside UserProvider');
-  return ctx;
 }

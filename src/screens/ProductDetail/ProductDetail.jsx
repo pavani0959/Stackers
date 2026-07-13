@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useUser } from '../../context/UserContext';
-import { getProduct } from '../../data/products';
+import { useUser } from '../../context/useUser';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import '../../styles/ProductDetail.css';
 

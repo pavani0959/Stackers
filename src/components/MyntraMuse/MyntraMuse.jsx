@@ -1,83 +1,168 @@
-import { useState, useRef, useEffect } from 'react';
-import { useUser } from '../../context/UserContext';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useUser } from '../../context/useUser';
 import './MyntraMuse.css';
 
 export default function MyntraMuse() {
+  const navigate = useNavigate();
   const { user } = useUser();
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { role: 'ai', text: `Hi! I'm Myntra Muse, your personal AI Stylist. I see your vibe is ${user.identityName || 'Minimalist'}. How can I help you today?` }
-  ]);
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+  const [sending, setSending] = useState(false);
   const chatEndRef = useRef(null);
 
-  // Auto-scroll to bottom of chat
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [messages, sending]);
 
-  const handleSend = () => {
-    if (!input.trim()) return;
-    
-    // Add user message
-    const userMsg = input.trim();
-    setMessages(prev => [...prev, { role: 'user', text: userMsg }]);
+  useEffect(() => {
+    if (!isOpen || messages.length > 0) return;
+
+    const firstName = user.name?.trim().split(' ')[0] || 'Style Explorer';
+    const identity = user.identityName || 'your evolving Fashion DNA';
+    setMessages([
+      {
+        role: 'ai',
+        text: `Hi ${firstName}! I'm Myntra Muse. I can use ${identity} and the live catalogue to help you shop.`,
+        recommendations: [],
+      },
+    ]);
+  }, [isOpen, messages.length, user.identityName, user.name]);
+
+  const handleSend = async () => {
+    const userMessage = input.trim();
+    if (!userMessage || sending) return;
+
+    setMessages((previous) => [
+      ...previous,
+      { role: 'user', text: userMessage, recommendations: [] },
+    ]);
     setInput('');
+    setSending(true);
 
-    // Call backend API instead of hardcoded responses
-    fetch('http://localhost:8000/api/muse/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: userMsg, user_profile: user })
-    })
-    .then(res => res.json())
-    .then(data => {
-      setMessages(prev => [...prev, { role: 'ai', text: data.reply }]);
-    })
-    .catch(err => {
-      console.error(err);
-      setMessages(prev => [...prev, { role: 'ai', text: 'Oops, I am having trouble connecting to my brain right now!' }]);
-    });
+    try {
+      const response = await fetch('http://localhost:8000/api/muse/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: userMessage, user_profile: user }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Muse failed with HTTP ${response.status}`);
+      }
+
+      const data = await response.json();
+      setMessages((previous) => [
+        ...previous,
+        {
+          role: 'ai',
+          text: data.reply,
+          intent: data.intent,
+          recommendations: data.recommendations || [],
+        },
+      ]);
+    } catch (error) {
+      console.error(error);
+      setMessages((previous) => [
+        ...previous,
+        {
+          role: 'ai',
+          text: 'I could not reach the Myntra Identity catalogue right now. Please try again.',
+          recommendations: [],
+        },
+      ]);
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
     <>
-      {/* Floating Action Button */}
       {!isOpen && (
-        <div className="muse-fab" onClick={() => setIsOpen(true)}>
+        <button
+          className="muse-fab"
+          onClick={() => setIsOpen(true)}
+          aria-label="Open Myntra Muse"
+          type="button"
+        >
           <span className="muse-icon">✨</span>
-        </div>
+        </button>
       )}
 
-      {/* Chat Window */}
       {isOpen && (
         <div className="muse-window">
           <div className="muse-hdr">
             <div className="muse-hdr-title">
               <span className="muse-icon-small">✨</span> Myntra Muse
             </div>
-            <div className="muse-close" onClick={() => setIsOpen(false)}>×</div>
+            <button
+              className="muse-close"
+              onClick={() => setIsOpen(false)}
+              aria-label="Close Myntra Muse"
+              type="button"
+            >
+              ×
+            </button>
           </div>
-          
+
           <div className="muse-body">
-            {messages.map((m, idx) => (
-              <div key={idx} className={`muse-msg ${m.role}`}>
-                <div className="muse-bubble">{m.text}</div>
+            {messages.map((message, index) => (
+              <div key={`${message.role}-${index}`} className={`muse-msg ${message.role}`}>
+                <div className="muse-message-stack">
+                  <div className="muse-bubble">{message.text}</div>
+
+                  {message.recommendations?.length > 0 && (
+                    <div className="muse-recommendations">
+                      {message.recommendations.map((product) => (
+                        <button
+                          key={product.id}
+                          className="muse-product"
+                          onClick={() => {
+                            setIsOpen(false);
+                            navigate(`/product/${product.id}`);
+                          }}
+                          type="button"
+                        >
+                          <img src={product.image} alt="" />
+                          <span>
+                            <strong>{product.name}</strong>
+                            <small>₹{product.price.toLocaleString('en-IN')}</small>
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             ))}
+
+            {sending && (
+              <div className="muse-msg ai">
+                <div className="muse-bubble muse-typing">Checking your DNA and live catalogue…</div>
+              </div>
+            )}
             <div ref={chatEndRef} />
           </div>
-          
+
           <div className="muse-footer">
-            <input 
+            <input
               className="muse-input"
-              type="text" 
-              placeholder="Ask for style advice..." 
+              type="text"
+              placeholder="Ask for style advice..."
               value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && handleSend()}
+              disabled={sending}
+              onChange={(event) => setInput(event.target.value)}
+              onKeyDown={(event) => event.key === 'Enter' && handleSend()}
             />
-            <button className="muse-send" onClick={handleSend}>↑</button>
+            <button
+              className="muse-send"
+              onClick={handleSend}
+              disabled={sending || !input.trim()}
+              type="button"
+            >
+              ↑
+            </button>
           </div>
         </div>
       )}

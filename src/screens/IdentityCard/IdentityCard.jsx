@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../../context/UserContext';
+import { useUser } from '../../context/useUser';
 import '../../styles/IdentityCard.css';
 
 export default function IdentityCard() {
   const navigate = useNavigate();
   const { user } = useUser();
   const bars = user.dnaTopBars || [];
-  const name = user.gender === 'male' ? 'Arjun' : 'Bhavika';
+  const name = user.name?.trim() || 'Style Explorer';
 
   const share = () => {
     const text = `My Myntra Identity: ${user.identityName}\n${bars.map(b => `${b.label}: ${b.percentage}%`).join(' | ')}\nStyle Confidence: ${user.confidenceScore}%`;

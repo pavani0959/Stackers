@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../../context/UserContext';
+import { useUser } from '../../context/useUser';
 import '../../styles/ProductCard.css';
 
 export default function ProductCard({ product }) {
   const navigate = useNavigate();
-  const { user, addToWishlist, buyItem } = useUser();
+  const { user, addToWishlist } = useUser();
   const isWished = user.wishlist.includes(product.id);
   
   // Feature 7: DNA Dynamic Pricing (15% off if confidence >= 90)

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useUser } from '../../context/UserContext';
+import { useUser } from '../../context/useUser';
 import '../../styles/DecisionIntelligence.css';
 
 export default function DecisionIntelligence() {

@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useUser } from '../../context/UserContext';
+import { useUser } from '../../context/useUser';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import '../../styles/Community.css';
 
 export default function Community() {
-  const navigate = useNavigate();
   const { user, updateUser } = useUser();
   const [twins, setTwins] = useState([]);
   const [loading, setLoading] = useState(true);
