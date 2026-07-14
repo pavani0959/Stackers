@@ -3,7 +3,7 @@
 .home-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 13px; }
 .home-greet { font-size: 19px; font-weight: 800; }
 .home-avatar { width: 38px; height: 38px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; flex-shrink: 0; }
-.home-search { display: flex; align-items: center; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 13px; gap: 7px; font-size: 13px; color: var(--text-2); margin-bottom: 13px; cursor: text; }
+.home-search { display: flex; align-items: center; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 13px; gap: 7px; font-size: 13px; color: var(--text-2); margin-bottom: 13px; cursor: pointer; user-select: none; }
 .home-tabs { display: flex; overflow-x: auto; gap: 0; }
 .home-tabs::-webkit-scrollbar { display: none; }
 .h-tab { padding: 10px 14px; font-size: 12px; font-weight: 700; color: var(--text-2); cursor: pointer; border-bottom: 2.5px solid transparent; transition: all .2s; white-space: nowrap; flex-shrink: 0; }

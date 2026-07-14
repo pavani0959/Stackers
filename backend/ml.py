@@ -718,7 +718,7 @@ def muse_chat_response(message: str, user_profile: dict, all_products: list) -> 
         }
 
     if any(term in words for term in {"dna", "identity", "aesthetic", "style"}) and not any(
-        term in words for term in {"recommend", "suggest", "wear", "product", "outfit"}
+        term in words for term in {"recommend", "suggest", "wear", "product", "outfit", "boring", "different", "opposite", "break", "anti"}
     ):
         dna = user_profile.get("dna", {})
         top_dna = sorted(dna.items(), key=lambda item: item[1], reverse=True)[:3]
@@ -807,7 +807,7 @@ def muse_chat_response(message: str, user_profile: dict, all_products: list) -> 
             "recommendations": [],
         }
 
-    if any(term in words for term in {"anti", "opposite", "different", "break", "boring"}):
+    if any(term in words for term in {"anti", "opposite", "different", "break", "boring", "explore", "experiment", "surprise"}) or "anti-trend" in lower or "anti trend" in lower:
         return {
             "reply": (
                 f"{name}, go to your Home feed and toggle the 🔀 Anti-Trend Mode switch. "
