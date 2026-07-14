@@ -226,31 +226,42 @@ export default function ProductDetail() {
       : 0;
 
   function handleWishlist() {
-    const wasAlreadyWished =
-      isWished;
+    const wasAlreadyWished = isWished;
 
     addToWishlist(product.id);
 
-    /*
-     * Record only a newly-created wishlist action.
-     * Removing the item does not create this event.
-     */
+    // Sync to localStorage so the Wishlist screen can read it
+    const storageKey = 'myntra_wishlist';
+    const current = JSON.parse(localStorage.getItem(storageKey) || '[]');
+    if (wasAlreadyWished) {
+      const updated = current.filter(item => item.id !== product.id);
+      localStorage.setItem(storageKey, JSON.stringify(updated));
+    } else {
+      const alreadyExists = current.find(i => i.id === product.id);
+      if (!alreadyExists) {
+        current.push({
+          id: product.id,
+          name: product.name,
+          brand: product.brand,
+          price: finalPrice,
+          image: product.image,
+          dnaMatch: conf.overall ?? 75,
+        });
+        localStorage.setItem(storageKey, JSON.stringify(current));
+      }
+    }
+
+    // Record backend event only on add
     if (!wasAlreadyWished) {
       createUserEvent({
         event_type: 'wishlist',
         product_id: product.id,
-
-        metadata: {
-          match_score:
-            conf.overall ?? null,
-        },
+        metadata: { match_score: conf.overall ?? null },
       }).catch(() => {});
     }
 
     showToast(
-      wasAlreadyWished
-        ? 'Removed from wishlist'
-        : 'Added to wishlist ❤️',
+      wasAlreadyWished ? 'Removed from wishlist' : 'Added to wishlist ❤️',
     );
   }
 

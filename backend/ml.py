@@ -773,8 +773,52 @@ def muse_chat_response(message: str, user_profile: dict, all_products: list) -> 
             "recommendations": alternatives,
         }
 
-    # All remaining messages are treated as recommendation requests. This also
-    # gives useful, catalogue-grounded answers for conversational fallbacks.
+    if any(term in words for term in {"wishlist", "saved", "liked", "favourite", "hearted"}):
+        return {
+            "reply": (
+                f"{name}, your Wishlist is accessible via the Profile tab (👤) in the bottom nav. "
+                "Any product you heart (♡) on the product page is saved there with its DNA match score!"
+            ),
+            "intent": "wishlist",
+            "recommendations": [],
+        }
+
+    if any(term in words for term in {"search", "find", "look", "browse"}) and not any(
+        term in words for term in {"recommend", "outfit", "wear", "match"}
+    ):
+        return {
+            "reply": (
+                f"Tap the 🔍 Search tab in the bottom nav to search by name, brand, or keyword. "
+                "You can also filter by category and sort by DNA Match to find the most compatible items!"
+            ),
+            "intent": "search",
+            "recommendations": [],
+        }
+
+    if any(term in words for term in {"profile", "edit", "settings", "change", "update"}) and any(
+        term in words for term in {"name", "budget", "occasion", "profile"}
+    ):
+        return {
+            "reply": (
+                f"Go to the 👤 Profile tab to update your name, budget range, and preferred occasions. "
+                "Your Fashion DNA is calculated from your quiz answers and updates as you shop!"
+            ),
+            "intent": "profile",
+            "recommendations": [],
+        }
+
+    if any(term in words for term in {"anti", "opposite", "different", "break", "boring"}):
+        return {
+            "reply": (
+                f"{name}, go to your Home feed and toggle the 🔀 Anti-Trend Mode switch. "
+                "It reverses the ML ranking and shows items with the lowest DNA match — "
+                "perfect for breaking out of your style echo chamber!"
+            ),
+            "intent": "anti_trend",
+            "recommendations": [],
+        }
+
+    # All remaining messages are treated as recommendation requests.
     ranked, analysis = rank_products_for_query(clean_message, user_profile, all_products)
     explicit_budget = parse_budget_limit(clean_message)
     budget_limit = explicit_budget or _profile_budget_limit(user_profile)

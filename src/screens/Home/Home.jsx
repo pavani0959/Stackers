@@ -187,9 +187,10 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="home-search">
+        <div className="home-search" onClick={() => navigate('/search')}>
           🔍 Search by vibe, occasion, or item…
         </div>
+
 
         <div className="home-tabs">
           <div className="h-tab active">

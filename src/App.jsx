@@ -25,6 +25,10 @@ import DecisionIntelligence from './screens/DecisionIntelligence/DecisionIntelli
 import ReverseShopping from './screens/ReverseShopping/ReverseShopping';
 import FashionMemory from './screens/FashionMemory/FashionMemory';
 import Community from './screens/Community/Community';
+import Wishlist from './screens/Wishlist/Wishlist';
+import Search from './screens/Search/Search';
+import Profile from './screens/Profile/Profile';
+
 
 import MyntraMuse from './components/MyntraMuse/MyntraMuse';
 import ApiErrorState from './components/ApiErrorState/ApiErrorState';
@@ -116,6 +120,10 @@ function AppRoutes() {
         <Route path="/reverse" element={<ReverseShopping />} />
         <Route path="/memory" element={<FashionMemory />} />
         <Route path="/community" element={<Community />} />
+        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/profile" element={<Profile />} />
+
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -57,6 +57,13 @@ app.add_middleware(
 
 def product_to_dict(product: models.Product) -> dict:
     """Convert one ORM product into the API shape without mutating the ORM row."""
+    def _to_list(val):
+        if not val:
+            return []
+        if isinstance(val, list):
+            return val
+        return [v.strip() for v in val.split(",") if v.strip()]
+
     return {
         "id": product.id,
         "name": product.name,
@@ -64,8 +71,8 @@ def product_to_dict(product: models.Product) -> dict:
         "price": product.price,
         "originalPrice": product.originalPrice,
         "image": product.image,
-        "tags": product.tags.split(",") if product.tags else [],
-        "occasions": product.occasions.split(",") if product.occasions else [],
+        "tags": _to_list(product.tags),
+        "occasions": _to_list(product.occasions),
         "budgetTier": product.budgetTier,
         "season": product.season,
     }
@@ -82,8 +89,39 @@ def health_check():
 
 
 @app.get("/api/products", response_model=List[schemas.ProductResponse])
-def get_products(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    products = db.query(models.Product).offset(skip).limit(limit).all()
+def get_products(
+    skip: int = 0,
+    limit: int = 100,
+    q: str = "",
+    category: str = "",
+    min_price: int = 0,
+    max_price: int = 0,
+    db: Session = Depends(get_db),
+):
+    from sqlalchemy import or_, func
+    query = db.query(models.Product)
+
+    if q:
+        q_lower = q.lower().strip()
+        query = query.filter(
+            or_(
+                func.lower(models.Product.name).contains(q_lower),
+                func.lower(models.Product.brand).contains(q_lower),
+            )
+        )
+
+    if category:
+        query = query.filter(
+            func.lower(models.Product.category) == category.lower()
+        )
+
+    if min_price > 0:
+        query = query.filter(models.Product.price >= min_price)
+
+    if max_price > 0:
+        query = query.filter(models.Product.price <= max_price)
+
+    products = query.offset(skip).limit(limit).all()
     return [product_to_dict(product) for product in products]
 
 @app.get(
