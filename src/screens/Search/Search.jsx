@@ -23,7 +23,6 @@ const SORT_OPTIONS = [
 
 export default function Search() {
   const navigate = useNavigate();
-  const { user } = useUser();
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('');
   const [sortBy, setSortBy] = useState('relevance');
