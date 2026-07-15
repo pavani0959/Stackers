@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from sqlalchemy import Column, Integer, String
+from uuid import uuid4
+from sqlalchemy import Column, Integer, String, Uuid
 from database import Base
 
 
@@ -197,6 +198,23 @@ class UserPreference(Base):
         back_populates="preferences",
     )
 
+    fashion_goal = Column(
+        String(80),
+        nullable=True,
+    )
+
+    comfort_expression_balance = Column(
+        Float,
+        nullable=False,
+        default=0.5,
+    )
+
+    occasion_priorities = Column(
+        JSON,
+        nullable=False,
+        default=dict,
+    )
+
 
 class StyleProfile(Base):
     __tablename__ = "style_profiles"
@@ -261,6 +279,32 @@ class StyleProfile(Base):
     user = relationship(
         "User",
         back_populates="style_profiles",
+    )
+
+    profile_id = Column(
+        Uuid(as_uuid=True),
+        default=uuid4,
+        unique=True,
+        nullable=False,
+        index=True,
+    )
+
+    identity = Column(
+        JSON,
+        nullable=False,
+        default=dict,
+    )
+
+    confidence_breakdown = Column(
+        JSON,
+        nullable=False,
+        default=dict,
+    )
+
+    evidence = Column(
+        JSON,
+        nullable=False,
+        default=dict,
     )
 
 
