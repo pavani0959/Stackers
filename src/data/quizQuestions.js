@@ -1,55 +1,264 @@
-// DNA Quiz — 5 visual questions (reduced for better UX)
-// Each choice has aesthetic tags that feed into DNA calculation
-
 export const quizQuestions = [
   {
-    id: 1,
-    question: 'Which outfit would you reach for on a regular college day?',
+    id: 'everyday-look',
+    question:
+      'Which everyday outfit feels most like you?',
     choices: [
-      { label: 'Minimal White Tee + Beige Cargo', bg: 'linear-gradient(160deg,#F5F0E8,#D4C4B0)', tags: ['minimalist', 'neutral', 'campusCasual'] },
-      { label: 'Bold Graphic Hoodie + Baggy Jeans', bg: 'linear-gradient(160deg,#1A1A2E,#2D2D4E)', tags: ['streetwear', 'bold', 'y2k'] },
-      { label: 'Floral Dress + White Sneakers', bg: 'linear-gradient(160deg,#FFE4E1,#FFC0CB)', tags: ['feminine', 'colorful', 'casual'] },
-      { label: 'Oversized Denim Jacket + Vintage Tee', bg: 'linear-gradient(160deg,#4A4A6A,#6A6A9A)', tags: ['streetwear', 'vintage', 'casual'] },
+      {
+        id: 'minimal-campus',
+        label: 'Clean campus layers',
+        image:
+          '/quiz/everyday-minimal-campus.webp',
+        alt:
+          'Neutral shirt with straight trousers and clean sneakers',
+      },
+      {
+        id: 'street-ready',
+        label: 'Relaxed street style',
+        image:
+          '/quiz/everyday-street-ready.webp',
+        alt:
+          'Oversized graphic top with cargo trousers',
+      },
+      {
+        id: 'soft-romantic',
+        label: 'Soft romantic styling',
+        image:
+          '/quiz/everyday-soft-romantic.webp',
+        alt:
+          'Soft pastel outfit with graceful details',
+      },
+      {
+        id: 'quiet-luxury',
+        label: 'Polished quiet luxury',
+        image:
+          '/quiz/everyday-quiet-luxury.webp',
+        alt:
+          'Refined neutral outfit with structured layers',
+      },
     ],
   },
   {
-    id: 2,
-    question: 'Pick the aesthetic that feels most like home',
+    id: 'silhouette',
+    question:
+      'Which silhouette makes you feel most confident?',
     choices: [
-      { label: 'Quiet Luxury — subtle, refined', bg: 'linear-gradient(160deg,#C8B8A2,#A89080)', tags: ['quietLuxury', 'neutral', 'minimalist'] },
-      { label: 'Y2K Energy — bold, nostalgic', bg: 'linear-gradient(160deg,#FF69B4,#00CED1)', tags: ['y2k', 'bold', 'colorful'] },
-      { label: 'Dark Academia — moody, intellectual', bg: 'linear-gradient(160deg,#2F1B0E,#5C3317)', tags: ['darkAcademia', 'vintage', 'classic'] },
-      { label: 'Clean Girl — effortless, natural', bg: 'linear-gradient(160deg,#FFF8F0,#F0E8D8)', tags: ['minimalist', 'campusCasual', 'neutral'] },
+      {
+        id: 'relaxed-fit',
+        label: 'Relaxed',
+        image: '/quiz/fit-relaxed.webp',
+        alt: 'Relaxed-fit everyday outfit',
+      },
+      {
+        id: 'oversized-fit',
+        label: 'Oversized',
+        image: '/quiz/fit-oversized.webp',
+        alt: 'Oversized streetwear outfit',
+      },
+      {
+        id: 'regular-fit',
+        label: 'Regular',
+        image: '/quiz/fit-regular.webp',
+        alt: 'Regular-fit balanced outfit',
+      },
+      {
+        id: 'fitted-fit',
+        label: 'Fitted',
+        image: '/quiz/fit-fitted.webp',
+        alt: 'Fitted and structured outfit',
+      },
     ],
   },
   {
-    id: 3,
-    question: 'Your colour story is mostly…',
+    id: 'brand-personality',
+    question:
+      'Which brand personality matches you?',
     choices: [
-      { label: 'Neutrals — white, beige, grey, brown', bg: 'linear-gradient(160deg,#F5F0E8,#D4C4B0)', tags: ['neutral', 'minimalist', 'quietLuxury'] },
-      { label: 'Darks — black, navy, forest green', bg: 'linear-gradient(160deg,#1A1A1A,#1B2838)', tags: ['darkAcademia', 'classic', 'formal'] },
-      { label: 'Brights — red, yellow, electric blue', bg: 'linear-gradient(160deg,#FF4500,#FFD700)', tags: ['bold', 'colorful', 'y2k'] },
-      { label: 'Pastels — lilac, mint, blush', bg: 'linear-gradient(160deg,#D8BFD8,#98FB98)', tags: ['feminine', 'soft', 'casual'] },
+      {
+        id: 'clean-premium',
+        label: 'Clean and premium',
+        image: '/quiz/brand-clean-premium.webp',
+        alt: 'Minimal premium fashion styling',
+      },
+      {
+        id: 'youth-street',
+        label: 'Youth streetwear',
+        image: '/quiz/brand-youth-street.webp',
+        alt: 'Youth-focused streetwear styling',
+      },
+      {
+        id: 'sporty-active',
+        label: 'Sporty and active',
+        image: '/quiz/brand-sporty-active.webp',
+        alt: 'Sporty activewear styling',
+      },
+      {
+        id: 'expressive-trend',
+        label: 'Expressive and trend-led',
+        image:
+          '/quiz/brand-expressive-trend.webp',
+        alt: 'Expressive trend-focused fashion',
+      },
     ],
   },
   {
-    id: 4,
-    question: 'What matters most when you buy clothes?',
+    id: 'colour-palette',
+    question:
+      'Which colour palette would dominate your wardrobe?',
     choices: [
-      { label: 'Versatility — pairs with everything', bg: 'linear-gradient(160deg,#F5F0E8,#E8E0D0)', tags: ['minimalist', 'neutral', 'classic'] },
-      { label: 'Uniqueness — nobody else has it', bg: 'linear-gradient(160deg,#4A0E8F,#7B1FA2)', tags: ['bold', 'streetwear', 'y2k'] },
-      { label: 'Price — best deal wins', bg: 'linear-gradient(160deg,#1B5E20,#388E3C)', tags: ['campusCasual', 'casual', 'smart'] },
-      { label: 'Vibe — how it makes me feel', bg: 'linear-gradient(160deg,#FF3CAC,#784BA0)', tags: ['feminine', 'colorful', 'bold'] },
+      {
+        id: 'neutral-palette',
+        label: 'Neutral',
+        image: '/quiz/palette-neutral.webp',
+        alt: 'Black white beige and grey outfits',
+      },
+      {
+        id: 'earthy-palette',
+        label: 'Earthy',
+        image: '/quiz/palette-earthy.webp',
+        alt: 'Brown olive rust and cream outfits',
+      },
+      {
+        id: 'pastel-palette',
+        label: 'Pastel',
+        image: '/quiz/palette-pastel.webp',
+        alt: 'Lavender pink blue and mint outfits',
+      },
+      {
+        id: 'bold-palette',
+        label: 'Bold',
+        image: '/quiz/palette-bold.webp',
+        alt: 'Red cobalt orange and magenta outfits',
+      },
     ],
   },
   {
-    id: 5,
-    question: "Last one — what's your fashion goal?",
+    id: 'comfort-expression',
+    question:
+      'Where are you between comfort and self-expression?',
     choices: [
-      { label: 'Build a timeless wardrobe', bg: 'linear-gradient(160deg,#C8B8A2,#A89080)', tags: ['minimalist', 'quietLuxury', 'classic'] },
-      { label: 'Always look fresh and on trend', bg: 'linear-gradient(160deg,#FF3CAC,#784BA0)', tags: ['y2k', 'bold', 'colorful'] },
-      { label: 'Express who I am right now', bg: 'linear-gradient(160deg,#2B86C5,#06B6D4)', tags: ['streetwear', 'casual', 'campusCasual'] },
-      { label: 'Spend less, look more', bg: 'linear-gradient(160deg,#1B5E20,#2E7D32)', tags: ['campusCasual', 'smart', 'neutral'] },
+      {
+        id: 'comfort-first',
+        label: 'Comfort first',
+        image: '/quiz/balance-comfort-first.webp',
+        alt: 'Highly comfortable casual outfit',
+      },
+      {
+        id: 'comfort-balanced',
+        label: 'Mostly comfort',
+        image:
+          '/quiz/balance-comfort-balanced.webp',
+        alt: 'Comfortable but polished outfit',
+      },
+      {
+        id: 'expression-balanced',
+        label: 'Mostly expression',
+        image:
+          '/quiz/balance-expression-balanced.webp',
+        alt: 'Expressive but wearable outfit',
+      },
+      {
+        id: 'expression-first',
+        label: 'Expression first',
+        image:
+          '/quiz/balance-expression-first.webp',
+        alt: 'Bold highly expressive fashion outfit',
+      },
+    ],
+  },
+  {
+    id: 'occasion-priority',
+    question:
+      'Which occasion matters most when you shop?',
+    choices: [
+      {
+        id: 'campus-priority',
+        label: 'Campus',
+        image: '/quiz/occasion-campus.webp',
+        alt: 'Practical campus outfit',
+      },
+      {
+        id: 'work-priority',
+        label: 'Work and interviews',
+        image: '/quiz/occasion-work.webp',
+        alt: 'Polished work and interview outfit',
+      },
+      {
+        id: 'party-priority',
+        label: 'Parties and night-outs',
+        image: '/quiz/occasion-party.webp',
+        alt: 'Party and night-out outfit',
+      },
+      {
+        id: 'everyday-priority',
+        label: 'Everyday wear',
+        image: '/quiz/occasion-everyday.webp',
+        alt: 'Versatile everyday outfit',
+      },
+    ],
+  },
+  {
+    id: 'shopping-motivation',
+    question:
+      'What usually motivates a fashion purchase?',
+    choices: [
+      {
+        id: 'versatility-first',
+        label: 'It works with many outfits',
+        image:
+          '/quiz/motivation-versatility.webp',
+        alt: 'Versatile wardrobe essentials',
+      },
+      {
+        id: 'trend-discovery',
+        label: 'It helps me try a trend',
+        image: '/quiz/motivation-trend.webp',
+        alt: 'Current fashion trend outfit',
+      },
+      {
+        id: 'statement-pieces',
+        label: 'It makes a statement',
+        image:
+          '/quiz/motivation-statement.webp',
+        alt: 'Bold statement fashion piece',
+      },
+      {
+        id: 'quality-first',
+        label: 'It feels high quality',
+        image: '/quiz/motivation-quality.webp',
+        alt: 'High-quality refined wardrobe piece',
+      },
+    ],
+  },
+  {
+    id: 'fashion-goal',
+    question:
+      'What is your current fashion goal?',
+    choices: [
+      {
+        id: 'refine-signature',
+        label: 'Refine my signature style',
+        image: '/quiz/goal-signature.webp',
+        alt: 'Curated signature wardrobe',
+      },
+      {
+        id: 'experiment-more',
+        label: 'Experiment with new styles',
+        image: '/quiz/goal-experiment.webp',
+        alt: 'Experimental mixed-style wardrobe',
+      },
+      {
+        id: 'build-wardrobe',
+        label: 'Build a versatile wardrobe',
+        image: '/quiz/goal-wardrobe.webp',
+        alt: 'Versatile capsule wardrobe',
+      },
+      {
+        id: 'shop-smarter',
+        label: 'Make smarter purchases',
+        image: '/quiz/goal-smart-shopping.webp',
+        alt: 'Intentional smart fashion shopping',
+      },
     ],
   },
 ];

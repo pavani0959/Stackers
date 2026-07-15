@@ -148,7 +148,7 @@ def seed_demo_user(
     if user is None:
         user = User(
             seed_key="demo-user",
-            name="Bhavika",
+            name="Style Explorer",
             email="demo@myntra-identity.local",
             gender="women",
             age=20,

@@ -1,4 +1,5 @@
 from datetime import datetime
+from uuid import UUID
 from enum import StrEnum
 from typing import Any
 
@@ -40,6 +41,7 @@ class UserResponse(BaseModel):
 
 
 class UserPreferenceUpdate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
     budget_min: int | None = Field(default=None, ge=0)
     budget_max: int | None = Field(default=None, ge=0)
     budget_tier: str | None = None
@@ -52,6 +54,17 @@ class UserPreferenceUpdate(BaseModel):
 
     comfort_priority: float = Field(default=0.5, ge=0, le=1)
     trend_openness: float = Field(default=0.5, ge=0, le=1)
+
+    fashion_goal: str | None = Field(
+        default=None,
+        max_length=80,
+    )
+    comfort_expression_balance: float | None = Field(
+        default=None,
+        ge=0,
+        le=1,
+    )
+    occasion_priorities: dict[str, float] | None = None
 
     @model_validator(mode="after")
     def validate_budget_range(self):
@@ -76,6 +89,7 @@ class UserPreferenceResponse(UserPreferenceUpdate):
     updated_at: datetime
 
 class UserIdentityUpdate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
     name: str | None = Field(
         default=None,
         min_length=1,
@@ -138,6 +152,12 @@ class StyleProfileResponse(StyleProfileCreate):
     user_id: int
     version: int
     created_at: datetime
+    profile_id: UUID
+    identity: dict = Field(default_factory=dict)
+    confidence_breakdown: dict = Field(
+        default_factory=dict,
+    )
+    evidence: dict = Field(default_factory=dict)
 
 
 class CurrentProfileResponse(BaseModel):
@@ -366,3 +386,165 @@ class MuseResponse(BaseModel):
     reply: str
     intent: str
     recommendations: list[ProductResponse] = Field(default_factory=list)
+
+class DNAQuizAnswer(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    question_id: str = Field(
+        min_length=1,
+        max_length=80,
+    )
+    choice_id: str = Field(
+        min_length=1,
+        max_length=80,
+    )
+
+
+class DNAProfileCalculateRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    answers: list[DNAQuizAnswer]
+
+    @field_validator("answers")
+    @classmethod
+    def validate_answers(
+        cls,
+        answers: list[DNAQuizAnswer],
+    ) -> list[DNAQuizAnswer]:
+        if len(answers) != 8:
+            raise ValueError(
+                "Exactly eight quiz answers are required."
+            )
+
+        question_ids = {
+            answer.question_id
+            for answer in answers
+        }
+
+        if len(question_ids) != 8:
+            raise ValueError(
+                "Every quiz question must be answered once."
+            )
+
+        return answers
+
+
+class DNAIdentityResponse(BaseModel):
+    name: str
+    description: str
+    primary: str
+    secondary: str | None = None
+
+
+class DNAConfidenceBreakdown(BaseModel):
+    quiz_completeness: int
+    answer_consistency: int
+    preference_coverage: int
+    behavior_evidence: int
+
+
+class DNAEvidenceResponse(BaseModel):
+    quiz_answers: int
+    behavior_events: int
+
+
+class DNAProfileResponse(BaseModel):
+    profile_id: UUID
+    version: int
+    dna: dict[str, float]
+    identity: DNAIdentityResponse
+    confidence: int
+    confidence_breakdown: DNAConfidenceBreakdown
+    evidence: DNAEvidenceResponse
+
+class CurrentProfileUserResponse(BaseModel):
+    model_config = ConfigDict(
+        from_attributes=True,
+    )
+
+    id: int
+    name: str | None = None
+    gender: str | None = None
+    age: int | None = None
+    avatar_url: str | None = None
+    onboarding_completed: bool = False
+    created_at: datetime | None = None
+
+
+class CurrentProfilePreferenceResponse(BaseModel):
+    model_config = ConfigDict(
+        from_attributes=True,
+    )
+
+    budget_min: int | None = None
+    budget_max: int | None = None
+    budget_tier: str | None = None
+
+    preferred_occasions: list[str] = Field(
+        default_factory=list,
+    )
+    preferred_colours: list[str] = Field(
+        default_factory=list,
+    )
+    preferred_brands: list[str] = Field(
+        default_factory=list,
+    )
+    preferred_aesthetics: list[str] = Field(
+        default_factory=list,
+    )
+    fit_preferences: list[str] = Field(
+        default_factory=list,
+    )
+
+    comfort_priority: float = 0.5
+    trend_openness: float = 0.5
+
+    fashion_goal: str | None = None
+
+    comfort_expression_balance: float = 0.5
+
+    occasion_priorities: dict[str, float] = Field(
+        default_factory=dict,
+    )
+
+
+class CurrentStyleProfileResponse(BaseModel):
+    model_config = ConfigDict(
+        from_attributes=True,
+    )
+
+    profile_id: UUID
+    version: int
+
+    dna_vector: dict[str, float] = Field(
+        default_factory=dict,
+    )
+
+    primary_identity: str
+    secondary_identity: str | None = None
+
+    profile_confidence: int
+
+    identity: dict = Field(
+        default_factory=dict,
+    )
+
+    confidence_breakdown: dict[str, int] = Field(
+        default_factory=dict,
+    )
+
+    evidence: dict[str, int] = Field(
+        default_factory=dict,
+    )
+
+
+class CurrentProfileResponse(BaseModel):
+    user: CurrentProfileUserResponse
+
+    preferences: (
+        CurrentProfilePreferenceResponse | None
+    ) = None
+
+    style_profile: (
+        CurrentStyleProfileResponse | None
+    ) = None

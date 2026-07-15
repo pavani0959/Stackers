@@ -7,7 +7,6 @@ import '../../styles/Wishlist.css';
 
 export default function Wishlist() {
   const navigate = useNavigate();
-  const { user } = useUser();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState('');

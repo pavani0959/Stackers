@@ -2,129 +2,79 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/useUser';
 import { quizQuestions } from '../../data/quizQuestions';
-import { apiRequest } from '../../api/client';
 import ApiErrorState from '../../components/ApiErrorState/ApiErrorState';
 import '../../styles/DNAQuiz.css';
 
 export default function DNAQuiz() {
   const navigate = useNavigate();
-  const { updateDNA, updateUser } = useUser();
+  const { calculateDNA } = useUser();
+
   const [currentQ, setCurrentQ] = useState(0);
-  const [answers, setAnswers] = useState(Array(quizQuestions.length).fill(null));
+  const [answers, setAnswers] = useState({});
   const [selected, setSelected] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
-  const [retryTags, setRetryTags] = useState(null);
+  const [retryAnswers, setRetryAnswers] = useState(null);
 
   const question = quizQuestions[currentQ];
-  const progress = Math.round(((currentQ + 1) / quizQuestions.length) * 100);
 
-  async function calculateAndSaveDNA(tags) {
+  const progress = Math.round(
+    ((currentQ + 1) / quizQuestions.length) * 100,
+  );
+
+  async function calculateAndSaveDNA(finalAnswers) {
     setSubmitting(true);
     setSubmitError(null);
-    setRetryTags(tags);
+    setRetryAnswers(finalAnswers);
 
     try {
-      const calculatedDNA = await apiRequest(
-        '/api/dna/calculate',
-        {
-          method: 'POST',
-          body: JSON.stringify({
-            tags,
-          }),
-        },
+      const payload = quizQuestions.map(
+        (quizQuestion) => ({
+          question_id: quizQuestion.id,
+          choice_id: finalAnswers[quizQuestion.id],
+        }),
       );
 
-      if (
-        !calculatedDNA?.dna ||
-        typeof calculatedDNA.dna !== 'object'
-      ) {
-        throw new Error(
-          'The server returned an invalid Fashion DNA result.',
-        );
-      }
-
-      const orderedDNA = Object.entries(
-        calculatedDNA.dna,
-      ).sort(
-        (left, right) =>
-          right[1] - left[1],
-      );
-
-      /*
-       * These are temporary presentation fields only.
-       * They are not saved in localStorage.
-       */
-      updateUser({
-        dnaTopBars:
-          calculatedDNA.topBars ?? [],
-
-        identityDesc:
-          calculatedDNA.identity?.desc ??
-          '',
-      });
-
-      /*
-       * updateDNA creates a new backend version.
-       */
-      await updateDNA({
-        dna_vector:
-          calculatedDNA.dna,
-
-        primary_identity:
-          orderedDNA[0]?.[0] ??
-          'personal_style',
-
-        secondary_identity:
-          orderedDNA[1]?.[0] ??
-          null,
-
-        profile_confidence:
-          calculatedDNA.confidence ??
-          65,
-
-        source: 'quiz',
-
-        model_version:
-          'dna-v1',
-      });
+      await calculateDNA(payload);
 
       navigate('/dna-result');
-    } catch (error) {
-      setSubmitError(error);
+    } catch (requestError) {
+      setSubmitError(requestError);
     } finally {
       setSubmitting(false);
     }
   }
 
-  const pickChoice = (choice, idx) => {
-    setSelected(idx);
-    const newAnswers = [...answers];
-    newAnswers[currentQ] = choice;
-    setAnswers(newAnswers);
-  };
+  function pickChoice(choiceId) {
+    setSelected(choiceId);
+  }
 
-  const next = async () => {
+  async function next() {
     if (selected === null || submitting) {
       return;
     }
 
-    if (currentQ < quizQuestions.length - 1) {
-      setCurrentQ((currentQuestion) => currentQuestion + 1);
-      setSelected(null);
+    const updatedAnswers = {
+      ...answers,
+      [question.id]: selected,
+    };
+
+    setAnswers(updatedAnswers);
+
+    const isLastQuestion =
+      currentQ === quizQuestions.length - 1;
+
+    if (isLastQuestion) {
+      await calculateAndSaveDNA(updatedAnswers);
       return;
     }
 
-    const allTags = [];
+    setCurrentQ(
+      (currentQuestion) => currentQuestion + 1,
+    );
 
-    answers.forEach((answer) => {
-      if (answer?.tags) {
-        allTags.push(...answer.tags);
-      }
-    });
-
-    await calculateAndSaveDNA(allTags);
-  };
+    setSelected(null);
+  }
 
   if (submitting) {
     return (
@@ -143,8 +93,11 @@ export default function DNAQuiz() {
           error={submitError}
           title="Fashion DNA calculation failed"
           onRetry={
-            retryTags
-              ? () => calculateAndSaveDNA(retryTags)
+            retryAnswers
+              ? () =>
+                  calculateAndSaveDNA(
+                    retryAnswers,
+                  )
               : undefined
           }
         />
@@ -163,27 +116,57 @@ export default function DNAQuiz() {
   }
 
   return (
-
     <div className="screen quiz-screen">
       <div className="quiz-hdr">
         <div className="quiz-prog-wrap">
-          <div className="quiz-prog-fill" style={{ width: `${progress}%` }} />
+          <div
+            className="quiz-prog-fill"
+            style={{
+              width: `${progress}%`,
+            }}
+          />
         </div>
-        <div className="quiz-q-num">Question {currentQ + 1} of {quizQuestions.length}</div>
-        <div className="quiz-question">{question.question}</div>
+
+        <div className="quiz-q-num">
+          Question {currentQ + 1} of{' '}
+          {quizQuestions.length}
+        </div>
+
+        <div className="quiz-question">
+          {question.question}
+        </div>
       </div>
 
       <div className="choices-grid">
-        {question.choices.map((choice, idx) => (
-          <div
-            key={idx}
-            className={`choice-card ${selected === idx ? 'sel' : ''}`}
-            onClick={() => pickChoice(choice, idx)}
+        {question.choices.map((choice) => (
+          <button
+            type="button"
+            key={choice.id}
+            className={`choice-card ${
+              selected === choice.id
+                ? 'sel'
+                : ''
+            }`}
+            aria-pressed={
+              selected === choice.id
+            }
+            onClick={() =>
+              pickChoice(choice.id)
+            }
           >
-            <div className="choice-bg" style={{ background: choice.bg }}>
-              <div className="choice-label">{choice.label}</div>
+            <div className="choice-bg">
+              <img
+                className="dna-choice-image"
+                src={choice.image}
+                alt={choice.alt}
+                draggable="false"
+              />
+
+              <div className="choice-label">
+                {choice.label}
+              </div>
             </div>
-          </div>
+          </button>
         ))}
       </div>
 
@@ -191,18 +174,15 @@ export default function DNAQuiz() {
         <button
           type="button"
           className="btn-primary"
-          disabled={selected === null || submitting}
-          style={{
-            opacity: selected === null || submitting ? 0.45 : 1,
-            pointerEvents: selected === null || submitting ? 'none' : 'auto',
-          }}
+          disabled={
+            selected === null || submitting
+          }
           onClick={next}
         >
-          {submitting
-            ? 'Calculating…'
-            : currentQ === quizQuestions.length - 1
-              ? 'See My DNA →'
-              : 'Next →'}
+          {currentQ ===
+          quizQuestions.length - 1
+            ? 'See My DNA →'
+            : 'Next →'}
         </button>
       </div>
     </div>
