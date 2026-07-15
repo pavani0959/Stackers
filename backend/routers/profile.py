@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
-
+from services.dna_service import DNAService
 import schemas
 from config import get_settings
 from database import get_db
@@ -18,6 +18,32 @@ router = APIRouter(
     prefix="/api/profile",
     tags=["profile"],
 )
+
+@router.post(
+    "/dna/calculate",
+    response_model=schemas.DNAProfileResponse,
+)
+def calculate_and_save_fashion_dna(
+    payload: schemas.DNAProfileCalculateRequest,
+    db: Session = Depends(get_db),
+):
+    try:
+        return DNAService(
+            db,
+        ).calculate_and_persist(
+            user_id=settings.demo_user_id,
+            answers=payload.answers,
+        )
+    except LookupError as error:
+        raise HTTPException(
+            status_code=404,
+            detail=str(error),
+        ) from error
+    except ValueError as error:
+        raise HTTPException(
+            status_code=422,
+            detail=str(error),
+        ) from error
 
 
 @router.get(
