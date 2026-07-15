@@ -61,7 +61,9 @@ def update_preferences(
         )
         db.add(preference)
 
-    update_data = payload.model_dump()
+    update_data = payload.model_dump(
+        exclude_unset=True,
+    )
 
     for field, value in update_data.items():
         setattr(preference, field, value)
@@ -146,7 +148,9 @@ def update_identity(
         user_id,
     )
 
-    update_data = payload.model_dump()
+    update_data = payload.model_dump(
+        exclude_unset=True,
+    )
 
     for field, value in update_data.items():
         setattr(user, field, value)
