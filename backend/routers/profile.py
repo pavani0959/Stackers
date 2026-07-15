@@ -8,6 +8,7 @@ from services.profile_service import (
     create_style_profile,
     get_current_profile,
     update_identity,
+    get_profile_payload,
     update_preferences,
 )
 
@@ -49,15 +50,20 @@ def calculate_and_save_fashion_dna(
 @router.get(
     "",
     response_model=schemas.CurrentProfileResponse,
-    summary="Get current user profile",
 )
-def read_current_profile(
+def get_current_profile(
     db: Session = Depends(get_db),
 ):
-    return get_current_profile(
-        db=db,
-        user_id=settings.demo_user_id,
-    )
+    try:
+        return get_profile_payload(
+            db,
+            settings.demo_user_id,
+        )
+    except LookupError as error:
+        raise HTTPException(
+            status_code=404,
+            detail=str(error),
+        ) from error
 
 
 @router.put(

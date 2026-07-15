@@ -456,3 +456,95 @@ class DNAProfileResponse(BaseModel):
     confidence: int
     confidence_breakdown: DNAConfidenceBreakdown
     evidence: DNAEvidenceResponse
+
+class CurrentProfileUserResponse(BaseModel):
+    model_config = ConfigDict(
+        from_attributes=True,
+    )
+
+    id: int
+    name: str | None = None
+    gender: str | None = None
+    age: int | None = None
+    avatar_url: str | None = None
+    onboarding_completed: bool = False
+    created_at: datetime | None = None
+
+
+class CurrentProfilePreferenceResponse(BaseModel):
+    model_config = ConfigDict(
+        from_attributes=True,
+    )
+
+    budget_min: int | None = None
+    budget_max: int | None = None
+    budget_tier: str | None = None
+
+    preferred_occasions: list[str] = Field(
+        default_factory=list,
+    )
+    preferred_colours: list[str] = Field(
+        default_factory=list,
+    )
+    preferred_brands: list[str] = Field(
+        default_factory=list,
+    )
+    preferred_aesthetics: list[str] = Field(
+        default_factory=list,
+    )
+    fit_preferences: list[str] = Field(
+        default_factory=list,
+    )
+
+    comfort_priority: float = 0.5
+    trend_openness: float = 0.5
+
+    fashion_goal: str | None = None
+
+    comfort_expression_balance: float = 0.5
+
+    occasion_priorities: dict[str, float] = Field(
+        default_factory=dict,
+    )
+
+
+class CurrentStyleProfileResponse(BaseModel):
+    model_config = ConfigDict(
+        from_attributes=True,
+    )
+
+    profile_id: UUID
+    version: int
+
+    dna_vector: dict[str, float] = Field(
+        default_factory=dict,
+    )
+
+    primary_identity: str
+    secondary_identity: str | None = None
+
+    profile_confidence: int
+
+    identity: dict = Field(
+        default_factory=dict,
+    )
+
+    confidence_breakdown: dict[str, int] = Field(
+        default_factory=dict,
+    )
+
+    evidence: dict[str, int] = Field(
+        default_factory=dict,
+    )
+
+
+class CurrentProfileResponse(BaseModel):
+    user: CurrentProfileUserResponse
+
+    preferences: (
+        CurrentProfilePreferenceResponse | None
+    ) = None
+
+    style_profile: (
+        CurrentStyleProfileResponse | None
+    ) = None

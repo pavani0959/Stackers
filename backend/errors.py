@@ -61,6 +61,36 @@ async def http_exception_handler(_: Request, exc: HTTPException) -> JSONResponse
         headers=exc.headers,
     )
 
+def serialize_validation_errors(
+    exc: RequestValidationError,
+) -> list[dict]:
+    serialized_errors = []
+
+    for error in exc.errors():
+        serialized_error = dict(error)
+
+        context = serialized_error.get(
+            "ctx",
+        )
+
+        if context:
+            serialized_error["ctx"] = {
+                key: (
+                    str(value)
+                    if isinstance(
+                        value,
+                        BaseException,
+                    )
+                    else value
+                )
+                for key, value in context.items()
+            }
+
+        serialized_errors.append(
+            serialized_error,
+        )
+
+    return serialized_errors
 
 async def validation_error_handler(
     _: Request,
@@ -71,7 +101,7 @@ async def validation_error_handler(
         content=error_payload(
             "VALIDATION_ERROR",
             "Request validation failed",
-            exc.errors(),
+            serialize_validation_errors(exc),
         ),
     )
 
