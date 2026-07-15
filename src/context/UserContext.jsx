@@ -12,6 +12,7 @@ import {
 } from '../api/events';
 
 import {
+  calculateFashionDNA,
   getCurrentProfile,
   saveFashionDNA,
   saveIdentity,
@@ -71,6 +72,14 @@ const DEFAULT_STATE = {
 
   // Products come from the backend
   products: [],
+  createdAt: null,
+  occasionPriorities: {},
+  fashionGoal: '',
+  comfortExpressionBalance: 0.5,
+  profileId: null,
+  identityDescription: '',
+  confidenceBreakdown: {},
+  evidence: {},
 };
 
 function loadUIState() {
@@ -122,6 +131,8 @@ function mapServerProfile(payload) {
     gender: payload.user.gender,
     age: payload.user.age,
     avatarUrl: payload.user.avatar_url,
+    createdAt:
+      payload.user.created_at ?? null,
 
     onboardingCompleted:
       payload.user.onboarding_completed,
@@ -159,10 +170,17 @@ function mapServerProfile(payload) {
     dna,
 
     identityName:
-      styleProfile?.primary_identity ?? '',
+      styleProfile?.identity?.name ??
+      styleProfile?.primary_identity ??
+      '',
+
+    identityDescription:
+      styleProfile?.identity?.description ?? '',
 
     secondaryIdentity:
-      styleProfile?.secondary_identity ?? null,
+      styleProfile?.identity?.secondary ??
+      styleProfile?.secondary_identity ??
+      null,
 
     profileConfidence:
       styleProfile?.profile_confidence ?? 0,
@@ -181,6 +199,16 @@ function mapServerProfile(payload) {
       payload.user.onboarding_completed,
 
     hasCompletedQuiz: Boolean(styleProfile),
+
+    occasionPriorities:
+      preferences?.occasion_priorities ?? {},
+
+    fashionGoal:
+      preferences?.fashion_goal ?? '',
+
+    comfortExpressionBalance:
+      preferences?.comfort_expression_balance ??
+      0.5,
   };
 }
 
@@ -318,6 +346,19 @@ export function UserProvider({ children }) {
     [refreshProfile],
   );
 
+  const calculateDNA = useCallback(
+    async (answers) => {
+      const result = await calculateFashionDNA(
+        answers,
+      );
+
+      await refreshProfile();
+
+      return result;
+    },
+    [refreshProfile],
+  );
+
   const updateDNA = useCallback(
     async (styleProfile) => {
       await saveFashionDNA(styleProfile);
@@ -325,6 +366,8 @@ export function UserProvider({ children }) {
     },
     [refreshProfile],
   );
+
+
 
   /*
    * Record one backend user activity event.
@@ -381,8 +424,7 @@ export function UserProvider({ children }) {
         dnaMatch: confidenceOverall,
 
         reason:
-          `Bought because it matched your ${
-            user.identityName || 'vibe'
+          `Bought because it matched your ${user.identityName || 'vibe'
           }.`,
 
         tags: product.tags ?? [],
@@ -411,8 +453,8 @@ export function UserProvider({ children }) {
 
           wishlist: wishlist.includes(productId)
             ? wishlist.filter(
-                (id) => id !== productId,
-              )
+              (id) => id !== productId,
+            )
             : [...wishlist, productId],
         };
       });
@@ -434,7 +476,7 @@ export function UserProvider({ children }) {
           (item) =>
             item.id === product.id &&
             item.selectedSize ===
-              product.selectedSize,
+            product.selectedSize,
         );
 
       if (existingIndex === -1) {
@@ -492,6 +534,7 @@ export function UserProvider({ children }) {
 
       updateIdentity,
       updatePreferences,
+      calculateDNA,
       updateDNA,
       createUserEvent,
 
@@ -509,6 +552,7 @@ export function UserProvider({ children }) {
       refreshProfile,
       updateIdentity,
       updatePreferences,
+      calculateDNA,
       updateDNA,
       createUserEvent,
       updateUser,

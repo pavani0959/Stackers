@@ -24,3 +24,12 @@ export function saveIdentity(identity) {
     body: JSON.stringify(identity),
   });
 }
+
+export function calculateFashionDNA(answers) {
+  return apiRequest('/api/profile/dna/calculate', {
+    method: 'POST',
+    body: JSON.stringify({
+      answers,
+    }),
+  });
+}
