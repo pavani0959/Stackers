@@ -330,19 +330,28 @@ class ReverseShoppingRequest(BaseModel):
     user_profile: UserProfile
 
 
-class ReverseProduct(ProductWithConfidence):
-    nlp_score: int
-    final_score: int
+class ReverseOutfitItem(BaseModel):
+    """A single product inside a reverse-shopping outfit."""
+    id: int
+    name: str
+    brand: str
+    price: float
+    image: str
     category: str
+    tags: list[str] = Field(default_factory=list)
+    occasions: list[str] = Field(default_factory=list)
 
 
 class ReverseOutfit(BaseModel):
     index: int
-    title: str
-    score: int
+    label: str           # "Best Match" | "Budget Smart" | "Style Stretch"
+    title: str           # same as label — kept for backward compat
+    score: int           # overall 0-100
     total: int
     within_budget: bool
-    items: list[ReverseProduct]
+    breakdown: dict[str, int] = Field(default_factory=dict)  # style/occasion/budget/weather/wardrobe
+    why: list[str] = Field(default_factory=list)
+    items: list[ReverseOutfitItem]
 
 
 class ReverseShoppingResponse(BaseModel):
@@ -356,6 +365,8 @@ class ReverseShoppingResponse(BaseModel):
     closest_total: int | None = None
     closest_over_by: int | None = None
     reused_items: bool = False
+    parsed_intent: dict = Field(default_factory=dict)
+    session_id: str | None = None
 
 
 class CommunityProfileResponse(BaseModel):

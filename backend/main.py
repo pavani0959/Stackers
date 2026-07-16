@@ -161,11 +161,75 @@ def reverse_shopping(
     db: Session = Depends(get_db),
 ):
     products = [product_to_dict(product) for product in db.query(models.Product).all()]
-    return generate_outfit_nlp(
+    result = generate_outfit_nlp(
         request.prompt,
         request.user_profile.model_dump(),
         products,
     )
+
+    # ---- Persist as a RecommendationSession ----
+    try:
+        user = db.query(models.User).filter(
+            models.User.id == settings.demo_user_id
+        ).first()
+        if user:
+            # Resolve latest style profile
+            sp = (
+                db.query(models.StyleProfile)
+                .filter(models.StyleProfile.user_id == user.id)
+                .order_by(models.StyleProfile.version.desc())
+                .first()
+            )
+            session = models.RecommendationSession(
+                user_id=user.id,
+                style_profile_id=sp.id if sp else None,
+                profile_version=sp.version if sp else 0,
+                profile_snapshot=request.user_profile.model_dump(),
+                context_snapshot={
+                    "prompt": request.prompt,
+                    "budget_source": result.get("budget_source"),
+                    "budget_limit": result.get("budget_limit"),
+                },
+                session_type="reverse",
+                raw_prompt=request.prompt,
+                parsed_intent=result.get("parsed_intent", {}),
+                model_version="reverse-v1.0.0",
+            )
+            db.add(session)
+            db.flush()  # get session.id
+
+            for rank, outfit in enumerate(result.get("outfits", []), start=1):
+                # Store one RecommendationItem per outfit using the first product as anchor
+                first_item = outfit.get("items", [{}])[0]
+                first_product_id = first_item.get("id")
+                if not first_product_id:
+                    continue
+                rec_item = models.RecommendationItem(
+                    session_id=session.id,
+                    product_id=first_product_id,
+                    rank=rank,
+                    overall_score=float(outfit["score"]),
+                    product_snapshot={
+                        "outfit_label": outfit.get("label", ""),
+                        "total_price": outfit.get("total", 0),
+                        "item_ids": [i["id"] for i in outfit.get("items", [])],
+                    },
+                    score_breakdown=outfit.get("breakdown", {}),
+                    explanation={"why": outfit.get("why", [])},
+                    evidence_sources={},
+                    regret_signals=[],
+                    warning={},
+                )
+                db.add(rec_item)
+
+            db.commit()
+            # Overwrite the ephemeral UUID with the real DB session id
+            result["session_id"] = str(session.id)
+    except Exception:
+        db.rollback()
+        # Non-fatal: result is still returned even if persistence fails
+
+    return result
 
 
 @app.post("/api/community/twins")

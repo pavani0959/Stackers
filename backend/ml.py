@@ -6,6 +6,9 @@ import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+from services.intent_parser import extract_intent
+from services.outfit_builder import build_outfits
+
 # These are the ML clusters we define as the "Ground Truth" aesthetics.
 AESTHETIC_PROFILES = {
     "minimalist": "minimalist neutral clean quietLuxury smart basic everyday",
@@ -503,9 +506,10 @@ def _select_diverse_outfits(candidates: list[dict], maximum: int = 3) -> list[di
 
 def generate_outfit_nlp(prompt: str, user_profile: dict, all_products: list) -> dict:
     """Build diverse, complete, budget-validated outfits from the live catalogue."""
-    explicit_budget = parse_budget_limit(prompt)
-    budget_limit = explicit_budget or _profile_budget_limit(user_profile)
-    budget_source = "prompt" if explicit_budget else "profile"
+    parsed_intent = extract_intent(prompt)
+    fallback_budget = _profile_budget_limit(user_profile)
+    budget_limit = parsed_intent.get("budget_total") or fallback_budget
+    budget_source = "prompt" if parsed_intent.get("budget_total") else "profile"
 
     scored_products, analysis = rank_products_for_query(prompt, user_profile, all_products)
     if not scored_products:
@@ -520,110 +524,68 @@ def generate_outfit_nlp(prompt: str, user_profile: dict, all_products: list) -> 
             "closest_total": None,
             "closest_over_by": None,
             "reused_items": False,
+            "parsed_intent": parsed_intent,
+            "session_id": None,
         }
 
-    tops = [item for item in scored_products if item["category"] == "top"]
-    bottoms = [item for item in scored_products if item["category"] == "bottom"]
-    accessories = [item for item in scored_products if item["category"] == "accessory"]
+    builder_result = build_outfits(parsed_intent, scored_products, fallback_budget)
 
-    if not tops or not bottoms or not accessories:
-        missing = [
-            name
-            for name, items in (("tops", tops), ("bottoms", bottoms), ("accessories", accessories))
-            if not items
-        ]
+    if "error" in builder_result and not builder_result.get("outfits"):
         return {
             "prompt": prompt,
             "budget_limit": budget_limit,
             "budget_source": budget_source,
             "matched_terms": analysis["matched_terms"],
             "within_budget": False,
-            "message": "A complete outfit cannot be built because the catalogue has no "
-            + ", ".join(missing)
-            + ".",
+            "message": builder_result["error"],
             "outfits": [],
             "closest_total": None,
             "closest_over_by": None,
             "reused_items": False,
+            "parsed_intent": parsed_intent,
+            "session_id": None,
         }
 
-    candidates = []
-    for top, bottom, accessory in cartesian_product(tops, bottoms, accessories):
-        items = (top, bottom, accessory)
-        total = sum(item["price"] for item in items)
-        candidates.append(
-            {
-                "items": items,
-                "total": total,
-                "score": _combination_score(items, budget_limit),
-            }
-        )
-
-    candidates.sort(key=lambda candidate: (-candidate["score"], candidate["total"]))
-    affordable = [candidate for candidate in candidates if candidate["total"] <= budget_limit]
-
-    if not affordable:
-        closest = min(candidates, key=lambda candidate: (candidate["total"], -candidate["score"]))
-        over_by = closest["total"] - budget_limit
-        return {
-            "prompt": prompt,
-            "budget_limit": budget_limit,
-            "budget_source": budget_source,
-            "matched_terms": analysis["matched_terms"],
-            "within_budget": False,
-            "message": (
-                f"No complete 3-item outfit fits ₹{budget_limit:,}. "
-                f"The closest available combination is ₹{closest['total']:,}, "
-                f"which is ₹{over_by:,} over budget. Increase the budget or shop individual pieces."
-            ),
-            "outfits": [],
-            "closest_total": closest["total"],
-            "closest_over_by": over_by,
-            "reused_items": False,
-        }
-
-    selected = _select_diverse_outfits(affordable, maximum=3)
-    titles = ["Optimal Match", "Alternative Fit", "Bold Choice"]
     response_outfits = []
-    all_selected_ids = []
-
-    for index, candidate in enumerate(selected, start=1):
+    for index, candidate in enumerate(builder_result["outfits"], start=1):
         items = []
-        for item in candidate["items"]:
-            item_copy = item.copy()
-            items.append(item_copy)
-            all_selected_ids.append(item_copy["id"])
-
-        response_outfits.append(
-            {
-                "index": index,
-                "title": titles[index - 1],
-                "score": candidate["score"],
-                "total": candidate["total"],
-                "within_budget": True,
-                "items": items,
-            }
-        )
-
-    reused_items = len(all_selected_ids) != len(set(all_selected_ids))
-    outfit_word = "outfit" if len(response_outfits) == 1 else "outfits"
-    source_label = "prompt" if budget_source == "prompt" else "profile"
+        for raw_item in candidate["items"]:
+            items.append({
+                "id":        raw_item.get("id"),
+                "name":      raw_item.get("name", ""),
+                "brand":     raw_item.get("brand", ""),
+                "price":     raw_item.get("price", 0),
+                "image":     raw_item.get("image", ""),
+                "category":  raw_item.get("category", ""),
+                "tags":      list(raw_item.get("tags") or []),
+                "occasions": list(raw_item.get("occasions") or []),
+            })
+        label = candidate.get("label", f"Outfit {index}")
+        response_outfits.append({
+            "index":        index,
+            "label":        label,
+            "title":        label,
+            "score":        candidate["overall_score"],
+            "total":        candidate["total_price"],
+            "within_budget": True,
+            "breakdown":    candidate.get("breakdown", {}),
+            "why":          candidate.get("why", []),
+            "items":        items,
+        })
 
     return {
-        "prompt": prompt,
-        "budget_limit": budget_limit,
-        "budget_source": budget_source,
-        "matched_terms": analysis["matched_terms"],
-        "within_budget": True,
-        "message": (
-            f"{len(response_outfits)} complete {outfit_word} fit within your "
-            f"₹{budget_limit:,} {source_label} budget. Rankings balance your request, "
-            "Fashion DNA, and catalogue diversity."
-        ),
-        "outfits": response_outfits,
-        "closest_total": None,
+        "prompt":          prompt,
+        "budget_limit":    budget_limit,
+        "budget_source":   budget_source,
+        "matched_terms":   analysis["matched_terms"],
+        "within_budget":   True,
+        "message":         f"Built {len(response_outfits)} complete outfit(s) within ₹{budget_limit:,}.",
+        "outfits":         response_outfits,
+        "closest_total":   None,
         "closest_over_by": None,
-        "reused_items": reused_items,
+        "reused_items":    False,
+        "parsed_intent":   parsed_intent,
+        "session_id":      builder_result.get("session_id"),
     }
 
 

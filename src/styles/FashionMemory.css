@@ -31,3 +31,8 @@
 .mem-dna { font-size: 11px; font-weight: 700; display: flex; align-items: center; gap: 5px; }
 .mem-dna.good { color: var(--accent); }
 .mem-dna.warn { color: var(--yellow); }
+
+.event-cart_add { color: #f5a623; }
+.event-purchase { color: #2ecc71; }
+.event-return { color: #e74c3c; }
+.event-keep { color: #3498db; }

@@ -8,6 +8,7 @@ import {
   createProductDecision,
   getDecision,
 } from '../../api/decisions';
+import { checkRegret } from '../../api/events';
 import ApiErrorState from '../../components/ApiErrorState/ApiErrorState';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import { useUser } from '../../context/useUser';
@@ -43,6 +44,8 @@ export default function ProductDetail() {
   const [size, setSize] = useState('S');
   const [toast, setToast] = useState('');
   const [showAR, setShowAR] = useState(false);
+  const [regretWarning, setRegretWarning] = useState(null);
+  const [checkingRegret, setCheckingRegret] = useState(false);
   const viewedSnapshotRef = useRef(null);
   const primaryOccasion = user.occasions?.[0] ?? null;
 
@@ -202,7 +205,24 @@ export default function ProductDetail() {
     );
   }
 
-  function handleAddToCart() {
+  async function handleAddToCart() {
+    setCheckingRegret(true);
+    try {
+      const regretData = await checkRegret(product.id);
+      if (!regretData.safe_to_buy) {
+        setRegretWarning(regretData);
+        return; // Pause add to cart to show modal
+      }
+    } catch (e) {
+      console.error('Failed to check regret', e);
+    } finally {
+      setCheckingRegret(false);
+    }
+    proceedWithCartAdd();
+  }
+
+  function proceedWithCartAdd() {
+    setRegretWarning(null);
     addToCart({
       ...product,
       price: finalPrice,
@@ -249,14 +269,15 @@ export default function ProductDetail() {
           <span className="det-score">{decision.overall_score}</span>
           <span className="det-score-lbl">Confidence Score</span>
         </div>
-
-        <button
-          type="button"
-          className="det-ar-button"
-          onClick={() => setShowAR(true)}
-        >
-          Try It On (AR)
-        </button>
+        <div className="det-action-bar" style={{ padding: '0 16px 16px', display: 'flex', gap: '10px' }}>
+          <button
+            type="button"
+            className="ar-btn"
+            onClick={() => setShowAR(true)}
+          >
+            Try it on AR
+          </button>
+        </div>
       </div>
 
       <main className="det-body">
@@ -329,10 +350,56 @@ export default function ProductDetail() {
           </div>
         </section>
 
-        <button type="button" className="primary-btn" onClick={handleAddToCart}>
-          Add to Cart — ₹{finalPrice.toLocaleString('en-IN')}
+        <button type="button" className="primary-btn" onClick={handleAddToCart} disabled={checkingRegret}>
+          {checkingRegret ? 'Checking...' : `Add to Cart — ₹${finalPrice.toLocaleString('en-IN')}`}
         </button>
       </main>
+
+      {regretWarning && (
+        <div className="modal-overlay">
+          <div className="modal-content regret-modal">
+            <h2>⚠️ Potential Regret Detected</h2>
+            
+            <div className="regret-signals">
+              {regretWarning.signals.map((sig, idx) => (
+                <div key={idx} className="regret-signal-item">
+                  <strong>{sig.title}</strong>
+                  <p>{sig.detail}</p>
+                </div>
+              ))}
+            </div>
+
+            {regretWarning.alternatives && regretWarning.alternatives.length > 0 && (
+              <div className="regret-alternatives">
+                <h4>Suggested Alternatives</h4>
+                <div className="alt-scroll" style={{ display: 'flex', overflowX: 'auto', gap: '10px' }}>
+                  {regretWarning.alternatives.map((alt) => (
+                    <div key={alt.id} className="alt-item" onClick={() => {
+                        setRegretWarning(null);
+                        navigate(`/product/${alt.id}`);
+                    }} style={{ minWidth: '120px', cursor: 'pointer' }}>
+                      <img src={alt.image} alt={alt.name} style={{ width: '100%', borderRadius: '8px' }} />
+                      <div style={{ fontSize: '0.8rem', marginTop: '4px' }}>
+                        <strong>{alt.name}</strong>
+                        <p style={{ margin: 0, color: 'var(--ink-500)', fontSize: '0.7rem' }}>{alt.reason}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="regret-actions" style={{ display: 'flex', gap: '10px', marginTop: '16px' }}>
+              <button className="secondary-btn" onClick={() => setRegretWarning(null)} style={{ flex: 1 }}>
+                Cancel
+              </button>
+              <button className="primary-btn warning-btn" onClick={proceedWithCartAdd} style={{ flex: 1, backgroundColor: '#e74c3c' }}>
+                I still want it
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showAR && (
         <div className="ar-overlay" role="dialog" aria-modal="true">

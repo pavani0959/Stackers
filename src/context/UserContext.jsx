@@ -458,6 +458,20 @@ export function UserProvider({ children }) {
         cartItems: updatedCartItems,
       };
     });
+    
+    // Log cart_add event to backend
+    try {
+      createUserEventRequest({
+        event_type: 'cart_add',
+        product_id: product.id,
+        context: {
+          source: product.source || 'cart',
+          size: product.selectedSize || 'M',
+        },
+      });
+    } catch (e) {
+      console.warn('Failed to log cart_add event', e);
+    }
   }, []);
 
   /*

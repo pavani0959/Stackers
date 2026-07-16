@@ -218,22 +218,55 @@ export default function ReverseShopping() {
               </div>
             </div>
 
+            {results.parsed_intent && (
+              <div className="rs-intent-chips">
+                {results.parsed_intent.occasion && (
+                  <span className="rs-intent-chip">🎭 {results.parsed_intent.occasion.replace('_', ' ')}</span>
+                )}
+                {results.parsed_intent.budget_total && (
+                  <span className="rs-intent-chip">💰 ₹{results.parsed_intent.budget_total}</span>
+                )}
+                {results.parsed_intent.theme?.map((t) => (
+                  <span key={t} className="rs-intent-chip">✨ {t}</span>
+                ))}
+              </div>
+            )}
+
+
             {outfitGroups.length > 0 && (
               <>
                 <div className="rs-results-hdr">
-                  <h3>{outfitGroups.length} Outfits Built For You</h3>
-                  <p>
-                    Prompt matched · Filtered by your DNA · {results.reused_items ? 'Minimal item reuse' : 'No repeated items'}
-                  </p>
+                  <h3>{outfitGroups.length} Complete Outfits</h3>
+                  <p>Budget enforced · DNA matched · {results.reused_items ? 'Minimal item reuse' : 'All unique products'}</p>
                 </div>
 
                 {outfitGroups.map((group) => (
                   <div key={group.index} className="outfit-card">
+                    {/* Header: label badge + overall score */}
                     <div className="outfit-hdr">
-                      <div className="outfit-title">Outfit {group.index} — {group.title}</div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span className="outfit-label-badge">{group.label || group.title}</span>
+                        <span className="outfit-title-sm">Outfit {group.index}</span>
+                      </div>
                       <div className="outfit-score">🎯 {group.score}%</div>
                     </div>
 
+                    {/* Score breakdown */}
+                    {group.breakdown && Object.keys(group.breakdown).length > 0 && (
+                      <div className="outfit-breakdown">
+                        {Object.entries(group.breakdown).map(([key, val]) => (
+                          <div key={key} className="breakdown-row">
+                            <span className="breakdown-label">{key.charAt(0).toUpperCase() + key.slice(1)}</span>
+                            <div className="breakdown-bar-wrap">
+                              <div className="breakdown-bar" style={{ width: `${val}%` }} />
+                            </div>
+                            <span className="breakdown-val">{val}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Product items */}
                     <div className="outfit-items">
                       {group.items.map((item) => (
                         <div
@@ -243,13 +276,23 @@ export default function ReverseShopping() {
                         >
                           <img src={item.image} alt={item.name} loading="lazy" />
                           <div className="outfit-item-lbl">
-                            {item.category.toUpperCase()}<br />
-                            ₹{item.price.toLocaleString('en-IN')}
+                            <span className="outfit-item-cat">{item.category.toUpperCase()}</span>
+                            <span>₹{item.price.toLocaleString('en-IN')}</span>
                           </div>
                         </div>
                       ))}
                     </div>
 
+                    {/* Why lines */}
+                    {group.why && group.why.length > 0 && (
+                      <div className="outfit-why">
+                        {group.why.map((line, i) => (
+                          <div key={i} className="outfit-why-line">✓ {line}</div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Footer: total + cart button */}
                     <div className="outfit-footer">
                       <div className="outfit-total">
                         ₹{group.total.toLocaleString('en-IN')} <span>· within budget</span>
@@ -257,9 +300,7 @@ export default function ReverseShopping() {
                       <button
                         type="button"
                         className="outfit-buy"
-                        onClick={() => {
-                          handleAddOutfitToCart(group);
-                        }}
+                        onClick={() => handleAddOutfitToCart(group)}
                       >
                         Add All to Cart
                       </button>

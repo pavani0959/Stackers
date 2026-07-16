@@ -18,3 +18,10 @@ export function getUserEvents(limit = 50) {
     `/api/events?limit=${safeLimit}`,
   );
 }
+export function getMemoryTimeline() {
+  return apiRequest('/api/memory/timeline');
+}
+
+export function checkRegret(productId) {
+  return apiRequest(`/api/memory/regret-check/${productId}`);
+}

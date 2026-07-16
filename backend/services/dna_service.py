@@ -369,3 +369,98 @@ class DNAService:
             ),
             "evidence": profile.evidence,
         }
+
+    def evolve_dna_from_event(
+        self,
+        *,
+        user_id: int,
+        event_type: str,
+        item_vector: dict[str, float]
+    ) -> None:
+        """
+        Evolve the user's Fashion DNA based on an item interaction event.
+        Persists a new version of the StyleProfile if the DNA changes.
+        """
+        weights = {
+            "view": 0.0,
+            "save": 0.02,
+            "wishlist": 0.03,
+            "cart_add": 0.04,
+            "purchase": 0.08,
+            "keep": 0.12,
+            "wear": 0.15,
+            "return": -0.08,
+            "recommendation_reject": -0.15,
+        }
+        alpha = weights.get(event_type, 0.0)
+        if alpha == 0.0 or not item_vector:
+            return
+
+        from models import StyleProfile
+        current_profile = self.db.query(StyleProfile).filter(
+            StyleProfile.user_id == user_id
+        ).order_by(StyleProfile.version.desc()).first()
+        if not current_profile:
+            return
+            
+        old_dna = current_profile.dna_vector
+        new_scores = {}
+        
+        # Combine keys from both dicts
+        all_keys = set(old_dna.keys()).union(item_vector.keys())
+        
+        for key in all_keys:
+            old_val = old_dna.get(key, 0.0)
+            item_val = item_vector.get(key, 0.0)
+            
+            if alpha > 0:
+                # Positive influence: shift towards item vector
+                new_val = old_val * (1 - alpha) + item_val * alpha
+            else:
+                # Negative influence: shift away from item vector
+                abs_alpha = abs(alpha)
+                # Penalise only if the item strongly features this trait
+                penalty = item_val * abs_alpha
+                new_val = max(0.0, old_val - penalty)
+                
+            new_scores[key] = new_val
+
+        # Normalize back to 100%
+        try:
+            new_dna = normalize_dna(new_scores)
+        except ValueError:
+            return  # Can't normalize if all traits dropped to zero
+            
+        identity = build_identity(new_dna)
+        
+        behavior_event_count = self.repository.count_behavior_events(user_id)
+        # Fetch preferences manually or assume preferences haven't changed
+        user = self.repository.get_user(user_id)
+        preferences = user.preferences if user else None
+        
+        confidence, breakdown = calculate_confidence(
+            dna=new_dna,
+            preferences=preferences,
+            quiz_answer_count=current_profile.evidence.get("quiz_answers", 0),
+            behavior_event_count=behavior_event_count,
+        )
+        
+        evidence = current_profile.evidence.copy()
+        evidence["behavior_events"] = behavior_event_count
+        
+        version = self.repository.next_profile_version(user_id)
+        
+        new_profile = self.repository.create_style_profile(
+            user_id=user_id,
+            version=version,
+            dna=new_dna,
+            identity=identity,
+            confidence=confidence,
+            confidence_breakdown=breakdown,
+            evidence=evidence,
+        )
+        
+        # Inherit the source attribute but note it was an event update
+        new_profile.source = f"event_evolution_{event_type}"
+        self.db.add(new_profile)
+        self.db.commit()

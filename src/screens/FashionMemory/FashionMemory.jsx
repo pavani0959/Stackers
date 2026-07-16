@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getDecisionMemory } from '../../api/decisions';
+import { getMemoryTimeline } from '../../api/events';
 import ApiErrorState from '../../components/ApiErrorState/ApiErrorState';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import '../../styles/FashionMemory.css';
 
 export default function FashionMemory() {
   const navigate = useNavigate();
-  const [entries, setEntries] = useState([]);
+  const [timeline, setTimeline] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [retryKey, setRetryKey] = useState(0);
@@ -19,9 +19,9 @@ export default function FashionMemory() {
       setLoading(true);
       setError(null);
       try {
-        const data = await getDecisionMemory();
+        const data = await getMemoryTimeline();
         if (!cancelled) {
-          setEntries(data.items);
+          setTimeline(data.timeline);
         }
       } catch (requestError) {
         if (!cancelled) {
@@ -64,70 +64,58 @@ export default function FashionMemory() {
           <div>
             <h1 className="fm-title">Fashion Memory</h1>
             <p className="fm-sub">
-              Stored recommendation-time evidence for purchases, keeps and
-              returns.
+              Your style evolution across saves, carts, returns, and keeps.
             </p>
           </div>
         </div>
       </header>
 
       <main className="fm-body">
-        <p className="month-label">Your recorded decisions</p>
+        <p className="month-label">Your timeline</p>
 
-        {entries.length === 0 ? (
+        {timeline.length === 0 ? (
           <div className="fm-empty">
-            <p>No purchase, keep or return event is linked to a decision yet.</p>
+            <p>No events recorded yet.</p>
             <p>
-              A memory entry appears after checkout records a purchase with
-              the recommendation item ID stored in the cart.
+              Events appear as you interact with the app (save, cart, return, etc.).
             </p>
           </div>
         ) : (
-          entries.map(({ event, decision }) => {
-            const product = decision.product;
-            const firstSignal = decision.regret_signals[0];
+          timeline.map((item) => {
+            const product = item.product;
             return (
               <article
                 className="mem-item"
-                key={`${event.id}-${decision.snapshot_id}`}
-                onClick={() => navigate(
-                  `/product/${product.id}?decision=${decision.snapshot_id}`,
-                )}
+                key={item.id}
+                onClick={() => product ? navigate(`/product/${product.id}`) : null}
               >
-                <div className="mem-top">
-                  <img
-                    className="mem-img"
-                    src={product.image}
-                    alt={product.name}
-                  />
-                  <div className="mem-info">
-                    <span className="mem-date">
-                      {new Date(event.occurred_at).toLocaleDateString('en-IN')}
-                    </span>
-                    <strong className="mem-name">{product.name}</strong>
-                    <span className="mem-price">
-                      ₹{product.price.toLocaleString('en-IN')}
-                    </span>
-                    <span className="mem-occ">{event.event_type}</span>
+                {product && (
+                  <div className="mem-top">
+                    <img
+                      className="mem-img"
+                      src={product.image}
+                      alt={product.name}
+                    />
+                    <div className="mem-info">
+                      <span className="mem-date">
+                        {new Date(item.date).toLocaleDateString('en-IN')}
+                      </span>
+                      <strong className="mem-name">{product.name}</strong>
+                      <span className="mem-price">
+                        ₹{product.price.toLocaleString('en-IN')}
+                      </span>
+                      <span className={`mem-occ event-${item.type}`}>{item.type.toUpperCase()}</span>
+                    </div>
                   </div>
-                </div>
-
-                <div className="mem-bottom">
-                  <p className="mem-reason">
-                    “{decision.explanation.summary}”
-                  </p>
-                  <p className={`mem-dna ${decision.overall_score >= 80 ? 'good' : 'warn'}`}>
-                    {decision.overall_score}% recommendation-time match
-                  </p>
-                  {firstSignal && (
-                    <p className="mem-signal">
-                      {firstSignal.title}: {firstSignal.detail}
-                    </p>
-                  )}
-                  <small>
-                    Model {decision.model_version} · Profile v{decision.profile_version}
-                  </small>
-                </div>
+                )}
+                
+                {item.metadata && Object.keys(item.metadata).length > 0 && (
+                  <div className="mem-bottom">
+                    <pre style={{ fontSize: '0.7rem', margin: 0, color: 'var(--ink-500)'}}>
+                      {JSON.stringify(item.metadata, null, 2)}
+                    </pre>
+                  </div>
+                )}
               </article>
             );
           })
