@@ -1,7 +1,12 @@
+"""
+Integration smoke test for the Reverse Shopping FastAPI endpoint.
+Uses shared conftest.py test.db — no private DB engine override.
+"""
 from fastapi.testclient import TestClient
 from main import app
 
 client = TestClient(app)
+
 
 def test_reverse_fastapi():
     payload = {
@@ -19,6 +24,7 @@ def test_reverse_fastapi():
         }
     }
     response = client.post("/api/recommend/reverse", json=payload)
-    print(response.json())
     assert response.status_code == 200
-
+    data = response.json()
+    assert "outfits" in data
+    assert "parsed_intent" in data

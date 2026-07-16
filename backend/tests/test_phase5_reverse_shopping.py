@@ -15,15 +15,18 @@ For prompt "Interview tomorrow, smart casual, ₹2,000":
   ✓ "Buy All" creates cart entries not purchases (frontend tested separately)
   ✓ errors and empty states are handled
   ✓ results are persisted as a RecommendationSession
+
+This file uses the shared conftest.py (real test.db with migrations),
+so it can run alongside other test files without DB conflicts.
 """
 from __future__ import annotations
 
-import json
 import pytest
 from fastapi.testclient import TestClient
 
 from main import app
 
+# Uses real test.db provisioned by conftest.py – no need to override get_db.
 client = TestClient(app)
 
 DEMO_PROFILE = {
