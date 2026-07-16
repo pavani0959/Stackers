@@ -5,6 +5,26 @@ import ApiErrorState from '../../components/ApiErrorState/ApiErrorState';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import '../../styles/FashionMemory.css';
 
+const EVENT_ICONS = {
+  cart_add: '🛒',
+  purchase: '✅',
+  keep: '💚',
+  return: '↩️',
+  wishlist: '❤️',
+  view: '👁',
+  wear: '👗',
+};
+
+const EVENT_LABELS = {
+  cart_add: 'Added to Cart',
+  purchase: 'Purchased',
+  keep: 'Kept',
+  return: 'Returned',
+  wishlist: 'Wishlisted',
+  view: 'Viewed',
+  wear: 'Worn',
+};
+
 export default function FashionMemory() {
   const navigate = useNavigate();
   const [timeline, setTimeline] = useState([]);
@@ -83,11 +103,16 @@ export default function FashionMemory() {
         ) : (
           timeline.map((item) => {
             const product = item.product;
+            const matchScore = item.metadata?.match_score;
+            const eventIcon = EVENT_ICONS[item.type] ?? '•';
+            const eventLabel = EVENT_LABELS[item.type] ?? item.type.toUpperCase();
+
             return (
               <article
                 className="mem-item"
                 key={item.id}
                 onClick={() => product ? navigate(`/product/${product.id}`) : null}
+                style={{ cursor: product ? 'pointer' : 'default' }}
               >
                 {product && (
                   <div className="mem-top">
@@ -98,24 +123,46 @@ export default function FashionMemory() {
                     />
                     <div className="mem-info">
                       <span className="mem-date">
-                        {new Date(item.date).toLocaleDateString('en-IN')}
+                        {new Date(item.date).toLocaleDateString('en-IN', {
+                          day: 'numeric',
+                          month: 'short',
+                          year: 'numeric',
+                        })}
                       </span>
                       <strong className="mem-name">{product.name}</strong>
                       <span className="mem-price">
                         ₹{product.price.toLocaleString('en-IN')}
                       </span>
-                      <span className={`mem-occ event-${item.type}`}>{item.type.toUpperCase()}</span>
+                      <span className={`mem-occ event-${item.type}`}>
+                        {eventIcon} {eventLabel}
+                      </span>
                     </div>
                   </div>
                 )}
-                
-                {item.metadata && Object.keys(item.metadata).length > 0 && (
-                  <div className="mem-bottom">
-                    <pre style={{ fontSize: '0.7rem', margin: 0, color: 'var(--ink-500)'}}>
-                      {JSON.stringify(item.metadata, null, 2)}
-                    </pre>
-                  </div>
-                )}
+
+                {/* Human-readable metadata row */}
+                <div className="mem-bottom">
+                  {matchScore != null && (
+                    <span className={`mem-dna ${matchScore >= 80 ? 'good' : 'warn'}`}>
+                      {matchScore}% match
+                    </span>
+                  )}
+                  {item.metadata?.size && (
+                    <span className="mem-size-chip">Size {item.metadata.size}</span>
+                  )}
+                  {item.metadata?.decision_snapshot_id && (
+                    <button
+                      type="button"
+                      className="mem-why-link"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/decision/${item.metadata.decision_snapshot_id}`);
+                      }}
+                    >
+                      Why was this recommended? →
+                    </button>
+                  )}
+                </div>
               </article>
             );
           })
