@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { apiRequest } from '../../api/client';
+import { getDecisionFeed } from '../../api/decisions';
 import ApiErrorState from '../../components/ApiErrorState/ApiErrorState';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import ProductCard from '../../components/ProductCard/ProductCard';
@@ -9,58 +8,26 @@ import { useUser } from '../../context/useUser';
 import '../../styles/Home.css';
 
 const MOODS = [
-  {
-    id: 'quiet',
-    icon: '😌',
-    label: 'Quiet',
-  },
-  {
-    id: 'bold',
-    icon: '⚡',
-    label: 'Bold',
-  },
-  {
-    id: 'grind',
-    icon: '💼',
-    label: 'Grind',
-  },
-  {
-    id: 'night',
-    icon: '🌙',
-    label: 'Night',
-  },
+  { id: 'quiet', icon: '', label: 'Quiet' },
+  { id: 'bold', icon: '⚡', label: 'Bold' },
+  { id: 'grind', icon: '', label: 'Grind' },
+  { id: 'night', icon: '', label: 'Night' },
 ];
 
 export default function Home() {
   const navigate = useNavigate();
-
-  const {
-    user,
-    profileLoading,
-    updateUser,
-  } = useUser();
-
-  const [mood, setMood] = useState(
-    user.moodState || 'quiet',
-  );
-
+  const { user, profileLoading, updateUser } = useUser();
+  const [mood, setMood] = useState(user.moodState || 'quiet');
   const [feed, setFeed] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [retryKey, setRetryKey] = useState(0);
   const [antiTrend, setAntiTrend] = useState(false);
-
-  const [showAllProducts, setShowAllProducts] =
-    useState(false);
-
-  const [showAllRealEyes, setShowAllRealEyes] =
-    useState(false);
+  const [showAllProducts, setShowAllProducts] = useState(false);
+  const [showAllMatches, setShowAllMatches] = useState(false);
+  const primaryOccasion = user.occasions?.[0] ?? null;
 
   useEffect(() => {
-    /*
-     * Do not request recommendations until the
-     * server-backed user profile has finished loading.
-     */
     if (profileLoading || !user?.id) {
       return undefined;
     }
@@ -70,21 +37,16 @@ export default function Home() {
     async function loadFeed() {
       setLoading(true);
       setError(null);
-
       try {
-        const data = await apiRequest(
-          '/api/recommend/feed',
-          {
-            method: 'POST',
-            body: JSON.stringify({
-              user_profile: user,
-              anti_trend: antiTrend,
-            }),
+        const data = await getDecisionFeed({
+          limit: 20,
+          antiTrend,
+          context: {
+            occasion: primaryOccasion,
           },
-        );
-
+        });
         if (!cancelled) {
-          setFeed(data);
+          setFeed(data.items);
         }
       } catch (requestError) {
         if (!cancelled) {
@@ -98,422 +60,186 @@ export default function Home() {
     }
 
     loadFeed();
-
     return () => {
       cancelled = true;
     };
   }, [
-    user,
+    user?.id,
+    primaryOccasion,
     profileLoading,
     antiTrend,
     retryKey,
   ]);
 
-  const setMoodState = (newMood) => {
-    setMood(newMood);
-
-    /*
-     * Mood is temporary UI state, so updateUser
-     * is still correct here.
-     */
-    updateUser({
-      moodState: newMood,
-    });
-  };
-
-  const firstName =
-    user.name?.trim().split(' ')[0] ||
-    'Style Explorer';
-
-  const gridProducts = showAllProducts
-    ? feed
-    : feed.slice(0, 4);
-
-  const realEyesProducts = showAllRealEyes
+  const firstName = user.name?.trim().split(' ')[0] || 'Style Explorer';
+  const gridProducts = showAllProducts ? feed : feed.slice(0, 4);
+  const additionalMatches = showAllMatches
     ? feed.slice(4)
-    : feed.slice(6, 10);
+    : feed.slice(4, 8);
 
-  /*
-   * Show loading while either:
-   * 1. the profile is loading from the server, or
-   * 2. recommendations are loading.
-   */
+  function setMoodState(newMood) {
+    setMood(newMood);
+    updateUser({ moodState: newMood });
+  }
+
   if (profileLoading || loading) {
-    return (
-      <div className="screen">
-        <div className="page-loading">
-          Loading your recommendations…
-        </div>
-      </div>
-    );
+    return <div className="screen-center">Loading your recommendations…</div>;
   }
 
   if (error) {
     return (
-      <div className="screen">
-        <ApiErrorState
-          error={error}
-          title="Recommendations unavailable"
-          onRetry={() =>
-            setRetryKey(
-              (currentValue) => currentValue + 1,
-            )
-          }
-        />
-      </div>
+      <ApiErrorState
+        error={error}
+        title="Recommendations could not be loaded"
+        onRetry={() => setRetryKey((value) => value + 1)}
+      />
     );
   }
 
   return (
     <div className="screen home-screen">
-      {/* Header */}
-      <div className="home-hdr">
+      <header className="home-hdr">
         <div className="home-top">
-          <div className="home-greet">
-            Hey,{' '}
-            <span className="grad-text">
-              {firstName}
-            </span>{' '}
-            👋
-          </div>
-
-          <div
+          <h1 className="home-greet">Hey, {firstName}</h1>
+          <button
+            type="button"
             className="home-avatar"
-            onClick={() =>
-              navigate('/identity-card')
-            }
+            onClick={() => navigate('/identity-card')}
+            aria-label="Open identity card"
           >
-            🧬
-          </div>
+            {firstName[0]?.toUpperCase() || 'S'}
+          </button>
         </div>
 
-        <div className="home-search" onClick={() => navigate('/search')}>
-          🔍 Search by vibe, occasion, or item…
-        </div>
+        <button
+          type="button"
+          className="home-search"
+          onClick={() => navigate('/search')}
+        >
+          Search by vibe, occasion, or item…
+        </button>
 
-
-        <div className="home-tabs">
-          <div className="h-tab active">
-            For You
-          </div>
-
-          <div
+        <nav className="home-tabs" aria-label="Home sections">
+          <span className="h-tab active">For You</span>
+          <button
+            type="button"
             className="h-tab"
             onClick={() => navigate('/reverse')}
           >
-            🔮 Reverse Shop
-          </div>
-
-          <div
+            Reverse Shop
+          </button>
+          <button
+            type="button"
             className="h-tab"
-            onClick={() =>
-              navigate('/community')
-            }
+            onClick={() => navigate('/community')}
           >
-            🌐 Tribe
-          </div>
-        </div>
-      </div>
+            Tribe
+          </button>
+        </nav>
+      </header>
 
-      {/* Scrollable body */}
-      <div className="home-body">
-        {/* Anti-Trend Toggle */}
-        <div className="anti-trend-bar">
+      <main className="home-body">
+        <section className="anti-trend-bar">
           <div>
-            <div
-              style={{
-                fontWeight: 800,
-                fontSize: 14,
-              }}
-            >
-              🔀 Anti-Trend Mode
-            </div>
-
-            <div
-              style={{
-                fontSize: 11,
-                color: 'var(--text-2)',
-              }}
-            >
-              Break out of your algorithm.
-            </div>
+            <strong>Anti-Trend Mode</strong>
+            <p>Show the lowest-scoring profile matches first.</p>
           </div>
-
-          <div
-            className={`at-toggle ${
-              antiTrend ? 'active' : ''
-            }`}
-            onClick={() =>
-              setAntiTrend(
-                (currentValue) => !currentValue,
-              )
-            }
+          <button
+            type="button"
+            className={`at-toggle ${antiTrend ? 'active' : ''}`}
+            onClick={() => setAntiTrend((value) => !value)}
+            aria-pressed={antiTrend}
+            aria-label="Toggle anti-trend mode"
           >
-            <div className="at-knob" />
-          </div>
-        </div>
+            <span className="at-knob" />
+          </button>
+        </section>
 
-        {/* Mood Card */}
-        <div className="mood-card">
-          <div className="mood-title">
-            🌡️ What&apos;s your vibe today?{' '}
-            <span className="new-badge">
-              NEW
-            </span>
-          </div>
-
+        <section className="mood-card">
+          <p className="mood-title">What's your vibe today? NEW</p>
           <div className="mood-opts">
-            {MOODS.map((moodOption) => (
+            {MOODS.map((option) => (
               <button
-                key={moodOption.id}
                 type="button"
-                className={`mood-btn ${
-                  mood === moodOption.id
-                    ? 'active'
-                    : ''
-                }`}
-                onClick={() =>
-                  setMoodState(moodOption.id)
-                }
+                key={option.id}
+                className={`mood-btn ${mood === option.id ? 'active' : ''}`}
+                onClick={() => setMoodState(option.id)}
               >
-                <span className="mood-icon">
-                  {moodOption.icon}
-                </span>
-
-                {moodOption.label}
+                <span className="mood-icon">{option.icon}</span>
+                {option.label}
               </button>
             ))}
           </div>
-        </div>
+        </section>
 
-        {/* DNA Banner */}
-        <div
-          className="dna-banner"
-          style={{
-            background: antiTrend
-              ? '#1f1a24'
-              : '',
-          }}
-        >
-          <div
-            className="dna-banner-icon"
-            style={{
-              background: antiTrend
-                ? '#333'
-                : '',
-            }}
-          >
-            {antiTrend ? '🔀' : '🧬'}
-          </div>
-
+        <section className="dna-banner">
+          <span className="dna-banner-icon">{antiTrend ? '' : ''}</span>
           <div>
-            <h3
-              style={{
-                color: antiTrend ? '#fff' : '',
-              }}
-            >
-              {antiTrend
-                ? 'Opposite of your DNA'
-                : 'Filtered by your DNA'}
-            </h3>
-
-            <p
-              style={{
-                color: antiTrend
-                  ? 'rgba(255,255,255,0.6)'
-                  : '',
-              }}
-            >
-              Every product is a{' '}
-              <strong>
-                mathematical{' '}
-                {antiTrend
-                  ? 'mismatch'
-                  : 'match'}
-              </strong>{' '}
-              for{' '}
-              {user.identityName ||
-                'Minimalist'}
-              .
+            <h3>{antiTrend ? 'Opposite profile ranking' : 'Ranked by your saved DNA'}</h3>
+            <p>
+              Every score is calculated from the server-owned profile and
+              stored as an immutable decision snapshot.
             </p>
           </div>
-        </div>
+        </section>
 
-        {/* Products Grid */}
-        <div>
-          <div className="section-header">
-            <span className="section-title">
-              Built For Your DNA
-            </span>
-
-            <span
-              className="section-action"
-              onClick={() =>
-                setShowAllProducts(
-                  (currentValue) =>
-                    !currentValue,
-                )
-              }
+        <section>
+          <div className="section-title-row">
+            <h2>Built For Your DNA</h2>
+            <button
+              type="button"
+              onClick={() => setShowAllProducts((value) => !value)}
             >
-              {showAllProducts
-                ? 'Show less'
-                : `See all (${feed.length})`}
-            </span>
+              {showAllProducts ? 'Show less' : `See all (${feed.length})`}
+            </button>
           </div>
-
           <div className="prod-grid">
-            {gridProducts.map((product) => (
+            {gridProducts.map((decision) => (
               <ProductCard
-                key={product.id}
-                product={product}
+                key={decision.snapshot_id}
+                decision={decision}
               />
             ))}
           </div>
+        </section>
 
-          {showAllProducts && (
-            <div
-              style={{
-                textAlign: 'center',
-                marginTop: 12,
-              }}
+        <section>
+          <div className="section-title-row">
+            <h2>More matches for your current profile</h2>
+            <button
+              type="button"
+              onClick={() => setShowAllMatches((value) => !value)}
             >
-              <button
-                type="button"
-                onClick={() =>
-                  setShowAllProducts(false)
-                }
-                style={{
-                  background: 'none',
-                  border:
-                    '1px solid var(--border)',
-                  borderRadius: 4,
-                  padding: '8px 20px',
-                  color: 'var(--text-2)',
-                  fontSize: 13,
-                  cursor: 'pointer',
-                }}
-              >
-                Show Less
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* Real Eyes */}
-        <div>
-          <div className="section-header">
-            <div className="re-title-row">
-              <span className="section-title">
-                👁 Real Eyes
-              </span>
-
-              <span className="new-badge">
-                NEW
-              </span>
-            </div>
-
-            <span
-              className="section-action"
-              onClick={() =>
-                setShowAllRealEyes(
-                  (currentValue) =>
-                    !currentValue,
-                )
-              }
-            >
-              {showAllRealEyes
-                ? 'Show less'
-                : 'View all'}
-            </span>
+              {showAllMatches ? 'Show less' : 'View all'}
+            </button>
           </div>
-
           <p className="re-subtitle">
-            People with your DNA preferred these
-            — not the algorithm.
+            Additional products ranked using your saved Fashion DNA and
+            preferences.
           </p>
+          <div className="prod-grid">
+            {additionalMatches.map((decision) => (
+              <ProductCard
+                key={decision.snapshot_id}
+                decision={decision}
+              />
+            ))}
+          </div>
+        </section>
 
-          {showAllRealEyes ? (
-            <div className="prod-grid">
-              {realEyesProducts.map(
-                (product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                  />
-                ),
-              )}
-            </div>
-          ) : (
-            <div className="h-scroll">
-              {realEyesProducts.map(
-                (product) => (
-                  <div
-                    key={product.id}
-                    className="h-card"
-                    onClick={() =>
-                      navigate(
-                        `/product/${product.id}`,
-                      )
-                    }
-                  >
-                    <div className="h-card-img">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        loading="lazy"
-                      />
-
-                      <div className="h-float">
-                        🧬{' '}
-                        {product.confidence
-                          ?.overall || 88}
-                        %
-                      </div>
-                    </div>
-
-                    <div className="h-card-info">
-                      <div className="h-card-name">
-                        {product.name}
-                      </div>
-
-                      <div className="h-card-price">
-                        ₹
-                        {product.price.toLocaleString(
-                          'en-IN',
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ),
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Reverse CTA */}
-        <div
+        <button
+          type="button"
           className="rs-cta"
           onClick={() => navigate('/reverse')}
         >
-          <div className="rsc-icon">🔮</div>
-
-          <div className="rsc-title">
-            Reverse Shopping
-          </div>
-
+          <div className="rsc-icon"></div>
+          <div className="rsc-title">Reverse Shopping</div>
           <div className="rsc-sub">
-            Tell us your occasion — we&apos;ll
-            build the perfect outfit for your DNA
+            Tell us your occasion and budget to build an outfit.
           </div>
-
-          <button
-            type="button"
-            className="rs-cta-btn"
-          >
-            Try It Now
-          </button>
-        </div>
-      </div>
+          <span className="rs-cta-btn">Try It Now</span>
+        </button>
+      </main>
 
       <BottomNav />
     </div>
