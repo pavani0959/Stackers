@@ -1,76 +1,138 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../../context/useUser';
+import { getDecisionMemory } from '../../api/decisions';
+import ApiErrorState from '../../components/ApiErrorState/ApiErrorState';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import '../../styles/FashionMemory.css';
 
 export default function FashionMemory() {
   const navigate = useNavigate();
-  const { user } = useUser();
-  const memory = user.purchaseMemory || [];
+  const [entries, setEntries] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [retryKey, setRetryKey] = useState(0);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadMemory() {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await getDecisionMemory();
+        if (!cancelled) {
+          setEntries(data.items);
+        }
+      } catch (requestError) {
+        if (!cancelled) {
+          setError(requestError);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    }
+
+    loadMemory();
+    return () => {
+      cancelled = true;
+    };
+  }, [retryKey]);
+
+  if (loading) {
+    return <div className="screen-center">Loading Fashion Memory…</div>;
+  }
+
+  if (error) {
+    return (
+      <ApiErrorState
+        error={error}
+        title="Fashion Memory could not be loaded"
+        onRetry={() => setRetryKey((value) => value + 1)}
+      />
+    );
+  }
 
   return (
     <div className="screen fm-screen">
-      <div className="fm-hdr">
+      <header className="fm-hdr">
         <div className="fm-back-row">
-          <div className="back-btn" onClick={() => navigate('/home')}>←</div>
+          <button type="button" className="back-btn" onClick={() => navigate('/home')}>
+            ←
+          </button>
           <div>
-            <div className="fm-title">📖 Fashion Memory</div>
-            <div className="fm-sub">Everything you've bought — and why.</div>
+            <h1 className="fm-title">Fashion Memory</h1>
+            <p className="fm-sub">
+              Stored recommendation-time evidence for purchases, keeps and
+              returns.
+            </p>
           </div>
         </div>
-      </div>
+      </header>
 
-      <div className="fm-body">
-        {/* DNA Evolution */}
-        <div className="dna-shift">
-          <div className="dna-shift-title">📊 Your DNA Is Evolving</div>
-          <div className="shift-row">
-            <div className="shift-name">{user.identityName?.split(' ')[1] || 'Minimalist'}</div>
-            <div className="shift-delta">+4% this month ↑</div>
-          </div>
-          <div className="shift-row">
-            <div className="shift-name">Streetwear</div>
-            <div className="shift-delta shift-down">−2% this month ↓</div>
-          </div>
-          <div className="shift-note">Your purchases are making your style more consistent. Confidence: 87% → {user.profileConfidence ?? 0}%</div>
-        </div>
+      <main className="fm-body">
+        <p className="month-label">Your recorded decisions</p>
 
-        {/* AI Regret Prevention */}
-        <div className="regret-card">
-          <div className="regret-title">🛡️ AI Regret Prevention <span className="new-badge">NEW</span></div>
-          <div className="regret-body">Before you bought those bold cargo pants last week, our AI flagged a 58% DNA match warning. You bought it anyway — and returned it 3 days later.</div>
-          <div className="regret-stat">Potential regret saved this month: ₹2,490</div>
-        </div>
-
-        <div className="month-label">Your Purchases</div>
-
-        {memory.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--text-2)', fontSize: 13 }}>
-            You haven't bought anything yet.<br/><br/>
-            Go to the Home feed or Reverse Shopping to find items that match your DNA.
+        {entries.length === 0 ? (
+          <div className="fm-empty">
+            <p>No purchase, keep or return event is linked to a decision yet.</p>
+            <p>
+              A memory entry appears after checkout records a purchase with
+              the recommendation item ID stored in the cart.
+            </p>
           </div>
         ) : (
-          memory.map((item, idx) => (
-            <div key={idx} className="mem-item" onClick={() => navigate(`/product/${item.id}`)}>
-              <div className="mem-top">
-                <img src={item.image} className="mem-img" alt={item.name} />
-                <div className="mem-info">
-                  <div className="mem-date">{item.date}</div>
-                  <div className="mem-name">{item.name}</div>
-                  <div className="mem-price">₹{item.price?.toLocaleString('en-IN')}</div>
-                  <div className="mem-occ">📅 {item.occasion}</div>
+          entries.map(({ event, decision }) => {
+            const product = decision.product;
+            const firstSignal = decision.regret_signals[0];
+            return (
+              <article
+                className="mem-item"
+                key={`${event.id}-${decision.snapshot_id}`}
+                onClick={() => navigate(
+                  `/product/${product.id}?decision=${decision.snapshot_id}`,
+                )}
+              >
+                <div className="mem-top">
+                  <img
+                    className="mem-img"
+                    src={product.image}
+                    alt={product.name}
+                  />
+                  <div className="mem-info">
+                    <span className="mem-date">
+                      {new Date(event.occurred_at).toLocaleDateString('en-IN')}
+                    </span>
+                    <strong className="mem-name">{product.name}</strong>
+                    <span className="mem-price">
+                      ₹{product.price.toLocaleString('en-IN')}
+                    </span>
+                    <span className="mem-occ">{event.event_type}</span>
+                  </div>
                 </div>
-              </div>
-              <div className="mem-bottom">
-                <div className="mem-reason">"{item.reason || 'Added because it matched your vibe perfectly.'}"</div>
-                <div className={`mem-dna ${item.dnaMatch >= 80 ? 'good' : 'warn'}`}>
-                  {item.dnaMatch >= 80 ? '🧬' : '⚠️'} {item.dnaMatch}% DNA Match · {item.dnaMatch >= 80 ? 'Great purchase' : 'Low fit'}
+
+                <div className="mem-bottom">
+                  <p className="mem-reason">
+                    “{decision.explanation.summary}”
+                  </p>
+                  <p className={`mem-dna ${decision.overall_score >= 80 ? 'good' : 'warn'}`}>
+                    {decision.overall_score}% recommendation-time match
+                  </p>
+                  {firstSignal && (
+                    <p className="mem-signal">
+                      {firstSignal.title}: {firstSignal.detail}
+                    </p>
+                  )}
+                  <small>
+                    Model {decision.model_version} · Profile v{decision.profile_version}
+                  </small>
                 </div>
-              </div>
-            </div>
-          ))
+              </article>
+            );
+          })
         )}
-      </div>
+      </main>
 
       <BottomNav />
     </div>
