@@ -15,7 +15,10 @@ const QUICK_PROMPTS = [
 
 export default function ReverseShopping() {
   const navigate = useNavigate();
-  const { user, buyItem } = useUser();
+  const {
+    user,
+    addToCart,
+  } = useUser();
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState(null);
@@ -102,6 +105,28 @@ export default function ReverseShopping() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleAddOutfitToCart = (group) => {
+    group.items.forEach((item) => {
+      addToCart({
+        ...item,
+
+        /*
+         * Reverse Shopping does not currently provide
+         * a size-selection UI. Use the first supplied
+         * size when available, otherwise default to M.
+         */
+        selectedSize:
+          item.sizes?.[0] ?? 'M',
+
+        source: 'reverse_shopping',
+      });
+    });
+
+    showToast(
+      `Outfit ${group.index} added to cart`,
+    );
   };
 
   const outfitGroups = results?.outfits || [];
@@ -230,13 +255,13 @@ export default function ReverseShopping() {
                         ₹{group.total.toLocaleString('en-IN')} <span>· within budget</span>
                       </div>
                       <button
+                        type="button"
                         className="outfit-buy"
                         onClick={() => {
-                          group.items.forEach((item) => buyItem(item, item.confidence?.overall || 85));
-                          showToast(`Outfit ${group.index} added to Fashion Memory! 🛍️`);
+                          handleAddOutfitToCart(group);
                         }}
                       >
-                        Buy All
+                        Add All to Cart
                       </button>
                     </div>
                   </div>

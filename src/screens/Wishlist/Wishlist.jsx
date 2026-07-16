@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../../context/useUser';
 import { apiRequest } from '../../api/client';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import '../../styles/Wishlist.css';

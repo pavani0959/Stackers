@@ -548,3 +548,201 @@ class CurrentProfileResponse(BaseModel):
     style_profile: (
         CurrentStyleProfileResponse | None
     ) = None
+
+
+class DecisionContext(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+
+    occasion: str | None = Field(
+        default=None,
+        max_length=80,
+    )
+
+    season: str | None = Field(
+        default=None,
+        max_length=40,
+    )
+
+    source: str = Field(
+        default="product_detail",
+        max_length=50,
+    )
+
+
+class ProductDecisionRequest(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+
+    context: DecisionContext = Field(
+        default_factory=DecisionContext,
+    )
+
+
+class DecisionScoreComponent(BaseModel):
+    score: int = Field(
+        ge=0,
+        le=100,
+    )
+
+    weight: float = Field(
+        ge=0,
+        le=1,
+    )
+
+    weighted_score: float = Field(
+        ge=0,
+        le=100,
+    )
+
+    evidence_source: str
+
+    evidence: dict[str, Any] = Field(
+        default_factory=dict,
+    )
+
+
+class DecisionReason(BaseModel):
+    code: str
+    title: str
+    detail: str
+
+    score: int = Field(
+        ge=0,
+        le=100,
+    )
+
+    evidence_source: str
+
+
+class DecisionExplanation(BaseModel):
+    summary: str
+
+    reasons: list[DecisionReason] = Field(
+        default_factory=list,
+    )
+
+    limitations: list[str] = Field(
+        default_factory=list,
+    )
+
+
+class RegretSignal(BaseModel):
+    code: str
+    severity: str
+    title: str
+    detail: str
+
+    evidence: dict[str, Any] = Field(
+        default_factory=dict,
+    )
+
+
+class DecisionProductSnapshot(BaseModel):
+    id: int
+    sku: str
+    name: str
+    brand: str
+    description: str | None = None
+    price: float
+    originalPrice: float
+    image: str
+    category: str
+    subcategory: str
+    primary_colour: str
+
+    tags: list[str] = Field(
+        default_factory=list,
+    )
+
+    occasions: list[str] = Field(
+        default_factory=list,
+    )
+
+    budgetTier: str
+    season: str
+
+
+class DecisionSnapshotResponse(BaseModel):
+    snapshot_id: UUID
+    recommendation_item_id: int
+    session_id: int
+
+    product: DecisionProductSnapshot
+
+    overall_score: int = Field(
+        ge=0,
+        le=100,
+    )
+
+    score_breakdown: dict[
+        str,
+        DecisionScoreComponent,
+    ]
+
+    explanation: DecisionExplanation
+
+    evidence_sources: dict[str, Any] = Field(
+        default_factory=dict,
+    )
+
+    regret_signals: list[RegretSignal] = Field(
+        default_factory=list,
+    )
+
+    model_version: str
+    profile_version: int
+    created_at: datetime
+
+
+class DecisionFeedRequest(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+
+    limit: int = Field(
+        default=20,
+        ge=1,
+        le=50,
+    )
+
+    anti_trend: bool = False
+
+    context: DecisionContext = Field(
+        default_factory=lambda: DecisionContext(
+            source="feed",
+        ),
+    )
+
+
+class DecisionFeedResponse(BaseModel):
+    session_id: int
+    model_version: str
+    profile_version: int
+
+    items: list[
+        DecisionSnapshotResponse
+    ]
+
+
+class DecisionMemoryEvent(BaseModel):
+    id: int
+    event_type: str
+    occurred_at: datetime
+
+    metadata: dict[str, Any] = Field(
+        default_factory=dict,
+    )
+
+
+class DecisionMemoryEntry(BaseModel):
+    event: DecisionMemoryEvent
+    decision: DecisionSnapshotResponse
+
+
+class DecisionMemoryResponse(BaseModel):
+    items: list[DecisionMemoryEntry] = Field(
+        default_factory=list,
+    )

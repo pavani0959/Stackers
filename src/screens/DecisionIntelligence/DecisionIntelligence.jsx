@@ -1,19 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useUser } from '../../context/useUser';
-import { apiRequest } from '../../api/client';
+import { getDecision } from '../../api/decisions';
 import ApiErrorState from '../../components/ApiErrorState/ApiErrorState';
+import { useUser } from '../../context/useUser';
 import '../../styles/DecisionIntelligence.css';
 
 export default function DecisionIntelligence() {
-  const { id } = useParams();
+  const { id: snapshotId } = useParams();
   const navigate = useNavigate();
-  const {
-    user,
-    addToCart,
-  } = useUser();
-
-  const [product, setProduct] = useState(null);
+  const { addToCart, createUserEvent } = useUser();
+  const [decision, setDecision] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [retryKey, setRetryKey] = useState(0);
@@ -21,26 +17,13 @@ export default function DecisionIntelligence() {
   useEffect(() => {
     let cancelled = false;
 
-    async function loadDecisionData() {
+    async function loadDecision() {
       setLoading(true);
       setError(null);
-
       try {
-        const [productData, confidenceData] = await Promise.all([
-          apiRequest(`/api/products/${id}`),
-          apiRequest(`/api/recommend/confidence/${id}`, {
-            method: 'POST',
-            body: JSON.stringify({
-              user_profile: user,
-            }),
-          }),
-        ]);
-
+        const data = await getDecision(snapshotId);
         if (!cancelled) {
-          setProduct({
-            ...productData,
-            confidence: confidenceData,
-          });
+          setDecision(data);
         }
       } catch (requestError) {
         if (!cancelled) {
@@ -53,114 +36,126 @@ export default function DecisionIntelligence() {
       }
     }
 
-    loadDecisionData();
-
+    loadDecision();
     return () => {
       cancelled = true;
     };
-  }, [id, user, retryKey]);
-
+  }, [snapshotId, retryKey]);
 
   if (loading) {
-    return (
-      <div className="screen">
-        <div className="page-loading">
-          Loading decision intelligence…
-        </div>
-      </div>
-    );
+    return <div className="screen-center">Loading decision intelligence…</div>;
   }
 
   if (error) {
     return (
-      <div className="screen">
-        <ApiErrorState
-          error={error}
-          title="Decision intelligence unavailable"
-          onRetry={() => setRetryKey((value) => value + 1)}
-        />
-      </div>
+      <ApiErrorState
+        error={error}
+        title="Decision snapshot could not be loaded"
+        onRetry={() => setRetryKey((value) => value + 1)}
+      />
     );
   }
 
-  if (!product) {
-    return (
-      <div className="screen">
-        <ApiErrorState title="Product not found" />
-      </div>
-    );
+  if (!decision) {
+    return <div className="screen-center">Decision snapshot not found.</div>;
   }
 
-  const conf = product.confidence;
+  const product = decision.product;
 
+  function handleAddToCart() {
+    addToCart({
+      ...product,
+      selectedSize: 'S',
+      decisionSnapshotId: decision.snapshot_id,
+      recommendationItemId: decision.recommendation_item_id,
+    });
+    createUserEvent({
+      event_type: 'cart_add',
+      product_id: product.id,
+      recommendation_item_id: decision.recommendation_item_id,
+      metadata: {
+        size: 'S',
+        match_score: decision.overall_score,
+        model_version: decision.model_version,
+        profile_version: decision.profile_version,
+        decision_snapshot_id: decision.snapshot_id,
+        source: 'decision_intelligence',
+      },
+    }).catch(() => {});
+    navigate(-1);
+  }
 
   return (
     <div className="screen di-screen">
-      <div className="di-hdr">
-        <div className="back-btn" onClick={() => navigate(-1)}>←</div>
+      <header className="di-hdr">
+        <button type="button" className="back-btn" onClick={() => navigate(-1)}>
+          ←
+        </button>
         <div className="di-hdr-text">
           <h3>Decision Intelligence</h3>
           <h2>Why this recommendation?</h2>
         </div>
-      </div>
+      </header>
 
-      <div className="di-body">
-        <div className="di-hero">
+      <main className="di-body">
+        <section className="di-hero">
           <img src={product.image} alt={product.name} />
           <div className="di-hero-info">
-            <div className="di-hero-brand">{product.brand}</div>
-            <div className="di-hero-name">{product.name}</div>
-            <div className="di-hero-score">🎯 Confidence: {conf.overall}</div>
+            <span className="di-hero-brand">{product.brand}</span>
+            <strong className="di-hero-name">{product.name}</strong>
+            <span className="di-hero-score">
+              Confidence: {decision.overall_score}
+            </span>
           </div>
-        </div>
+        </section>
 
-        <div className="di-sec-label">Why Myntra recommends this</div>
+        <p className="di-summary">{decision.explanation.summary}</p>
+        <p className="di-sec-label">Evidence-backed reasons</p>
 
-        <div className="di-reason">
-          <div className="di-reason-icon" style={{ background: 'rgba(255,60,172,.1)', color: 'var(--accent)' }}>🧬</div>
-          <div>
-            <h4>Matches your DNA ({conf.styleMatch}%)</h4>
-            <p>Your {user.identityName || 'Minimalist'} profile loves these aesthetics. This item is {conf.styleMatch}% aligned with your core style identity.</p>
-          </div>
-        </div>
-
-        <div className="di-reason" style={{ animationDelay: '0.1s' }}>
-          <div className="di-reason-icon" style={{ background: 'rgba(34,197,94,.1)', color: 'var(--green)' }}>💰</div>
-          <div>
-            <h4>Within your budget</h4>
-            <p>At ₹{product.price.toLocaleString('en-IN')}, it falls perfectly within your {user.budget?.replace(/-/g, ' ') || 'budget'}. Value ratio is excellent at {Math.round((1 - product.price / product.originalPrice) * 100)}% discount.</p>
-          </div>
-        </div>
-
-        <div className="di-reason" style={{ animationDelay: '0.2s' }}>
-          <div className="di-reason-icon" style={{ background: 'rgba(120,75,160,.1)', color: '#A78BFA' }}>🎓</div>
-          <div>
-            <h4>Perfect for your occasions</h4>
-            <p>You marked {user.occasions?.slice(0, 2).join(' and ') || 'casual'}. This works seamlessly for these events — no second outfit needed.</p>
-          </div>
-        </div>
-
-        <div className="di-reason" style={{ animationDelay: '0.3s' }}>
-          <div className="di-reason-icon" style={{ background: 'rgba(43,134,197,.1)', color: '#60A5FA' }}>👥</div>
-          <div>
-            <h4>Similar DNA users loved this <span className="new-badge">NEW</span></h4>
-            <p>Users with 90%+ DNA match bought this in the last 7 days. This is a Real Eyes recommendation.</p>
-          </div>
-        </div>
-
-        {conf.styleMatch < 70 && (
-          <div className="di-warn">
-            <div className="di-warn-icon">⚠️</div>
-            <div className="di-warn-text">
-              <strong>AI Regret Warning:</strong> This item has a low DNA match ({conf.styleMatch}%). Based on your history, items under 75% match are returned 60% of the time.
+        {decision.explanation.reasons.map((reason) => (
+          <article className="di-reason" key={reason.code}>
+            <div>
+              <h4>
+                {reason.title} ({reason.score}%)
+              </h4>
+              <p>{reason.detail}</p>
+              <small>Source: {reason.evidence_source}</small>
             </div>
-          </div>
-        )}
+          </article>
+        ))}
 
-        <button className="btn-primary" onClick={() => { addToCart(product); navigate(-1); }}>
+        {decision.regret_signals.length > 0 && (
+          <p className="di-sec-label">Regret signals</p>
+        )}
+        {decision.regret_signals.map((signal) => (
+          <article
+            className={`di-warn ${signal.severity}`}
+            key={signal.code}
+          >
+            <div>
+              <strong>{signal.title}</strong>
+              <p>{signal.detail}</p>
+            </div>
+          </article>
+        ))}
+
+        <p className="di-sec-label">Limitations</p>
+        <ul className="di-limitations">
+          {decision.explanation.limitations.map((limitation) => (
+            <li key={limitation}>{limitation}</li>
+          ))}
+        </ul>
+
+        <div className="di-meta">
+          <span>Model: {decision.model_version}</span>
+          <span>Profile version: {decision.profile_version}</span>
+          <span>Snapshot: {decision.snapshot_id}</span>
+        </div>
+
+        <button type="button" className="primary-btn" onClick={handleAddToCart}>
           Got it — Add to Cart
         </button>
-      </div>
+      </main>
     </div>
   );
 }

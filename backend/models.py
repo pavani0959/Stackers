@@ -547,6 +547,23 @@ class RecommendationSession(Base):
         nullable=True,
     )
 
+    profile_version = Column(
+        Integer,
+        nullable=False,
+    )
+
+    profile_snapshot = Column(
+        JSON,
+        nullable=False,
+        default=dict,
+    )
+
+    context_snapshot = Column(
+        JSON,
+        nullable=False,
+        default=dict,
+    )
+
     session_type = Column(
         String(50),
         nullable=False,
@@ -607,6 +624,33 @@ class RecommendationItem(Base):
         nullable=False,
         index=True,
     )
+
+    snapshot_id = Column(
+        Uuid(as_uuid=True),
+        default=uuid4,
+        unique=True,
+        nullable=False,
+        index=True,
+    )
+
+    product_snapshot = Column(
+        JSON,
+        nullable=False,
+        default=dict,
+    )
+
+    evidence_sources = Column(
+        JSON,
+        nullable=False,
+        default=dict,
+    )
+
+    regret_signals = Column(
+        JSON,
+        nullable=False,
+        default=list,
+    )
+
     product_id = Column(
         Integer,
         ForeignKey("products.id", ondelete="CASCADE"),

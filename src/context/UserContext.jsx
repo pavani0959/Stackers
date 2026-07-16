@@ -27,7 +27,6 @@ const LEGACY_STORAGE_KEY = 'myntra_identity_user';
 const DEFAULT_UI_STATE = {
   moodState: 'quiet',
   wishlist: [],
-  purchaseMemory: [],
   cartItems: [],
 };
 
@@ -102,12 +101,6 @@ function loadUIState() {
 
       wishlist: Array.isArray(parsed.wishlist)
         ? parsed.wishlist
-        : [],
-
-      purchaseMemory: Array.isArray(
-        parsed.purchaseMemory,
-      )
-        ? parsed.purchaseMemory
         : [],
 
       cartItems: Array.isArray(parsed.cartItems)
@@ -320,7 +313,6 @@ export function UserProvider({ children }) {
       const uiState = {
         moodState: user.moodState,
         wishlist: user.wishlist,
-        purchaseMemory: user.purchaseMemory,
         cartItems: user.cartItems,
       };
 
@@ -334,7 +326,6 @@ export function UserProvider({ children }) {
   }, [
     user.moodState,
     user.wishlist,
-    user.purchaseMemory,
     user.cartItems,
   ]);
 
@@ -397,50 +388,7 @@ export function UserProvider({ children }) {
     }));
   }, []);
 
-  /*
-   * This represents a completed purchase and should
-   * only be called after checkout succeeds.
-   */
-  const buyItem = useCallback(
-    (product, confidenceOverall = 85) => {
-      const memoryItem = {
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        image: product.image,
 
-        date: new Date().toLocaleDateString(
-          'en-GB',
-          {
-            day: 'numeric',
-            month: 'short',
-          },
-        ),
-
-        occasion:
-          product.occasions?.[0] ??
-          'Casual',
-
-        dnaMatch: confidenceOverall,
-
-        reason:
-          `Bought because it matched your ${user.identityName || 'vibe'
-          }.`,
-
-        tags: product.tags ?? [],
-      };
-
-      setUser((previousUser) => ({
-        ...previousUser,
-
-        purchaseMemory: [
-          memoryItem,
-          ...(previousUser.purchaseMemory ?? []),
-        ],
-      }));
-    },
-    [user.identityName],
-  );
 
   const addToWishlist = useCallback(
     (productId) => {
@@ -542,7 +490,6 @@ export function UserProvider({ children }) {
       updateUser,
       addToWishlist,
       addToCart,
-      buyItem,
       resetAll,
     }),
     [
@@ -558,7 +505,6 @@ export function UserProvider({ children }) {
       updateUser,
       addToWishlist,
       addToCart,
-      buyItem,
       resetAll,
     ],
   );

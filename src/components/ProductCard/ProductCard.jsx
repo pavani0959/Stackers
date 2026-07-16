@@ -2,33 +2,69 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/useUser';
 import '../../styles/ProductCard.css';
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ decision }) {
   const navigate = useNavigate();
   const { user, addToWishlist } = useUser();
-  const isWished = user.wishlist.includes(product.id);
-  
-  // Feature 7: DNA Dynamic Pricing (15% off if confidence >= 90)
-  const isDnaDiscount = product.confidence?.overall >= 90;
-  const finalPrice = isDnaDiscount ? Math.round(product.price * 0.85) : product.price;
+  const product = decision.product;
+  const isWished = (user.wishlist ?? []).includes(product.id);
+  const isDnaDiscount = decision.overall_score >= 90;
+  const finalPrice = isDnaDiscount
+    ? Math.round(product.price * 0.85)
+    : product.price;
+
+  function openProduct() {
+    navigate(
+      `/product/${product.id}?decision=${decision.snapshot_id}`,
+    );
+  }
 
   return (
-    <div className="prod-card" onClick={() => navigate(`/product/${product.id}`)}>
+    <article
+      className="prod-card"
+      onClick={openProduct}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          openProduct();
+        }
+      }}
+      role="button"
+      tabIndex={0}
+    >
       <div className="prod-img">
-        <img src={product.image} alt={product.name} loading="lazy" />
-        <div className="dna-badge">🧬 {product.confidence?.overall || 80}% Match</div>
-        <button className="wish-btn" onClick={(e) => { e.stopPropagation(); addToWishlist(product.id); }}>
-          {isWished ? '❤️' : '🤍'}
+        <img src={product.image} alt={product.name} />
+        <span className="dna-badge">
+          {decision.overall_score}% Match
+        </span>
+        <button
+          type="button"
+          className="wish-btn"
+          aria-label={isWished ? 'Remove from wishlist' : 'Add to wishlist'}
+          onClick={(event) => {
+            event.stopPropagation();
+            addToWishlist(product.id);
+          }}
+        >
+          {isWished ? '❤️' : '♡'}
         </button>
       </div>
+
       <div className="prod-info">
-        <div className="prod-brand">{product.brand}</div>
-        <div className="prod-name">{product.name}</div>
+        <p className="prod-brand">{product.brand}</p>
+        <p className="prod-name">{product.name}</p>
         <div className="prod-pr-row">
-          <span className="prod-price">₹{finalPrice.toLocaleString('en-IN')}</span>
-          {isDnaDiscount && <span style={{fontSize: 10, color: 'var(--green)', fontWeight: 800}}>✨ -15% DNA</span>}
-          {!isDnaDiscount && <span className="prod-og">₹{product.originalPrice.toLocaleString('en-IN')}</span>}
+          <span className="prod-price">
+            ₹{finalPrice.toLocaleString('en-IN')}
+          </span>
+          {!isDnaDiscount && (
+            <span className="prod-og">
+              ₹{product.originalPrice.toLocaleString('en-IN')}
+            </span>
+          )}
+          {isDnaDiscount && (
+            <span className="prod-disc">-15% DNA</span>
+          )}
         </div>
       </div>
-    </div>
+    </article>
   );
 }

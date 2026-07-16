@@ -1,8 +1,6 @@
+from routers.decisions import router as decisions_router
 from routers.events import router as events_router
 from routers.profile import router as profile_router
-from routers.recommendations import (
-    router as recommendation_sessions_router,
-)
 from routers.wardrobe import router as wardrobe_router
 import json
 from typing import List
@@ -26,7 +24,6 @@ from errors import (
 )
 from ml import (
     blend_dna,
-    calc_confidence_ml,
     calculate_dna_ml,
     find_twins,
     generate_outfit_nlp,
@@ -36,10 +33,11 @@ from ml import (
 settings = get_settings()
 
 app = FastAPI(title="Myntra Identity API")
+
 app.include_router(profile_router)
 app.include_router(events_router)
 app.include_router(wardrobe_router)
-app.include_router(recommendation_sessions_router)
+app.include_router(decisions_router)
 
 app.add_exception_handler(AppError, app_error_handler)
 app.add_exception_handler(HTTPException, http_exception_handler)
@@ -149,41 +147,9 @@ def calculate_dna(request: schemas.DNARequest):
     return calculate_dna_ml(request.tags)
 
 
-@app.post("/api/recommend/feed", response_model=List[schemas.ProductWithConfidence])
-def get_personalized_feed(request: schemas.FeedRequest, db: Session = Depends(get_db)):
-    products = db.query(models.Product).all()
-    user_profile = request.user_profile.model_dump()
-
-    feed = []
-    for product in products:
-        product_data = product_to_dict(product)
-        product_data["confidence"] = calc_confidence_ml(product_data, user_profile)
-        feed.append(product_data)
-
-    feed.sort(
-        key=lambda item: item["confidence"]["overall"],
-        reverse=not request.anti_trend,
-    )
-    return feed
 
 
-@app.post(
-    "/api/recommend/confidence/{product_id}",
-    response_model=schemas.ConfidenceScore,
-)
-def get_product_confidence(
-    product_id: int,
-    request: schemas.FeedRequest,
-    db: Session = Depends(get_db),
-):
-    product = db.query(models.Product).filter(models.Product.id == product_id).first()
-    if not product:
-        raise NotFoundError("Product not found")
 
-    return calc_confidence_ml(
-        product_to_dict(product),
-        request.user_profile.model_dump(),
-    )
 
 
 @app.post(
