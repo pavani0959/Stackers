@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getMemoryTimeline } from '../../api/events';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { gsap, useGSAP } from '../../motion/gsap';
 import ApiErrorState from '../../components/ApiErrorState/ApiErrorState';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import '../../styles/FashionMemory.css';
@@ -31,6 +33,8 @@ export default function FashionMemory() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [retryKey, setRetryKey] = useState(0);
+  const root = useRef(null);
+  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
     let cancelled = false;
@@ -60,6 +64,18 @@ export default function FashionMemory() {
     };
   }, [retryKey]);
 
+  useGSAP(
+    () => {
+      if (reducedMotion || loading || timeline.length === 0) return;
+      gsap.fromTo(
+        '.mem-item',
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, ease: 'power2.out' }
+      );
+    },
+    { scope: root, dependencies: [timeline, loading, reducedMotion] },
+  );
+
   if (loading) {
     return <div className="screen-center">Loading Fashion Memory…</div>;
   }
@@ -75,7 +91,7 @@ export default function FashionMemory() {
   }
 
   return (
-    <div className="screen fm-screen">
+    <div className="screen fm-screen" ref={root}>
       <header className="fm-hdr">
         <div className="fm-back-row">
           <button type="button" className="back-btn" onClick={() => navigate('/home')}>
