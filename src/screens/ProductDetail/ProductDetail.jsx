@@ -250,7 +250,11 @@ export default function ProductDetail() {
   return (
     <div className="screen det-screen">
       <div className="det-img-wrap">
-        <img src={product.image} alt={product.name} />
+        <img 
+          src={product.image} 
+          alt={product.name} 
+          onError={(e) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/600x800?text=Myntra+App'; }}
+        />
         <div className="det-hdr-btns">
           <button type="button" className="back-btn" onClick={() => navigate(-1)}>
             ←

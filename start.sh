@@ -5,13 +5,21 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$ROOT_DIR"
 
 if [[ ! -f .env ]]; then
-  echo "Missing .env. Run: cp .env.example .env"
-  exit 1
+  echo "Missing .env file. Creating from .env.example..."
+  cp .env.example .env
+fi
+
+if [[ ! -d node_modules ]]; then
+  echo "Installing frontend dependencies..."
+  npm install
 fi
 
 if [[ ! -d backend/venv ]]; then
-  echo "Missing backend/venv. Create it and install backend/requirements.txt first."
-  exit 1
+  echo "Missing backend/venv. Creating virtual environment..."
+  python3 -m venv backend/venv
+  source backend/venv/bin/activate
+  echo "Installing backend dependencies..."
+  pip install -r backend/requirements.txt
 fi
 
 cleanup() {
@@ -24,8 +32,10 @@ echo "Preparing database..."
 (
   cd backend
   source venv/bin/activate
+  # The bootstrap script ensures DB is prepared
   python scripts/bootstrap_legacy_sqlite.py
   alembic upgrade head
+  # The seed script is idempotent (safe to run multiple times)
   python seed.py
 )
 

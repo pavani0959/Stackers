@@ -31,7 +31,11 @@ export default function ProductCard({ decision }) {
       tabIndex={0}
     >
       <div className="prod-img">
-        <img src={product.image} alt={product.name} />
+        <img 
+          src={product.image} 
+          alt={product.name}
+          onError={(e) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/300x400?text=Myntra+App'; }} 
+        />
         <span className="dna-badge">
           {decision.overall_score}% Match
         </span>
