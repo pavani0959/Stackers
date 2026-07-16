@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../../context/useUser';
 import { apiRequest } from '../../api/client';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import '../../styles/Search.css';
