@@ -182,6 +182,10 @@ export default function DNAQuiz() {
                 src={choice.image}
                 alt={choice.alt}
                 draggable="false"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = `https://via.placeholder.com/300x400?text=${encodeURIComponent(choice.label)}`;
+                }}
               />
 
               <div className="choice-label">
