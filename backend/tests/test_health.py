@@ -11,10 +11,14 @@ async def test_health_check() -> None:
         transport=transport,
         base_url="http://testserver",
     ) as client:
-        response = await client.get("/api/health")
+        res_live = await client.get("/api/health/live")
+        res_ready = await client.get("/api/health/ready")
 
-    assert response.status_code == 200
-    assert response.json()["status"] == "ok"
+    assert res_live.status_code == 200
+    assert res_live.json()["status"] == "ok"
+    
+    assert res_ready.status_code == 200
+    assert res_ready.json()["status"] == "ready"
 
 
 @pytest.mark.anyio

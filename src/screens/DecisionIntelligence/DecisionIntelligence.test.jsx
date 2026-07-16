@@ -45,7 +45,7 @@ describe('DecisionIntelligence', () => {
   it('loads only the stored snapshot and renders stored evidence', async () => {
     renderDecision();
 
-    expect(await screen.findByText(/Confidence: 88/i)).toBeInTheDocument();
+    expect(await screen.findByText('88')).toBeInTheDocument();
     expect(
       screen.getByText(/Alignment with your Minimalist DNA/i),
     ).toBeInTheDocument();
@@ -59,7 +59,7 @@ describe('DecisionIntelligence', () => {
 
   it('contains no fabricated community or return-rate claim', async () => {
     renderDecision();
-    await screen.findByText(/Confidence: 88/i);
+    await screen.findByText('88');
 
     expect(screen.queryByText(/users loved/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/returned 60%/i)).not.toBeInTheDocument();

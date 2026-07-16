@@ -34,6 +34,11 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+.dna-badge.perfect {
+  background: var(--gradient);
+  color: white;
+}
+
 .wish-btn {
   position: absolute;
   top: 8px;
@@ -95,5 +100,14 @@
 .prod-disc {
   font-size: 12px;
   color: var(--accent);
+  font-weight: 600;
+}
+
+.prod-match-badge {
+  font-size: 10px;
+  color: white;
+  background: var(--color-primary);
+  padding: 2px 4px;
+  border-radius: 4px;
   font-weight: 600;
 }

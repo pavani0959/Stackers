@@ -153,13 +153,10 @@ export default function ProductDetail() {
 
   const product = decision.product;
   const isWished = (user.wishlist ?? []).includes(product.id);
-  const isDnaDiscount = decision.overall_score >= 90;
-  const finalPrice = isDnaDiscount
-    ? Math.round(product.price * 0.85)
-    : product.price;
+  const isPerfectMatch = decision.overall_score >= 85;
   const originalPrice = product.originalPrice ?? product.price;
   const discount = originalPrice > 0
-    ? Math.round((1 - finalPrice / originalPrice) * 100)
+    ? Math.round((1 - product.price / originalPrice) * 100)
     : 0;
   const components = Object.entries(decision.score_breakdown);
 
@@ -290,7 +287,7 @@ export default function ProductDetail() {
           <p className="det-name">{product.name}</p>
           <div className="det-pr-row">
             <span className="det-price">
-              ₹{finalPrice.toLocaleString('en-IN')}
+              ₹{product.price.toLocaleString('en-IN')}
             </span>
             <span className="det-og">
               ₹{originalPrice.toLocaleString('en-IN')}
@@ -299,9 +296,9 @@ export default function ProductDetail() {
           </div>
         </section>
 
-        {isDnaDiscount && (
-          <p className="decision-note">
-            This stored decision qualifies for the app's 15% DNA discount rule.
+        {isPerfectMatch && (
+          <p className="decision-note match">
+            ★ Perfect Match — this product scores above 85% on your Fashion DNA.
           </p>
         )}
 
@@ -355,7 +352,7 @@ export default function ProductDetail() {
         </section>
 
         <button type="button" className="primary-btn" onClick={handleAddToCart} disabled={checkingRegret}>
-          {checkingRegret ? 'Checking...' : `Add to Cart — ₹${finalPrice.toLocaleString('en-IN')}`}
+          {checkingRegret ? 'Checking...' : `Add to Cart — ₹${product.price.toLocaleString('en-IN')}`}
         </button>
       </main>
 

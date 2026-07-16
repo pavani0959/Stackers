@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/useUser';
 import { apiRequest } from '../../api/client';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { gsap } from '../../motion/gsap';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import '../../styles/ReverseShopping.css';
 
@@ -25,6 +27,20 @@ export default function ReverseShopping() {
   const [toast, setToast] = useState('');
   const [isListening, setIsListening] = useState(false);
   const [micError, setMicError] = useState('');
+  const resultsRef = useRef(null);
+  const reducedMotion = useReducedMotion();
+
+  // Animate outfit cards whenever new results arrive
+  useEffect(() => {
+    if (!results || reducedMotion || !resultsRef.current) return;
+    const cards = resultsRef.current.querySelectorAll('.outfit-card');
+    if (!cards.length) return;
+    gsap.fromTo(
+      cards,
+      { y: 32, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.45, stagger: 0.12, ease: 'power3.out' },
+    );
+  }, [results, reducedMotion]);
 
   const showToast = (message) => {
     setToast(message);
@@ -206,7 +222,7 @@ export default function ReverseShopping() {
         )}
 
         {results && (
-          <div className="rs-results">
+          <div className="rs-results" ref={resultsRef}>
             <div className={`rs-budget-message ${results.within_budget ? 'success' : 'warning'}`}>
               <div className="rs-budget-title">
                 {results.within_budget ? '✅ Budget validated' : '⚠️ No complete outfit in budget'}

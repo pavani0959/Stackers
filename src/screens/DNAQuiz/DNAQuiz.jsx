@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/useUser';
 import { quizQuestions } from '../../data/quizQuestions';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { gsap, useGSAP } from '../../motion/gsap';
 import ApiErrorState from '../../components/ApiErrorState/ApiErrorState';
 import '../../styles/DNAQuiz.css';
 
@@ -15,6 +17,24 @@ export default function DNAQuiz() {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
   const [retryAnswers, setRetryAnswers] = useState(null);
+
+  const root = useRef(null);
+  const reducedMotion = useReducedMotion();
+
+  useGSAP(
+    () => {
+      if (reducedMotion) return;
+      const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+      
+      tl.from('[data-quiz-text]', { opacity: 0, x: 20, duration: 0.4 });
+      tl.from(
+        '[data-quiz-choice]',
+        { opacity: 0, scale: 0.95, y: 15, duration: 0.35, stagger: 0.08 },
+        '-=0.2',
+      );
+    },
+    { scope: root, dependencies: [currentQ, reducedMotion] },
+  );
 
   const question = quizQuestions[currentQ];
 
@@ -116,23 +136,24 @@ export default function DNAQuiz() {
   }
 
   return (
-    <div className="screen quiz-screen">
+    <div className="screen quiz-screen" ref={root}>
       <div className="quiz-hdr">
         <div className="quiz-prog-wrap">
           <div
             className="quiz-prog-fill"
             style={{
               width: `${progress}%`,
+              transition: 'width 0.4s ease-out',
             }}
           />
         </div>
 
-        <div className="quiz-q-num">
+        <div className="quiz-q-num" data-quiz-text>
           Question {currentQ + 1} of{' '}
           {quizQuestions.length}
         </div>
 
-        <div className="quiz-question">
+        <div className="quiz-question" data-quiz-text>
           {question.question}
         </div>
       </div>
@@ -142,6 +163,7 @@ export default function DNAQuiz() {
           <button
             type="button"
             key={choice.id}
+            data-quiz-choice
             className={`choice-card ${
               selected === choice.id
                 ? 'sel'

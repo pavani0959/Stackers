@@ -1,14 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getDecision } from '../../api/decisions';
 import ApiErrorState from '../../components/ApiErrorState/ApiErrorState';
 import { useUser } from '../../context/useUser';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { gsap, useGSAP } from '../../motion/gsap';
 import '../../styles/DecisionIntelligence.css';
 
 export default function DecisionIntelligence() {
   const { id: snapshotId } = useParams();
   const navigate = useNavigate();
   const { addToCart, createUserEvent } = useUser();
+  const reducedMotion = useReducedMotion();
+  const root = useRef(null);
   const [decision, setDecision] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -41,6 +45,49 @@ export default function DecisionIntelligence() {
       cancelled = true;
     };
   }, [snapshotId, retryKey]);
+
+  // Run GSAP only after decision data is loaded
+  useGSAP(
+    () => {
+      if (!decision || reducedMotion) return;
+
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+      // Hero section slides in
+      tl.from('[data-di-hero]', { y: 24, opacity: 0, duration: 0.45 });
+
+      // Overall score counts up
+      const scoreEl = document.querySelector('[data-di-score]');
+      if (scoreEl) {
+        const obj = { val: 0 };
+        tl.to(
+          obj,
+          {
+            val: decision.overall_score,
+            duration: 0.9,
+            ease: 'power2.out',
+            onUpdate: () => {
+              scoreEl.textContent = Math.round(obj.val);
+            },
+          },
+          '-=0.2',
+        );
+      }
+
+      // Summary fades in
+      tl.from('[data-di-summary]', { opacity: 0, y: 12, duration: 0.35 }, '-=0.3');
+
+      // Reason cards stagger in
+      tl.from('[data-di-reason]', { y: 18, opacity: 0, stagger: 0.1, duration: 0.4 }, '-=0.1');
+
+      // Warning cards after reasons
+      tl.from('[data-di-warn]', { y: 14, opacity: 0, stagger: 0.08, duration: 0.35 }, '-=0.05');
+
+      // Limitations + meta fade in together
+      tl.from('[data-di-limitations], [data-di-meta]', { opacity: 0, duration: 0.3 }, '-=0.1');
+    },
+    { scope: root, dependencies: [decision, reducedMotion] },
+  );
 
   if (loading) {
     return <div className="screen-center">Loading decision intelligence…</div>;
@@ -86,7 +133,7 @@ export default function DecisionIntelligence() {
   }
 
   return (
-    <div className="screen di-screen">
+    <div className="screen di-screen" ref={root}>
       <header className="di-hdr">
         <button type="button" className="back-btn" onClick={() => navigate(-1)}>
           ←
@@ -98,22 +145,22 @@ export default function DecisionIntelligence() {
       </header>
 
       <main className="di-body">
-        <section className="di-hero">
+        <section className="di-hero" data-di-hero>
           <img src={product.image} alt={product.name} />
           <div className="di-hero-info">
             <span className="di-hero-brand">{product.brand}</span>
             <strong className="di-hero-name">{product.name}</strong>
             <span className="di-hero-score">
-              Confidence: {decision.overall_score}
+              Confidence: <span data-di-score>{decision.overall_score}</span>
             </span>
           </div>
         </section>
 
-        <p className="di-summary">{decision.explanation.summary}</p>
+        <p className="di-summary" data-di-summary>{decision.explanation.summary}</p>
         <p className="di-sec-label">Evidence-backed reasons</p>
 
         {decision.explanation.reasons.map((reason) => (
-          <article className="di-reason" key={reason.code}>
+          <article className="di-reason" key={reason.code} data-di-reason>
             <div>
               <h4>
                 {reason.title} ({reason.score}%)
@@ -131,6 +178,7 @@ export default function DecisionIntelligence() {
           <article
             className={`di-warn ${signal.severity}`}
             key={signal.code}
+            data-di-warn
           >
             <div>
               <strong>{signal.title}</strong>
@@ -140,13 +188,13 @@ export default function DecisionIntelligence() {
         ))}
 
         <p className="di-sec-label">Limitations</p>
-        <ul className="di-limitations">
+        <ul className="di-limitations" data-di-limitations>
           {decision.explanation.limitations.map((limitation) => (
             <li key={limitation}>{limitation}</li>
           ))}
         </ul>
 
-        <div className="di-meta">
+        <div className="di-meta" data-di-meta>
           <span>Model: {decision.model_version}</span>
           <span>Profile version: {decision.profile_version}</span>
           <span>Snapshot: {decision.snapshot_id}</span>

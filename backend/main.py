@@ -8,6 +8,7 @@ from typing import List
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 import models
@@ -81,9 +82,18 @@ def read_root():
     return {"message": "Welcome to Myntra Identity API"}
 
 
-@app.get("/api/health")
-def health_check():
+@app.get("/api/health/live")
+def health_live():
     return {"status": "ok", "environment": settings.environment}
+
+
+@app.get("/api/health/ready")
+def health_ready(db: Session = Depends(get_db)):
+    try:
+        db.execute(text("SELECT 1"))
+        return {"status": "ready", "database": "connected"}
+    except Exception as e:
+        raise HTTPException(status_code=503, detail="Database unreachable")
 
 
 @app.get("/api/products", response_model=List[schemas.ProductResponse])

@@ -32,6 +32,21 @@
 .size-chip { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: white; border-radius: 50%; font-size: 14px; font-weight: 700; cursor: pointer; transition: all .2s; border: 1px solid var(--border); color: var(--text); }
 .size-chip.active { background: white; color: var(--accent); border-color: var(--accent); }
 
+.decision-note {
+  font-size: 13px;
+  background: var(--surface-2);
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  color: var(--text-2);
+}
+
+.decision-note.match {
+  background: rgba(255, 63, 108, 0.08);
+  color: var(--accent);
+  font-weight: 600;
+  border: 1px solid rgba(255, 63, 108, 0.2);
+}
+
 .modal-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;

@@ -2,15 +2,15 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/useUser';
 import '../../styles/ProductCard.css';
 
+// "Perfect Match" badge threshold — achievable through normal quiz flow
+const PERFECT_MATCH_THRESHOLD = 85;
+
 export default function ProductCard({ decision }) {
   const navigate = useNavigate();
   const { user, addToWishlist } = useUser();
   const product = decision.product;
   const isWished = (user.wishlist ?? []).includes(product.id);
-  const isDnaDiscount = decision.overall_score >= 90;
-  const finalPrice = isDnaDiscount
-    ? Math.round(product.price * 0.85)
-    : product.price;
+  const isPerfectMatch = decision.overall_score >= PERFECT_MATCH_THRESHOLD;
 
   function openProduct() {
     navigate(
@@ -31,13 +31,13 @@ export default function ProductCard({ decision }) {
       tabIndex={0}
     >
       <div className="prod-img">
-        <img 
-          src={product.image} 
+        <img
+          src={product.image}
           alt={product.name}
-          onError={(e) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/300x400?text=Myntra+App'; }} 
+          onError={(e) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/300x400?text=Myntra+App'; }}
         />
-        <span className="dna-badge">
-          {decision.overall_score}% Match
+        <span className={`dna-badge ${isPerfectMatch ? 'perfect' : ''}`}>
+          {isPerfectMatch ? '★ ' : ''}{decision.overall_score}% Match
         </span>
         <button
           type="button"
@@ -57,15 +57,13 @@ export default function ProductCard({ decision }) {
         <p className="prod-name">{product.name}</p>
         <div className="prod-pr-row">
           <span className="prod-price">
-            ₹{finalPrice.toLocaleString('en-IN')}
+            ₹{product.price.toLocaleString('en-IN')}
           </span>
-          {!isDnaDiscount && (
-            <span className="prod-og">
-              ₹{product.originalPrice.toLocaleString('en-IN')}
-            </span>
-          )}
-          {isDnaDiscount && (
-            <span className="prod-disc">-15% DNA</span>
+          <span className="prod-og">
+            ₹{product.originalPrice.toLocaleString('en-IN')}
+          </span>
+          {isPerfectMatch && (
+            <span className="prod-match-badge">Perfect Match</span>
           )}
         </div>
       </div>
