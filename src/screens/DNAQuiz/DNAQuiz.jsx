@@ -183,8 +183,8 @@ export default function DNAQuiz() {
                 alt={choice.alt}
                 draggable="false"
                 onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = '/quiz/fallback.webp';
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = '/quiz/fallback.webp';
                 }}
               />
 
