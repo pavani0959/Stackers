@@ -34,7 +34,7 @@ export default function ProductCard({ decision }) {
         <img
           src={product.image}
           alt={product.name}
-          onError={(e) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/300x400?text=Myntra+App'; }}
+          onError={(e) => { e.target.onerror = null; e.target.src = '/catalog/fallback-product.webp'; }}
         />
         <span className={`dna-badge ${isPerfectMatch ? 'perfect' : ''}`}>
           {isPerfectMatch ? '★ ' : ''}{decision.overall_score}% Match

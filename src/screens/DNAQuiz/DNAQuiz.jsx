@@ -184,7 +184,7 @@ export default function DNAQuiz() {
                 draggable="false"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = `https://via.placeholder.com/300x400?text=${encodeURIComponent(choice.label)}`;
+                  e.target.src = '/quiz/fallback.webp';
                 }}
               />
 

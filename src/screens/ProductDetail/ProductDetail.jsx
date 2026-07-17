@@ -250,7 +250,7 @@ export default function ProductDetail() {
         <img 
           src={product.image} 
           alt={product.name} 
-          onError={(e) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/600x800?text=Myntra+App'; }}
+          onError={(e) => { e.target.onerror = null; e.target.src = '/catalog/fallback-product.webp'; }}
         />
         <div className="det-hdr-btns">
           <button type="button" className="back-btn" onClick={() => navigate(-1)}>
