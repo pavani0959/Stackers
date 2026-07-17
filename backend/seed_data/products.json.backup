@@ -16,10 +16,10 @@
       "neutral",
       "casual",
       "everyday",
-      "fashion_dna",
       "top",
       "t_shirt",
-      "black"
+      "black",
+      "fashion_dna"
     ],
     "occasions": [
       "campus"
@@ -53,9 +53,10 @@
       "casual",
       "neutral",
       "comfort",
-      "fashion_dna",
       "top",
       "hoodie",
+      "black",
+      "fashion_dna",
       "white"
     ],
     "occasions": [
@@ -91,9 +92,10 @@
       "smart",
       "neutral",
       "classic",
-      "fashion_dna",
       "top",
       "shirt",
+      "black",
+      "fashion_dna",
       "grey"
     ],
     "occasions": [
@@ -128,9 +130,10 @@
       "bold",
       "streetwear",
       "colorful",
-      "fashion_dna",
       "top",
       "t_shirt",
+      "black",
+      "fashion_dna",
       "beige"
     ],
     "occasions": [
@@ -166,9 +169,10 @@
       "classic",
       "cozy",
       "neutral",
-      "fashion_dna",
       "top",
       "t_shirt",
+      "black",
+      "fashion_dna",
       "brown"
     ],
     "occasions": [
@@ -203,9 +207,10 @@
       "clean",
       "everyday",
       "athletic",
-      "fashion_dna",
       "top",
       "t_shirt",
+      "black",
+      "fashion_dna",
       "blue"
     ],
     "occasions": [
@@ -241,9 +246,10 @@
       "elegant",
       "neutral",
       "feminine",
-      "fashion_dna",
       "top",
       "t_shirt",
+      "black",
+      "fashion_dna",
       "navy"
     ],
     "occasions": [
@@ -278,9 +284,10 @@
       "festive",
       "colorful",
       "traditional",
-      "fashion_dna",
       "top",
       "kurta",
+      "black",
+      "fashion_dna",
       "green"
     ],
     "occasions": [
@@ -316,9 +323,10 @@
       "athletic",
       "comfort",
       "casual",
-      "fashion_dna",
       "top",
       "t_shirt",
+      "black",
+      "fashion_dna",
       "olive"
     ],
     "occasions": [
@@ -354,9 +362,10 @@
       "neutral",
       "casual",
       "everyday",
-      "fashion_dna",
       "top",
       "t_shirt",
+      "white",
+      "fashion_dna",
       "pink"
     ],
     "occasions": [
@@ -391,9 +400,10 @@
       "casual",
       "neutral",
       "comfort",
-      "fashion_dna",
       "top",
       "hoodie",
+      "white",
+      "fashion_dna",
       "purple"
     ],
     "occasions": [
@@ -429,9 +439,10 @@
       "smart",
       "neutral",
       "classic",
-      "fashion_dna",
       "top",
       "shirt",
+      "white",
+      "fashion_dna",
       "yellow"
     ],
     "occasions": [
@@ -466,9 +477,10 @@
       "bold",
       "streetwear",
       "colorful",
-      "fashion_dna",
       "top",
       "t_shirt",
+      "white",
+      "fashion_dna",
       "orange"
     ],
     "occasions": [
@@ -504,9 +516,10 @@
       "classic",
       "cozy",
       "neutral",
-      "fashion_dna",
       "top",
       "t_shirt",
+      "white",
+      "fashion_dna",
       "black"
     ],
     "occasions": [
@@ -541,9 +554,10 @@
       "clean",
       "everyday",
       "athletic",
-      "fashion_dna",
       "top",
       "t_shirt",
+      "white",
+      "fashion_dna",
       "black"
     ],
     "occasions": [
@@ -579,9 +593,10 @@
       "elegant",
       "neutral",
       "feminine",
-      "fashion_dna",
       "top",
       "t_shirt",
+      "white",
+      "fashion_dna",
       "grey"
     ],
     "occasions": [
@@ -616,9 +631,10 @@
       "festive",
       "colorful",
       "traditional",
-      "fashion_dna",
       "top",
       "kurta",
+      "white",
+      "fashion_dna",
       "beige"
     ],
     "occasions": [
@@ -654,9 +670,10 @@
       "athletic",
       "comfort",
       "casual",
-      "fashion_dna",
       "top",
       "t_shirt",
+      "white",
+      "fashion_dna",
       "brown"
     ],
     "occasions": [
@@ -692,9 +709,10 @@
       "neutral",
       "casual",
       "everyday",
-      "fashion_dna",
       "top",
       "t_shirt",
+      "grey",
+      "fashion_dna",
       "navy"
     ],
     "occasions": [
@@ -729,9 +747,10 @@
       "casual",
       "neutral",
       "comfort",
-      "fashion_dna",
       "top",
       "hoodie",
+      "grey",
+      "fashion_dna",
       "green"
     ],
     "occasions": [
@@ -767,9 +786,10 @@
       "smart",
       "neutral",
       "classic",
-      "fashion_dna",
       "top",
       "shirt",
+      "grey",
+      "fashion_dna",
       "olive"
     ],
     "occasions": [
@@ -804,9 +824,10 @@
       "bold",
       "streetwear",
       "colorful",
-      "fashion_dna",
       "top",
       "t_shirt",
+      "grey",
+      "fashion_dna",
       "red"
     ],
     "occasions": [
@@ -842,9 +863,10 @@
       "classic",
       "cozy",
       "neutral",
-      "fashion_dna",
       "top",
       "t_shirt",
+      "grey",
+      "fashion_dna",
       "pink"
     ],
     "occasions": [
@@ -879,9 +901,10 @@
       "clean",
       "everyday",
       "athletic",
-      "fashion_dna",
       "top",
       "t_shirt",
+      "grey",
+      "fashion_dna",
       "red"
     ],
     "occasions": [
@@ -917,9 +940,10 @@
       "elegant",
       "neutral",
       "feminine",
-      "fashion_dna",
       "top",
       "t_shirt",
+      "grey",
+      "fashion_dna",
       "yellow"
     ],
     "occasions": [
@@ -954,10 +978,10 @@
       "streetwear",
       "casual",
       "neutral",
-      "fashion_dna",
       "bottom",
       "cargo_pants",
-      "black"
+      "black",
+      "fashion_dna"
     ],
     "occasions": [
       "campus"
@@ -991,9 +1015,10 @@
       "classic",
       "neutral",
       "everyday",
-      "fashion_dna",
       "bottom",
       "jeans",
+      "black",
+      "fashion_dna",
       "white"
     ],
     "occasions": [
@@ -1029,9 +1054,10 @@
       "quietluxury",
       "neutral",
       "smart",
-      "fashion_dna",
       "bottom",
       "trousers",
+      "black",
+      "fashion_dna",
       "grey"
     ],
     "occasions": [
@@ -1066,9 +1092,10 @@
       "casual",
       "comfort",
       "bold",
-      "fashion_dna",
       "bottom",
       "cargo_pants",
+      "black",
+      "fashion_dna",
       "beige"
     ],
     "occasions": [
@@ -1104,9 +1131,10 @@
       "streetwear",
       "casual",
       "neutral",
-      "fashion_dna",
       "bottom",
       "cargo_pants",
+      "white",
+      "fashion_dna",
       "blue"
     ],
     "occasions": [
@@ -1141,9 +1169,10 @@
       "classic",
       "neutral",
       "everyday",
-      "fashion_dna",
       "bottom",
       "jeans",
+      "white",
+      "fashion_dna",
       "navy"
     ],
     "occasions": [
@@ -1179,9 +1208,10 @@
       "quietluxury",
       "neutral",
       "smart",
-      "fashion_dna",
       "bottom",
       "trousers",
+      "white",
+      "fashion_dna",
       "green"
     ],
     "occasions": [
@@ -1216,9 +1246,10 @@
       "casual",
       "comfort",
       "bold",
-      "fashion_dna",
       "bottom",
       "cargo_pants",
+      "white",
+      "fashion_dna",
       "olive"
     ],
     "occasions": [
@@ -1254,9 +1285,10 @@
       "streetwear",
       "casual",
       "neutral",
-      "fashion_dna",
       "bottom",
       "cargo_pants",
+      "grey",
+      "fashion_dna",
       "pink"
     ],
     "occasions": [
@@ -1291,9 +1323,10 @@
       "classic",
       "neutral",
       "everyday",
-      "fashion_dna",
       "bottom",
       "jeans",
+      "grey",
+      "fashion_dna",
       "purple"
     ],
     "occasions": [
@@ -1329,9 +1362,10 @@
       "quietluxury",
       "neutral",
       "smart",
-      "fashion_dna",
       "bottom",
       "trousers",
+      "grey",
+      "fashion_dna",
       "yellow"
     ],
     "occasions": [
@@ -1366,9 +1400,10 @@
       "casual",
       "comfort",
       "bold",
-      "fashion_dna",
       "bottom",
       "cargo_pants",
+      "grey",
+      "fashion_dna",
       "orange"
     ],
     "occasions": [
@@ -1404,9 +1439,10 @@
       "streetwear",
       "casual",
       "neutral",
-      "fashion_dna",
       "bottom",
       "cargo_pants",
+      "beige",
+      "fashion_dna",
       "white"
     ],
     "occasions": [
@@ -1441,9 +1477,10 @@
       "classic",
       "neutral",
       "everyday",
-      "fashion_dna",
       "bottom",
       "jeans",
+      "beige",
+      "fashion_dna",
       "grey"
     ],
     "occasions": [
@@ -1479,10 +1516,10 @@
       "quietluxury",
       "neutral",
       "smart",
-      "fashion_dna",
       "bottom",
       "trousers",
-      "beige"
+      "beige",
+      "fashion_dna"
     ],
     "occasions": [
       "office"
@@ -1516,9 +1553,10 @@
       "casual",
       "comfort",
       "bold",
-      "fashion_dna",
       "bottom",
       "cargo_pants",
+      "beige",
+      "fashion_dna",
       "brown"
     ],
     "occasions": [
@@ -1554,9 +1592,10 @@
       "streetwear",
       "casual",
       "neutral",
-      "fashion_dna",
       "bottom",
       "cargo_pants",
+      "brown",
+      "fashion_dna",
       "navy"
     ],
     "occasions": [
@@ -1591,9 +1630,10 @@
       "classic",
       "neutral",
       "everyday",
-      "fashion_dna",
       "bottom",
       "jeans",
+      "brown",
+      "fashion_dna",
       "green"
     ],
     "occasions": [
@@ -1629,9 +1669,10 @@
       "quietluxury",
       "neutral",
       "smart",
-      "fashion_dna",
       "bottom",
       "trousers",
+      "brown",
+      "fashion_dna",
       "olive"
     ],
     "occasions": [
@@ -1666,9 +1707,10 @@
       "casual",
       "comfort",
       "bold",
-      "fashion_dna",
       "bottom",
       "cargo_pants",
+      "brown",
+      "fashion_dna",
       "red"
     ],
     "occasions": [
@@ -2268,10 +2310,10 @@
       "smart",
       "neutral",
       "formal",
-      "fashion_dna",
       "outerwear",
       "blazer",
-      "beige"
+      "beige",
+      "fashion_dna"
     ],
     "occasions": [
       "office"
@@ -2305,9 +2347,10 @@
       "classic",
       "casual",
       "cool",
-      "fashion_dna",
       "outerwear",
       "jacket",
+      "black",
+      "fashion_dna",
       "white"
     ],
     "occasions": [
@@ -2342,9 +2385,10 @@
       "smart",
       "neutral",
       "formal",
-      "fashion_dna",
       "outerwear",
       "blazer",
+      "brown",
+      "fashion_dna",
       "blue"
     ],
     "occasions": [
@@ -2379,9 +2423,10 @@
       "classic",
       "casual",
       "cool",
-      "fashion_dna",
       "outerwear",
       "jacket",
+      "white",
+      "fashion_dna",
       "brown"
     ],
     "occasions": [
@@ -2416,9 +2461,10 @@
       "smart",
       "neutral",
       "formal",
-      "fashion_dna",
       "outerwear",
       "blazer",
+      "blue",
+      "fashion_dna",
       "green"
     ],
     "occasions": [
@@ -2453,9 +2499,10 @@
       "classic",
       "casual",
       "cool",
-      "fashion_dna",
       "outerwear",
       "jacket",
+      "grey",
+      "fashion_dna",
       "green"
     ],
     "occasions": [
@@ -2490,9 +2537,10 @@
       "smart",
       "neutral",
       "formal",
-      "fashion_dna",
       "outerwear",
       "blazer",
+      "navy",
+      "fashion_dna",
       "red"
     ],
     "occasions": [
@@ -2527,9 +2575,10 @@
       "classic",
       "casual",
       "cool",
-      "fashion_dna",
       "outerwear",
       "jacket",
+      "beige",
+      "fashion_dna",
       "pink"
     ],
     "occasions": [
@@ -2564,9 +2613,10 @@
       "smart",
       "neutral",
       "formal",
-      "fashion_dna",
       "outerwear",
       "blazer",
+      "green",
+      "fashion_dna",
       "purple"
     ],
     "occasions": [
@@ -2601,9 +2651,10 @@
       "classic",
       "casual",
       "cool",
-      "fashion_dna",
       "outerwear",
       "jacket",
+      "brown",
+      "fashion_dna",
       "orange"
     ],
     "occasions": [
@@ -2638,10 +2689,10 @@
       "clean",
       "everyday",
       "neutral",
-      "fashion_dna",
       "footwear",
       "sneakers",
-      "white"
+      "white",
+      "fashion_dna"
     ],
     "occasions": [
       "campus"
@@ -2676,9 +2727,10 @@
       "streetwear",
       "bold",
       "statement",
-      "fashion_dna",
       "footwear",
       "sneakers",
+      "white",
+      "fashion_dna",
       "grey"
     ],
     "occasions": [
@@ -2714,9 +2766,10 @@
       "clean",
       "everyday",
       "neutral",
-      "fashion_dna",
       "footwear",
       "sneakers",
+      "grey",
+      "fashion_dna",
       "beige"
     ],
     "occasions": [
@@ -2752,9 +2805,10 @@
       "streetwear",
       "bold",
       "statement",
-      "fashion_dna",
       "footwear",
       "sneakers",
+      "grey",
+      "fashion_dna",
       "brown"
     ],
     "occasions": [
@@ -2790,9 +2844,10 @@
       "clean",
       "everyday",
       "neutral",
-      "fashion_dna",
       "footwear",
       "sneakers",
+      "beige",
+      "fashion_dna",
       "blue"
     ],
     "occasions": [
@@ -2828,9 +2883,10 @@
       "streetwear",
       "bold",
       "statement",
-      "fashion_dna",
       "footwear",
       "sneakers",
+      "beige",
+      "fashion_dna",
       "navy"
     ],
     "occasions": [
@@ -2866,9 +2922,10 @@
       "clean",
       "everyday",
       "neutral",
-      "fashion_dna",
       "footwear",
       "sneakers",
+      "brown",
+      "fashion_dna",
       "green"
     ],
     "occasions": [
@@ -2904,9 +2961,10 @@
       "streetwear",
       "bold",
       "statement",
-      "fashion_dna",
       "footwear",
       "sneakers",
+      "brown",
+      "fashion_dna",
       "olive"
     ],
     "occasions": [
@@ -2942,9 +3000,10 @@
       "clean",
       "everyday",
       "neutral",
-      "fashion_dna",
       "footwear",
       "sneakers",
+      "blue",
+      "fashion_dna",
       "red"
     ],
     "occasions": [
@@ -2980,9 +3039,10 @@
       "streetwear",
       "bold",
       "statement",
-      "fashion_dna",
       "footwear",
       "sneakers",
+      "blue",
+      "fashion_dna",
       "pink"
     ],
     "occasions": [
@@ -3018,9 +3078,10 @@
       "clean",
       "everyday",
       "neutral",
-      "fashion_dna",
       "footwear",
       "sneakers",
+      "navy",
+      "fashion_dna",
       "purple"
     ],
     "occasions": [
@@ -3056,9 +3117,10 @@
       "streetwear",
       "bold",
       "statement",
-      "fashion_dna",
       "footwear",
       "sneakers",
+      "navy",
+      "fashion_dna",
       "yellow"
     ],
     "occasions": [
@@ -3214,9 +3276,10 @@
       "clean",
       "everyday",
       "neutral",
-      "fashion_dna",
       "footwear",
       "sneakers",
+      "white",
+      "fashion_dna",
       "grey"
     ],
     "occasions": [
@@ -3252,9 +3315,10 @@
       "streetwear",
       "bold",
       "statement",
-      "fashion_dna",
       "footwear",
       "sneakers",
+      "white",
+      "fashion_dna",
       "beige"
     ],
     "occasions": [
@@ -3290,9 +3354,10 @@
       "clean",
       "everyday",
       "neutral",
-      "fashion_dna",
       "footwear",
       "sneakers",
+      "grey",
+      "fashion_dna",
       "brown"
     ],
     "occasions": [
@@ -3327,10 +3392,10 @@
       "minimalist",
       "neutral",
       "everyday",
-      "fashion_dna",
       "accessory",
       "bag",
-      "black"
+      "black",
+      "fashion_dna"
     ],
     "occasions": [
       "campus",
@@ -3360,9 +3425,10 @@
       "minimalist",
       "clean",
       "classic",
-      "fashion_dna",
       "accessory",
       "watch",
+      "black",
+      "fashion_dna",
       "white"
     ],
     "occasions": [
@@ -3392,9 +3458,12 @@
     "tags": [
       "bold",
       "colorful",
-      "y2k",
-      "fashion_dna",
       "accessory",
+      "y2k",
+      "top",
+      "t_shirt",
+      "black",
+      "fashion_dna",
       "jewellery",
       "grey"
     ],
@@ -3426,9 +3495,10 @@
       "minimalist",
       "neutral",
       "everyday",
-      "fashion_dna",
       "accessory",
       "bag",
+      "white",
+      "fashion_dna",
       "brown"
     ],
     "occasions": [
@@ -3459,9 +3529,10 @@
       "minimalist",
       "clean",
       "classic",
-      "fashion_dna",
       "accessory",
       "watch",
+      "white",
+      "fashion_dna",
       "blue"
     ],
     "occasions": [
@@ -3491,9 +3562,12 @@
     "tags": [
       "bold",
       "colorful",
-      "y2k",
-      "fashion_dna",
       "accessory",
+      "y2k",
+      "top",
+      "t_shirt",
+      "white",
+      "fashion_dna",
       "jewellery",
       "navy"
     ],
@@ -3525,9 +3599,10 @@
       "minimalist",
       "neutral",
       "everyday",
-      "fashion_dna",
       "accessory",
       "bag",
+      "grey",
+      "fashion_dna",
       "olive"
     ],
     "occasions": [
@@ -3558,9 +3633,10 @@
       "minimalist",
       "clean",
       "classic",
-      "fashion_dna",
       "accessory",
       "watch",
+      "grey",
+      "fashion_dna",
       "red"
     ],
     "occasions": [
@@ -3590,9 +3666,12 @@
     "tags": [
       "bold",
       "colorful",
-      "y2k",
-      "fashion_dna",
       "accessory",
+      "y2k",
+      "top",
+      "t_shirt",
+      "grey",
+      "fashion_dna",
       "jewellery",
       "pink"
     ],
@@ -3624,9 +3703,10 @@
       "minimalist",
       "neutral",
       "everyday",
-      "fashion_dna",
       "accessory",
       "bag",
+      "beige",
+      "fashion_dna",
       "yellow"
     ],
     "occasions": [
@@ -3657,9 +3737,10 @@
       "minimalist",
       "clean",
       "classic",
-      "fashion_dna",
       "accessory",
       "watch",
+      "beige",
+      "fashion_dna",
       "orange"
     ],
     "occasions": [
@@ -3689,9 +3770,12 @@
     "tags": [
       "bold",
       "colorful",
-      "y2k",
-      "fashion_dna",
       "accessory",
+      "y2k",
+      "top",
+      "t_shirt",
+      "beige",
+      "fashion_dna",
       "jewellery",
       "black"
     ],
@@ -3723,9 +3807,10 @@
       "minimalist",
       "neutral",
       "everyday",
-      "fashion_dna",
       "accessory",
       "bag",
+      "brown",
+      "fashion_dna",
       "grey"
     ],
     "occasions": [
@@ -3756,9 +3841,10 @@
       "minimalist",
       "clean",
       "classic",
-      "fashion_dna",
       "accessory",
       "watch",
+      "brown",
+      "fashion_dna",
       "beige"
     ],
     "occasions": [
@@ -3788,11 +3874,13 @@
     "tags": [
       "bold",
       "colorful",
-      "y2k",
-      "fashion_dna",
       "accessory",
-      "jewellery",
-      "brown"
+      "y2k",
+      "top",
+      "t_shirt",
+      "brown",
+      "fashion_dna",
+      "jewellery"
     ],
     "occasions": [
       "casual",
@@ -3822,9 +3910,10 @@
       "minimalist",
       "neutral",
       "everyday",
-      "fashion_dna",
       "accessory",
       "bag",
+      "blue",
+      "fashion_dna",
       "navy"
     ],
     "occasions": [
@@ -3855,9 +3944,10 @@
       "minimalist",
       "clean",
       "classic",
-      "fashion_dna",
       "accessory",
       "watch",
+      "blue",
+      "fashion_dna",
       "green"
     ],
     "occasions": [
@@ -3887,9 +3977,12 @@
     "tags": [
       "bold",
       "colorful",
-      "y2k",
-      "fashion_dna",
       "accessory",
+      "y2k",
+      "top",
+      "t_shirt",
+      "blue",
+      "fashion_dna",
       "jewellery",
       "olive"
     ],
@@ -3956,9 +4049,10 @@
       "minimalist",
       "neutral",
       "everyday",
-      "fashion_dna",
       "accessory",
       "bag",
+      "black",
+      "fashion_dna",
       "blue"
     ],
     "occasions": [
@@ -3989,9 +4083,10 @@
       "minimalist",
       "clean",
       "classic",
-      "fashion_dna",
       "accessory",
       "watch",
+      "black",
+      "fashion_dna",
       "navy"
     ],
     "occasions": [
@@ -4021,9 +4116,12 @@
     "tags": [
       "bold",
       "colorful",
-      "y2k",
-      "fashion_dna",
       "accessory",
+      "y2k",
+      "top",
+      "t_shirt",
+      "black",
+      "fashion_dna",
       "jewellery",
       "green"
     ],

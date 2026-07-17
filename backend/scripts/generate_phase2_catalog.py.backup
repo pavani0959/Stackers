@@ -1203,61 +1203,6 @@ def create_catalog(
                 base_product.get("tags")
             )
 
-            taxonomy_tags = {
-                "top",
-                "bottom",
-                "dress",
-                "outerwear",
-                "footwear",
-                "accessory",
-                "ethnic_set",
-                "t_shirt",
-                "shirt",
-                "blouse",
-                "crop_top",
-                "sweatshirt",
-                "hoodie",
-                "kurta",
-                "jeans",
-                "trousers",
-                "cargo_pants",
-                "shorts",
-                "skirt",
-                "leggings",
-                "palazzo",
-                "casual_dress",
-                "party_dress",
-                "maxi_dress",
-                "bodycon_dress",
-                "jacket",
-                "blazer",
-                "cardigan",
-                "coat",
-                "sneakers",
-                "heels",
-                "flats",
-                "sandals",
-                "boots",
-                "formal_shoes",
-                "bag",
-                "watch",
-                "jewellery",
-                "sunglasses",
-                "belt",
-                "cap",
-                "scarf",
-                "kurta_set",
-            }
-
-            cleaned_base_tags = [
-                tag
-                for tag in base_tags
-                if (
-                    tag not in taxonomy_tags
-                    and tag not in COLOURS
-                )
-            ]
-
             if (
                 "hard_budget_anchor"
                 in base_tags
@@ -1309,7 +1254,7 @@ def create_catalog(
             )
 
             tags = unique_strings(
-                cleaned_base_tags
+                base_tags
                 + [
                     category,
                     subcategory,
