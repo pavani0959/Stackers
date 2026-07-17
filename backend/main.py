@@ -31,6 +31,10 @@ from ml import (
     muse_chat_response,
 )
 
+from observability import (
+    request_observability_middleware,
+)
+
 settings = get_settings()
 
 from routers.memory import router as memory_router
@@ -38,6 +42,10 @@ from routers.memory import router as memory_router
 from routers.community import router as community_router
 
 app = FastAPI(title="Myntra Identity API")
+
+app.middleware("http")(
+    request_observability_middleware
+)
 
 app.include_router(profile_router)
 app.include_router(events_router)
@@ -515,3 +523,20 @@ def muse_chat(request: schemas.ChatRequest, db: Session = Depends(get_db)):
         request.user_profile.model_dump(),
         products,
     )
+
+
+# ---------------------------------------------------------------------------
+# System health
+# ---------------------------------------------------------------------------
+
+@app.get(
+    "/health",
+    tags=["system"],
+    summary="Check API health",
+)
+async def health_check() -> dict[str, str]:
+    """Return a lightweight process health response."""
+    return {
+        "status": "ok",
+    }
+
