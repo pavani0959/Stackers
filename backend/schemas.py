@@ -242,6 +242,55 @@ class WardrobeItemResponse(WardrobeItemCreate):
     updated_at: datetime
 
 
+class CheckoutItem(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+
+    product_id: int
+
+    size: str | None = Field(
+        default=None,
+        max_length=30,
+    )
+
+    recommendation_item_id: int | None = None
+
+    decision_snapshot_id: UUID | None = None
+
+
+class CheckoutRequest(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+
+    items: list[CheckoutItem] = Field(
+        min_length=1,
+    )
+
+
+class CheckoutResponse(BaseModel):
+    purchase_event_ids: list[int]
+    wardrobe_item_ids: list[int]
+
+
+class MemoryActionRequest(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+
+    reason: str | None = Field(
+        default=None,
+        max_length=500,
+    )
+
+
+class MemoryActionResponse(BaseModel):
+    event_id: int
+    wardrobe_item_id: int
+    event_type: str
+
+
 class RecommendationSessionCreate(BaseModel):
     session_type: str = "feed"
     raw_prompt: str | None = None

@@ -459,19 +459,45 @@ export function UserProvider({ children }) {
       };
     });
     
-    // Log cart_add event to backend
-    try {
-      createUserEventRequest({
-        event_type: 'cart_add',
-        product_id: product.id,
-        context: {
-          source: product.source || 'cart',
-          size: product.selectedSize || 'M',
-        },
-      });
-    } catch (e) {
-      console.warn('Failed to log cart_add event', e);
-    }
+    /*
+     * Cart addition is only an intent event.
+     * It must not create a purchase or wardrobe item.
+     */
+    void createUserEventRequest({
+      event_type: 'cart_add',
+
+      product_id: product.id,
+
+      recommendation_item_id:
+        product.recommendationItemId
+        ?? null,
+
+      metadata: {
+        source:
+          product.source
+          ?? 'cart',
+
+        size:
+          product.selectedSize
+          ?? 'M',
+
+        decision_snapshot_id:
+          product.decisionSnapshotId
+          ?? null,
+      },
+    }).catch((error) => {
+      console.warn(
+        'Failed to log cart_add event',
+        error,
+      );
+    });
+  }, []);
+
+  const clearCart = useCallback(() => {
+    setUser((previousUser) => ({
+      ...previousUser,
+      cartItems: [],
+    }));
   }, []);
 
   /*
@@ -504,6 +530,7 @@ export function UserProvider({ children }) {
       updateUser,
       addToWishlist,
       addToCart,
+      clearCart,
       resetAll,
     }),
     [
@@ -519,6 +546,7 @@ export function UserProvider({ children }) {
       updateUser,
       addToWishlist,
       addToCart,
+      clearCart,
       resetAll,
     ],
   );

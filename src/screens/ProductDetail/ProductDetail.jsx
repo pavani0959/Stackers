@@ -152,6 +152,7 @@ export default function ProductDetail() {
   }
 
   const product = decision.product;
+  const finalPrice = Number(product.price) || 0;
   const isWished = (user.wishlist ?? []).includes(product.id);
   const isPerfectMatch = decision.overall_score >= 85;
   const originalPrice = product.originalPrice ?? product.price;
@@ -228,20 +229,105 @@ export default function ProductDetail() {
       recommendationItemId: decision.recommendation_item_id,
     });
 
-    createUserEvent({
-      event_type: 'cart_add',
-      product_id: product.id,
-      recommendation_item_id: decision.recommendation_item_id,
-      metadata: {
-        size,
-        match_score: decision.overall_score,
-        model_version: decision.model_version,
-        profile_version: decision.profile_version,
-        decision_snapshot_id: decision.snapshot_id,
-      },
-    }).catch(() => {});
-
     showToast('Added to cart');
+  }
+
+
+  function handleAcceptAlternative(
+    alternative,
+    signals = [],
+  ) {
+    if (!alternative?.id) {
+      showToast(
+        'The alternative product is unavailable.',
+      );
+
+      return;
+    }
+
+    const originalProduct = product;
+
+    const normalizedSignals =
+      Array.isArray(signals)
+        ? signals
+        : [];
+
+    /*
+     * Persist evidence that regret prevention
+     * changed the user's decision.
+     */
+    void createUserEvent({
+      event_type: 'recommendation_accept',
+
+      product_id: alternative.id,
+
+      recommendation_item_id:
+        alternative.recommendation_item_id
+        ?? alternative.recommendationItemId
+        ?? null,
+
+      metadata: {
+        source: 'regret_prevention',
+
+        decision_changed: true,
+
+        rejected_product_id:
+          originalProduct.id,
+
+        alternative_product_id:
+          alternative.id,
+
+        regret_signal_codes:
+          normalizedSignals
+            .map((signal) => signal?.code)
+            .filter(Boolean),
+
+        original_decision_snapshot_id:
+          decision.snapshot_id,
+
+        alternative_decision_snapshot_id:
+          alternative.snapshot_id
+          ?? alternative.decisionSnapshotId
+          ?? null,
+      },
+    }).catch((error) => {
+      console.warn(
+        'Failed to record accepted alternative',
+        error,
+      );
+    });
+
+    /*
+     * Add the accepted alternative—not the
+     * rejected original product—to the cart.
+     */
+    addToCart({
+      ...alternative,
+
+      selectedSize:
+        alternative.selectedSize
+        ?? size
+        ?? 'M',
+
+      source:
+        'regret_prevention_alternative',
+
+      recommendationItemId:
+        alternative.recommendation_item_id
+        ?? alternative.recommendationItemId
+        ?? null,
+
+      decisionSnapshotId:
+        alternative.snapshot_id
+        ?? alternative.decisionSnapshotId
+        ?? null,
+    });
+
+    setRegretWarning(null);
+
+    showToast(
+      `${alternative.name} added instead`,
+    );
   }
 
   return (
@@ -362,39 +448,110 @@ export default function ProductDetail() {
             <h2>⚠️ Potential Regret Detected</h2>
             
             <div className="regret-signals">
-              {regretWarning.signals.map((sig, idx) => (
-                <div key={idx} className="regret-signal-item">
-                  <strong>{sig.title}</strong>
-                  <p>{sig.detail}</p>
+              {(regretWarning.signals ?? []).map((signal) => (
+                <div
+                  key={signal.code ?? signal.title}
+                  className="regret-signal-item"
+                >
+                  <strong>{signal.title}</strong>
+                  <p>{signal.detail}</p>
                 </div>
               ))}
             </div>
 
-            {regretWarning.alternatives && regretWarning.alternatives.length > 0 && (
+            {(regretWarning.alternatives ?? []).length > 0 && (
               <div className="regret-alternatives">
                 <h4>Suggested Alternatives</h4>
-                <div className="alt-scroll" style={{ display: 'flex', overflowX: 'auto', gap: '10px' }}>
-                  {regretWarning.alternatives.map((alt) => (
-                    <div key={alt.id} className="alt-item" onClick={() => {
-                        setRegretWarning(null);
-                        navigate(`/product/${alt.id}`);
-                    }} style={{ minWidth: '120px', cursor: 'pointer' }}>
-                      <img src={alt.image} alt={alt.name} style={{ width: '100%', borderRadius: '8px' }} />
-                      <div style={{ fontSize: '0.8rem', marginTop: '4px' }}>
-                        <strong>{alt.name}</strong>
-                        <p style={{ margin: 0, color: 'var(--ink-500)', fontSize: '0.7rem' }}>{alt.reason}</p>
+
+                <div
+                  className="alt-scroll"
+                  style={{
+                    display: 'flex',
+                    overflowX: 'auto',
+                    gap: '10px',
+                  }}
+                >
+                  {regretWarning.alternatives.map((alternative) => (
+                    <article
+                      key={alternative.id}
+                      className="alt-item"
+                      style={{
+                        minWidth: '160px',
+                        padding: '10px',
+                        border: '1px solid var(--line-soft, #e7e7ec)',
+                        borderRadius: '12px',
+                      }}
+                    >
+                      <img
+                        src={alternative.image}
+                        alt={alternative.name}
+                        style={{
+                          width: '100%',
+                          aspectRatio: '3 / 4',
+                          objectFit: 'cover',
+                          borderRadius: '8px',
+                        }}
+                      />
+
+                      <div
+                        style={{
+                          fontSize: '0.8rem',
+                          marginTop: '8px',
+                        }}
+                      >
+                        <strong>{alternative.name}</strong>
+                        <p
+                          style={{
+                            margin: '4px 0 8px',
+                            color: 'var(--ink-500)',
+                            fontSize: '0.7rem',
+                          }}
+                        >
+                          {alternative.reason}
+                        </p>
                       </div>
-                    </div>
+
+                      <div
+                        style={{
+                          display: 'grid',
+                          gap: '6px',
+                        }}
+                      >
+                        <button
+                          type="button"
+                          className="primary-btn"
+                          onClick={() => {
+                            handleAcceptAlternative(
+                              alternative,
+                              regretWarning.signals ?? [],
+                            );
+                          }}
+                        >
+                          Add instead
+                        </button>
+
+                        <button
+                          type="button"
+                          className="secondary-btn"
+                          onClick={() => {
+                            setRegretWarning(null);
+                            navigate(`/product/${alternative.id}`);
+                          }}
+                        >
+                          View product
+                        </button>
+                      </div>
+                    </article>
                   ))}
                 </div>
               </div>
             )}
 
             <div className="regret-actions" style={{ display: 'flex', gap: '10px', marginTop: '16px' }}>
-              <button className="secondary-btn" onClick={() => setRegretWarning(null)} style={{ flex: 1 }}>
+              <button type="button" className="secondary-btn" onClick={() => setRegretWarning(null)} style={{ flex: 1 }}>
                 Cancel
               </button>
-              <button className="primary-btn warning-btn" onClick={proceedWithCartAdd} style={{ flex: 1, backgroundColor: '#e74c3c' }}>
+              <button type="button" className="primary-btn warning-btn" onClick={proceedWithCartAdd} style={{ flex: 1, backgroundColor: '#e74c3c' }}>
                 I still want it
               </button>
             </div>

@@ -33,12 +33,15 @@ from ml import (
 
 settings = get_settings()
 
+from routers.memory import router as memory_router
+
 app = FastAPI(title="Myntra Identity API")
 
 app.include_router(profile_router)
 app.include_router(events_router)
 app.include_router(wardrobe_router)
 app.include_router(decisions_router)
+app.include_router(memory_router)
 
 app.add_exception_handler(AppError, app_error_handler)
 app.add_exception_handler(HTTPException, http_exception_handler)
