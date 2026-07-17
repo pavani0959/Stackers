@@ -115,39 +115,114 @@ def _select_diverse(
     candidates: list[dict],
     maximum: int = 3,
 ) -> list[dict]:
-    """Pick up to `maximum` outfits that share as few products as possible."""
+    """
+    Select deterministic, distinct outfits.
+
+    Fully disjoint outfits are preferred. When
+    three fully disjoint outfits are unavailable,
+    limited product reuse is permitted, but each
+    complete item combination must still be unique.
+    """
     selected: list[dict] = []
+
+    seen_combinations: set[
+        frozenset[int]
+    ] = set()
+
     used_ids: set[int] = set()
 
-    # First pass: fully disjoint outfits
-    for cand in candidates:
-        c_ids = {item["id"] for item in cand["items"]}
-        if c_ids.isdisjoint(used_ids):
-            selected.append(cand)
-            used_ids.update(c_ids)
+    # First pass: select completely disjoint
+    # outfits wherever possible.
+    for candidate in candidates:
+        combination = frozenset(
+            item["id"]
+            for item in candidate["items"]
+        )
+
+        if combination in seen_combinations:
+            continue
+
+        if not combination.isdisjoint(
+            used_ids
+        ):
+            continue
+
+        selected.append(candidate)
+
+        seen_combinations.add(
+            combination
+        )
+
+        used_ids.update(
+            combination
+        )
+
         if len(selected) == maximum:
             return selected
 
-    # Fallback: allow minimal reuse
-    remaining = [c for c in candidates if c not in selected]
-    remaining.sort(
-        key=lambda c: (
-            len({item["id"] for item in c["items"]}.intersection(used_ids)),
-            -c["overall_score"],
+    # Second pass: permit the smallest possible
+    # overlap, but never duplicate the complete
+    # outfit combination.
+    remaining = []
+
+    for candidate in candidates:
+        combination = frozenset(
+            item["id"]
+            for item in candidate["items"]
         )
+
+        if combination in seen_combinations:
+            continue
+
+        overlap_count = len(
+            combination.intersection(
+                used_ids
+            )
+        )
+
+        remaining.append(
+            (
+                overlap_count,
+                candidate,
+                combination,
+            )
+        )
+
+    remaining.sort(
+        key=lambda entry: (
+            entry[0],
+            -entry[1]["overall_score"],
+            entry[1]["total_price"],
+            tuple(
+                item["id"]
+                for item
+                in entry[1]["items"]
+            ),
+        ),
     )
-    for cand in remaining:
-        selected.append(cand)
-        used_ids.update(item["id"] for item in cand["items"])
+
+    for (
+        _overlap_count,
+        candidate,
+        combination,
+    ) in remaining:
+        if combination in seen_combinations:
+            continue
+
+        selected.append(candidate)
+
+        seen_combinations.add(
+            combination
+        )
+
+        used_ids.update(
+            combination
+        )
+
         if len(selected) == maximum:
             break
 
     return selected
-
-
-# ---------------------------------------------------------------------------
-# Why explanations
-# ---------------------------------------------------------------------------
 
 def _why_lines(
     label: str,
@@ -191,10 +266,33 @@ def build_outfits(
     budget_limit: int = intent.get("budget_total") or fallback_budget
     occasion: str | None = intent.get("occasion")
 
-    tops       = [p for p in scored_products if p.get("category") == "top"]
-    bottoms    = [p for p in scored_products if p.get("category") == "bottom"]
-    footwear   = [p for p in scored_products if p.get("category") == "footwear"]
-    accessories= [p for p in scored_products if p.get("category") == "accessory"]
+    tops = _candidate_pool([
+        product
+        for product in scored_products
+        if product.get("category")
+        == "top"
+    ])
+
+    bottoms = _candidate_pool([
+        product
+        for product in scored_products
+        if product.get("category")
+        == "bottom"
+    ])
+
+    footwear = _candidate_pool([
+        product
+        for product in scored_products
+        if product.get("category")
+        == "footwear"
+    ])
+
+    accessories = _candidate_pool([
+        product
+        for product in scored_products
+        if product.get("category")
+        == "accessory"
+    ])
 
     # Prefer footwear as third slot; fall back to accessories
     third_pool = footwear if footwear else accessories
@@ -217,20 +315,45 @@ def build_outfits(
     candidates: list[dict] = []
 
     for top, bottom, third in cartesian_product(
-        tops[:10], bottoms[:10], third_pool[:8]
+        tops,
+        bottoms,
+        third_pool,
     ):
-        items = (top, bottom, third)
-        total = sum(item["price"] for item in items)
+        items = (
+            top,
+            bottom,
+            third,
+        )
 
-        # Hard budget filter — never return an outfit over budget
+        item_ids = [
+            item["id"]
+            for item in items
+        ]
+
+        # Never allow the same product twice
+        # inside one complete outfit.
+        if (
+            len(item_ids)
+            != len(set(item_ids))
+        ):
+            continue
+
+        total = sum(
+            int(item["price"])
+            for item in items
+        )
+
+        # The prompt budget is a hard limit.
         if total > budget_limit:
             continue
 
-        # No duplicate products within one outfit
-        if len({item["id"] for item in items}) < 3:
-            continue
-
-        overall, breakdown = _combination_score(items, budget_limit, occasion)
+        overall, breakdown = (
+            _combination_score(
+                items,
+                budget_limit,
+                occasion,
+            )
+        )
         candidates.append({
             "id":            str(uuid.uuid4()),
             "items":         list(items),
@@ -250,7 +373,17 @@ def build_outfits(
             ),
         }
 
-    candidates.sort(key=lambda c: (-c["overall_score"], c["total_price"]))
+    candidates.sort(
+        key=lambda outfit: (
+            -outfit["overall_score"],
+            outfit["total_price"],
+            tuple(
+                item["id"]
+                for item
+                in outfit["items"]
+            ),
+        ),
+    )
     selected = _select_diverse(candidates, maximum=3)
 
     labels = ["Best Match", "Budget Smart", "Style Stretch"]
@@ -270,3 +403,43 @@ def build_outfits(
         "parsed_intent": intent,
         "outfits": selected,
     }
+
+def _candidate_pool(
+    products: list[dict],
+    *,
+    maximum: int = 24,
+) -> list[dict]:
+    ranked = sorted(
+        products,
+        key=lambda item: (
+            -item.get("final_score", 0),
+            item["price"],
+            item["id"],
+        ),
+    )
+
+    affordable = sorted(
+        products,
+        key=lambda item: (
+            item["price"],
+            -item.get("final_score", 0),
+            item["id"],
+        ),
+    )
+
+    selected: list[dict] = []
+    seen: set[int] = set()
+
+    for item in ranked[:16] + affordable[:12]:
+        item_id = item["id"]
+
+        if item_id in seen:
+            continue
+
+        selected.append(item)
+        seen.add(item_id)
+
+        if len(selected) >= maximum:
+            break
+
+    return selected

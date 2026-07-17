@@ -326,8 +326,10 @@ class FeedRequest(BaseModel):
 
 
 class ReverseShoppingRequest(BaseModel):
-    prompt: str
-    user_profile: UserProfile
+    prompt: str = Field(
+        min_length=3,
+        max_length=500,
+    )
 
 
 class ReverseOutfitItem(BaseModel):
@@ -341,16 +343,24 @@ class ReverseOutfitItem(BaseModel):
     tags: list[str] = Field(default_factory=list)
     occasions: list[str] = Field(default_factory=list)
 
-
 class ReverseOutfit(BaseModel):
     index: int
-    label: str           # "Best Match" | "Budget Smart" | "Style Stretch"
-    title: str           # same as label — kept for backward compat
-    score: int           # overall 0-100
+    label: str
+    title: str
+    score: int
     total: int
     within_budget: bool
-    breakdown: dict[str, int] = Field(default_factory=dict)  # style/occasion/budget/weather/wardrobe
-    why: list[str] = Field(default_factory=list)
+    recommendation_item_id: int
+    snapshot_id: UUID
+
+    breakdown: dict[str, int] = Field(
+        default_factory=dict,
+    )
+
+    why: list[str] = Field(
+        default_factory=list,
+    )
+
     items: list[ReverseOutfitItem]
 
 

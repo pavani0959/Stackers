@@ -443,7 +443,10 @@ def rank_products_for_query(prompt: str, user_profile: dict, all_products: list)
                 "confidence": confidence,
                 "nlp_score": nlp_score,
                 "final_score": final_score,
-                "category": classify_product(product),
+                "category": (
+            product.get("category")
+            or classify_product(product)
+        ),
             }
         )
         scored_products.append(result)

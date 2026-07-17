@@ -54,26 +54,29 @@ app.add_middleware(
 )
 
 
-def product_to_dict(product: models.Product) -> dict:
-    """Convert one ORM product into the API shape without mutating the ORM row."""
-    def _to_list(val):
-        if not val:
-            return []
-        if isinstance(val, list):
-            return val
-        return [v.strip() for v in val.split(",") if v.strip()]
-
+def product_to_dict(
+    product: models.Product,
+) -> dict:
     return {
         "id": product.id,
+        "sku": product.sku,
         "name": product.name,
         "brand": product.brand,
+        "description": product.description,
         "price": product.price,
         "originalPrice": product.originalPrice,
         "image": product.image,
-        "tags": _to_list(product.tags),
-        "occasions": _to_list(product.occasions),
+        "category": product.category,
+        "subcategory": product.subcategory,
+        "primary_colour": product.primary_colour,
+        "gender_segment": product.gender_segment,
+        "tags": list(product.tags or []),
+        "occasions": list(product.occasions or []),
+        "sizes": list(product.sizes or []),
         "budgetTier": product.budgetTier,
         "season": product.season,
+        "stock_quantity": product.stock_quantity,
+        "is_active": product.is_active,
     }
 
 
@@ -159,9 +162,6 @@ def calculate_dna(request: schemas.DNARequest):
 
 
 
-
-
-
 @app.post(
     "/api/recommend/reverse",
     response_model=schemas.ReverseShoppingResponse,
@@ -170,74 +170,321 @@ def reverse_shopping(
     request: schemas.ReverseShoppingRequest,
     db: Session = Depends(get_db),
 ):
-    products = [product_to_dict(product) for product in db.query(models.Product).all()]
+    user = (
+        db.query(models.User)
+        .filter(
+            models.User.id
+            == settings.demo_user_id
+        )
+        .first()
+    )
+
+    if user is None:
+        raise NotFoundError(
+            "Demo user was not found."
+        )
+
+    style_profile = (
+        db.query(models.StyleProfile)
+        .filter(
+            models.StyleProfile.user_id
+            == user.id
+        )
+        .order_by(
+            models.StyleProfile.version.desc()
+        )
+        .first()
+    )
+
+    if style_profile is None:
+        raise HTTPException(
+            status_code=409,
+            detail=(
+                "Complete your Fashion DNA "
+                "before requesting outfits."
+            ),
+        )
+
+    preferences = (
+        db.query(models.UserPreference)
+        .filter(
+            models.UserPreference.user_id
+            == user.id
+        )
+        .first()
+    )
+
+    user_profile = {
+        "id": user.id,
+        "name": user.name or "",
+        "dna": dict(
+            style_profile.dna_vector or {}
+        ),
+        "identityName": (
+            style_profile.primary_identity
+            or ""
+        ),
+        "profileConfidence": (
+            style_profile.profile_confidence
+            or 0
+        ),
+        "budget": (
+            preferences.budget_tier
+            if (
+                preferences is not None
+                and preferences.budget_tier
+            )
+            else "campus-casual"
+        ),
+        "budgetMin": (
+            preferences.budget_min
+            if preferences is not None
+            else None
+        ),
+        "budgetMax": (
+            preferences.budget_max
+            if preferences is not None
+            else None
+        ),
+        "occasions": (
+            list(
+                preferences.preferred_occasions
+                or []
+            )
+            if preferences is not None
+            else []
+        ),
+        "colours": (
+            list(
+                preferences.preferred_colours
+                or []
+            )
+            if preferences is not None
+            else []
+        ),
+        "brands": (
+            list(
+                preferences.preferred_brands
+                or []
+            )
+            if preferences is not None
+            else []
+        ),
+        "aesthetics": (
+            list(
+                preferences.preferred_aesthetics
+                or []
+            )
+            if preferences is not None
+            else []
+        ),
+        "purchaseMemory": [],
+    }
+
+    products = [
+        product_to_dict(product)
+        for product in (
+            db.query(models.Product)
+            .filter(
+                models.Product.is_active.is_(
+                    True
+                )
+            )
+            .all()
+        )
+    ]
+
     result = generate_outfit_nlp(
         request.prompt,
-        request.user_profile.model_dump(),
+        user_profile,
         products,
     )
 
-    # ---- Persist as a RecommendationSession ----
     try:
-        user = db.query(models.User).filter(
-            models.User.id == settings.demo_user_id
-        ).first()
-        if user:
-            # Resolve latest style profile
-            sp = (
-                db.query(models.StyleProfile)
-                .filter(models.StyleProfile.user_id == user.id)
-                .order_by(models.StyleProfile.version.desc())
-                .first()
-            )
-            session = models.RecommendationSession(
-                user_id=user.id,
-                style_profile_id=sp.id if sp else None,
-                profile_version=sp.version if sp else 0,
-                profile_snapshot=request.user_profile.model_dump(),
-                context_snapshot={
-                    "prompt": request.prompt,
-                    "budget_source": result.get("budget_source"),
-                    "budget_limit": result.get("budget_limit"),
-                },
-                session_type="reverse",
-                raw_prompt=request.prompt,
-                parsed_intent=result.get("parsed_intent", {}),
-                model_version="reverse-v1.0.0",
-            )
-            db.add(session)
-            db.flush()  # get session.id
+        session = models.RecommendationSession(
+            user_id=user.id,
+            style_profile_id=style_profile.id,
+            profile_version=(
+                style_profile.version
+            ),
+            profile_snapshot={
+                "profile_id": str(
+                    getattr(
+                        style_profile,
+                        "profile_id",
+                        style_profile.id,
+                    )
+                ),
+                "version": (
+                    style_profile.version
+                ),
+                "dna": dict(
+                    style_profile.dna_vector
+                    or {}
+                ),
+                "identity": (
+                    style_profile.primary_identity
+                    or ""
+                ),
+                "confidence": (
+                    style_profile
+                    .profile_confidence
+                    or 0
+                ),
+                "budget": (
+                    user_profile["budget"]
+                ),
+                "occasions": (
+                    user_profile["occasions"]
+                ),
+            },
+            context_snapshot={
+                "prompt": request.prompt,
+                "budget_source": (
+                    result.get(
+                        "budget_source"
+                    )
+                ),
+                "budget_limit": (
+                    result.get(
+                        "budget_limit"
+                    )
+                ),
+            },
+            session_type="reverse",
+            raw_prompt=request.prompt,
+            parsed_intent=result.get(
+                "parsed_intent",
+                {},
+            ),
+            model_version=(
+                "reverse-v1.0.0"
+            ),
+        )
 
-            for rank, outfit in enumerate(result.get("outfits", []), start=1):
-                # Store one RecommendationItem per outfit using the first product as anchor
-                first_item = outfit.get("items", [{}])[0]
-                first_product_id = first_item.get("id")
-                if not first_product_id:
-                    continue
-                rec_item = models.RecommendationItem(
+        db.add(session)
+        db.flush()
+
+        for rank, outfit in enumerate(
+            result.get("outfits", []),
+            start=1,
+        ):
+            outfit_items = outfit.get(
+                "items",
+                [],
+            )
+
+            if not outfit_items:
+                raise RuntimeError(
+                    "Generated outfit contains "
+                    "no products."
+                )
+
+            first_product_id = (
+                outfit_items[0].get("id")
+            )
+
+            if first_product_id is None:
+                raise RuntimeError(
+                    "Generated outfit product "
+                    "is missing its ID."
+                )
+
+            recommendation_item = (
+                models.RecommendationItem(
                     session_id=session.id,
-                    product_id=first_product_id,
+                    product_id=(
+                        first_product_id
+                    ),
                     rank=rank,
-                    overall_score=float(outfit["score"]),
+                    overall_score=float(
+                        outfit.get(
+                            "score",
+                            0,
+                        )
+                    ),
                     product_snapshot={
-                        "outfit_label": outfit.get("label", ""),
-                        "total_price": outfit.get("total", 0),
-                        "item_ids": [i["id"] for i in outfit.get("items", [])],
+                        "outfit_label": (
+                            outfit.get(
+                                "label",
+                                "",
+                            )
+                        ),
+                        "outfit_title": (
+                            outfit.get(
+                                "title",
+                                "",
+                            )
+                        ),
+                        "total_price": (
+                            outfit.get(
+                                "total",
+                                0,
+                            )
+                        ),
+                        "items": outfit_items,
+                        "parsed_intent": (
+                            result.get(
+                                "parsed_intent",
+                                {},
+                            )
+                        ),
+                        "budget_limit": (
+                            result.get(
+                                "budget_limit"
+                            )
+                        ),
                     },
-                    score_breakdown=outfit.get("breakdown", {}),
-                    explanation={"why": outfit.get("why", [])},
-                    evidence_sources={},
+                    score_breakdown=(
+                        outfit.get(
+                            "breakdown",
+                            {},
+                        )
+                    ),
+                    explanation={
+                        "why": outfit.get(
+                            "why",
+                            [],
+                        ),
+                    },
+                    evidence_sources={
+                        "profile_version": (
+                            style_profile.version
+                        ),
+                        "catalogue": (
+                            "database"
+                        ),
+                        "budget_source": (
+                            result.get(
+                                "budget_source"
+                            )
+                        ),
+                    },
                     regret_signals=[],
                     warning={},
                 )
-                db.add(rec_item)
+            )
 
-            db.commit()
-            # Overwrite the ephemeral UUID with the real DB session id
-            result["session_id"] = str(session.id)
+            db.add(recommendation_item)
+            db.flush()
+
+            outfit["recommendation_item_id"] = (
+                recommendation_item.id
+            )
+
+            outfit["snapshot_id"] = str(
+                recommendation_item.snapshot_id
+            )
+
+        db.commit()
+
+        result["session_id"] = str(
+            session.id
+        )
+
     except Exception:
         db.rollback()
-        # Non-fatal: result is still returned even if persistence fails
+        raise
 
     return result
 
