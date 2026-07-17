@@ -1,28 +1,92 @@
-import { useEffect, useState } from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 
-/**
- * Returns true when the user has requested reduced motion via OS/browser settings.
- * Use this to skip or simplify GSAP animations.
- */
+
+const REDUCED_MOTION_QUERY =
+  '(prefers-reduced-motion: reduce)';
+
+
+function getInitialPreference() {
+  if (
+    typeof window === 'undefined'
+    || typeof window.matchMedia
+      !== 'function'
+  ) {
+    return false;
+  }
+
+  return window
+    .matchMedia(
+      REDUCED_MOTION_QUERY,
+    )
+    .matches;
+}
+
+
 export function useReducedMotion() {
-  const [reduced, setReduced] = useState(
-    () =>
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  const [
+    prefersReducedMotion,
+    setPrefersReducedMotion,
+  ] = useState(
+    getInitialPreference,
   );
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-    function handleChange(event) {
-      setReduced(event.matches);
+    if (
+      typeof window === 'undefined'
+      || typeof window.matchMedia
+        !== 'function'
+    ) {
+      return undefined;
     }
 
-    mq.addEventListener('change', handleChange);
-    return () => mq.removeEventListener('change', handleChange);
+    const mediaQuery =
+      window.matchMedia(
+        REDUCED_MOTION_QUERY,
+      );
+
+    function handleChange(event) {
+      setPrefersReducedMotion(
+        event.matches,
+      );
+    }
+
+    setPrefersReducedMotion(
+      mediaQuery.matches,
+    );
+
+    if (
+      typeof mediaQuery.addEventListener
+      === 'function'
+    ) {
+      mediaQuery.addEventListener(
+        'change',
+        handleChange,
+      );
+
+      return () => {
+        mediaQuery.removeEventListener(
+          'change',
+          handleChange,
+        );
+      };
+    }
+
+    mediaQuery.addListener(
+      handleChange,
+    );
+
+    return () => {
+      mediaQuery.removeListener(
+        handleChange,
+      );
+    };
   }, []);
 
-  return reduced;
+  return prefersReducedMotion;
 }
+
+
+export default useReducedMotion;

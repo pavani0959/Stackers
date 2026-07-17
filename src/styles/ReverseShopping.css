@@ -176,3 +176,36 @@
   font-size: 0.62rem;
   letter-spacing: 0.05em;
 }
+
+/* Phase 8: semantic and accessible controls */
+
+button.rs-chip {
+  appearance: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+button.rs-chip:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.rs-mic-btn-new,
+.rs-gen-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+button.outfit-item {
+  appearance: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}

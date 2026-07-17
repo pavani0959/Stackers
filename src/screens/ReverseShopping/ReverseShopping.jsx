@@ -6,6 +6,11 @@ import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { gsap } from '../../motion/gsap';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import '../../styles/ReverseShopping.css';
+import {
+  ArrowLeft,
+  Mic,
+  Sparkles,
+} from 'lucide-react';
 
 const QUICK_PROMPTS = [
   { label: '💼 Interview', text: 'College interview tomorrow, smart casual, ₹6000' },
@@ -151,7 +156,17 @@ export default function ReverseShopping() {
     <div className="screen rs-screen">
       <div className="rs-hdr">
         <div className="rs-back-row">
-          <div className="back-btn" onClick={() => navigate(-1)}>←</div>
+          <button
+            type="button"
+            className="back-btn"
+            onClick={() => navigate(-1)}
+            aria-label="Go back"
+          >
+            <ArrowLeft
+              aria-hidden="true"
+              size={21}
+            />
+          </button>
           <div>
             <div className="rs-title">🔮 Reverse Shopping</div>
             <div className="rs-sub">Tell us your occasion. We build your outfit.</div>
@@ -171,12 +186,25 @@ export default function ReverseShopping() {
               onChange={(event) => setInput(event.target.value)}
             />
             <button
+              type="button"
               className={`rs-mic-btn-new ${isListening ? 'listening' : ''}`}
               onClick={handleMicClick}
-              title="Tap to speak your occasion"
-              type="button"
+              aria-label={
+                isListening
+                  ? 'Stop voice input'
+                  : 'Use voice input'
+              }
+              aria-pressed={isListening}
+              title={
+                isListening
+                  ? 'Stop listening'
+                  : 'Tap to speak your occasion'
+              }
             >
-              {isListening ? '🔴' : '🎤'}
+              <Mic
+                aria-hidden="true"
+                size={20}
+              />
             </button>
           </div>
 
@@ -191,24 +219,42 @@ export default function ReverseShopping() {
 
           <div className="rs-chips">
             {QUICK_PROMPTS.map((prompt) => (
-              <div
+              <button
+                type="button"
                 key={prompt.label}
                 className={`rs-chip ${input === prompt.text ? 'active' : ''}`}
+                aria-pressed={input === prompt.text}
                 onClick={() => setInput(prompt.text)}
               >
                 {prompt.label}
-              </div>
+              </button>
             ))}
           </div>
         </div>
 
         <button
+          type="button"
           id="rs-gen-btn"
           className="rs-gen-btn"
           onClick={handleGenerate}
           disabled={loading}
+
+          aria-label="Generate outfits"
         >
-          {loading ? '⏳ Building Your Outfits…' : results ? '✨ Generate Again' : '✨ Generate My Outfits'}
+          {!loading && (
+            <Sparkles
+              aria-hidden="true"
+              size={20}
+            />
+          )}
+
+          <span>
+            {loading
+              ? 'Building Your Outfits…'
+              : results
+                ? 'Generate Again'
+                : 'Generate My Outfits'}
+          </span>
         </button>
 
         {loading && (
@@ -285,17 +331,31 @@ export default function ReverseShopping() {
                     {/* Product items */}
                     <div className="outfit-items">
                       {group.items.map((item) => (
-                        <div
+                        <button
+                          type="button"
                           key={item.id}
                           className="outfit-item"
-                          onClick={() => navigate(`/product/${item.id}`)}
+                          aria-label={`View ${item.name}`}
+                          onClick={() => {
+                            navigate(`/product/${item.id}`);
+                          }}
                         >
-                          <img src={item.image} alt={item.name} loading="lazy" />
-                          <div className="outfit-item-lbl">
-                            <span className="outfit-item-cat">{item.category.toUpperCase()}</span>
-                            <span>₹{item.price.toLocaleString('en-IN')}</span>
-                          </div>
-                        </div>
+                          <img
+                            src={item.image}
+                            alt=""
+                            loading="lazy"
+                          />
+
+                          <span className="outfit-item-lbl">
+                            <span className="outfit-item-cat">
+                              {item.category.toUpperCase()}
+                            </span>
+
+                            <span>
+                              ₹{item.price.toLocaleString('en-IN')}
+                            </span>
+                          </span>
+                        </button>
                       ))}
                     </div>
 

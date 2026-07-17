@@ -118,12 +118,58 @@ export function OnboardGender() {
 
       <label className="ob-label">How do you identify?</label>
       <div className="gender-grid">
-        {[{ id: 'male', icon: '🙋‍♂️', label: 'Male' }, { id: 'female', icon: '🙋‍♀️', label: 'Female' }, { id: 'nonbinary', icon: '🌈', label: 'Non-Binary / Prefer not to say', wide: true }].map(g => (
-          <div key={g.id} className={`gender-card ${g.wide ? 'wide' : ''} ${gender === g.id ? 'sel' : ''}`} onClick={() => setGender(g.id)}>
-            <span className="g-icon">{g.icon}</span>
-            <span className="g-label">{g.label}</span>
-          </div>
-        ))}
+        {[
+          {
+            id: 'male',
+            icon: '🙋‍♂️',
+            label: 'Male',
+          },
+          {
+            id: 'female',
+            icon: '🙋‍♀️',
+            label: 'Female',
+          },
+          {
+            id: 'nonbinary',
+            icon: '🌈',
+            label: 'Non-Binary / Prefer not to say',
+            wide: true,
+          },
+        ].map((genderOption) => {
+          const isSelected =
+            gender === genderOption.id;
+
+          return (
+            <button
+              type="button"
+              key={genderOption.id}
+              className={`gender-card ${genderOption.wide
+                ? 'wide'
+                : ''
+                } ${isSelected
+                  ? 'sel'
+                  : ''
+                }`}
+              aria-pressed={isSelected}
+              onClick={() => {
+                setGender(
+                  genderOption.id,
+                );
+              }}
+            >
+              <span
+                className="g-icon"
+                aria-hidden="true"
+              >
+                {genderOption.icon}
+              </span>
+
+              <span className="g-label">
+                {genderOption.label}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
       <label className="ob-label">Your age</label>
@@ -139,7 +185,7 @@ export function OnboardGender() {
       )}
 
       <div className="ob-footer">
-        <button className="btn-primary" onClick={next}>Continue →</button>
+        <button type="button" className="btn-primary" onClick={next}>Continue →</button>
       </div>
     </div>
   );
@@ -203,6 +249,9 @@ export function OnboardBudget() {
               ? 'sel'
               : ''
               }`}
+
+            aria-pressed={budget === option.id}
+
             onClick={() =>
               setBudget(option.id)
             }
@@ -259,16 +308,39 @@ export function OnboardColours() {
       <p className="ob-sub">Pick the colours that feel like you.</p>
 
       <div className="colour-grid">
-        {colours.map(c => (
-          <div key={c} className={`col-chip ${selected.includes(c) ? 'sel' : ''}`}
-            style={{ background: c, borderColor: c === '#FFFFFF' ? 'rgba(255,255,255,0.25)' : 'transparent' }}
-            onClick={() => toggle(c)}
-          />
-        ))}
+        {colours.map((colour) => {
+          const isSelected =
+            selected.includes(colour);
+
+          return (
+            <button
+              type="button"
+              key={colour}
+              className={`col-chip ${isSelected
+                ? 'sel'
+                : ''
+                }`}
+              style={{
+                background: colour,
+                borderColor:
+                  colour === '#FFFFFF'
+                    ? 'rgba(0, 0, 0, 0.18)'
+                    : 'transparent',
+              }}
+              aria-label={
+                `Select colour ${colour}`
+              }
+              aria-pressed={isSelected}
+              onClick={() => {
+                toggle(colour);
+              }}
+            ></button>
+          );
+        })}
       </div>
 
       <div className="ob-footer">
-        <button className="btn-primary" onClick={next}>Continue →</button>
+        <button type="button" className="btn-primary" onClick={next}>Continue →</button>
       </div>
     </div>
   );
@@ -439,34 +511,35 @@ export function OnboardOccasions() {
       </p>
 
       <div className="chip-grid">
-        {all.map((occasion) => (
-          <div
-            key={occasion.id}
-            className={`chip ${selected.includes(occasion.id)
-              ? 'selected'
-              : ''
-              }`}
-            onClick={() =>
-              toggle(occasion.id)
-            }
-          >
-            {occasion.label}
-          </div>
-        ))}
+        {all.map((occasion) => {
+          const isSelected =
+            selected.includes(
+              occasion.id,
+            );
+
+          return (
+            <button
+              type="button"
+              key={occasion.id}
+              className={`chip ${isSelected
+                  ? 'selected'
+                  : ''
+                }`}
+              aria-pressed={isSelected}
+              onClick={() => {
+                toggle(occasion.id);
+              }}
+            >
+              {occasion.label}
+            </button>
+          );
+        })}
       </div>
 
       {saveError && (
         <ApiErrorState
           error={saveError}
           title="Could not save preferences"
-          onRetry={next}
-        />
-      )}
-
-      {saveError && (
-        <ApiErrorState
-          error={saveError}
-          title="Could not save your identity"
           onRetry={next}
         />
       )}

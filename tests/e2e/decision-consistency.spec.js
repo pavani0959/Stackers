@@ -411,7 +411,11 @@ test(
       timeout: 10000,
     });
 
-    await productName.click();
+    await page
+      .getByRole('button', {
+        name: 'View Minimal Campus Shirt',
+      })
+      .click();
 
     await expect(page).toHaveURL(
       new RegExp(

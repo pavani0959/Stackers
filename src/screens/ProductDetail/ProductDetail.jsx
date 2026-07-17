@@ -13,6 +13,12 @@ import ApiErrorState from '../../components/ApiErrorState/ApiErrorState';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import { useUser } from '../../context/useUser';
 import '../../styles/ProductDetail.css';
+import {
+  AlertTriangle,
+  ArrowLeft,
+  Heart,
+  X,
+} from 'lucide-react';
 
 const SIZES = ['XS', 'S', 'M', 'L', 'XL'];
 const COMPONENT_LABELS = {
@@ -68,8 +74,8 @@ export default function ProductDetail() {
         const loadedDecision = requestedSnapshotId
           ? await getDecision(requestedSnapshotId)
           : await createProductDecision(productId, {
-              occasion: primaryOccasion,
-            });
+            occasion: primaryOccasion,
+          });
 
         if (String(loadedDecision.product.id) !== String(id)) {
           throw new Error(
@@ -104,7 +110,7 @@ export default function ProductDetail() {
               model_version: loadedDecision.model_version,
               profile_version: loadedDecision.profile_version,
             },
-          }).catch(() => {});
+          }).catch(() => { });
         }
       } catch (requestError) {
         if (!cancelled) {
@@ -195,7 +201,7 @@ export default function ProductDetail() {
           decision_snapshot_id: decision.snapshot_id,
           match_score: decision.overall_score,
         },
-      }).catch(() => {});
+      }).catch(() => { });
     }
 
     showToast(
@@ -333,14 +339,22 @@ export default function ProductDetail() {
   return (
     <div className="screen det-screen">
       <div className="det-img-wrap">
-        <img 
-          src={product.image} 
-          alt={product.name} 
+        <img
+          src={product.image}
+          alt={product.name}
           onError={(e) => { e.target.onerror = null; e.target.src = '/catalog/fallback-product.webp'; }}
         />
         <div className="det-hdr-btns">
-          <button type="button" className="back-btn" onClick={() => navigate(-1)}>
-            ←
+          <button
+            type="button"
+            className="back-btn"
+            onClick={() => navigate(-1)}
+            aria-label="Go back"
+          >
+            <ArrowLeft
+              aria-hidden="true"
+              size={21}
+            />
           </button>
           <button
             type="button"
@@ -348,7 +362,15 @@ export default function ProductDetail() {
             onClick={handleWishlist}
             aria-label={isWished ? 'Remove from wishlist' : 'Add to wishlist'}
           >
-            {isWished ? '❤️' : '♡'}
+            <Heart
+              aria-hidden="true"
+              size={21}
+              fill={
+                isWished
+                  ? 'currentColor'
+                  : 'none'
+              }
+            />
           </button>
         </div>
 
@@ -445,8 +467,17 @@ export default function ProductDetail() {
       {regretWarning && (
         <div className="modal-overlay">
           <div className="modal-content regret-modal">
-            <h2>⚠️ Potential Regret Detected</h2>
-            
+            <h2 className="regret-modal-title">
+              <AlertTriangle
+                aria-hidden="true"
+                size={24}
+              />
+
+              <span>
+                Potential Regret Detected
+              </span>
+            </h2>
+
             <div className="regret-signals">
               {(regretWarning.signals ?? []).map((signal) => (
                 <div
@@ -563,7 +594,10 @@ export default function ProductDetail() {
         <div className="ar-overlay" role="dialog" aria-modal="true">
           <div className="ar-modal">
             <button type="button" onClick={() => setShowAR(false)}>
-              ×
+              <X
+                aria-hidden="true"
+                size={21}
+              />
             </button>
             <h2>Virtual Try-On</h2>
             <p>See how it looks on you</p>

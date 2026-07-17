@@ -39,3 +39,61 @@
 
 /* Empty results */
 .srch-empty { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: 60px 20px; }
+
+/* Phase 8: semantic and accessible controls */
+
+.back-btn,
+.srch-clear {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.srch-icon {
+  flex: 0 0 auto;
+  pointer-events: none;
+}
+
+.srch-cat-chip,
+.srch-suggestion,
+.wl-browse-btn {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.srch-suggestion {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.srch-empty-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.srch-empty-title {
+  margin: 0 0 6px;
+  font-size: 1rem;
+}
+
+.srch-empty-message {
+  margin: 0;
+  color: var(--text-2);
+  font-size: 0.75rem;
+}
+
+.srch-spinner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

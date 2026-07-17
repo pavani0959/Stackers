@@ -1,6 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/useUser';
 import '../../styles/ProductCard.css';
+import {
+  Heart,
+} from 'lucide-react';
 
 // "Perfect Match" badge threshold — achievable through normal quiz flow
 const PERFECT_MATCH_THRESHOLD = 85;
@@ -19,17 +22,14 @@ export default function ProductCard({ decision }) {
   }
 
   return (
-    <article
-      className="prod-card"
-      onClick={openProduct}
-      onKeyDown={(event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          openProduct();
-        }
-      }}
-      role="button"
-      tabIndex={0}
-    >
+          <article className="prod-card">
+        <button
+          type="button"
+          className="prod-card-open"
+          aria-label={`View ${product.name}`}
+          onClick={openProduct}
+        ></button>
+
       <div className="prod-img">
         <img
           src={product.image}
@@ -48,7 +48,15 @@ export default function ProductCard({ decision }) {
             addToWishlist(product.id);
           }}
         >
-          {isWished ? '❤️' : '♡'}
+          <Heart
+            aria-hidden="true"
+            size={20}
+            fill={
+              isWished
+                ? 'currentColor'
+                : 'none'
+            }
+          />
         </button>
       </div>
 

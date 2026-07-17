@@ -8,6 +8,9 @@ import { apiRequest } from '../../api/client';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import { useUser } from '../../context/useUser';
 import '../../styles/Community.css';
+import {
+  X,
+} from 'lucide-react';
 
 
 function percentage(value) {
@@ -570,7 +573,10 @@ export default function Community() {
                 setSelectedCreator(null);
               }}
             >
-              ×
+              <X
+                aria-hidden="true"
+                size={20}
+              />
             </button>
 
             <p className="community-section-kicker">

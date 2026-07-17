@@ -74,3 +74,135 @@
   text-decoration: underline;
   margin-left: auto;
 }
+
+/* Phase 8: semantic timeline controls */
+
+.mem-item {
+  cursor: default;
+}
+
+.mem-occ {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mem-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.mem-metadata,
+.mem-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.mem-view-link,
+.mem-why-link {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.mem-view-link {
+  border: 0;
+  background: var(
+    --accent,
+    var(--color-primary, #ff3f6c)
+  );
+  color: #ffffff;
+}
+
+.mem-why-link {
+  border: 1px solid var(
+    --border,
+    #e4e4e7
+  );
+  background: transparent;
+  color: inherit;
+}
+
+.mem-view-link:disabled,
+.mem-why-link:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Phase 8: semantic timeline controls */
+
+.mem-item {
+  cursor: default;
+}
+
+.mem-occ {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mem-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.mem-metadata,
+.mem-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.mem-view-link,
+.mem-why-link {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.mem-view-link {
+  border: 0;
+  background: var(
+    --accent,
+    var(--color-primary, #ff3f6c)
+  );
+  color: #ffffff;
+}
+
+.mem-why-link {
+  border: 1px solid var(
+    --border,
+    #e4e4e7
+  );
+  background: transparent;
+  color: inherit;
+}
+
+.mem-view-link:disabled,
+.mem-why-link:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}

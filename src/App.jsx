@@ -34,13 +34,9 @@ import MyntraMuse from './components/MyntraMuse/MyntraMuse';
 import ApiErrorState from './components/ApiErrorState/ApiErrorState';
 
 // Simple Phone Wrapper to make the desktop preview look good
-function PhoneWrapper({ children }) {
+function AppShell({ children }) {
   return (
-    <div className="phone-frame">
-      <div className="desktop-hint">
-        Built for Hackathon Demo • 390x844px
-      </div>
-
+    <div className="app-shell">
       {children}
     </div>
   );
@@ -60,30 +56,30 @@ function AppRoutes() {
   // Do not render routes while the profile is loading.
   if (profileLoading) {
     return (
-      <PhoneWrapper>
+      <AppShell>
         <div className="app-loading">
           Loading your fashion identity…
         </div>
-      </PhoneWrapper>
+      </AppShell>
     );
   }
 
   // Do not render routes when profile loading fails.
   if (profileError) {
     return (
-      <PhoneWrapper>
+      <AppShell>
         <ApiErrorState
           title="Unable to load your profile"
           error={profileError}
           onRetry={refreshProfile}
         />
-      </PhoneWrapper>
+      </AppShell>
     );
   }
 
   // The main application is rendered only after profile loading succeeds.
   return (
-    <PhoneWrapper>
+    <AppShell>
       <Routes>
         <Route path="/" element={<Splash />} />
 
@@ -131,7 +127,7 @@ function AppRoutes() {
       </Routes>
 
       <MyntraMuse />
-    </PhoneWrapper>
+    </AppShell>
   );
 }
 

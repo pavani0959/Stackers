@@ -103,3 +103,19 @@
 .alt-scroll::-webkit-scrollbar {
   display: none;
 }
+
+/* Phase 8 accessibility */
+
+.regret-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.back-btn,
+.wish-top-btn,
+.ar-modal > button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

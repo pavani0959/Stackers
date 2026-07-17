@@ -28,8 +28,9 @@ body {
 
 /* ===== PHONE FRAME ===== */
 .phone-frame {
-  width: 390px;
-  height: 844px;
+  width: 100%;
+  min-height: 100vh;
+  height: auto;
   background: var(--bg);
   border-radius: 40px;
   overflow: hidden;
@@ -298,4 +299,211 @@ body::before {
   text-align: center;
   font-size: 16px;
   font-weight: 600;
+}
+/* =========================================================
+   Phase 8: responsive application shell
+   ========================================================= */
+
+html {
+  min-width: 320px;
+  min-height: 100%;
+  background:
+    var(
+      --bg,
+      var(--color-background, #ffffff)
+    );
+}
+
+body {
+  width: 100%;
+  min-width: 320px;
+  min-height: 100vh;
+  height: auto;
+  margin: 0;
+  background:
+    var(
+      --bg,
+      var(--color-background, #ffffff)
+    );
+  color:
+    var(
+      --text,
+      var(--color-text, #282c3f)
+    );
+  font-family:
+    var(
+      --font-family,
+      system-ui,
+      sans-serif
+    );
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#root {
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+  height: auto;
+}
+
+.app-shell {
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+  height: auto;
+  margin: 0 auto;
+  background:
+    var(
+      --bg,
+      var(--color-background, #ffffff)
+    );
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+  height: auto;
+  overflow-x: hidden;
+  background:
+    var(
+      --bg,
+      var(--color-background, #ffffff)
+    );
+}
+
+.screen > *,
+.app-shell > * {
+  min-width: 0;
+}
+
+img,
+picture,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+svg {
+  flex-shrink: 0;
+}
+
+input,
+textarea,
+select,
+button {
+  max-width: 100%;
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+a,
+button {
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 768px) {
+  .app-shell {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .app-shell {
+    max-width: 1440px;
+  }
+}
+
+/* =========================================================
+   Phase 8: keyboard focus
+   ========================================================= */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid
+    var(
+      --accent,
+      var(--color-primary, #ff3f6c)
+    );
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   Phase 8: accessibility utilities
+   ========================================================= */
+
+.icon-button-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+}
+
+/* =========================================================
+   Phase 8: reduced motion
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-delay: 0ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* Phase 8: definitive reduced-motion support */
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
 }

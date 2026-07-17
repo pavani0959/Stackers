@@ -59,3 +59,35 @@
 }
 .ob-name-input.error { border-color: #d93025; margin-bottom: 6px; }
 .ob-field-error { color: #d93025; font-size: 11px; margin-bottom: 14px; line-height: 1.35; }
+
+/* Phase 8: semantic selection controls */
+
+button.gender-card,
+button.budget-opt,
+button.col-chip,
+button.chip {
+  appearance: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+button.gender-card {
+  text-align: inherit;
+}
+
+button.col-chip {
+  padding: 0;
+}
+
+button.chip {
+  text-align: center;
+}
+
+button.gender-card:disabled,
+button.budget-opt:disabled,
+button.col-chip:disabled,
+button.chip:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}

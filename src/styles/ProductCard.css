@@ -111,3 +111,37 @@
   border-radius: 4px;
   font-weight: 600;
 }
+
+
+/* Phase 8: accessible product card */
+
+.prod-card {
+  position: relative;
+}
+
+.prod-card-open {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  appearance: none;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+
+.prod-card-open:focus-visible {
+  outline: 3px solid
+    var(
+      --accent,
+      var(--color-primary, #ff3f6c)
+    );
+  outline-offset: 3px;
+}
+
+.wish-btn {
+  position: relative;
+  z-index: 2;
+}

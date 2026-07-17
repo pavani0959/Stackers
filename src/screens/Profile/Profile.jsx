@@ -6,6 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/useUser';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import '../../styles/Profile.css';
+import {
+  ArrowLeft,
+  Dna,
+  Heart,
+} from 'lucide-react';
 
 const BUDGET_OPTIONS = [
   {
@@ -565,7 +570,10 @@ export default function Profile() {
             onClick={() => navigate(-1)}
             aria-label="Go back"
           >
-            ←
+            <ArrowLeft
+              aria-hidden="true"
+              size={21}
+            />
           </button>
 
           <div className="prf-hdr-title">
@@ -1175,7 +1183,11 @@ export default function Profile() {
               navigate('/wishlist')
             }
           >
-            <span>♡ My Wishlist</span>
+            <span><Heart
+              aria-hidden="true"
+              size={18}
+            />
+            <span>My Wishlist</span></span>
             <span>→</span>
           </button>
 
@@ -1189,7 +1201,11 @@ export default function Profile() {
             }
           >
             <span>
-              🧬 DNA Identity Card
+              <Dna
+              aria-hidden="true"
+              size={18}
+            />
+            <span>DNA Identity Card</span>
             </span>
             <span>→</span>
           </button>

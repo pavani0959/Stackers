@@ -36,3 +36,40 @@
 .wl-remove-btn { width: 32px; height: 32px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
 .wl-cart-all-btn { width: 100%; padding: 14px; background: var(--text); color: white; border: none; border-radius: 4px; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
+
+
+/* Phase 8: accessible wishlist controls */
+
+button.wl-img-wrap,
+button.wl-name {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+button.wl-img-wrap {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  text-align: left;
+}
+
+button.wl-name {
+  display: block;
+  width: 100%;
+  padding: 0;
+  text-align: left;
+}
+
+
+/* Phase 8: Wishlist DNA badge icon */
+
+.wl-dna-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
