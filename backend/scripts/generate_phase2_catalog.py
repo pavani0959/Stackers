@@ -902,9 +902,13 @@ def load_base_products() -> list[dict[str, Any]]:
 def build_source_pools(
     base_products: list[dict[str, Any]],
 ) -> dict[str, list[dict[str, Any]]]:
+    # Curated products must come first so that
+    # required interview products are guaranteed
+    # to appear before category quotas are filled
+    # by products already stored in the database.
     combined_products = [
-        *base_products,
         *CURATED_BASE_PRODUCTS,
+        *base_products,
     ]
 
     pools: dict[
