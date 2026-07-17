@@ -816,3 +816,71 @@ class DecisionMemoryResponse(BaseModel):
     items: list[DecisionMemoryEntry] = Field(
         default_factory=list,
     )
+
+class StyleTwinDatasetMetadata(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    type: str
+    label: str
+    generated_at: datetime
+
+
+class StyleTwinProductInsight(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    product_id: int
+    keep_count: int = Field(ge=0)
+    return_count: int = Field(ge=0)
+    keep_rate: float | None = Field(
+        default=None,
+        ge=0,
+        le=100,
+    )
+
+
+class StyleTwinResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    user_id: int
+    name: str
+    similarity: float = Field(
+        ge=0,
+        le=100,
+    )
+    cohort_size: int = Field(ge=0)
+    shared_traits: list[str] = Field(
+        default_factory=list,
+    )
+    product_insights: list[
+        StyleTwinProductInsight
+    ] = Field(
+        default_factory=list,
+    )
+
+
+class StyleTwinCollectionResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    dataset: StyleTwinDatasetMetadata
+    threshold: float = Field(
+        ge=0,
+        le=100,
+    )
+    twins: list[StyleTwinResponse] = Field(
+        default_factory=list,
+    )
+
+
+class CommunityProfileCard(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    id: int
+    name: str
+    handle: str | None = None
+    avatar: str | None = None
+    role: str
+    dna: dict[str, float] = Field(
+        default_factory=dict,
+    )
+    dna_label: str | None = None
+    recent_purchases: str | None = None

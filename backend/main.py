@@ -35,6 +35,8 @@ settings = get_settings()
 
 from routers.memory import router as memory_router
 
+from routers.community import router as community_router
+
 app = FastAPI(title="Myntra Identity API")
 
 app.include_router(profile_router)
@@ -82,6 +84,9 @@ def product_to_dict(
         "is_active": product.is_active,
     }
 
+
+
+app.include_router(community_router)
 
 @app.get("/")
 def read_root():
@@ -490,31 +495,6 @@ def reverse_shopping(
         raise
 
     return result
-
-
-@app.post("/api/community/twins")
-def get_twins(request: schemas.FeedRequest, db: Session = Depends(get_db)):
-    profiles = db.query(models.CommunityProfile).all()
-    scored_twins = find_twins(request.user_profile.dna, profiles)
-
-    response = []
-    for scored_twin in scored_twins:
-        profile = scored_twin["profile"]
-        response.append(
-            {
-                "id": profile.id,
-                "name": profile.name,
-                "handle": profile.handle,
-                "avatar": profile.avatar,
-                "role": profile.role,
-                "dna": json.loads(profile.dna_json),
-                "dna_label": profile.dna_label,
-                "recent_purchases": json.loads(profile.recent_purchases),
-                "match_percentage": scored_twin["match"],
-            }
-        )
-
-    return response
 
 
 @app.post("/api/dna/blend")

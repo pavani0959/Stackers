@@ -1,56 +1,115 @@
-import { useState, useEffect } from 'react';
-import { useUser } from '../../context/useUser';
-import BottomNav from '../../components/BottomNav/BottomNav';
+import {
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+
 import { apiRequest } from '../../api/client';
-import ApiErrorState from '../../components/ApiErrorState/ApiErrorState';
+import BottomNav from '../../components/BottomNav/BottomNav';
+import { useUser } from '../../context/useUser';
 import '../../styles/Community.css';
+
+
+function percentage(value) {
+  const parsed = Number(value);
+
+  if (!Number.isFinite(parsed)) {
+    return '0';
+  }
+
+  return Number.isInteger(parsed)
+    ? String(parsed)
+    : parsed.toFixed(2);
+}
+
 
 export default function Community() {
   const {
     user,
-    profileLoading,
-    updateDNA,
+    updateUser,
   } = useUser();
-  const [twins, setTwins] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [blendingCreator, setBlendingCreator] = useState(null);
-  const [blendValue, setBlendValue] = useState(20);
-  const [toast, setToast] = useState('');
-  const [error, setError] = useState(null);
-  const [retryKey, setRetryKey] = useState(0);
-  const [blending, setBlending] = useState(false);
-  const [blendError, setBlendError] = useState(null);
 
-  const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(''), 2500); };
+  const [twinResponse, setTwinResponse] =
+    useState({
+      dataset: null,
+      threshold: 70,
+      twins: [],
+    });
+
+  const [profiles, setProfiles] =
+    useState([]);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  const [error, setError] =
+    useState(null);
+
+  const [selectedCreator, setSelectedCreator] =
+    useState(null);
+
+  const [blendValue, setBlendValue] =
+    useState(25);
+
+  const [blending, setBlending] =
+    useState(false);
+
+  const [toast, setToast] =
+    useState('');
+
 
   useEffect(() => {
-    if (profileLoading || !user?.id) {
-      return undefined;
-    }
-
     let cancelled = false;
 
-    async function loadTwins() {
+    async function loadCommunity() {
       setLoading(true);
       setError(null);
 
       try {
-        const data = await apiRequest(
-          '/api/community/twins',
-          {
-            method: 'POST',
-            body: JSON.stringify({
-              user_profile: user,
-            }),
-          },
-        );
+        /*
+         * The Style Twin request is a server-owned
+         * GET. The frontend submits no Fashion DNA
+         * or user_profile.
+         */
+        const [
+          twinsData,
+          profileData,
+        ] = await Promise.all([
+          apiRequest('/api/community/twins'),
+          apiRequest(
+            '/api/community/profiles',
+          ),
+        ]);
 
-        if (!cancelled) {
-          setTwins(data);
+        if (cancelled) {
+          return;
         }
+
+        setTwinResponse({
+          dataset:
+            twinsData.dataset ?? null,
+
+          threshold:
+            twinsData.threshold ?? 70,
+
+          twins:
+            Array.isArray(
+              twinsData.twins,
+            )
+              ? twinsData.twins
+              : [],
+        });
+
+        setProfiles(
+          Array.isArray(profileData)
+            ? profileData
+            : [],
+        );
       } catch (requestError) {
         if (!cancelled) {
-          setError(requestError);
+          setError(
+            requestError,
+          );
         }
       } finally {
         if (!cancelled) {
@@ -59,172 +118,514 @@ export default function Community() {
       }
     }
 
-    loadTwins();
+    void loadCommunity();
 
     return () => {
       cancelled = true;
     };
-  }, [user, profileLoading, retryKey]);
+  }, []);
 
-  const handleBlend = async () => {
-    if (!blendingCreator || blending) {
+
+  const creators = useMemo(
+    () => (
+      profiles.filter((profile) => {
+        const normalizedRole =
+          String(profile.role ?? '')
+            .trim()
+            .toLowerCase();
+
+        return (
+          normalizedRole === 'creator'
+        );
+      })
+    ),
+    [profiles],
+  );
+
+
+  const communityMembers = useMemo(
+    () => (
+      profiles.filter((profile) => {
+        const normalizedRole =
+          String(profile.role ?? '')
+            .trim()
+            .toLowerCase();
+
+        return (
+          normalizedRole === 'community'
+        );
+      })
+    ),
+    [profiles],
+  );
+
+
+  function showToast(message) {
+    setToast(message);
+
+    window.setTimeout(
+      () => setToast(''),
+      2500,
+    );
+  }
+
+
+  async function handleBlend() {
+    if (!selectedCreator) {
       return;
     }
 
     setBlending(true);
-    setBlendError(null);
 
     try {
-      const data = await apiRequest('/api/dna/blend', {
-        method: 'POST',
-        body: JSON.stringify({
-          user_profile: user,
-          creator_dna: blendingCreator.dna,
-          blend_percentage: blendValue,
-        }),
-      });
+      const data = await apiRequest(
+        '/api/dna/blend',
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            user_profile: user,
+            creator_dna:
+              selectedCreator.dna,
+            blend_percentage:
+              blendValue,
+          }),
+        },
+      );
 
-      await updateDNA({
-        dna_vector: data.merged_dna,
-        primary_identity:
-          user.identityName || 'Blended Style',
-        secondary_identity:
-          user.secondaryIdentity ?? null,
-        profile_confidence:
-          user.profileConfidence ?? 0,
-        source: 'community_blend',
-        model_version: '1.0',
+      updateUser({
+        dna: data.merged_dna,
       });
 
       showToast(
-        `Merged ${blendValue}% of ${blendingCreator.name}'s vibe into your DNA! 🧬`,
+        `Blended ${blendValue}% of `
+        + `${selectedCreator.name}'s style.`,
       );
 
-      setBlendingCreator(null);
-    } catch (requestError) {
-      setBlendError(requestError);
+      setSelectedCreator(null);
+    } catch (blendError) {
+      console.error(
+        'Creator blend failed:',
+        blendError,
+      );
+
+      showToast(
+        'Creator blend could not be completed.',
+      );
     } finally {
       setBlending(false);
     }
-  };
+  }
 
-  const creators = twins.filter(t => t.role === 'creator');
-  const pureTwins = twins.filter(t => t.role === 'user');
 
   if (loading) {
     return (
-      <div className="screen">
-        <div className="page-loading">
-          Finding your wardrobe twins…
+      <main className="community-screen">
+        <div className="community-state">
+          Loading Style Twins…
         </div>
-      </div>
+      </main>
     );
   }
+
 
   if (error) {
     return (
-      <div className="screen">
-        <ApiErrorState
-          error={error}
-          title="Community unavailable"
-          onRetry={() => setRetryKey((value) => value + 1)}
-        />
-      </div>
+      <main className="community-screen">
+        <div className="community-state error">
+          <h1>
+            Community could not be loaded
+          </h1>
+
+          <p>
+            {error.message}
+          </p>
+        </div>
+
+        <BottomNav />
+      </main>
     );
   }
 
+
   return (
-    <div className="screen com-screen">
-      <div className="com-hdr">
-        <div className="com-title">🌐 The Tribe</div>
-        <div className="com-sub">Find your twins, steal their vibe.</div>
-      </div>
+    <main className="community-screen">
+      <header className="community-header">
+        <p className="community-eyebrow">
+          STYLE COMMUNITY
+        </p>
 
-      <div className="com-body">
-        {loading ? (
-          <div style={{ padding: 40, textAlign: 'center' }}>Syncing with community...</div>
-        ) : (
-          <>
-            {/* Creators Section */}
-            <div className="com-section">
-              <div className="com-sec-title">Steal Their Vibe <span className="new-badge">NEW</span></div>
-              <p className="com-sec-sub">Merge a creator's Fashion DNA with yours.</p>
+        <h1>
+          Style Twins
+        </h1>
 
-              <div className="creator-list">
-                {creators.map(c => (
-                  <div key={c.id} className="creator-card">
-                    <img src={c.avatar} alt={c.name} className="creator-img" />
-                    <div className="creator-info">
-                      <div className="creator-name">{c.name} {c.match_percentage > 80 && '🔥'}</div>
-                      <div className="creator-handle">{c.handle}</div>
-                      <div className="creator-dna">{c.dna_label}</div>
-                    </div>
-                    <button className="blend-btn" onClick={() => setBlendingCreator(c)}>Blend DNA</button>
-                  </div>
-                ))}
-              </div>
-            </div>
+        <p>
+          Seeded demo users with at least a{' '}
+          {percentage(
+            twinResponse.threshold,
+          )}
+          % weighted style match.
+        </p>
+      </header>
 
-            {/* Twins Section */}
-            <div className="com-section">
-              <div className="com-sec-title">Wardrobe Twins</div>
-              <p className="com-sec-sub">Users with a &gt;90% match to your exact aesthetic.</p>
-
-              <div className="twin-list">
-                {pureTwins.length > 0 ? pureTwins.map(t => (
-                  <div key={t.id} className="twin-card">
-                    <div className="twin-top">
-                      <img src={t.avatar} alt={t.name} className="twin-img" />
-                      <div>
-                        <div className="twin-name">{t.name}</div>
-                        <div className="twin-match">🧬 {t.match_percentage}% DNA Match</div>
-                      </div>
-                    </div>
-                    <div className="twin-msg">"Recently bought {t.recent_purchases.length} items you might like."</div>
-                  </div>
-                )) : (
-                  <div className="no-twins">No 90%+ twins found yet. Keep shopping to refine your DNA!</div>
-                )}
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-
-      {/* Blend Modal */}
-      {blendingCreator && (
-        <div className="blend-modal-overlay">
-          <div className="blend-modal">
-            <div className="bm-close" onClick={() => setBlendingCreator(null)}>×</div>
-            <img src={blendingCreator.avatar} className="bm-avatar" alt="" />
-            <h3 className="bm-title">Steal {blendingCreator.name}'s Vibe</h3>
-            <p className="bm-sub">How much of their <strong>{blendingCreator.dna_label}</strong> DNA do you want to merge into yours?</p>
-
-            <div className="bm-slider-wrap">
-              <input
-                type="range"
-                min="10" max="100" step="10"
-                value={blendValue}
-                onChange={(e) => setBlendValue(Number(e.target.value))}
-                className="bm-slider"
-              />
-              <div className="bm-val">{blendValue}%</div>
-            </div>
-
-            {blendError && (
-              <ApiErrorState
-                error={blendError}
-                title="Could not blend Fashion DNA"
-                onRetry={handleBlend}
-              />
+      <section className="dataset-notice">
+        <strong>
+          {twinResponse.dataset?.label
+            ?? (
+              'Insights use a seeded '
+              + 'demo cohort'
             )}
-            <button className="bm-confirm" type="button" onClick={handleBlend} disabled={blending}>{blending ? 'Blending...' : 'Confirm DNA Blend'}</button>
+        </strong>
+
+        <span>
+          Dataset:{' '}
+          {twinResponse.dataset?.type
+            ?? 'seeded_demo'}
+        </span>
+      </section>
+
+      <section className="community-section">
+        <div className="community-section-heading">
+          <div>
+            <p className="community-section-kicker">
+              EVIDENCE-BACKED MATCHES
+            </p>
+
+            <h2>
+              Your Style Twins
+            </h2>
           </div>
+
+          <span className="community-count">
+            {twinResponse.twins.length}
+          </span>
+        </div>
+
+        {twinResponse.twins.length === 0 ? (
+          <div className="community-empty">
+            No seeded demo users currently meet
+            the {percentage(
+              twinResponse.threshold,
+            )}
+            % threshold.
+          </div>
+        ) : (
+          <div className="twin-grid">
+            {twinResponse.twins.map(
+              (twin) => (
+                <article
+                  className="twin-card"
+                  key={twin.user_id}
+                >
+                  <div className="twin-card-header">
+                    <div>
+                      <p className="twin-name">
+                        {twin.name}
+                      </p>
+
+                      <p className="twin-user-id">
+                        Demo user #{twin.user_id}
+                      </p>
+                    </div>
+
+                    <div className="similarity-badge">
+                      {percentage(
+                        twin.similarity,
+                      )}
+                      %
+                    </div>
+                  </div>
+
+                  <p className="cohort-size">
+                    Cohort size:{' '}
+                    <strong>
+                      {twin.cohort_size}
+                    </strong>
+                  </p>
+
+                  <div className="shared-traits">
+                    {twin.shared_traits.map(
+                      (trait) => (
+                        <span key={trait}>
+                          {trait}
+                        </span>
+                      ),
+                    )}
+                  </div>
+
+                  <div className="product-insights">
+                    <h3>
+                      Cohort product evidence
+                    </h3>
+
+                    {twin.product_insights.length
+                      === 0 ? (
+                        <p className="no-evidence">
+                          No completed keep or return
+                          decisions are available for
+                          this cohort.
+                        </p>
+                      ) : (
+                        twin.product_insights.map(
+                          (insight) => {
+                            const denominator =
+                              insight.keep_count
+                              + insight.return_count;
+
+                            return (
+                              <div
+                                className="insight-row"
+                                key={
+                                  insight.product_id
+                                }
+                              >
+                                <div>
+                                  <strong>
+                                    Product{' '}
+                                    #{insight.product_id}
+                                  </strong>
+
+                                  <p>
+                                    Kept:{' '}
+                                    {insight.keep_count}
+                                    {' '}of{' '}
+                                    {denominator}
+                                    {' '}decisions
+                                  </p>
+
+                                  <p>
+                                    Returned:{' '}
+                                    {
+                                      insight
+                                        .return_count
+                                    }
+                                  </p>
+                                </div>
+
+                                <span>
+                                  {insight.keep_rate
+                                    == null
+                                    ? 'No rate'
+                                    : (
+                                      `${percentage(
+                                        insight
+                                          .keep_rate,
+                                      )}%`
+                                    )}
+                                </span>
+                              </div>
+                            );
+                          },
+                        )
+                      )}
+                  </div>
+                </article>
+              ),
+            )}
+          </div>
+        )}
+      </section>
+
+      <section className="community-section">
+        <div className="community-section-heading">
+          <div>
+            <p className="community-section-kicker">
+              CREATOR DNA
+            </p>
+
+            <h2>
+              Creator Blends
+            </h2>
+          </div>
+        </div>
+
+        <div className="profile-grid">
+          {creators.map((creator) => (
+            <article
+              className="profile-card"
+              key={creator.id}
+            >
+              <img
+                src={
+                  creator.avatar
+                  || '/catalog/fallback-product.webp'
+                }
+                alt={creator.name}
+                onError={(event) => {
+                  event.currentTarget.onerror =
+                    null;
+
+                  event.currentTarget.src =
+                    '/catalog/fallback-product.webp';
+                }}
+              />
+
+              <div>
+                <h3>
+                  {creator.name}
+                </h3>
+
+                <p>
+                  {creator.handle}
+                </p>
+
+                <strong>
+                  {creator.dna_label}
+                </strong>
+              </div>
+
+              <button
+                type="button"
+                className="community-primary-button"
+                onClick={() => {
+                  setSelectedCreator(
+                    creator,
+                  );
+                }}
+              >
+                Blend DNA
+              </button>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {communityMembers.length > 0 && (
+        <section className="community-section">
+          <div className="community-section-heading">
+            <div>
+              <p className="community-section-kicker">
+                COMMUNITY DISCOVERY
+              </p>
+
+              <h2>
+                Community Profiles
+              </h2>
+            </div>
+          </div>
+
+          <div className="profile-grid">
+            {communityMembers.map(
+              (profile) => (
+                <article
+                  className="profile-card compact"
+                  key={profile.id}
+                >
+                  <img
+                    src={
+                      profile.avatar
+                      || (
+                        '/catalog/'
+                        + 'fallback-product.webp'
+                      )
+                    }
+                    alt={profile.name}
+                    onError={(event) => {
+                      event.currentTarget.onerror =
+                        null;
+
+                      event.currentTarget.src =
+                        (
+                          '/catalog/'
+                          + 'fallback-product.webp'
+                        );
+                    }}
+                  />
+
+                  <div>
+                    <h3>
+                      {profile.name}
+                    </h3>
+
+                    <p>
+                      {profile.handle}
+                    </p>
+
+                    <strong>
+                      {profile.dna_label}
+                    </strong>
+                  </div>
+                </article>
+              ),
+            )}
+          </div>
+        </section>
+      )}
+
+      {selectedCreator && (
+        <div
+          className="community-modal-overlay"
+          role="presentation"
+        >
+          <section
+            className="community-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="blend-title"
+          >
+            <button
+              type="button"
+              className="community-modal-close"
+              aria-label="Close creator blend"
+              onClick={() => {
+                setSelectedCreator(null);
+              }}
+            >
+              ×
+            </button>
+
+            <p className="community-section-kicker">
+              CREATOR DNA BLEND
+            </p>
+
+            <h2 id="blend-title">
+              Blend with{' '}
+              {selectedCreator.name}
+            </h2>
+
+            <label htmlFor="blend-percentage">
+              Creator influence:{' '}
+              <strong>
+                {blendValue}%
+              </strong>
+            </label>
+
+            <input
+              id="blend-percentage"
+              type="range"
+              min="10"
+              max="60"
+              step="5"
+              value={blendValue}
+              onChange={(event) => {
+                setBlendValue(
+                  Number(
+                    event.target.value,
+                  ),
+                );
+              }}
+            />
+
+            <button
+              type="button"
+              className="community-primary-button"
+              disabled={blending}
+              onClick={handleBlend}
+            >
+              {blending
+                ? 'Blending…'
+                : 'Apply creator blend'}
+            </button>
+          </section>
         </div>
       )}
 
-      {toast && <div className="toast">{toast}</div>}
+      {toast && (
+        <div className="community-toast">
+          {toast}
+        </div>
+      )}
+
       <BottomNav />
-    </div>
+    </main>
   );
 }
