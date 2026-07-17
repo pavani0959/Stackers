@@ -21,6 +21,19 @@ logger.setLevel(
     ).upper(),
 )
 
+if not logger.handlers:
+    handler = logging.StreamHandler()
+
+    handler.setFormatter(
+        logging.Formatter(
+            "%(message)s",
+        ),
+    )
+
+    logger.addHandler(handler)
+
+logger.propagate = False
+
 
 def _request_id(
     request: Request,
@@ -32,9 +45,7 @@ def _request_id(
     )
 
     if supplied_request_id:
-        return supplied_request_id[
-            :128
-        ]
+        return supplied_request_id[:128]
 
     return str(uuid4())
 

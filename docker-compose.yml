@@ -1,0 +1,82 @@
+services:
+  database:
+    image: postgres:16-alpine
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-stackers}
+      POSTGRES_USER: ${POSTGRES_USER:-stackers}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-stackers}
+
+    volumes:
+      - stackers_postgres:/var/lib/postgresql/data
+
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U ${POSTGRES_USER:-stackers} -d ${POSTGRES_DB:-stackers}
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+
+    restart: unless-stopped
+
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-stackers}:${POSTGRES_PASSWORD:-stackers}@database:5432/${POSTGRES_DB:-stackers}
+      FRONTEND_ORIGINS: '["http://localhost:3000","http://127.0.0.1:3000"]'
+      ENVIRONMENT: production
+      LOG_LEVEL: INFO
+
+    depends_on:
+      database:
+        condition: service_healthy
+
+    expose:
+      - "8000"
+
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)
+      interval: 10s
+      timeout: 5s
+      start_period: 30s
+      retries: 6
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: /api
+
+    restart: unless-stopped
+
+    depends_on:
+      backend:
+        condition: service_healthy
+
+    ports:
+      - "3000:80"
+
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - --quiet
+        - --tries=1
+        - --spider
+        - http://127.0.0.1/
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  stackers_postgres:
