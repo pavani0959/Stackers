@@ -15,6 +15,75 @@ import { apiRequest } from '../../api/client';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import '../../styles/Wishlist.css';
 
+function WishlistItem({ item, moveToCart, removeItem, navigate }) {
+  const [imgError, setImgError] = useState(false);
+
+  return (
+    <article className="wl-card">
+      <button
+        type="button"
+        className="wl-img-wrap"
+        aria-label={`View ${item.name}`}
+        onClick={() => navigate(`/product/${item.id}`)}
+      >
+        {!imgError ? (
+          <img
+            src={item.image}
+            alt=""
+            className="wl-img"
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <div className="img-fallback">
+            <span className="img-fallback-icon">👕</span>
+            <span className="img-fallback-text">{item.name}</span>
+          </div>
+        )}
+
+        <span className="wl-dna-badge">
+          <Dna aria-hidden="true" size={14} />
+          <span>{item.dnaMatch || 75}%</span>
+        </span>
+      </button>
+
+      <div className="wl-info">
+        <div className="wl-brand">{item.brand}</div>
+
+        <button
+          type="button"
+          className="wl-name"
+          onClick={() => navigate(`/product/${item.id}`)}
+        >
+          {item.name}
+        </button>
+
+        <div className="wl-price">
+          ₹{Number(item.price || 0).toLocaleString('en-IN')}
+        </div>
+
+        <div className="wl-actions">
+          <button
+            type="button"
+            className="wl-cart-btn"
+            onClick={() => moveToCart(item)}
+          >
+            <ShoppingBag aria-hidden="true" size={17} />
+            <span>Add to Cart</span>
+          </button>
+
+          <button
+            type="button"
+            className="wl-remove-btn"
+            aria-label={`Remove ${item.name} from wishlist`}
+            onClick={() => removeItem(item.id)}
+          >
+            <Trash2 aria-hidden="true" size={18} />
+          </button>
+        </div>
+      </div>
+    </article>
+  );
+}
 
 export default function Wishlist() {
   const navigate = useNavigate();
@@ -323,95 +392,13 @@ export default function Wishlist() {
 
             <div className="wl-list">
               {items.map((item) => (
-                <article
+                <WishlistItem
                   key={item.id}
-                  className="wl-card"
-                >
-                  <button
-                    type="button"
-                    className="wl-img-wrap"
-                    aria-label={`View ${item.name}`}
-                    onClick={() => {
-                      navigate(
-                        `/product/${item.id}`,
-                      );
-                    }}
-                  >
-                    <img
-                      src={item.image}
-                      alt=""
-                      className="wl-img"
-                    />
-
-                    <span className="wl-dna-badge">
-                      <Dna
-                        aria-hidden="true"
-                        size={14}
-                      />
-
-                      <span>
-                        {item.dnaMatch || 75}%
-                      </span>
-                    </span>
-                  </button>
-
-                  <div className="wl-info">
-                    <div className="wl-brand">
-                      {item.brand}
-                    </div>
-
-                    <button
-                      type="button"
-                      className="wl-name"
-                      onClick={() => {
-                        navigate(
-                          `/product/${item.id}`,
-                        );
-                      }}
-                    >
-                      {item.name}
-                    </button>
-
-                    <div className="wl-price">
-                      ₹{Number(
-                        item.price || 0,
-                      ).toLocaleString('en-IN')}
-                    </div>
-
-                    <div className="wl-actions">
-                      <button
-                        type="button"
-                        className="wl-cart-btn"
-                        onClick={() => {
-                          moveToCart(item);
-                        }}
-                      >
-                        <ShoppingBag
-                          aria-hidden="true"
-                          size={17}
-                        />
-
-                        <span>
-                          Add to Cart
-                        </span>
-                      </button>
-
-                      <button
-                        type="button"
-                        className="wl-remove-btn"
-                        aria-label={`Remove ${item.name} from wishlist`}
-                        onClick={() => {
-                          removeItem(item.id);
-                        }}
-                      >
-                        <Trash2
-                          aria-hidden="true"
-                          size={18}
-                        />
-                      </button>
-                    </div>
-                  </div>
-                </article>
+                  item={item}
+                  moveToCart={moveToCart}
+                  removeItem={removeItem}
+                  navigate={navigate}
+                />
               ))}
             </div>
 

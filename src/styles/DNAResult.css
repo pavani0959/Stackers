@@ -14,3 +14,28 @@
 .ib-label { font-size: 12px; color: var(--text-2); margin-bottom: 5px; }
 .ib-title { font-size: 22px; font-weight: 900; margin-bottom: 8px; }
 .ib-desc { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+
+/* ===== RESPONSIVE: DNA Result ===== */
+
+/* Mobile (<640px) */
+@media (max-width: 639px) {
+  .dna-result-screen { padding: 40px 18px 32px; gap: 18px; }
+  .dna-res-hdr h1 { font-size: 22px; }
+}
+
+/* Tablet (640–1024px) */
+@media (min-width: 640px) and (max-width: 1024px) {
+  .dna-result-screen { padding: 52px 40px 48px; max-width: 600px; margin: 0 auto; }
+  .dna-res-hdr h1 { font-size: 30px; }
+}
+
+/* Desktop (>1024px) */
+@media (min-width: 1025px) {
+  .dna-result-screen { padding: 60px 48px 56px; max-width: 680px; margin: 0 auto; }
+  .dna-res-hdr h1 { font-size: 32px; }
+  .bar-name { font-size: 16px; }
+  .bar-pct { font-size: 16px; }
+  .identity-box { padding: 28px; }
+  .ib-title { font-size: 26px; }
+}
+

@@ -20,6 +20,45 @@ const QUICK_PROMPTS = [
   { label: '🎓 Campus', text: 'Casual campus day, comfortable and clean, ₹3000' },
 ];
 
+function OutfitItem({ item, onClick }) {
+  const [imgError, setImgError] = useState(false);
+
+  return (
+    <button
+      type="button"
+      className="outfit-item"
+      aria-label={`View ${item.name}`}
+      onClick={onClick}
+    >
+      <div className="outfit-item-img-wrap">
+        {!imgError ? (
+          <img
+            src={item.image}
+            alt={item.name}
+            loading="lazy"
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <div className="img-fallback">
+            <span className="img-fallback-icon">👕</span>
+            <span className="img-fallback-text">{item.name}</span>
+          </div>
+        )}
+      </div>
+
+      <span className="outfit-item-lbl">
+        <span className="outfit-item-cat">
+          {item.category.toUpperCase()}
+        </span>
+
+        <span>
+          ₹{item.price.toLocaleString('en-IN')}
+        </span>
+      </span>
+    </button>
+  );
+}
+
 export default function ReverseShopping() {
   const navigate = useNavigate();
   const {
@@ -331,31 +370,11 @@ export default function ReverseShopping() {
                     {/* Product items */}
                     <div className="outfit-items">
                       {group.items.map((item) => (
-                        <button
-                          type="button"
-                          key={item.id}
-                          className="outfit-item"
-                          aria-label={`View ${item.name}`}
-                          onClick={() => {
-                            navigate(`/product/${item.id}`);
-                          }}
-                        >
-                          <img
-                            src={item.image}
-                            alt=""
-                            loading="lazy"
-                          />
-
-                          <span className="outfit-item-lbl">
-                            <span className="outfit-item-cat">
-                              {item.category.toUpperCase()}
-                            </span>
-
-                            <span>
-                              ₹{item.price.toLocaleString('en-IN')}
-                            </span>
-                          </span>
-                        </button>
+                        <OutfitItem 
+                          key={item.id} 
+                          item={item} 
+                          onClick={() => navigate(`/product/${item.id}`)} 
+                        />
                       ))}
                     </div>
 

@@ -22,3 +22,72 @@
 .id-share-btn:hover { opacity: .9; transform: translateY(-1px); }
 .id-enter-btn { width: 100%; max-width: 338px; padding: 15px; background: transparent; border: 2px solid var(--border); border-radius: var(--radius); font-family: 'Outfit',sans-serif; font-size: 14px; font-weight: 600; color: var(--text); cursor: pointer; transition: all .2s; }
 .id-enter-btn:hover { border-color: var(--accent); }
+
+/* Identity summary (inside the dark card) */
+.identity-summary { margin-bottom: 18px; }
+.identity-name { font-size: 20px; font-weight: 900; color: #fff; margin: 0 0 6px; line-height: 1.3; }
+.identity-description { font-size: 12px; color: rgba(255,255,255,.55); line-height: 1.6; margin: 0; }
+
+/* Detail rows inside the dark card */
+.identity-details { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.identity-detail { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.detail-label { font-size: 11px; font-weight: 600; color: rgba(255,255,255,.45); text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; }
+.detail-value { font-size: 12px; font-weight: 700; color: rgba(255,255,255,.85); text-align: right; }
+
+/* Confidence breakdown inside the dark card */
+.confidence-breakdown { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; margin-top: 12px; padding: 12px 14px; background: rgba(255,255,255,.04); border-radius: 12px; }
+.confidence-breakdown p { font-size: 11px; color: rgba(255,255,255,.5); margin: 0; }
+.confidence-breakdown strong { color: rgba(255,255,255,.85); }
+
+/* Evidence line inside the dark card */
+.identity-evidence { display: flex; gap: 16px; margin-top: 10px; font-size: 11px; color: rgba(255,255,255,.4); }
+
+/* Card-name text needs to be white on the dark card */
+.id-card .card-name { color: #fff; }
+.id-card .card-sub { color: rgba(255,255,255,.5); }
+.id-card .card-sub p { margin: 0 0 2px; }
+
+/* Actions below the card */
+.identity-card-actions { width: 100%; max-width: 338px; display: flex; flex-direction: column; gap: 10px; }
+
+.id-edit-btn { width: 100%; padding: 12px; background: transparent; border: 1px solid var(--border); border-radius: var(--radius); font-family: 'Outfit',sans-serif; font-size: 13px; font-weight: 600; color: var(--text-2); cursor: pointer; transition: all .2s; }
+.id-edit-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ===== RESPONSIVE: Identity Card ===== */
+
+/* Mobile (<640px) */
+@media (max-width: 639px) {
+  .id-card-screen { padding: 36px 18px 32px; }
+  .id-card { padding: 20px; border-radius: 22px; }
+  .card-name { font-size: 26px; }
+  .card-conf-val { font-size: 22px; }
+  .card-conf-bar { width: 90px; }
+  .identity-name { font-size: 17px; }
+  .identity-card-actions { max-width: 100%; }
+  .confidence-breakdown { grid-template-columns: 1fr; }
+}
+
+/* Tablet (640–1024px) */
+@media (min-width: 640px) and (max-width: 1024px) {
+  .id-card-screen { padding: 52px 40px 48px; }
+  .id-card { max-width: 400px; padding: 30px; }
+  .card-name { font-size: 36px; }
+  .identity-name { font-size: 22px; }
+  .id-share-btn, .id-enter-btn { max-width: 400px; }
+  .identity-card-actions { max-width: 400px; }
+}
+
+/* Desktop (>1024px) */
+@media (min-width: 1025px) {
+  .id-card-screen { padding: 60px 48px 56px; }
+  .id-card { max-width: 420px; padding: 32px; }
+  .card-name { font-size: 38px; }
+  .identity-name { font-size: 24px; }
+  .card-conf-val { font-size: 30px; }
+  .card-conf-bar { width: 150px; }
+  .id-share-btn, .id-enter-btn { max-width: 420px; font-size: 15px; }
+  .identity-card-actions { max-width: 420px; }
+  .card-top { margin-bottom: 28px; }
+  .card-tags { margin-bottom: 28px; }
+}
+

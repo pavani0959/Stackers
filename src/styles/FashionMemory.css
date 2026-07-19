@@ -1,4 +1,4 @@
-.fm-screen { overflow: hidden; display: flex; flex-direction: column; background: var(--bg); }
+.fm-screen { position: relative; display: flex; flex-direction: column; background: var(--bg); min-height: 100vh; }
 .fm-hdr { padding: 48px 18px 18px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
 .fm-back-row { display: flex; align-items: center; gap: 12px; }
 .fm-title { font-size: 22px; font-weight: 900; margin-bottom: 5px; }
@@ -20,7 +20,8 @@
 .mem-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; cursor: pointer; transition: transform .2s; }
 .mem-item:hover { transform: scale(1.02); }
 .mem-top { display: flex; align-items: stretch; border-bottom: 1px solid var(--border); }
-.mem-img { width: 85px; height: 100px; object-fit: cover; }
+.mem-img-wrap { width: 85px; flex-shrink: 0; position: relative; aspect-ratio: 4/5; background: var(--surface-2); animation: pulse-skeleton 1.5s infinite alternate ease-in-out; overflow: hidden; }
+.mem-img { width: 100%; height: 100%; object-fit: cover; display: block; text-indent: 100%; white-space: nowrap; background: white; }
 .mem-info { padding: 11px 13px; display: flex; flex-direction: column; justify-content: center; }
 .mem-date { font-size: 10px; color: var(--text-3); margin-bottom: 3px; }
 .mem-name { font-size: 13px; font-weight: 800; margin-bottom: 3px; }
@@ -141,68 +142,31 @@
   opacity: 0.6;
 }
 
-/* Phase 8: semantic timeline controls */
+/* ===== RESPONSIVE: Fashion Memory ===== */
 
-.mem-item {
-  cursor: default;
+/* Mobile (<640px) */
+@media (max-width: 639px) {
+  .fm-hdr { padding: 40px 16px 14px; }
+  .fm-body { padding: 14px 16px 80px; }
+  .mem-img { width: 70px; height: 85px; }
 }
 
-.mem-occ {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
+/* Tablet (640–1024px) */
+@media (min-width: 640px) and (max-width: 1024px) {
+  .fm-hdr { padding: 48px 28px 18px; }
+  .fm-body { padding: 20px 28px 90px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .month-label { grid-column: 1 / -1; }
+  .fm-empty { grid-column: 1 / -1; }
+  .mem-img { width: 90px; height: 108px; }
 }
 
-.mem-bottom {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+/* Desktop (>1024px) */
+@media (min-width: 1025px) {
+  .fm-hdr { padding: 32px 36px 18px; }
+  .fm-body { padding: 24px 36px 90px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .month-label { grid-column: 1 / -1; }
+  .fm-empty { grid-column: 1 / -1; }
+  .fm-title { font-size: 26px; }
+  .mem-img { width: 100px; height: 120px; }
 }
 
-.mem-metadata,
-.mem-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-}
-
-.mem-view-link,
-.mem-why-link {
-  appearance: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  min-height: 38px;
-  padding: 8px 12px;
-  border-radius: 10px;
-  font: inherit;
-  cursor: pointer;
-}
-
-.mem-view-link {
-  border: 0;
-  background: var(
-    --accent,
-    var(--color-primary, #ff3f6c)
-  );
-  color: #ffffff;
-}
-
-.mem-why-link {
-  border: 1px solid var(
-    --border,
-    #e4e4e7
-  );
-  background: transparent;
-  color: inherit;
-}
-
-.mem-view-link:disabled,
-.mem-why-link:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}

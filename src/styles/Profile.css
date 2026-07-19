@@ -1,5 +1,5 @@
 /* Profile Screen */
-.profile-screen { background: var(--bg); display: flex; flex-direction: column; overflow: hidden; }
+.profile-screen { background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
 .prf-hdr { padding: 48px 18px 14px; background: white; border-bottom: 1px solid var(--border); flex-shrink: 0; }
 .prf-back-row { display: flex; align-items: center; gap: 12px; }
 .prf-hdr-title { flex: 1; font-size: 20px; font-weight: 900; color: var(--text); }
@@ -54,3 +54,29 @@
 .prf-link-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 16px; font-size: 14px; font-weight: 700; color: var(--text); cursor: pointer; border-bottom: 1px solid var(--border); }
 .prf-link-row:last-child { border-bottom: none; }
 .prf-link-row:hover { background: var(--surface-2); }
+
+/* ===== RESPONSIVE: Profile ===== */
+
+/* Mobile (<640px) */
+@media (max-width: 639px) {
+  .prf-hdr { padding: 40px 16px 12px; }
+  .prf-body { padding: 14px 16px 80px; }
+  .prf-avatar { width: 60px; height: 60px; font-size: 28px; }
+  .prf-name { font-size: 18px; }
+}
+
+/* Tablet (640–1024px) */
+@media (min-width: 640px) and (max-width: 1024px) {
+  .prf-hdr { padding: 48px 28px 14px; }
+  .prf-body { padding: 20px 28px 90px; max-width: 600px; margin: 0 auto; }
+}
+
+/* Desktop (>1024px) */
+@media (min-width: 1025px) {
+  .prf-hdr { padding: 32px 36px 14px; }
+  .prf-body { padding: 24px 36px 90px; max-width: 680px; margin: 0 auto; }
+  .prf-budget-opts { grid-template-columns: repeat(3, 1fr); }
+  .prf-name { font-size: 24px; }
+  .prf-avatar { width: 84px; height: 84px; font-size: 36px; }
+}
+

@@ -29,6 +29,75 @@ const COMPONENT_LABELS = {
   season: 'Season compatibility',
 };
 
+function AlternativeItem({ alternative, onAccept, onNavigate }) {
+  const [imgError, setImgError] = useState(false);
+
+  return (
+    <article
+      className="alt-item"
+      style={{
+        minWidth: '160px',
+        padding: '10px',
+        border: '1px solid var(--line-soft, #e7e7ec)',
+        borderRadius: '12px',
+      }}
+    >
+      <div style={{
+        width: '100%',
+        aspectRatio: '4 / 5',
+        borderRadius: '8px',
+        overflow: 'hidden',
+        background: 'var(--surface-2)',
+        position: 'relative'
+      }}>
+        {!imgError ? (
+          <img
+            src={alternative.image}
+            alt={alternative.name}
+            onError={() => setImgError(true)}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              display: 'block'
+            }}
+          />
+        ) : (
+          <div className="img-fallback" style={{ padding: '8px' }}>
+            <span className="img-fallback-icon" style={{ fontSize: '18px' }}>👕</span>
+            <span className="img-fallback-text" style={{ fontSize: '10px' }}>{alternative.name}</span>
+          </div>
+        )}
+      </div>
+
+      <div style={{ fontSize: '0.8rem', marginTop: '8px' }}>
+        <strong>{alternative.name}</strong>
+        <p style={{ margin: '4px 0 8px', color: 'var(--ink-500)', fontSize: '0.7rem' }}>
+          {alternative.reason}
+        </p>
+      </div>
+
+      <div style={{ display: 'grid', gap: '6px' }}>
+        <button
+          type="button"
+          className="primary-btn"
+          onClick={onAccept}
+        >
+          Add instead
+        </button>
+
+        <button
+          type="button"
+          className="secondary-btn"
+          onClick={onNavigate}
+        >
+          View product
+        </button>
+      </div>
+    </article>
+  );
+}
+
 export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -45,6 +114,7 @@ export default function ProductDetail() {
 
   const [decision, setDecision] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [imgError, setImgError] = useState(false);
   const [error, setError] = useState(null);
   const [retryKey, setRetryKey] = useState(0);
   const [size, setSize] = useState('S');
@@ -339,11 +409,18 @@ export default function ProductDetail() {
   return (
     <div className="screen det-screen">
       <div className="det-img-wrap">
-        <img
-          src={product.image}
-          alt={product.name}
-          onError={(e) => { e.target.onerror = null; e.target.src = '/catalog/fallback-product.webp'; }}
-        />
+        {!imgError ? (
+          <img
+            src={product.image}
+            alt={product.name}
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <div className="img-fallback">
+            <span className="img-fallback-icon">👕</span>
+            <span className="img-fallback-text">{product.name}</span>
+          </div>
+        )}
         <div className="det-hdr-btns">
           <button
             type="button"
@@ -503,76 +580,15 @@ export default function ProductDetail() {
                   }}
                 >
                   {regretWarning.alternatives.map((alternative) => (
-                    <article
+                    <AlternativeItem
                       key={alternative.id}
-                      className="alt-item"
-                      style={{
-                        minWidth: '160px',
-                        padding: '10px',
-                        border: '1px solid var(--line-soft, #e7e7ec)',
-                        borderRadius: '12px',
+                      alternative={alternative}
+                      onAccept={() => handleAcceptAlternative(alternative, regretWarning.signals ?? [])}
+                      onNavigate={() => {
+                        setRegretWarning(null);
+                        navigate(`/product/${alternative.id}`);
                       }}
-                    >
-                      <img
-                        src={alternative.image}
-                        alt={alternative.name}
-                        style={{
-                          width: '100%',
-                          aspectRatio: '3 / 4',
-                          objectFit: 'cover',
-                          borderRadius: '8px',
-                        }}
-                      />
-
-                      <div
-                        style={{
-                          fontSize: '0.8rem',
-                          marginTop: '8px',
-                        }}
-                      >
-                        <strong>{alternative.name}</strong>
-                        <p
-                          style={{
-                            margin: '4px 0 8px',
-                            color: 'var(--ink-500)',
-                            fontSize: '0.7rem',
-                          }}
-                        >
-                          {alternative.reason}
-                        </p>
-                      </div>
-
-                      <div
-                        style={{
-                          display: 'grid',
-                          gap: '6px',
-                        }}
-                      >
-                        <button
-                          type="button"
-                          className="primary-btn"
-                          onClick={() => {
-                            handleAcceptAlternative(
-                              alternative,
-                              regretWarning.signals ?? [],
-                            );
-                          }}
-                        >
-                          Add instead
-                        </button>
-
-                        <button
-                          type="button"
-                          className="secondary-btn"
-                          onClick={() => {
-                            setRegretWarning(null);
-                            navigate(`/product/${alternative.id}`);
-                          }}
-                        >
-                          View product
-                        </button>
-                      </div>
-                    </article>
+                    />
                   ))}
                 </div>
               </div>

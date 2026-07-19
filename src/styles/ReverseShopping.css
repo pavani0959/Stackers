@@ -1,4 +1,4 @@
-.rs-screen { overflow: hidden; display: flex; flex-direction: column; background: var(--bg); }
+.rs-screen { position: relative; display: flex; flex-direction: column; background: var(--bg); min-height: 100vh; }
 .rs-hdr { padding: 48px 18px 18px; border-bottom: 1px solid var(--border); flex-shrink: 0; background: white; }
 .rs-back-row { display: flex; align-items: center; gap: 12px; }
 .rs-title { font-size: 22px; font-weight: 900; margin-bottom: 5px; color: var(--text); }
@@ -209,3 +209,56 @@ button.outfit-item {
   text-align: left;
   cursor: pointer;
 }
+
+.outfit-item-img-wrap {
+  width: 100%;
+  aspect-ratio: 4/5;
+  background: var(--surface-2);
+  margin-bottom: 8px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  animation: pulse-skeleton 1.5s infinite alternate ease-in-out;
+}
+
+.outfit-item-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  text-indent: 100%;
+  white-space: nowrap;
+  background: white;
+}
+
+/* ===== RESPONSIVE: Reverse Shopping ===== */
+
+/* Mobile (<640px) */
+@media (max-width: 639px) {
+  .rs-hdr { padding: 40px 16px 14px; }
+  .rs-body { padding: 14px 16px 80px; }
+  .rs-chips { gap: 6px; }
+  .rs-chip { padding: 6px 10px; font-size: 11px; }
+}
+
+/* Tablet (640–1024px) */
+@media (min-width: 640px) and (max-width: 1024px) {
+  .rs-hdr { padding: 48px 28px 18px; }
+  .rs-body { padding: 20px 28px 90px; }
+  .rs-results { gap: 18px; }
+  .outfit-items { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 12px; }
+  .rs-textarea { min-height: 60px; }
+}
+
+/* Desktop (>1024px) */
+@media (min-width: 1025px) {
+  .rs-hdr { padding: 32px 36px 18px; }
+  .rs-body { padding: 24px 36px 90px; }
+  .rs-results { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .rs-results-hdr { grid-column: 1 / -1; }
+  .rs-budget-message { grid-column: 1 / -1; }
+  .rs-intent-chips { grid-column: 1 / -1; }
+  .outfit-items { gap: 16px; }
+  .rs-input-card { max-width: 720px; }
+  .rs-gen-btn { max-width: 720px; }
+  .rs-title { font-size: 26px; }
+}
+

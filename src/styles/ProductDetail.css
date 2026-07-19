@@ -1,6 +1,6 @@
-.det-screen { overflow: hidden; display: flex; flex-direction: column; }
-.det-img-wrap { width: 100%; height: 420px; position: relative; overflow: hidden; flex-shrink: 0; background: var(--surface-2); }
-.det-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.det-screen { position: relative; display: flex; flex-direction: column; min-height: 100vh; }
+.det-img-wrap { width: 100%; aspect-ratio: 4/5; position: relative; overflow: hidden; flex-shrink: 0; background: var(--surface-2); animation: pulse-skeleton 1.5s infinite alternate ease-in-out; }
+.det-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; text-indent: 100%; white-space: nowrap; background: white; }
 .det-hdr-btns { position: absolute; top: 48px; left: 0; right: 0; padding: 0 16px; display: flex; justify-content: space-between; align-items: center; }
 .wish-top-btn { width: 36px; height: 36px; background: white; border-radius: 50%; border: none; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
 .det-conf-pill { position: absolute; bottom: 14px; left: 14px; background: rgba(255,255,255,0.95); border-radius: 4px; padding: 7px 14px; display: flex; align-items: center; gap: 7px; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
@@ -119,3 +119,29 @@
   align-items: center;
   justify-content: center;
 }
+
+/* ===== RESPONSIVE: Product Detail ===== */
+
+/* Mobile (<640px) */
+@media (max-width: 639px) {
+  .det-img-wrap { height: 320px; }
+  .det-body { padding: 14px 16px 80px; }
+  .det-price { font-size: 18px; }
+}
+
+/* Tablet (640–1024px) */
+@media (min-width: 640px) and (max-width: 1024px) {
+  .det-img-wrap { height: 450px; }
+  .det-body { padding: 24px 28px 40px; max-width: 680px; margin: 0 auto; }
+  .conf-card { padding: 22px; }
+}
+
+/* Desktop (>1024px) */
+@media (min-width: 1025px) {
+  .det-img-wrap { height: 500px; }
+  .det-body { padding: 28px 36px 48px; max-width: 760px; margin: 0 auto; }
+  .det-price { font-size: 26px; }
+  .conf-card { padding: 24px; }
+  .size-chip { width: 52px; height: 52px; font-size: 16px; }
+}
+

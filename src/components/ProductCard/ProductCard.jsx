@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/useUser';
 import '../../styles/ProductCard.css';
@@ -14,6 +15,7 @@ export default function ProductCard({ decision }) {
   const product = decision.product;
   const isWished = (user.wishlist ?? []).includes(product.id);
   const isPerfectMatch = decision.overall_score >= PERFECT_MATCH_THRESHOLD;
+  const [imgError, setImgError] = useState(false);
 
   function openProduct() {
     navigate(
@@ -31,11 +33,18 @@ export default function ProductCard({ decision }) {
         ></button>
 
       <div className="prod-img">
-        <img
-          src={product.image}
-          alt={product.name}
-          onError={(e) => { e.target.onerror = null; e.target.src = '/catalog/fallback-product.webp'; }}
-        />
+        {!imgError ? (
+          <img
+            src={product.image}
+            alt={product.name}
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <div className="img-fallback">
+            <span className="img-fallback-icon">👕</span>
+            <span className="img-fallback-text">{product.name}</span>
+          </div>
+        )}
         <span className={`dna-badge ${isPerfectMatch ? 'perfect' : ''}`}>
           {isPerfectMatch ? '★ ' : ''}{decision.overall_score}% Match
         </span>

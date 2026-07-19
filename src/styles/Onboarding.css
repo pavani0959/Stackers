@@ -91,3 +91,31 @@ button.chip:disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }
+
+/* ===== RESPONSIVE: Onboarding ===== */
+
+/* Mobile (<640px) */
+@media (max-width: 639px) {
+  .ob-screen { padding: 40px 18px 18px; }
+  .ob-title { font-size: 20px; }
+  .gender-grid { gap: 8px; }
+  .colour-grid { gap: 8px; }
+}
+
+/* Tablet (640–1024px) */
+@media (min-width: 640px) and (max-width: 1024px) {
+  .ob-screen { padding: 52px 40px 32px; max-width: 580px; margin: 0 auto; }
+  .ob-title { font-size: 26px; }
+  .gender-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+}
+
+/* Desktop (>1024px) */
+@media (min-width: 1025px) {
+  .ob-screen { padding: 60px 48px 40px; max-width: 640px; margin: 0 auto; }
+  .ob-title { font-size: 28px; }
+  .gender-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .gender-card.wide { grid-column: auto; }
+  .colour-grid { gap: 14px; }
+  .budget-opt { padding: 18px 22px; }
+}
+

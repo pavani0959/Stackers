@@ -11,7 +11,7 @@
 .choice-bg { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 10px; }
 .choice-label { font-size: 11px; font-weight: 700; color: white; text-align: center; background: rgba(0,0,0,.55); backdrop-filter: blur(4px); padding: 5px 10px; border-radius: 100px; line-height: 1.4; }
 .choice-card.sel::after { content: '✓'; position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: white; }
-.quiz-nav { position: absolute; bottom: 0; left: 0; right: 0; padding: 14px 22px 28px; background: linear-gradient(to top, var(--bg) 75%, transparent); }
+.quiz-nav { position: sticky; bottom: 0; left: 0; right: 0; padding: 14px 22px 28px; background: linear-gradient(to top, var(--bg) 75%, transparent); z-index: 5; }
 .choice-card {
   appearance: none;
   width: 100%;
@@ -81,4 +81,29 @@
 .btn-primary:disabled {
   cursor: not-allowed;
   opacity: 0.45;
+}
+
+/* ===== RESPONSIVE: DNA Quiz ===== */
+
+/* Mobile (<640px) */
+@media (max-width: 639px) {
+  .quiz-hdr { padding: 36px 18px 14px; }
+  .quiz-question { font-size: 18px; }
+  .choices-grid { padding: 12px 18px 90px; gap: 8px; }
+}
+
+/* Tablet (640–1024px) */
+@media (min-width: 640px) and (max-width: 1024px) {
+  .quiz-hdr { padding: 48px 32px 18px; }
+  .choices-grid { grid-template-columns: repeat(3, 1fr); padding: 16px 32px 100px; gap: 14px; }
+  .quiz-question { font-size: 22px; }
+  .quiz-nav { padding: 14px 32px 28px; }
+}
+
+/* Desktop (>1024px) */
+@media (min-width: 1025px) {
+  .quiz-hdr { padding: 36px 48px 20px; }
+  .choices-grid { grid-template-columns: repeat(4, 1fr); padding: 20px 48px 100px; gap: 16px; }
+  .quiz-question { font-size: 24px; }
+  .quiz-nav { padding: 16px 48px 32px; }
 }

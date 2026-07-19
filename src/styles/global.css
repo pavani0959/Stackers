@@ -1,3 +1,29 @@
+:root {
+  --duration-entrance: 360ms;
+  --duration-reveal: 700ms;
+}
+
+@keyframes pulse-skeleton {
+  from { background-color: var(--surface-2); }
+  to { background-color: var(--border); }
+}
+
+.img-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--surface-2);
+  color: var(--text-3);
+  padding: 16px;
+  text-align: center;
+}
+.img-fallback-icon { font-size: 24px; }
+.img-fallback-text { font-size: 11px; font-weight: 600; line-height: 1.3; }
+
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -5,63 +31,28 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-
-
+/* ===== BASE LAYOUT ===== */
 body {
-  background: #F4F4F5;
-  color: var(--text);
-  font-family: var(--font-family);
+  width: 100%;
+  min-width: 320px;
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+  height: auto;
+  margin: 0;
+  background: var(--bg, var(--color-background, #ffffff));
+  color: var(--text, var(--color-text, #282c3f));
+  font-family: var(--font-family, system-ui, sans-serif);
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 #root {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100vw;
-  height: 100vh;
-}
-
-/* ===== PHONE FRAME ===== */
-.phone-frame {
   width: 100%;
+  min-width: 0;
   min-height: 100vh;
   height: auto;
-  background: var(--bg);
-  border-radius: 40px;
-  overflow: hidden;
-  position: relative;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-  border: 8px solid #EAEAEC;
-  flex-shrink: 0;
 }
 
-/* ===== SCREEN TRANSITIONS ===== */
-.screen {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  overflow-x: hidden;
-  background: var(--bg);
-  animation: screenIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.screen::-webkit-scrollbar { display: none; }
-
-@keyframes screenIn {
-  from { transform: translateX(24px); opacity: 0; }
-  to   { transform: translateX(0);    opacity: 1; }
-}
-@keyframes screenBack {
-  from { transform: translateX(-24px); opacity: 0; }
-  to   { transform: translateX(0);     opacity: 1; }
-}
+/* ===== KEYFRAME ANIMATIONS ===== */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -169,21 +160,6 @@ body {
 .section-title  { font-size: 14px; font-weight: 800; color: var(--text); }
 .section-action { font-size: 12px; color: var(--accent); cursor: pointer; font-weight: 700; }
 
-/* ===== DESKTOP HINT ===== */
-.desktop-hint {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.12);
-  font-weight: 500;
-  white-space: nowrap;
-  z-index: 1;
-  letter-spacing: 0.5px;
-  font-family: 'Outfit', sans-serif;
-}
-
 /* ===== TOOLTIP ===== */
 .toast {
   position: fixed;
@@ -232,17 +208,6 @@ body {
   background: rgba(255, 60, 172, 0.12);
   color: var(--accent);
 }
-
-/* ===== DESKTOP BG ===== */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: #F4F4F5;
-  z-index: -1;
-  pointer-events: none;
-}
-
 
 /* ApiErrorState.jsx */
 
@@ -300,6 +265,7 @@ body::before {
   font-size: 16px;
   font-weight: 600;
 }
+
 /* =========================================================
    Phase 8: responsive application shell
    ========================================================= */
@@ -307,44 +273,7 @@ body::before {
 html {
   min-width: 320px;
   min-height: 100%;
-  background:
-    var(
-      --bg,
-      var(--color-background, #ffffff)
-    );
-}
-
-body {
-  width: 100%;
-  min-width: 320px;
-  min-height: 100vh;
-  height: auto;
-  margin: 0;
-  background:
-    var(
-      --bg,
-      var(--color-background, #ffffff)
-    );
-  color:
-    var(
-      --text,
-      var(--color-text, #282c3f)
-    );
-  font-family:
-    var(
-      --font-family,
-      system-ui,
-      sans-serif
-    );
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-#root {
-  width: 100%;
-  min-width: 0;
-  min-height: 100vh;
-  height: auto;
+  background: var(--bg, var(--color-background, #ffffff));
 }
 
 .app-shell {
@@ -353,11 +282,7 @@ body {
   min-height: 100vh;
   height: auto;
   margin: 0 auto;
-  background:
-    var(
-      --bg,
-      var(--color-background, #ffffff)
-    );
+  background: var(--bg, var(--color-background, #ffffff));
 }
 
 .screen {
@@ -368,12 +293,10 @@ body {
   min-height: 100vh;
   height: auto;
   overflow-x: hidden;
-  background:
-    var(
-      --bg,
-      var(--color-background, #ffffff)
-    );
+  background: var(--bg, var(--color-background, #ffffff));
 }
+
+.screen::-webkit-scrollbar { display: none; }
 
 .screen > *,
 .app-shell > * {
@@ -435,11 +358,7 @@ input:focus-visible,
 textarea:focus-visible,
 select:focus-visible,
 [tabindex]:focus-visible {
-  outline: 3px solid
-    var(
-      --accent,
-      var(--color-primary, #ff3f6c)
-    );
+  outline: 3px solid var(--accent, var(--color-primary, #ff3f6c));
   outline-offset: 3px;
 }
 
@@ -476,6 +395,10 @@ select:focus-visible,
     scroll-behavior: auto !important;
   }
 
+  html:focus-within {
+    scroll-behavior: auto !important;
+  }
+
   *,
   *::before,
   *::after {
@@ -485,25 +408,5 @@ select:focus-visible,
     animation-iteration-count: 1 !important;
     transition-delay: 0ms !important;
     transition-duration: 0.01ms !important;
-  }
-}
-
-
-/* Phase 8: definitive reduced-motion support */
-
-@media (prefers-reduced-motion: reduce) {
-  html:focus-within {
-    scroll-behavior: auto !important;
-  }
-
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    animation-duration: 0.01ms !important;
-    animation-delay: 0s !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    transition-delay: 0s !important;
   }
 }

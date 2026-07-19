@@ -1,9 +1,9 @@
-.muse-fab { position: absolute; bottom: 75px; right: 12px; width: 46px; height: 46px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(255, 63, 108, 0.4); cursor: pointer; z-index: 200; border: 2px solid rgba(255,255,255,0.3); }
+.muse-fab { position: fixed; bottom: 75px; right: 12px; width: 46px; height: 46px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(255, 63, 108, 0.4); cursor: pointer; z-index: 200; border: 2px solid rgba(255,255,255,0.3); }
 @keyframes fabPulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 .muse-icon { font-size: 20px; }
 .muse-icon-small { font-size: 14px; margin-right: 5px; }
 
-.muse-window { position: absolute; bottom: 70px; right: 8px; width: 300px; height: 400px; background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); display: flex; flex-direction: column; z-index: 200; box-shadow: 0 8px 30px rgba(0,0,0,0.15); overflow: hidden; animation: museSlideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.muse-window { position: fixed; bottom: 70px; right: 8px; width: 300px; height: 400px; background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); display: flex; flex-direction: column; z-index: 200; box-shadow: 0 8px 30px rgba(0,0,0,0.15); overflow: hidden; animation: museSlideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 @keyframes museSlideUp { from { opacity: 0; transform: translateY(50px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
 .muse-hdr { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: var(--accent); border-bottom: 1px solid rgba(255,255,255,0.2); }

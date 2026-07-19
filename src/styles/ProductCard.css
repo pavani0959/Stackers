@@ -11,15 +11,43 @@
 .prod-img {
   position: relative;
   width: 100%;
-  aspect-ratio: 3/4;
+  aspect-ratio: 4/5;
   background: var(--surface-2);
+  /* Pulse skeleton loader for loading state */
+  animation: pulse-skeleton 1.5s infinite alternate ease-in-out;
+}
+
+@keyframes pulse-skeleton {
+  from { background-color: var(--surface-2); }
+  to { background-color: var(--border); }
 }
 
 .prod-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  /* hide the background pulse when img is fully opaque */
+  background: white;
 }
+
+.img-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--surface-2);
+  color: var(--text-3);
+  padding: 16px;
+  text-align: center;
+}
+.img-fallback-icon { font-size: 24px; }
+.img-fallback-text { font-size: 11px; font-weight: 600; line-height: 1.3; }
 
 .dna-badge {
   position: absolute;
@@ -145,3 +173,26 @@
   position: relative;
   z-index: 2;
 }
+
+/* ===== RESPONSIVE: Product Card ===== */
+
+/* Mobile (<640px) */
+@media (max-width: 639px) {
+  .prod-info { padding: 8px; }
+  .prod-brand { font-size: 12px; }
+  .prod-name { font-size: 11px; }
+  .prod-price { font-size: 12px; }
+}
+
+/* Tablet (640–1024px) */
+@media (min-width: 640px) and (max-width: 1024px) {
+  .prod-info { padding: 12px; }
+}
+
+/* Desktop (>1024px) */
+@media (min-width: 1025px) {
+  .prod-info { padding: 14px; gap: 6px; }
+  .prod-brand { font-size: 15px; }
+  .prod-name { font-size: 13px; }
+}
+

@@ -1,5 +1,5 @@
 /* Wishlist Screen */
-.wishlist-screen { background: var(--bg); overflow: hidden; display: flex; flex-direction: column; }
+.wishlist-screen { background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
 .wl-hdr { padding: 48px 18px 16px; border-bottom: 1px solid var(--border); background: white; flex-shrink: 0; }
 .wl-back-row { display: flex; align-items: center; gap: 12px; }
 .wl-title { font-size: 20px; font-weight: 900; color: var(--text); }
@@ -24,8 +24,8 @@
 /* Cards */
 .wl-list { display: flex; flex-direction: column; gap: 12px; }
 .wl-card { background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; display: flex; gap: 12px; }
-.wl-img-wrap { width: 100px; flex-shrink: 0; position: relative; cursor: pointer; }
-.wl-img { width: 100%; height: 120px; object-fit: cover; display: block; }
+.wl-img-wrap { width: 100px; flex-shrink: 0; position: relative; cursor: pointer; aspect-ratio: 4/5; background: var(--surface-2); animation: pulse-skeleton 1.5s infinite alternate ease-in-out; overflow: hidden; }
+.wl-img { width: 100%; height: 100%; object-fit: cover; display: block; text-indent: 100%; white-space: nowrap; background: white; }
 .wl-dna-badge { position: absolute; top: 6px; left: 6px; background: var(--accent); color: white; font-size: 9px; font-weight: 800; padding: 2px 5px; border-radius: 2px; }
 .wl-info { flex: 1; padding: 12px 12px 12px 0; display: flex; flex-direction: column; gap: 4px; }
 .wl-brand { font-size: 10px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.5px; }
@@ -73,3 +73,29 @@ button.wl-name {
   align-items: center;
   gap: 4px;
 }
+
+/* ===== RESPONSIVE: Wishlist ===== */
+
+/* Mobile (<640px) */
+@media (max-width: 639px) {
+  .wl-hdr { padding: 40px 16px 12px; }
+  .wl-body { padding: 12px 16px 80px; }
+  .wl-img-wrap { width: 85px; }
+}
+
+/* Tablet (640–1024px) */
+@media (min-width: 640px) and (max-width: 1024px) {
+  .wl-hdr { padding: 48px 28px 16px; }
+  .wl-body { padding: 18px 28px 90px; }
+  .wl-list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+}
+
+/* Desktop (>1024px) */
+@media (min-width: 1025px) {
+  .wl-hdr { padding: 32px 36px 16px; }
+  .wl-body { padding: 24px 36px 90px; }
+  .wl-list { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .wl-title { font-size: 24px; }
+  .wl-summary { max-width: 480px; }
+}
+
