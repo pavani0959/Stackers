@@ -1,8 +1,57 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/useUser';
+import { ArrowRight, User, CheckCircle } from 'lucide-react';
 import '../../styles/Onboarding.css';
 import ApiErrorState from '../../components/ApiErrorState/ApiErrorState';
+
+/* ── tiny 4-point sparkle SVG (shared across onboarding) ── */
+function Sparkle({ size = 16, color = 'var(--gradient-hero-start)', className = '' }) {
+  return (
+    <svg
+      className={`ob-sparkle ${className}`}
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill={color}
+      aria-hidden="true"
+    >
+      <path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z" />
+    </svg>
+  );
+}
+
+/* ── Shared onboarding shell: gradient bg + decorations ── */
+function OnboardShell({ children }) {
+  return (
+    <div className="screen ob-shell">
+      {/* Decorative wavy lines top-right */}
+      <svg className="ob-deco-lines ob-deco-tr" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+        <path d="M40,0 Q200,30 200,180" stroke="var(--color-primary-soft)" strokeWidth="1" opacity="0.35" />
+        <path d="M80,0 Q210,60 195,200" stroke="var(--color-lavender)" strokeWidth="1" opacity="0.3" />
+      </svg>
+
+      {/* Decorative wavy lines bottom-left */}
+      <svg className="ob-deco-lines ob-deco-bl" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+        <path d="M0,40 Q30,200 180,200" stroke="var(--color-primary-soft)" strokeWidth="1" opacity="0.35" />
+        <path d="M0,80 Q60,210 200,195" stroke="var(--color-lavender)" strokeWidth="1" opacity="0.3" />
+      </svg>
+
+      {/* Sparkle clusters */}
+      <Sparkle size={14} color="var(--gradient-hero-start)" className="ob-sp-1" />
+      <Sparkle size={10} color="var(--color-lavender)"       className="ob-sp-2" />
+      <Sparkle size={18} color="var(--gradient-hero-end)"    className="ob-sp-3" />
+      <Sparkle size={12} color="var(--gradient-hero-start)"  className="ob-sp-4" />
+      <Sparkle size={16} color="var(--color-lavender)"       className="ob-sp-5" />
+      <Sparkle size={10} color="var(--gradient-hero-end)"    className="ob-sp-6" />
+
+      {/* Lavender blob bottom-left */}
+      <div className="ob-blob" aria-hidden="true" />
+
+      {children}
+    </div>
+  );
+}
 
 const BUDGET_OPTIONS = [
   {
@@ -91,103 +140,107 @@ export function OnboardGender() {
     }
   };
 
+  /* Slider fill percentage for the CSS gradient trick */
+  const sliderPercent = ((age - 13) / (35 - 13)) * 100;
+
   return (
-    <div className="screen ob-screen">
-      <div className="ob-prog-wrap">
-        {[0, 1, 2, 3].map(i => <div key={i} className={`ob-dot ${i === 0 ? 'active' : ''}`} />)}
-      </div>
-      <h1 className="ob-title">Before we begin,<br />let's understand you 👋</h1>
-      <p className="ob-sub">No boring signup. Just a quick conversation.</p>
+    <OnboardShell>
+      <div className="ob-card">
+        {/* 3-segment step progress bar */}
+        <div className="ob-prog-wrap">
+          {[0, 1, 2].map(i => (
+            <div key={i} className={`ob-bar ${i === 0 ? 'active' : ''}`} />
+          ))}
+        </div>
 
-      <label className="ob-label" htmlFor="profile-name">What should we call you?</label>
-      <input
-        id="profile-name"
-        className={`ob-name-input ${nameError ? 'error' : ''}`}
-        type="text"
-        value={name}
-        maxLength={50}
-        autoComplete="name"
-        placeholder="Enter your name"
-        onChange={(event) => {
-          setName(event.target.value);
-          if (nameError) setNameError('');
-        }}
-        onKeyDown={(event) => event.key === 'Enter' && next()}
-      />
-      {nameError && <div className="ob-field-error">{nameError}</div>}
+        <h1 className="ob-title">
+          Before we begin,<br />let&rsquo;s understand you <span aria-hidden="true">👋</span>
+        </h1>
+        <p className="ob-sub">No boring jargon. Just a quick conversation.</p>
 
-      <label className="ob-label">How do you identify?</label>
-      <div className="gender-grid">
-        {[
-          {
-            id: 'male',
-            icon: '🙋‍♂️',
-            label: 'Male',
-          },
-          {
-            id: 'female',
-            icon: '🙋‍♀️',
-            label: 'Female',
-          },
-          {
-            id: 'nonbinary',
-            icon: '🌈',
-            label: 'Non-Binary / Prefer not to say',
-            wide: true,
-          },
-        ].map((genderOption) => {
-          const isSelected =
-            gender === genderOption.id;
+        {/* Name input */}
+        <label className="ob-label" htmlFor="profile-name">What should we call you?</label>
+        <div className={`ob-input-wrap ${nameError ? 'error' : ''}`}>
+          <User size={18} className="ob-input-icon" aria-hidden="true" />
+          <input
+            id="profile-name"
+            className="ob-name-input"
+            type="text"
+            value={name}
+            maxLength={50}
+            autoComplete="name"
+            placeholder="Enter your name"
+            onChange={(event) => {
+              setName(event.target.value);
+              if (nameError) setNameError('');
+            }}
+            onKeyDown={(event) => event.key === 'Enter' && next()}
+          />
+        </div>
+        {nameError && <div className="ob-field-error">{nameError}</div>}
 
-          return (
-            <button
-              type="button"
-              key={genderOption.id}
-              className={`gender-card ${genderOption.wide
-                ? 'wide'
-                : ''
-                } ${isSelected
-                  ? 'sel'
-                  : ''
-                }`}
-              aria-pressed={isSelected}
-              onClick={() => {
-                setGender(
-                  genderOption.id,
-                );
-              }}
-            >
-              <span
-                className="g-icon"
-                aria-hidden="true"
+        {/* Gender cards */}
+        <label className="ob-label">How do you identify?</label>
+        <div className="gender-grid">
+          {[
+            { id: 'male',      icon: '🧑', label: 'Male' },
+            { id: 'female',    icon: '👩', label: 'Female' },
+            { id: 'nonbinary', icon: '🌈', label: 'Non-Binary / Prefer not to say' },
+          ].map((genderOption) => {
+            const isSelected = gender === genderOption.id;
+            return (
+              <button
+                type="button"
+                key={genderOption.id}
+                className={`gender-card ${isSelected ? 'sel' : ''}`}
+                aria-pressed={isSelected}
+                onClick={() => setGender(genderOption.id)}
               >
-                {genderOption.icon}
-              </span>
+                {isSelected && (
+                  <span className="gender-check" aria-hidden="true">
+                    <CheckCircle size={20} />
+                  </span>
+                )}
+                <span className="g-icon" aria-hidden="true">{genderOption.icon}</span>
+                <span className="g-label">{genderOption.label}</span>
+              </button>
+            );
+          })}
+        </div>
 
-              <span className="g-label">
-                {genderOption.label}
-              </span>
-            </button>
-          );
-        })}
-      </div>
-
-      <label className="ob-label">Your age</label>
-      <div className="age-num grad-text">{age}</div>
-      <input type="range" className="age-slider" min="13" max="35" value={age} onChange={e => setAge(Number(e.target.value))} />
-
-      {saveError && (
-        <ApiErrorState
-          error={saveError}
-          title="Could not save your identity"
-          onRetry={next}
+        {/* Age */}
+        <label className="ob-label">Your age</label>
+        <div className="age-num">{age}</div>
+        <input
+          type="range"
+          className="age-slider"
+          min="13"
+          max="35"
+          value={age}
+          style={{ '--slider-fill': `${sliderPercent}%` }}
+          onChange={e => setAge(Number(e.target.value))}
         />
-      )}
 
-      <div className="ob-footer">
-        <button type="button" className="btn-primary" onClick={next}>Continue →</button>
+        {saveError && (
+          <ApiErrorState
+            error={saveError}
+            title="Could not save your identity"
+            onRetry={next}
+          />
+        )}
+
+        {/* CTA */}
+        <button
+          type="button"
+          className="ob-cta"
+          disabled={saving}
+          onClick={next}
+        >
+          <span>{saving ? 'Saving…' : 'Continue'}</span>
+          <ArrowRight size={20} aria-hidden="true" />
+        </button>
       </div>
-    </div>
+    </OnboardShell>
   );
 }
 
@@ -199,6 +252,15 @@ export function OnboardBudget() {
   const [budget, setBudget] = useState(
     user.budget || 'campus-casual',
   );
+
+  /* Budget tiers with icon/color for each badge */
+  const BUDGET_TIERS = [
+    { ...BUDGET_OPTIONS[0], icon: '💼', badgeColor: '#dbeafe' },
+    { ...BUDGET_OPTIONS[1], icon: '🐷', badgeColor: '#fce7f3' },
+    { ...BUDGET_OPTIONS[2], icon: '🎓', badgeColor: '#e0e7ff' },
+    { ...BUDGET_OPTIONS[3], icon: '📈', badgeColor: '#d1fae5' },
+    { ...BUDGET_OPTIONS[4], icon: '💎', badgeColor: '#ede9fe' },
+  ];
 
   const next = () => {
     const selectedBudget =
@@ -220,71 +282,60 @@ export function OnboardBudget() {
   };
 
   return (
-    <div className="screen ob-screen">
-      <div className="ob-prog-wrap">
-        {[0, 1, 2, 3].map((index) => (
-          <div
-            key={index}
-            className={`ob-dot ${index === 0 ? 'done' : ''
-              } ${index === 1 ? 'active' : ''
-              }`}
-          />
-        ))}
-      </div>
+    <OnboardShell>
+      <div className="ob-content">
+        {/* 3-segment step progress bar — first 2 filled */}
+        <div className="ob-prog-wrap">
+          {[0, 1, 2].map(i => (
+            <div key={i} className={`ob-bar ${i < 2 ? 'active' : ''}`} />
+          ))}
+        </div>
 
-      <h1 className="ob-title">
-        What's your outfit budget? 💸
-      </h1>
+        <h1 className="ob-title">
+          What&rsquo;s your outfit budget? <span aria-hidden="true">💸</span>
+        </h1>
 
-      <p className="ob-sub">
-        Per outfit. Be honest — no judgment here.
-      </p>
+        <p className="ob-sub">
+          Par outfit. Be honest — no judgment here.
+        </p>
 
-      <div className="budget-list">
-        {BUDGET_OPTIONS.map((option) => (
-          <button
-            key={option.id}
-            type="button"
-            className={`budget-opt ${budget === option.id
-              ? 'sel'
-              : ''
-              }`}
+        <div className="budget-list">
+          {BUDGET_TIERS.map((option) => {
+            const isSelected = budget === option.id;
+            return (
+              <button
+                key={option.id}
+                type="button"
+                className={`budget-row ${isSelected ? 'sel' : ''}`}
+                aria-pressed={isSelected}
+                onClick={() => setBudget(option.id)}
+              >
+                <span
+                  className="budget-icon-badge"
+                  style={{ background: option.badgeColor }}
+                  aria-hidden="true"
+                >
+                  {option.icon}
+                </span>
+                <div className="budget-info">
+                  <div className="budget-name">{option.label}</div>
+                  <div className="budget-range">{option.range}</div>
+                </div>
+                <span className="budget-radio" aria-hidden="true">
+                  {isSelected && <span className="budget-radio-dot" />}
+                </span>
+              </button>
+            );
+          })}
+        </div>
 
-            aria-pressed={budget === option.id}
-
-            onClick={() =>
-              setBudget(option.id)
-            }
-          >
-            <div>
-              <div className="budget-name">
-                {option.label}
-              </div>
-
-              <div className="budget-range">
-                {option.range}
-              </div>
-            </div>
-
-            <div className="budget-chk">
-              {budget === option.id
-                ? '✓'
-                : ''}
-            </div>
-          </button>
-        ))}
-      </div>
-
-      <div className="ob-footer">
-        <button
-          type="button"
-          className="btn-primary"
-          onClick={next}
-        >
-          Continue →
+        {/* CTA */}
+        <button type="button" className="ob-cta" onClick={next}>
+          <span>CONTINUE</span>
+          <ArrowRight size={20} aria-hidden="true" />
         </button>
       </div>
-    </div>
+    </OnboardShell>
   );
 }
 
