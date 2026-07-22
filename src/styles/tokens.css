@@ -46,4 +46,13 @@
   --radius: var(--radius-sm);
   --radius-sm: var(--radius-xs);
   --radius-lg: var(--radius-md);
+
+  /* Hero gradient stops (Splash CTA, app icon) */
+  --gradient-hero-start: #ff3f6c;
+  --gradient-hero-mid: #ff6b8a;
+  --gradient-hero-end: #ff8e53;
+  --color-lavender: #d8b4fe;
+  --color-lavender-soft: rgba(216, 180, 254, 0.35);
+  --color-bg-blush: #fef5f7;
+  --color-bg-lavender: #f5f0ff;
 }
