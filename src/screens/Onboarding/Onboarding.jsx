@@ -417,54 +417,18 @@ export function OnboardOccasions() {
     useState(null);
 
   const all = [
-    {
-      id: 'campus',
-      label: '🎓 College / Campus',
-    },
-    {
-      id: 'work',
-      label: '💼 Internship / Work',
-    },
-    {
-      id: 'fest',
-      label: '🎉 Fests & Events',
-    },
-    {
-      id: 'night-out',
-      label: '🌙 Night Outs',
-    },
-    {
-      id: 'dates',
-      label: '📅 Dates',
-    },
-    {
-      id: 'puja',
-      label: '🙏 Puja / Festivals',
-    },
-    {
-      id: 'travel',
-      label: '✈️ Travel',
-    },
-    {
-      id: 'gym',
-      label: '🏃 Gym / Sports',
-    },
-    {
-      id: 'cafe',
-      label: '☕ Cafe Hangouts',
-    },
-    {
-      id: 'concerts',
-      label: '🎤 Concerts',
-    },
-    {
-      id: 'photos',
-      label: '📸 Photoshoots',
-    },
-    {
-      id: 'home',
-      label: '🏡 Home / Casual',
-    },
+    { id: 'campus',    emoji: '🎓', label: 'College / Campus' },
+    { id: 'work',      emoji: '💼', label: 'Internship / Work' },
+    { id: 'fest',      emoji: '🎉', label: 'Fests & Events' },
+    { id: 'night-out', emoji: '🌙', label: 'Night Outs' },
+    { id: 'dates',     emoji: '📅', label: 'Dates' },
+    { id: 'puja',      emoji: '🙏', label: 'Puja / Festivals' },
+    { id: 'travel',    emoji: '✈️', label: 'Travel' },
+    { id: 'gym',       emoji: '💪', label: 'Gym / Sports' },
+    { id: 'cafe',      emoji: '☕', label: 'Cafe Hangouts' },
+    { id: 'concerts',  emoji: '🎤', label: 'Concerts' },
+    { id: 'photos',    emoji: '📸', label: 'Photoshoots' },
+    { id: 'home',      emoji: '🏡', label: 'Home / Casual' },
   ];
 
   const toggle = (id) => {
@@ -541,72 +505,63 @@ export function OnboardOccasions() {
   };
 
   return (
-    <div className="screen ob-screen">
-      <div className="ob-prog-wrap">
-        {[0, 1, 2, 3].map((index) => (
-          <div
-            key={index}
-            className={`ob-dot ${index < 3 ? 'done' : ''
-              } ${index === 3 ? 'active' : ''
-              }`}
-          />
-        ))}
-      </div>
+    <OnboardShell>
+      <div className="ob-card">
+        {/* 3-segment progress bar — all 3 filled (last step) */}
+        <div className="ob-prog-wrap">
+          {[0, 1, 2].map(i => (
+            <div key={i} className={`ob-bar ${i < 2 ? 'active' : ''} ${i === 2 ? 'active' : ''}`} />
+          ))}
+        </div>
 
-      <h1 className="ob-title">
-        When do you dress up? 📅
-      </h1>
+        <h1 className="ob-title">
+          When do you dress up? <span aria-hidden="true">📅</span>
+        </h1>
 
-      <p className="ob-sub">
-        Pick all the occasions that matter to you.
-      </p>
+        <p className="ob-sub">
+          Pick all the occasions that matter to you.
+        </p>
 
-      <div className="chip-grid">
-        {all.map((occasion) => {
-          const isSelected =
-            selected.includes(
-              occasion.id,
+        <div className="occasion-grid">
+          {all.map((occasion) => {
+            const isSelected = selected.includes(occasion.id);
+            return (
+              <button
+                type="button"
+                key={occasion.id}
+                className={`occasion-chip ${isSelected ? 'sel' : ''}`}
+                aria-pressed={isSelected}
+                onClick={() => toggle(occasion.id)}
+              >
+                <span className="occasion-emoji" aria-hidden="true">{occasion.emoji}</span>
+                <span className="occasion-label">{occasion.label}</span>
+                {isSelected && (
+                  <CheckCircle size={16} className="occasion-check" aria-hidden="true" />
+                )}
+              </button>
             );
+          })}
+        </div>
 
-          return (
-            <button
-              type="button"
-              key={occasion.id}
-              className={`chip ${isSelected
-                  ? 'selected'
-                  : ''
-                }`}
-              aria-pressed={isSelected}
-              onClick={() => {
-                toggle(occasion.id);
-              }}
-            >
-              {occasion.label}
-            </button>
-          );
-        })}
-      </div>
+        {saveError && (
+          <ApiErrorState
+            error={saveError}
+            title="Could not save preferences"
+            onRetry={next}
+          />
+        )}
 
-      {saveError && (
-        <ApiErrorState
-          error={saveError}
-          title="Could not save preferences"
-          onRetry={next}
-        />
-      )}
-
-      <div className="ob-footer">
+        {/* CTA */}
         <button
           type="button"
-          className="btn-primary"
+          className="ob-cta"
           disabled={saving}
           onClick={next}
         >
-          {saving
-            ? 'Saving…'
-            : 'Continue →'}
+          <span>{saving ? 'Saving…' : 'CONTINUE'}</span>
+          <ArrowRight size={20} aria-hidden="true" />
         </button>
       </div>
-    </div>
+    </OnboardShell>
   );
 }

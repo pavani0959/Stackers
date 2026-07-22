@@ -476,13 +476,66 @@
 .col-chip.sel { border-color: white !important; transform: scale(1.18); }
 .col-chip.sel::after { content: '✓'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: white; font-size: 17px; font-weight: 800; text-shadow: 0 1px 3px rgba(0,0,0,.6); }
 
-/* Occasions */
+/* Occasions — legacy */
 .chip-grid { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 8px; }
+
+/* ── Occasion chips (new design) ── */
+.occasion-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.occasion-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all var(--motion-fast);
+  appearance: none;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  min-height: 42px;
+}
+
+.occasion-chip:hover {
+  border-color: var(--color-primary-soft);
+}
+
+.occasion-chip.sel {
+  border-color: var(--color-primary);
+  background: rgba(255, 63, 108, 0.06);
+  color: var(--color-primary);
+}
+
+.occasion-emoji {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.occasion-label {
+  line-height: 1.2;
+}
+
+.occasion-check {
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-left: 2px;
+}
 
 /* Phase 8: semantic selection controls */
 button.gender-card,
 button.budget-opt,
 button.budget-row,
+button.occasion-chip,
 button.col-chip,
 button.chip {
   appearance: none;
@@ -505,6 +558,8 @@ button.chip {
 
 button.gender-card:disabled,
 button.budget-opt:disabled,
+button.budget-row:disabled,
+button.occasion-chip:disabled,
 button.col-chip:disabled,
 button.chip:disabled {
   cursor: not-allowed;
@@ -534,6 +589,11 @@ button.chip:disabled {
   }
 
   .g-icon { font-size: 26px; }
+
+  .occasion-chip {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
 }
 
 /* Mobile (<640px) */
@@ -541,6 +601,7 @@ button.chip:disabled {
   .ob-screen { padding: 40px 18px 18px; }
   .ob-title { font-size: 20px; }
   .colour-grid { gap: 8px; }
+  .occasion-grid { gap: 8px; }
 }
 
 /* Tablet (640–1024px) */
