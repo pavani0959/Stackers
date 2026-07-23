@@ -1,6 +1,6 @@
 import {
-  useEffect,
   useState,
+  useMemo,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -13,6 +13,7 @@ import {
 
 import { apiRequest } from '../../api/client';
 import BottomNav from '../../components/BottomNav/BottomNav';
+import { useUser } from '../../context/useUser';
 import '../../styles/Wishlist.css';
 
 function WishlistItem({ item, moveToCart, removeItem, navigate }) {
@@ -42,7 +43,7 @@ function WishlistItem({ item, moveToCart, removeItem, navigate }) {
 
         <span className="wl-dna-badge">
           <Dna aria-hidden="true" size={14} />
-          <span>{item.dnaMatch || 75}%</span>
+          <span>{item.confidence?.overall || 75}%</span>
         </span>
       </button>
 
@@ -87,11 +88,9 @@ function WishlistItem({ item, moveToCart, removeItem, navigate }) {
 
 export default function Wishlist() {
   const navigate = useNavigate();
+  const { user, addToWishlist, addToCart } = useUser();
 
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState('');
-
 
   const showToast = (message) => {
     setToast(message);
@@ -101,27 +100,12 @@ export default function Wishlist() {
     }, 2500);
   };
 
+  const items = useMemo(() => {
+    if (!user.products || !Array.isArray(user.wishlist)) return [];
+    return user.products.filter((p) => user.wishlist.includes(p.id));
+  }, [user.products, user.wishlist]);
 
-  useEffect(() => {
-    try {
-      const savedItems = JSON.parse(
-        localStorage.getItem(
-          'myntra_wishlist',
-        ) || '[]',
-      );
-
-      setItems(
-        Array.isArray(savedItems)
-          ? savedItems
-          : [],
-      );
-    } catch {
-      setItems([]);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
+  const loading = !user.products || user.products.length === 0;
 
   const trackWishlistRemoval = (productId) => {
     apiRequest('/api/events', {
@@ -137,147 +121,41 @@ export default function Wishlist() {
     });
   };
 
-
   const removeItem = (productId) => {
-    setItems((currentItems) => {
-      const updatedItems = currentItems.filter(
-        (item) => item.id !== productId,
-      );
-
-      localStorage.setItem(
-        'myntra_wishlist',
-        JSON.stringify(updatedItems),
-      );
-
-      return updatedItems;
-    });
-
+    addToWishlist(productId);
     trackWishlistRemoval(productId);
     showToast('Removed from wishlist');
   };
 
-
   const moveToCart = (item) => {
-    let cart = [];
-
-    try {
-      const storedCart = JSON.parse(
-        localStorage.getItem(
-          'myntra_cart',
-        ) || '[]',
-      );
-
-      cart = Array.isArray(storedCart)
-        ? storedCart
-        : [];
-    } catch {
-      cart = [];
-    }
-
-    const alreadyInCart = cart.some(
-      (cartItem) => cartItem.id === item.id,
-    );
-
-    if (!alreadyInCart) {
-      cart.push(item);
-
-      localStorage.setItem(
-        'myntra_cart',
-        JSON.stringify(cart),
-      );
-    }
-
-    setItems((currentItems) => {
-      const updatedItems = currentItems.filter(
-        (wishlistItem) =>
-          wishlistItem.id !== item.id,
-      );
-
-      localStorage.setItem(
-        'myntra_wishlist',
-        JSON.stringify(updatedItems),
-      );
-
-      return updatedItems;
-    });
-
+    addToCart(item);
+    addToWishlist(item.id);
     trackWishlistRemoval(item.id);
-
-    showToast(
-      `${item.name} moved to cart!`,
-    );
+    showToast(`${item.name} moved to cart!`);
   };
 
-
   const moveAllToCart = () => {
-    let cart = [];
-
-    try {
-      const storedCart = JSON.parse(
-        localStorage.getItem(
-          'myntra_cart',
-        ) || '[]',
-      );
-
-      cart = Array.isArray(storedCart)
-        ? storedCart
-        : [];
-    } catch {
-      cart = [];
-    }
-
-    const existingProductIds = new Set(
-      cart.map((item) => item.id),
-    );
-
-    const newCartItems = items.filter(
-      (item) =>
-        !existingProductIds.has(item.id),
-    );
-
-    const updatedCart = [
-      ...cart,
-      ...newCartItems,
-    ];
-
-    localStorage.setItem(
-      'myntra_cart',
-      JSON.stringify(updatedCart),
-    );
-
-    localStorage.setItem(
-      'myntra_wishlist',
-      JSON.stringify([]),
-    );
-
     items.forEach((item) => {
+      addToCart(item);
+      addToWishlist(item.id);
       trackWishlistRemoval(item.id);
     });
-
-    setItems([]);
     showToast('All items moved to cart!');
   };
 
-
   const totalValue = items.reduce(
-    (sum, item) =>
-      sum + Number(item.price || 0),
+    (sum, item) => sum + Number(item.price || 0),
     0,
   );
 
   const averageMatch = items.length
     ? Math.round(
       items.reduce(
-        (sum, item) =>
-          sum
-          + Number(
-            item.dnaMatch || 75,
-          ),
+        (sum, item) => sum + Number(item.confidence?.overall || 75),
         0,
       ) / items.length,
     )
     : 0;
-
 
   return (
     <div className="screen wishlist-screen">
