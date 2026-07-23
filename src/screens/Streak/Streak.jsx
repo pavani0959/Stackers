@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Camera, Upload, Share2, Download, CheckCircle, XCircle, Flame, Trophy } from 'lucide-react';
-import { getAuthToken } from '../../api/auth';
+import { getStoredToken } from '../../api/auth';
 import '../../styles/Streak.css';
 
 export default function Streak() {
@@ -33,7 +33,7 @@ export default function Streak() {
 
   const fetchData = async () => {
     try {
-      const token = getAuthToken();
+      const token = getStoredToken();
       if (!token) return navigate('/splash');
       
       const headers = { 'Authorization': `Bearer ${token}` };
@@ -129,7 +129,7 @@ export default function Streak() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${getAuthToken()}`
+          'Authorization': `Bearer ${getStoredToken()}`
         },
         body: JSON.stringify({ image_b64: capturedImage })
       });
