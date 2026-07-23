@@ -38,6 +38,8 @@ from routers.memory import router as memory_router
 
 from routers.community import router as community_router
 
+from routers.auth import router as auth_router
+
 app = FastAPI(title="Myntra Identity API")
 
 app.middleware("http")(
@@ -49,6 +51,7 @@ app.include_router(events_router)
 app.include_router(wardrobe_router)
 app.include_router(decisions_router)
 app.include_router(memory_router)
+app.include_router(auth_router)
 app.add_exception_handler(AppError, app_error_handler)
 app.add_exception_handler(HTTPException, http_exception_handler)
 app.add_exception_handler(RequestValidationError, validation_error_handler)

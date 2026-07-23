@@ -181,6 +181,29 @@
   transform: scale(0.98);
 }
 
+/* ── Login hint ────────────────────────────────────── */
+.splash-login-hint {
+  margin-top: 20px;
+  font-size: var(--fs-sm, 13px);
+  color: var(--color-text-muted);
+}
+
+.splash-login-link {
+  color: var(--gradient-hero-start);
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: var(--font-family);
+  font-size: inherit;
+  padding: 0;
+}
+
+.splash-login-link:hover {
+  text-decoration: underline;
+}
+
 /* ===== RESPONSIVE: Splash ===== */
 
 /* Small phones (<375px) */
