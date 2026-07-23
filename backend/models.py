@@ -822,3 +822,39 @@ class CommunityProfile(Base):
         Text,
         nullable=False,
     )
+from sqlalchemy import Date
+
+class DailyTask(Base):
+    __tablename__ = "daily_tasks"
+
+    id = Column(Integer, primary_key=True)
+    task_date = Column(Date, unique=True, nullable=False, index=True)
+    prompt_text = Column(String, nullable=False)
+    created_at = Column(DateTime(timezone=True), nullable=False, default=utc_now)
+
+
+class StreakSubmission(Base):
+    __tablename__ = "streak_submissions"
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    task_id = Column(Integer, ForeignKey("daily_tasks.id", ondelete="CASCADE"), nullable=False, index=True)
+    image_url = Column(Text, nullable=False)
+    verification_status = Column(String(20), nullable=False, default="pending")
+    verified_at = Column(DateTime(timezone=True), nullable=True)
+    ai_verification_notes = Column(Text, nullable=True)
+    submitted_at = Column(DateTime(timezone=True), nullable=False, default=utc_now)
+
+    user = relationship("User", backref="streak_submissions")
+    task = relationship("DailyTask", backref="submissions")
+
+
+class UserStreak(Base):
+    __tablename__ = "user_streaks"
+
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
+    current_streak = Column(Integer, nullable=False, default=0)
+    longest_streak = Column(Integer, nullable=False, default=0)
+    last_completed_date = Column(Date, nullable=True)
+
+    user = relationship("User", backref="streak")
