@@ -4,6 +4,7 @@ import {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/useUser';
+import { logout as clearSession } from '../../api/auth';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import '../../styles/Profile.css';
 import {
@@ -1043,6 +1044,18 @@ export default function Profile() {
             )}
           </div>
         </div>
+        
+        {/* Logout Button */}
+        <button
+          type="button"
+          className="prf-logout-btn"
+          onClick={() => {
+            clearSession();
+            navigate('/');
+          }}
+        >
+          Log Out
+        </button>
         
         {/* Floating Action Button */}
         <button className="prf-fab" aria-label="Quick action">

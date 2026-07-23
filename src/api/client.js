@@ -48,6 +48,12 @@ export async function apiRequest(path, options = {}) {
     headers.set('Content-Type', 'application/json');
   }
 
+  // Attach JWT token if available
+  const token = localStorage.getItem('myntra_auth_token');
+  if (token && !headers.has('Authorization')) {
+    headers.set('Authorization', `Bearer ${token}`);
+  }
+
   let response;
   try {
     response = await fetch(buildUrl(path), {
@@ -66,6 +72,16 @@ export async function apiRequest(path, options = {}) {
   const payload = await parseResponse(response);
 
   if (!response.ok) {
+    // On 401, clear stale token and redirect to login
+    if (response.status === 401) {
+      const isAuthRoute = path.startsWith('/api/auth/');
+      if (!isAuthRoute) {
+        localStorage.removeItem('myntra_auth_token');
+        window.location.href = '/login';
+        return;
+      }
+    }
+
     throw new ApiError(
       payload?.error?.message ||
         payload?.detail ||

@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { getStoredToken } from '../../api/auth';
 import '../../styles/Splash.css';
 
 /* ── tiny 4-point sparkle SVG ────────────────────────── */
@@ -20,6 +21,18 @@ function Sparkle({ size = 16, color = 'var(--gradient-hero-start)', className = 
 
 export default function Splash() {
   const navigate = useNavigate();
+
+  function handleCTA() {
+    const token = getStoredToken();
+
+    if (token) {
+      // Returning user with a session — skip straight to home
+      navigate('/home');
+    } else {
+      // No session — start the signup flow
+      navigate('/signup');
+    }
+  }
 
   return (
     <div className="screen splash-screen">
@@ -78,11 +91,23 @@ export default function Splash() {
         {/* CTA */}
         <button
           className="splash-btn"
-          onClick={() => navigate('/onboard/gender')}
+          onClick={handleCTA}
         >
           <span>Begin Your Journey</span>
           <ArrowRight size={20} aria-hidden="true" />
         </button>
+
+        {/* Login link for returning users */}
+        <p className="splash-login-hint">
+          Already have an account?{' '}
+          <button
+            type="button"
+            className="splash-login-link"
+            onClick={() => navigate('/login')}
+          >
+            Log in
+          </button>
+        </p>
       </div>
     </div>
   );
