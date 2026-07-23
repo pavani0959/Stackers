@@ -158,7 +158,7 @@ export default function Home() {
             <p>Every score is calculated from the server-owned profile and stored as an immutable decision snapshot.</p>
           </div>
           <div className="dna-banner-illus">
-             <img src="/catalog/myi-top-0009-white-neutral-hoodie.svg" alt="" aria-hidden="true" style={{width: 40, height: 40, objectFit: 'contain'}} 
+             <img src="/catalog/myi-top-0009.png" alt="" aria-hidden="true" style={{width: 40, height: 40, objectFit: 'cover', borderRadius: '50%'}} 
                  onError={(e) => { e.currentTarget.style.display = 'none'; }} />
           </div>
         </section>
@@ -204,7 +204,7 @@ export default function Home() {
 
         <button type="button" className="rs-cta" onClick={() => navigate('/reverse')}>
           <div className="rsc-illus-img">
-            <img src="/catalog/myi-top-0009-white-neutral-hoodie.svg" alt="" aria-hidden="true" style={{width: 60, height: 60, objectFit: 'contain'}} onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+            <img src="/catalog/myi-top-0009.png" alt="" aria-hidden="true" style={{width: 60, height: 60, objectFit: 'cover', borderRadius: '8px'}} onError={(e) => { e.currentTarget.style.display = 'none'; }} />
           </div>
           <div className="rsc-content">
             <div className="rsc-title">Reverse Shopping</div>
