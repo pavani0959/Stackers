@@ -93,7 +93,7 @@ export default function Home() {
                 <span className="home-bell-dot"></span>
               </button>
               <CartIconButton className="home-avatar" style={{ background: 'transparent', width: '36px', height: '36px' }} />
-              <button type="button" className="home-avatar" onClick={() => navigate('/identity-card')} aria-label="Open identity card">
+              <button type="button" className="home-avatar" onClick={() => navigate('/profile')} aria-label="Open profile">
                 {firstName[0]?.toUpperCase() || 'S'}
               </button>
             </div>
