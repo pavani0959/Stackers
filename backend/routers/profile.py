@@ -2,8 +2,9 @@ from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
 from services.dna_service import DNAService
 import schemas
-from config import get_settings
 from database import get_db
+from dependencies import get_current_user
+from models import User
 from services.profile_service import (
     create_style_profile,
     get_current_profile,
@@ -11,8 +12,6 @@ from services.profile_service import (
     get_profile_payload,
     update_preferences,
 )
-
-settings = get_settings()
 
 
 router = APIRouter(
@@ -27,12 +26,13 @@ router = APIRouter(
 def calculate_and_save_fashion_dna(
     payload: schemas.DNAProfileCalculateRequest,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     try:
         return DNAService(
             db,
         ).calculate_and_persist(
-            user_id=settings.demo_user_id,
+            user_id=current_user.id,
             answers=payload.answers,
         )
     except LookupError as error:
@@ -53,11 +53,12 @@ def calculate_and_save_fashion_dna(
 )
 def get_current_profile(
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     try:
         return get_profile_payload(
             db,
-            settings.demo_user_id,
+            current_user.id,
         )
     except LookupError as error:
         raise HTTPException(
@@ -74,10 +75,11 @@ def get_current_profile(
 def save_preferences(
     payload: schemas.UserPreferenceUpdate,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     return update_preferences(
         db=db,
-        user_id=settings.demo_user_id,
+        user_id=current_user.id,
         payload=payload,
     )
 
@@ -91,10 +93,11 @@ def save_preferences(
 def save_fashion_dna(
     payload: schemas.StyleProfileCreate,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     return create_style_profile(
         db=db,
-        user_id=settings.demo_user_id,
+        user_id=current_user.id,
         payload=payload,
     )
 
@@ -105,10 +108,10 @@ def save_fashion_dna(
 def save_identity(
     payload: schemas.UserIdentityUpdate,
     db: Session = Depends(get_db),
-    settings: get_settings = Depends(get_settings),
+    current_user: User = Depends(get_current_user),
 ):
     return update_identity(
         db,
-        settings.demo_user_id,
+        current_user.id,
         payload,
     )

@@ -12,6 +12,8 @@ class Settings(BaseSettings):
     environment: str = "development"
     demo_user_id: int = 1
     gemini_api_key: str | None = None
+    jwt_secret_key: str = "dev-only-change-me-in-production"
+    jwt_expiry_minutes: int = 1440  # 24 hours
 
     model_config = SettingsConfigDict(
         env_file=PROJECT_ROOT / ".env",

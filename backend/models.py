@@ -75,6 +75,10 @@ class User(Base):
         nullable=False,
         default=False,
     )
+    password_hash = Column(
+        String(255),
+        nullable=True,
+    )
     created_at = Column(
         DateTime(timezone=True),
         nullable=False,
