@@ -158,7 +158,7 @@ export default function Cart() {
           <button
             type="button"
             style={styles.primaryButton}
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/home')}
           >
             Continue shopping
           </button>
