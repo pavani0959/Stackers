@@ -31,6 +31,7 @@ import Profile from './screens/Profile/Profile';
 import Cart from './screens/Cart/Cart';
 import Login from './screens/Auth/Login';
 import Signup from './screens/Auth/Signup';
+import Streak from './screens/Streak/Streak';
 
 import MyntraMuse from './components/MyntraMuse/MyntraMuse';
 import ApiErrorState from './components/ApiErrorState/ApiErrorState';
@@ -126,6 +127,7 @@ function AppRoutes() {
         <Route path="/search" element={<Search />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/streak" element={<Streak />} />
 
 
         {/* Fallback */}

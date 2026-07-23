@@ -1043,6 +1043,27 @@ export default function Profile() {
               </div>
             )}
           </div>
+
+          {/* Daily Streak Challenge */}
+          <div className={`prf-accordion ${expandedSection === 'streak' ? 'expanded' : ''}`}>
+            <div
+              className="prf-acc-hdr"
+              onClick={() => setExpandedSection(expandedSection === 'streak' ? null : 'streak')}
+            >
+              <div className="prf-acc-title">
+                <span className="prf-acc-icon-svg">🔥</span> Daily Streak Challenge
+              </div>
+              <div className="prf-acc-chevron">{expandedSection === 'streak' ? '⌃' : '⌄'}</div>
+            </div>
+            {expandedSection === 'streak' && (
+              <div className="prf-acc-body">
+                <p>Complete daily fashion tasks, build your streak, and climb the leaderboard.</p>
+                <button type="button" className="prf-acc-link-btn" onClick={() => navigate('/streak')}>
+                  View Today's Challenge ›
+                </button>
+              </div>
+            )}
+          </div>
         </div>
         
         {/* Logout Button */}
