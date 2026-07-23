@@ -6,6 +6,9 @@ import { useUser } from '../../context/useUser';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { gsap, useGSAP } from '../../motion/gsap';
 import '../../styles/DecisionIntelligence.css';
+import {
+  ArrowLeft,
+} from 'lucide-react';
 
 export default function DecisionIntelligence() {
   const { id: snapshotId } = useParams();
@@ -135,9 +138,13 @@ export default function DecisionIntelligence() {
   return (
     <div className="screen di-screen" ref={root}>
       <header className="di-hdr">
-        <button type="button" className="back-btn" onClick={() => navigate(-1)}>
-          ←
-        </button>
+        <button type="button" className="back-btn" onClick={() => navigate(-1)}
+            aria-label="Go back">
+            <ArrowLeft
+              aria-hidden="true"
+              size={21}
+            />
+          </button>
         <div className="di-hdr-text">
           <h3>Decision Intelligence</h3>
           <h2>Why this recommendation?</h2>

@@ -1,0 +1,4515 @@
+[
+  {
+    "sku": "MYI-TOP-0001",
+    "name": "Clean Fit Oversized Tee",
+    "brand": "H&M",
+    "description": "Clean Fit Oversized Tee designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 799,
+    "originalPrice": 1499,
+    "image": "/catalog/myi-top-0001-clean-fit-oversized-tee.svg",
+    "category": "top",
+    "subcategory": "t_shirt",
+    "primary_colour": "black",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "neutral",
+      "casual",
+      "everyday",
+      "top",
+      "t_shirt",
+      "black",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 22,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0002",
+    "name": "Neutral Hoodie",
+    "brand": "Roadster",
+    "description": "Neutral Hoodie designed for campus, sports styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 919,
+    "originalPrice": 1799,
+    "image": "/catalog/myi-top-0002-neutral-hoodie.svg",
+    "category": "top",
+    "subcategory": "hoodie",
+    "primary_colour": "white",
+    "gender_segment": "unisex",
+    "tags": [
+      "streetwear",
+      "casual",
+      "neutral",
+      "comfort",
+      "top",
+      "hoodie",
+      "black",
+      "fashion_dna",
+      "white"
+    ],
+    "occasions": [
+      "campus",
+      "sports"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "mid_range",
+    "season": "winter",
+    "stock_quantity": 29,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0003",
+    "name": "Linen Button-Up Shirt",
+    "brand": "Marks & Spencer",
+    "description": "Linen Button-Up Shirt designed for office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1187,
+    "originalPrice": 1999,
+    "image": "/catalog/myi-top-0003-linen-button-up-shirt.svg",
+    "category": "top",
+    "subcategory": "shirt",
+    "primary_colour": "grey",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "smart",
+      "neutral",
+      "classic",
+      "top",
+      "shirt",
+      "black",
+      "fashion_dna",
+      "grey"
+    ],
+    "occasions": [
+      "office"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "summer",
+    "stock_quantity": 36,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0004",
+    "name": "Y2K Graphic Tee",
+    "brand": "H&M",
+    "description": "Y2K Graphic Tee designed for casual, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 689,
+    "originalPrice": 999,
+    "image": "/catalog/myi-top-0004-y2k-graphic-tee.svg",
+    "category": "top",
+    "subcategory": "t_shirt",
+    "primary_colour": "beige",
+    "gender_segment": "unisex",
+    "tags": [
+      "y2k",
+      "bold",
+      "streetwear",
+      "colorful",
+      "top",
+      "t_shirt",
+      "black",
+      "fashion_dna",
+      "beige"
+    ],
+    "occasions": [
+      "casual",
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "mid_range",
+    "season": "summer",
+    "stock_quantity": 43,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0005",
+    "name": "Dark Academia Sweater",
+    "brand": "FabIndia",
+    "description": "Dark Academia Sweater designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1583,
+    "originalPrice": 2899,
+    "image": "/catalog/myi-top-0005-dark-academia-sweater.svg",
+    "category": "top",
+    "subcategory": "t_shirt",
+    "primary_colour": "brown",
+    "gender_segment": "unisex",
+    "tags": [
+      "darkacademia",
+      "classic",
+      "cozy",
+      "neutral",
+      "top",
+      "t_shirt",
+      "black",
+      "fashion_dna",
+      "brown"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "winter",
+    "stock_quantity": 50,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0006",
+    "name": "Running Shoes — Black",
+    "brand": "Nike",
+    "description": "Running Shoes — Black designed for sports, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 5599,
+    "originalPrice": 7999,
+    "image": "/catalog/myi-top-0006-running-shoes-black.svg",
+    "category": "top",
+    "subcategory": "t_shirt",
+    "primary_colour": "blue",
+    "gender_segment": "unisex",
+    "tags": [
+      "sporty",
+      "clean",
+      "everyday",
+      "athletic",
+      "top",
+      "t_shirt",
+      "black",
+      "fashion_dna",
+      "blue"
+    ],
+    "occasions": [
+      "sports",
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 57,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0007",
+    "name": "Silk Satin Top — Ivory",
+    "brand": "AND",
+    "description": "Silk Satin Top — Ivory designed for office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1551,
+    "originalPrice": 2499,
+    "image": "/catalog/myi-top-0007-silk-satin-top-ivory.svg",
+    "category": "top",
+    "subcategory": "t_shirt",
+    "primary_colour": "navy",
+    "gender_segment": "unisex",
+    "tags": [
+      "quietluxury",
+      "elegant",
+      "neutral",
+      "feminine",
+      "top",
+      "t_shirt",
+      "black",
+      "fashion_dna",
+      "navy"
+    ],
+    "occasions": [
+      "office"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 64,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0008",
+    "name": "Ethnic Printed Kurta",
+    "brand": "Biba",
+    "description": "Ethnic Printed Kurta designed for casual, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1299,
+    "originalPrice": 1999,
+    "image": "/catalog/myi-top-0008-ethnic-printed-kurta.svg",
+    "category": "top",
+    "subcategory": "kurta",
+    "primary_colour": "green",
+    "gender_segment": "unisex",
+    "tags": [
+      "ethnic",
+      "festive",
+      "colorful",
+      "traditional",
+      "top",
+      "kurta",
+      "black",
+      "fashion_dna",
+      "green"
+    ],
+    "occasions": [
+      "casual",
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 71,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0009",
+    "name": "Sports Bralette",
+    "brand": "Puma",
+    "description": "Sports Bralette designed for sports, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 827,
+    "originalPrice": 1499,
+    "image": "/catalog/myi-top-0009-sports-bralette.svg",
+    "category": "top",
+    "subcategory": "t_shirt",
+    "primary_colour": "olive",
+    "gender_segment": "unisex",
+    "tags": [
+      "sporty",
+      "athletic",
+      "comfort",
+      "casual",
+      "top",
+      "t_shirt",
+      "black",
+      "fashion_dna",
+      "olive"
+    ],
+    "occasions": [
+      "sports",
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "mid_range",
+    "season": "summer",
+    "stock_quantity": 78,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0010",
+    "name": "White Clean Fit Oversized Tee",
+    "brand": "H&M",
+    "description": "White Clean Fit Oversized Tee designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 794,
+    "originalPrice": 1499,
+    "image": "/catalog/myi-top-0010-white-clean-fit-oversized-tee.svg",
+    "category": "top",
+    "subcategory": "t_shirt",
+    "primary_colour": "pink",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "neutral",
+      "casual",
+      "everyday",
+      "top",
+      "t_shirt",
+      "white",
+      "fashion_dna",
+      "pink"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 85,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0011",
+    "name": "White Neutral Hoodie",
+    "brand": "Roadster",
+    "description": "White Neutral Hoodie designed for campus, sports styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1057,
+    "originalPrice": 1799,
+    "image": "/catalog/myi-top-0011-white-neutral-hoodie.svg",
+    "category": "top",
+    "subcategory": "hoodie",
+    "primary_colour": "purple",
+    "gender_segment": "unisex",
+    "tags": [
+      "streetwear",
+      "casual",
+      "neutral",
+      "comfort",
+      "top",
+      "hoodie",
+      "white",
+      "fashion_dna",
+      "purple"
+    ],
+    "occasions": [
+      "campus",
+      "sports"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "mid_range",
+    "season": "winter",
+    "stock_quantity": 92,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0012",
+    "name": "White Linen Button-Up Shirt",
+    "brand": "Marks & Spencer",
+    "description": "White Linen Button-Up Shirt designed for office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 890,
+    "originalPrice": 1999,
+    "image": "/catalog/myi-top-0012-white-linen-button-up-shirt.svg",
+    "category": "top",
+    "subcategory": "shirt",
+    "primary_colour": "yellow",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "smart",
+      "neutral",
+      "classic",
+      "top",
+      "shirt",
+      "white",
+      "fashion_dna",
+      "yellow"
+    ],
+    "occasions": [
+      "office"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "summer",
+    "stock_quantity": 99,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0013",
+    "name": "White Y2K Graphic Tee",
+    "brand": "H&M",
+    "description": "White Y2K Graphic Tee designed for casual, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 617,
+    "originalPrice": 999,
+    "image": "/catalog/myi-top-0013-white-y2k-graphic-tee.svg",
+    "category": "top",
+    "subcategory": "t_shirt",
+    "primary_colour": "orange",
+    "gender_segment": "unisex",
+    "tags": [
+      "y2k",
+      "bold",
+      "streetwear",
+      "colorful",
+      "top",
+      "t_shirt",
+      "white",
+      "fashion_dna",
+      "orange"
+    ],
+    "occasions": [
+      "casual",
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "mid_range",
+    "season": "summer",
+    "stock_quantity": 20,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0014",
+    "name": "White Dark Academia Sweater",
+    "brand": "FabIndia",
+    "description": "White Dark Academia Sweater designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1605,
+    "originalPrice": 2899,
+    "image": "/catalog/myi-top-0014-white-dark-academia-sweater.svg",
+    "category": "top",
+    "subcategory": "t_shirt",
+    "primary_colour": "black",
+    "gender_segment": "unisex",
+    "tags": [
+      "darkacademia",
+      "classic",
+      "cozy",
+      "neutral",
+      "top",
+      "t_shirt",
+      "white",
+      "fashion_dna",
+      "black"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "winter",
+    "stock_quantity": 27,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0015",
+    "name": "White Running Shoes — Black",
+    "brand": "Nike",
+    "description": "White Running Shoes — Black designed for sports, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 4599,
+    "originalPrice": 7999,
+    "image": "/catalog/myi-top-0015-white-running-shoes-black.svg",
+    "category": "top",
+    "subcategory": "t_shirt",
+    "primary_colour": "black",
+    "gender_segment": "unisex",
+    "tags": [
+      "sporty",
+      "clean",
+      "everyday",
+      "athletic",
+      "top",
+      "t_shirt",
+      "white",
+      "fashion_dna",
+      "black"
+    ],
+    "occasions": [
+      "sports",
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 34,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0016",
+    "name": "White Silk Satin Top — Ivory",
+    "brand": "AND",
+    "description": "White Silk Satin Top — Ivory designed for office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1353,
+    "originalPrice": 2499,
+    "image": "/catalog/myi-top-0016-white-silk-satin-top-ivory.svg",
+    "category": "top",
+    "subcategory": "t_shirt",
+    "primary_colour": "grey",
+    "gender_segment": "unisex",
+    "tags": [
+      "quietluxury",
+      "elegant",
+      "neutral",
+      "feminine",
+      "top",
+      "t_shirt",
+      "white",
+      "fashion_dna",
+      "grey"
+    ],
+    "occasions": [
+      "office"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 41,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0017",
+    "name": "White Ethnic Printed Kurta",
+    "brand": "Biba",
+    "description": "White Ethnic Printed Kurta designed for casual, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1291,
+    "originalPrice": 1999,
+    "image": "/catalog/myi-top-0017-white-ethnic-printed-kurta.svg",
+    "category": "top",
+    "subcategory": "kurta",
+    "primary_colour": "beige",
+    "gender_segment": "unisex",
+    "tags": [
+      "ethnic",
+      "festive",
+      "colorful",
+      "traditional",
+      "top",
+      "kurta",
+      "white",
+      "fashion_dna",
+      "beige"
+    ],
+    "occasions": [
+      "casual",
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 48,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0018",
+    "name": "White Sports Bralette",
+    "brand": "Puma",
+    "description": "White Sports Bralette designed for sports, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 951,
+    "originalPrice": 1499,
+    "image": "/catalog/myi-top-0018-white-sports-bralette.svg",
+    "category": "top",
+    "subcategory": "t_shirt",
+    "primary_colour": "brown",
+    "gender_segment": "unisex",
+    "tags": [
+      "sporty",
+      "athletic",
+      "comfort",
+      "casual",
+      "top",
+      "t_shirt",
+      "white",
+      "fashion_dna",
+      "brown"
+    ],
+    "occasions": [
+      "sports",
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "mid_range",
+    "season": "summer",
+    "stock_quantity": 55,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0019",
+    "name": "Grey Clean Fit Oversized Tee",
+    "brand": "H&M",
+    "description": "Grey Clean Fit Oversized Tee designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 759,
+    "originalPrice": 1499,
+    "image": "/catalog/myi-top-0019-grey-clean-fit-oversized-tee.svg",
+    "category": "top",
+    "subcategory": "t_shirt",
+    "primary_colour": "navy",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "neutral",
+      "casual",
+      "everyday",
+      "top",
+      "t_shirt",
+      "grey",
+      "fashion_dna",
+      "navy"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 62,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0020",
+    "name": "Grey Neutral Hoodie",
+    "brand": "Roadster",
+    "description": "Grey Neutral Hoodie designed for campus, sports styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1208,
+    "originalPrice": 1799,
+    "image": "/catalog/myi-top-0020-grey-neutral-hoodie.svg",
+    "category": "top",
+    "subcategory": "hoodie",
+    "primary_colour": "green",
+    "gender_segment": "unisex",
+    "tags": [
+      "streetwear",
+      "casual",
+      "neutral",
+      "comfort",
+      "top",
+      "hoodie",
+      "grey",
+      "fashion_dna",
+      "green"
+    ],
+    "occasions": [
+      "campus",
+      "sports"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "mid_range",
+    "season": "winter",
+    "stock_quantity": 69,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0021",
+    "name": "Grey Linen Button-Up Shirt",
+    "brand": "Marks & Spencer",
+    "description": "Grey Linen Button-Up Shirt designed for office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1151,
+    "originalPrice": 1999,
+    "image": "/catalog/myi-top-0021-grey-linen-button-up-shirt.svg",
+    "category": "top",
+    "subcategory": "shirt",
+    "primary_colour": "olive",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "smart",
+      "neutral",
+      "classic",
+      "top",
+      "shirt",
+      "grey",
+      "fashion_dna",
+      "olive"
+    ],
+    "occasions": [
+      "office"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "summer",
+    "stock_quantity": 76,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0022",
+    "name": "Grey Y2K Graphic Tee",
+    "brand": "H&M",
+    "description": "Grey Y2K Graphic Tee designed for casual, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 647,
+    "originalPrice": 999,
+    "image": "/catalog/myi-top-0022-grey-y2k-graphic-tee.svg",
+    "category": "top",
+    "subcategory": "t_shirt",
+    "primary_colour": "red",
+    "gender_segment": "unisex",
+    "tags": [
+      "y2k",
+      "bold",
+      "streetwear",
+      "colorful",
+      "top",
+      "t_shirt",
+      "grey",
+      "fashion_dna",
+      "red"
+    ],
+    "occasions": [
+      "casual",
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "mid_range",
+    "season": "summer",
+    "stock_quantity": 83,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0023",
+    "name": "Grey Dark Academia Sweater",
+    "brand": "FabIndia",
+    "description": "Grey Dark Academia Sweater designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1788,
+    "originalPrice": 2899,
+    "image": "/catalog/myi-top-0023-grey-dark-academia-sweater.svg",
+    "category": "top",
+    "subcategory": "t_shirt",
+    "primary_colour": "pink",
+    "gender_segment": "unisex",
+    "tags": [
+      "darkacademia",
+      "classic",
+      "cozy",
+      "neutral",
+      "top",
+      "t_shirt",
+      "grey",
+      "fashion_dna",
+      "pink"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "winter",
+    "stock_quantity": 90,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0024",
+    "name": "Grey Running Shoes — Black",
+    "brand": "Nike",
+    "description": "Grey Running Shoes — Black designed for sports, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 5831,
+    "originalPrice": 7999,
+    "image": "/catalog/myi-top-0024-grey-running-shoes-black.svg",
+    "category": "top",
+    "subcategory": "t_shirt",
+    "primary_colour": "red",
+    "gender_segment": "unisex",
+    "tags": [
+      "sporty",
+      "clean",
+      "everyday",
+      "athletic",
+      "top",
+      "t_shirt",
+      "grey",
+      "fashion_dna",
+      "red"
+    ],
+    "occasions": [
+      "sports",
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 97,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-TOP-0025",
+    "name": "Grey Silk Satin Top — Ivory",
+    "brand": "AND",
+    "description": "Grey Silk Satin Top — Ivory designed for office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1986,
+    "originalPrice": 2499,
+    "image": "/catalog/myi-top-0025-grey-silk-satin-top-ivory.svg",
+    "category": "top",
+    "subcategory": "t_shirt",
+    "primary_colour": "yellow",
+    "gender_segment": "unisex",
+    "tags": [
+      "quietluxury",
+      "elegant",
+      "neutral",
+      "feminine",
+      "top",
+      "t_shirt",
+      "grey",
+      "fashion_dna",
+      "yellow"
+    ],
+    "occasions": [
+      "office"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 18,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-BOT-0026",
+    "name": "Minimal Cargo Pants",
+    "brand": "Zara",
+    "description": "Minimal Cargo Pants designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 2490,
+    "originalPrice": 3990,
+    "image": "/catalog/myi-bot-0026-minimal-cargo-pants.svg",
+    "category": "bottom",
+    "subcategory": "cargo_pants",
+    "primary_colour": "black",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "streetwear",
+      "casual",
+      "neutral",
+      "bottom",
+      "cargo_pants",
+      "black",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 25,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-BOT-0027",
+    "name": "Classic Slim Jeans",
+    "brand": "Levi's",
+    "description": "Classic Slim Jeans designed for campus, office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1747,
+    "originalPrice": 2999,
+    "image": "/catalog/myi-bot-0027-classic-slim-jeans.svg",
+    "category": "bottom",
+    "subcategory": "jeans",
+    "primary_colour": "white",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "classic",
+      "neutral",
+      "everyday",
+      "bottom",
+      "jeans",
+      "black",
+      "fashion_dna",
+      "white"
+    ],
+    "occasions": [
+      "campus",
+      "office"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 32,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-BOT-0028",
+    "name": "Wide-Leg Trousers",
+    "brand": "Zara",
+    "description": "Wide-Leg Trousers designed for office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 2483,
+    "originalPrice": 3499,
+    "image": "/catalog/myi-bot-0028-wide-leg-trousers.svg",
+    "category": "bottom",
+    "subcategory": "trousers",
+    "primary_colour": "grey",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "quietluxury",
+      "neutral",
+      "smart",
+      "bottom",
+      "trousers",
+      "black",
+      "fashion_dna",
+      "grey"
+    ],
+    "occasions": [
+      "office"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 39,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-BOT-0029",
+    "name": "Cargo Shorts",
+    "brand": "Roadster",
+    "description": "Cargo Shorts designed for campus, sports styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 919,
+    "originalPrice": 1299,
+    "image": "/catalog/myi-bot-0029-cargo-shorts.svg",
+    "category": "bottom",
+    "subcategory": "cargo_pants",
+    "primary_colour": "beige",
+    "gender_segment": "unisex",
+    "tags": [
+      "streetwear",
+      "casual",
+      "comfort",
+      "bold",
+      "bottom",
+      "cargo_pants",
+      "black",
+      "fashion_dna",
+      "beige"
+    ],
+    "occasions": [
+      "campus",
+      "sports"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "mid_range",
+    "season": "summer",
+    "stock_quantity": 46,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-BOT-0030",
+    "name": "White Minimal Cargo Pants",
+    "brand": "Zara",
+    "description": "White Minimal Cargo Pants designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 2016,
+    "originalPrice": 3990,
+    "image": "/catalog/myi-bot-0030-white-minimal-cargo-pants.svg",
+    "category": "bottom",
+    "subcategory": "cargo_pants",
+    "primary_colour": "blue",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "streetwear",
+      "casual",
+      "neutral",
+      "bottom",
+      "cargo_pants",
+      "white",
+      "fashion_dna",
+      "blue"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 53,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-BOT-0031",
+    "name": "White Classic Slim Jeans",
+    "brand": "Levi's",
+    "description": "White Classic Slim Jeans designed for campus, office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1957,
+    "originalPrice": 2999,
+    "image": "/catalog/myi-bot-0031-white-classic-slim-jeans.svg",
+    "category": "bottom",
+    "subcategory": "jeans",
+    "primary_colour": "navy",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "classic",
+      "neutral",
+      "everyday",
+      "bottom",
+      "jeans",
+      "white",
+      "fashion_dna",
+      "navy"
+    ],
+    "occasions": [
+      "campus",
+      "office"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 60,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-BOT-0032",
+    "name": "White Wide-Leg Trousers",
+    "brand": "Zara",
+    "description": "White Wide-Leg Trousers designed for office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 2052,
+    "originalPrice": 3499,
+    "image": "/catalog/myi-bot-0032-white-wide-leg-trousers.svg",
+    "category": "bottom",
+    "subcategory": "trousers",
+    "primary_colour": "green",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "quietluxury",
+      "neutral",
+      "smart",
+      "bottom",
+      "trousers",
+      "white",
+      "fashion_dna",
+      "green"
+    ],
+    "occasions": [
+      "office"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 67,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-BOT-0033",
+    "name": "White Cargo Shorts",
+    "brand": "Roadster",
+    "description": "White Cargo Shorts designed for campus, sports styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 735,
+    "originalPrice": 1299,
+    "image": "/catalog/myi-bot-0033-white-cargo-shorts.svg",
+    "category": "bottom",
+    "subcategory": "cargo_pants",
+    "primary_colour": "olive",
+    "gender_segment": "unisex",
+    "tags": [
+      "streetwear",
+      "casual",
+      "comfort",
+      "bold",
+      "bottom",
+      "cargo_pants",
+      "white",
+      "fashion_dna",
+      "olive"
+    ],
+    "occasions": [
+      "campus",
+      "sports"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "mid_range",
+    "season": "summer",
+    "stock_quantity": 74,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-BOT-0034",
+    "name": "Grey Minimal Cargo Pants",
+    "brand": "Zara",
+    "description": "Grey Minimal Cargo Pants designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 2474,
+    "originalPrice": 3990,
+    "image": "/catalog/myi-bot-0034-grey-minimal-cargo-pants.svg",
+    "category": "bottom",
+    "subcategory": "cargo_pants",
+    "primary_colour": "pink",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "streetwear",
+      "casual",
+      "neutral",
+      "bottom",
+      "cargo_pants",
+      "grey",
+      "fashion_dna",
+      "pink"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 81,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-BOT-0035",
+    "name": "Grey Classic Slim Jeans",
+    "brand": "Levi's",
+    "description": "Grey Classic Slim Jeans designed for campus, office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 2215,
+    "originalPrice": 2999,
+    "image": "/catalog/myi-bot-0035-grey-classic-slim-jeans.svg",
+    "category": "bottom",
+    "subcategory": "jeans",
+    "primary_colour": "purple",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "classic",
+      "neutral",
+      "everyday",
+      "bottom",
+      "jeans",
+      "grey",
+      "fashion_dna",
+      "purple"
+    ],
+    "occasions": [
+      "campus",
+      "office"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 88,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-BOT-0036",
+    "name": "Grey Wide-Leg Trousers",
+    "brand": "Zara",
+    "description": "Grey Wide-Leg Trousers designed for office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 2855,
+    "originalPrice": 3569,
+    "image": "/catalog/myi-bot-0036-grey-wide-leg-trousers.svg",
+    "category": "bottom",
+    "subcategory": "trousers",
+    "primary_colour": "yellow",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "quietluxury",
+      "neutral",
+      "smart",
+      "bottom",
+      "trousers",
+      "grey",
+      "fashion_dna",
+      "yellow"
+    ],
+    "occasions": [
+      "office"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 95,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-BOT-0037",
+    "name": "Grey Cargo Shorts",
+    "brand": "Roadster",
+    "description": "Grey Cargo Shorts designed for campus, sports styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 759,
+    "originalPrice": 1299,
+    "image": "/catalog/myi-bot-0037-grey-cargo-shorts.svg",
+    "category": "bottom",
+    "subcategory": "cargo_pants",
+    "primary_colour": "orange",
+    "gender_segment": "unisex",
+    "tags": [
+      "streetwear",
+      "casual",
+      "comfort",
+      "bold",
+      "bottom",
+      "cargo_pants",
+      "grey",
+      "fashion_dna",
+      "orange"
+    ],
+    "occasions": [
+      "campus",
+      "sports"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "mid_range",
+    "season": "summer",
+    "stock_quantity": 16,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-BOT-0038",
+    "name": "Beige Minimal Cargo Pants",
+    "brand": "Zara",
+    "description": "Beige Minimal Cargo Pants designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 3208,
+    "originalPrice": 4010,
+    "image": "/catalog/myi-bot-0038-beige-minimal-cargo-pants.svg",
+    "category": "bottom",
+    "subcategory": "cargo_pants",
+    "primary_colour": "white",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "streetwear",
+      "casual",
+      "neutral",
+      "bottom",
+      "cargo_pants",
+      "beige",
+      "fashion_dna",
+      "white"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 23,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-BOT-0039",
+    "name": "Beige Classic Slim Jeans",
+    "brand": "Levi's",
+    "description": "Beige Classic Slim Jeans designed for campus, office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 2118,
+    "originalPrice": 2999,
+    "image": "/catalog/myi-bot-0039-beige-classic-slim-jeans.svg",
+    "category": "bottom",
+    "subcategory": "jeans",
+    "primary_colour": "grey",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "classic",
+      "neutral",
+      "everyday",
+      "bottom",
+      "jeans",
+      "beige",
+      "fashion_dna",
+      "grey"
+    ],
+    "occasions": [
+      "campus",
+      "office"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 30,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-BOT-0040",
+    "name": "Beige Wide-Leg Trousers",
+    "brand": "Zara",
+    "description": "Beige Wide-Leg Trousers designed for office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 2644,
+    "originalPrice": 3499,
+    "image": "/catalog/myi-bot-0040-beige-wide-leg-trousers.svg",
+    "category": "bottom",
+    "subcategory": "trousers",
+    "primary_colour": "beige",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "quietluxury",
+      "neutral",
+      "smart",
+      "bottom",
+      "trousers",
+      "beige",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "office"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 37,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-BOT-0041",
+    "name": "Beige Cargo Shorts",
+    "brand": "Roadster",
+    "description": "Beige Cargo Shorts designed for campus, sports styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 845,
+    "originalPrice": 1299,
+    "image": "/catalog/myi-bot-0041-beige-cargo-shorts.svg",
+    "category": "bottom",
+    "subcategory": "cargo_pants",
+    "primary_colour": "brown",
+    "gender_segment": "unisex",
+    "tags": [
+      "streetwear",
+      "casual",
+      "comfort",
+      "bold",
+      "bottom",
+      "cargo_pants",
+      "beige",
+      "fashion_dna",
+      "brown"
+    ],
+    "occasions": [
+      "campus",
+      "sports"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "mid_range",
+    "season": "summer",
+    "stock_quantity": 44,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-BOT-0042",
+    "name": "Brown Minimal Cargo Pants",
+    "brand": "Zara",
+    "description": "Brown Minimal Cargo Pants designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 2366,
+    "originalPrice": 3990,
+    "image": "/catalog/myi-bot-0042-brown-minimal-cargo-pants.svg",
+    "category": "bottom",
+    "subcategory": "cargo_pants",
+    "primary_colour": "navy",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "streetwear",
+      "casual",
+      "neutral",
+      "bottom",
+      "cargo_pants",
+      "brown",
+      "fashion_dna",
+      "navy"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 51,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-BOT-0043",
+    "name": "Brown Classic Slim Jeans",
+    "brand": "Levi's",
+    "description": "Brown Classic Slim Jeans designed for campus, office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1922,
+    "originalPrice": 2999,
+    "image": "/catalog/myi-bot-0043-brown-classic-slim-jeans.svg",
+    "category": "bottom",
+    "subcategory": "jeans",
+    "primary_colour": "green",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "classic",
+      "neutral",
+      "everyday",
+      "bottom",
+      "jeans",
+      "brown",
+      "fashion_dna",
+      "green"
+    ],
+    "occasions": [
+      "campus",
+      "office"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 58,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-BOT-0044",
+    "name": "Brown Wide-Leg Trousers",
+    "brand": "Zara",
+    "description": "Brown Wide-Leg Trousers designed for office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1780,
+    "originalPrice": 3499,
+    "image": "/catalog/myi-bot-0044-brown-wide-leg-trousers.svg",
+    "category": "bottom",
+    "subcategory": "trousers",
+    "primary_colour": "olive",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "quietluxury",
+      "neutral",
+      "smart",
+      "bottom",
+      "trousers",
+      "brown",
+      "fashion_dna",
+      "olive"
+    ],
+    "occasions": [
+      "office"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 65,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-BOT-0045",
+    "name": "Brown Cargo Shorts",
+    "brand": "Roadster",
+    "description": "Brown Cargo Shorts designed for campus, sports styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 787,
+    "originalPrice": 1299,
+    "image": "/catalog/myi-bot-0045-brown-cargo-shorts.svg",
+    "category": "bottom",
+    "subcategory": "cargo_pants",
+    "primary_colour": "red",
+    "gender_segment": "unisex",
+    "tags": [
+      "streetwear",
+      "casual",
+      "comfort",
+      "bold",
+      "bottom",
+      "cargo_pants",
+      "brown",
+      "fashion_dna",
+      "red"
+    ],
+    "occasions": [
+      "campus",
+      "sports"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "mid_range",
+    "season": "summer",
+    "stock_quantity": 72,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-DRS-0046",
+    "name": "Everyday Cotton Casual Dress",
+    "brand": "Myntra Edit",
+    "description": "Everyday Cotton Casual Dress designed for casual, campus, date styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 799,
+    "originalPrice": 1599,
+    "image": "/catalog/myi-drs-0046-everyday-cotton-casual-dress.svg",
+    "category": "dress",
+    "subcategory": "casual_dress",
+    "primary_colour": "black",
+    "gender_segment": "unisex",
+    "tags": [
+      "casual",
+      "minimalist",
+      "comfortable",
+      "dress",
+      "casual_dress",
+      "black",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "casual",
+      "campus",
+      "date"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "summer",
+    "stock_quantity": 79,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-DRS-0047",
+    "name": "Relaxed Shirt Dress",
+    "brand": "Myntra Edit",
+    "description": "Relaxed Shirt Dress designed for casual, office, date styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 827,
+    "originalPrice": 1799,
+    "image": "/catalog/myi-drs-0047-relaxed-shirt-dress.svg",
+    "category": "dress",
+    "subcategory": "casual_dress",
+    "primary_colour": "white",
+    "gender_segment": "unisex",
+    "tags": [
+      "casual",
+      "smart casual",
+      "minimalist",
+      "dress",
+      "casual_dress",
+      "white",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "casual",
+      "office",
+      "date"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 86,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-DRS-0048",
+    "name": "Floral Party Dress",
+    "brand": "Myntra Edit",
+    "description": "Floral Party Dress designed for party, date styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1187,
+    "originalPrice": 2199,
+    "image": "/catalog/myi-drs-0048-floral-party-dress.svg",
+    "category": "dress",
+    "subcategory": "party_dress",
+    "primary_colour": "grey",
+    "gender_segment": "unisex",
+    "tags": [
+      "party",
+      "feminine",
+      "statement",
+      "dress",
+      "party_dress",
+      "grey",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "party",
+      "date"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 93,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-DRS-0049",
+    "name": "Elegant Maxi Dress",
+    "brand": "Myntra Edit",
+    "description": "Elegant Maxi Dress designed for party, wedding, date styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1379,
+    "originalPrice": 2399,
+    "image": "/catalog/myi-drs-0049-elegant-maxi-dress.svg",
+    "category": "dress",
+    "subcategory": "maxi_dress",
+    "primary_colour": "beige",
+    "gender_segment": "unisex",
+    "tags": [
+      "maxi",
+      "elegant",
+      "occasion",
+      "dress",
+      "maxi_dress",
+      "beige",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "party",
+      "wedding",
+      "date"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 100,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-DRS-0050",
+    "name": "Classic Bodycon Dress",
+    "brand": "Myntra Edit",
+    "description": "Classic Bodycon Dress designed for party, date styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 879,
+    "originalPrice": 1999,
+    "image": "/catalog/myi-drs-0050-classic-bodycon-dress.svg",
+    "category": "dress",
+    "subcategory": "bodycon_dress",
+    "primary_colour": "brown",
+    "gender_segment": "unisex",
+    "tags": [
+      "bodycon",
+      "party",
+      "statement",
+      "dress",
+      "bodycon_dress",
+      "brown",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "party",
+      "date"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 21,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-DRS-0051",
+    "name": "Blue Everyday Cotton Casual Dress",
+    "brand": "Myntra Edit",
+    "description": "Blue Everyday Cotton Casual Dress designed for casual, campus, date styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 895,
+    "originalPrice": 1599,
+    "image": "/catalog/myi-drs-0051-blue-everyday-cotton-casual-dress.svg",
+    "category": "dress",
+    "subcategory": "casual_dress",
+    "primary_colour": "blue",
+    "gender_segment": "unisex",
+    "tags": [
+      "casual",
+      "minimalist",
+      "comfortable",
+      "dress",
+      "casual_dress",
+      "blue",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "casual",
+      "campus",
+      "date"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "summer",
+    "stock_quantity": 28,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-DRS-0052",
+    "name": "Navy Relaxed Shirt Dress",
+    "brand": "Myntra Edit",
+    "description": "Navy Relaxed Shirt Dress designed for casual, office, date styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 872,
+    "originalPrice": 1799,
+    "image": "/catalog/myi-drs-0052-navy-relaxed-shirt-dress.svg",
+    "category": "dress",
+    "subcategory": "casual_dress",
+    "primary_colour": "navy",
+    "gender_segment": "unisex",
+    "tags": [
+      "casual",
+      "smart casual",
+      "minimalist",
+      "dress",
+      "casual_dress",
+      "navy",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "casual",
+      "office",
+      "date"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 35,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-DRS-0053",
+    "name": "Green Floral Party Dress",
+    "brand": "Myntra Edit",
+    "description": "Green Floral Party Dress designed for party, date styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1099,
+    "originalPrice": 2199,
+    "image": "/catalog/myi-drs-0053-green-floral-party-dress.svg",
+    "category": "dress",
+    "subcategory": "party_dress",
+    "primary_colour": "green",
+    "gender_segment": "unisex",
+    "tags": [
+      "party",
+      "feminine",
+      "statement",
+      "dress",
+      "party_dress",
+      "green",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "party",
+      "date"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 42,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-DRS-0054",
+    "name": "Olive Elegant Maxi Dress",
+    "brand": "Myntra Edit",
+    "description": "Olive Elegant Maxi Dress designed for party, wedding, date styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1103,
+    "originalPrice": 2399,
+    "image": "/catalog/myi-drs-0054-olive-elegant-maxi-dress.svg",
+    "category": "dress",
+    "subcategory": "maxi_dress",
+    "primary_colour": "olive",
+    "gender_segment": "unisex",
+    "tags": [
+      "maxi",
+      "elegant",
+      "occasion",
+      "dress",
+      "maxi_dress",
+      "olive",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "party",
+      "wedding",
+      "date"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 49,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-DRS-0055",
+    "name": "Red Classic Bodycon Dress",
+    "brand": "Myntra Edit",
+    "description": "Red Classic Bodycon Dress designed for party, date styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1079,
+    "originalPrice": 1999,
+    "image": "/catalog/myi-drs-0055-red-classic-bodycon-dress.svg",
+    "category": "dress",
+    "subcategory": "bodycon_dress",
+    "primary_colour": "red",
+    "gender_segment": "unisex",
+    "tags": [
+      "bodycon",
+      "party",
+      "statement",
+      "dress",
+      "bodycon_dress",
+      "red",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "party",
+      "date"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 56,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-DRS-0056",
+    "name": "Pink Everyday Cotton Casual Dress",
+    "brand": "Myntra Edit",
+    "description": "Pink Everyday Cotton Casual Dress designed for casual, campus, date styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 919,
+    "originalPrice": 1599,
+    "image": "/catalog/myi-drs-0056-pink-everyday-cotton-casual-dress.svg",
+    "category": "dress",
+    "subcategory": "casual_dress",
+    "primary_colour": "pink",
+    "gender_segment": "unisex",
+    "tags": [
+      "casual",
+      "minimalist",
+      "comfortable",
+      "dress",
+      "casual_dress",
+      "pink",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "casual",
+      "campus",
+      "date"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "summer",
+    "stock_quantity": 63,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-DRS-0057",
+    "name": "Purple Relaxed Shirt Dress",
+    "brand": "Myntra Edit",
+    "description": "Purple Relaxed Shirt Dress designed for casual, office, date styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 791,
+    "originalPrice": 1799,
+    "image": "/catalog/myi-drs-0057-purple-relaxed-shirt-dress.svg",
+    "category": "dress",
+    "subcategory": "casual_dress",
+    "primary_colour": "purple",
+    "gender_segment": "unisex",
+    "tags": [
+      "casual",
+      "smart casual",
+      "minimalist",
+      "dress",
+      "casual_dress",
+      "purple",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "casual",
+      "office",
+      "date"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 70,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-DRS-0058",
+    "name": "Yellow Floral Party Dress",
+    "brand": "Myntra Edit",
+    "description": "Yellow Floral Party Dress designed for party, date styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1231,
+    "originalPrice": 2199,
+    "image": "/catalog/myi-drs-0058-yellow-floral-party-dress.svg",
+    "category": "dress",
+    "subcategory": "party_dress",
+    "primary_colour": "yellow",
+    "gender_segment": "unisex",
+    "tags": [
+      "party",
+      "feminine",
+      "statement",
+      "dress",
+      "party_dress",
+      "yellow",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "party",
+      "date"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 77,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-DRS-0059",
+    "name": "Orange Elegant Maxi Dress",
+    "brand": "Myntra Edit",
+    "description": "Orange Elegant Maxi Dress designed for party, wedding, date styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1163,
+    "originalPrice": 2399,
+    "image": "/catalog/myi-drs-0059-orange-elegant-maxi-dress.svg",
+    "category": "dress",
+    "subcategory": "maxi_dress",
+    "primary_colour": "orange",
+    "gender_segment": "unisex",
+    "tags": [
+      "maxi",
+      "elegant",
+      "occasion",
+      "dress",
+      "maxi_dress",
+      "orange",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "party",
+      "wedding",
+      "date"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 84,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-DRS-0060",
+    "name": "Black Classic Bodycon Dress",
+    "brand": "Myntra Edit",
+    "description": "Black Classic Bodycon Dress designed for party, date styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 999,
+    "originalPrice": 1999,
+    "image": "/catalog/myi-drs-0060-black-classic-bodycon-dress.svg",
+    "category": "dress",
+    "subcategory": "bodycon_dress",
+    "primary_colour": "black",
+    "gender_segment": "unisex",
+    "tags": [
+      "bodycon",
+      "party",
+      "statement",
+      "dress",
+      "bodycon_dress",
+      "black",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "party",
+      "date"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 91,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-OUT-0061",
+    "name": "Beige Structured Blazer",
+    "brand": "Arrow",
+    "description": "Beige Structured Blazer designed for office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 3499,
+    "originalPrice": 5999,
+    "image": "/catalog/myi-out-0061-beige-structured-blazer.svg",
+    "category": "outerwear",
+    "subcategory": "blazer",
+    "primary_colour": "beige",
+    "gender_segment": "unisex",
+    "tags": [
+      "quietluxury",
+      "smart",
+      "neutral",
+      "formal",
+      "outerwear",
+      "blazer",
+      "beige",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "office"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 98,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-OUT-0062",
+    "name": "Denim Jacket — Vintage",
+    "brand": "Levi's",
+    "description": "Denim Jacket — Vintage designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 2759,
+    "originalPrice": 4999,
+    "image": "/catalog/myi-out-0062-denim-jacket-vintage.svg",
+    "category": "outerwear",
+    "subcategory": "jacket",
+    "primary_colour": "white",
+    "gender_segment": "unisex",
+    "tags": [
+      "streetwear",
+      "classic",
+      "casual",
+      "cool",
+      "outerwear",
+      "jacket",
+      "black",
+      "fashion_dna",
+      "white"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "winter",
+    "stock_quantity": 19,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-OUT-0063",
+    "name": "Brown Beige Structured Blazer",
+    "brand": "Arrow",
+    "description": "Brown Beige Structured Blazer designed for office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 3477,
+    "originalPrice": 5999,
+    "image": "/catalog/myi-out-0063-brown-beige-structured-blazer.svg",
+    "category": "outerwear",
+    "subcategory": "blazer",
+    "primary_colour": "blue",
+    "gender_segment": "unisex",
+    "tags": [
+      "quietluxury",
+      "smart",
+      "neutral",
+      "formal",
+      "outerwear",
+      "blazer",
+      "brown",
+      "fashion_dna",
+      "blue"
+    ],
+    "occasions": [
+      "office"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 26,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-OUT-0064",
+    "name": "White Denim Jacket — Vintage",
+    "brand": "Levi's",
+    "description": "White Denim Jacket — Vintage designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 3173,
+    "originalPrice": 4999,
+    "image": "/catalog/myi-out-0064-white-denim-jacket-vintage.svg",
+    "category": "outerwear",
+    "subcategory": "jacket",
+    "primary_colour": "brown",
+    "gender_segment": "unisex",
+    "tags": [
+      "streetwear",
+      "classic",
+      "casual",
+      "cool",
+      "outerwear",
+      "jacket",
+      "white",
+      "fashion_dna",
+      "brown"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "winter",
+    "stock_quantity": 33,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-OUT-0065",
+    "name": "Blue Beige Structured Blazer",
+    "brand": "Arrow",
+    "description": "Blue Beige Structured Blazer designed for office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 3326,
+    "originalPrice": 5999,
+    "image": "/catalog/myi-out-0065-blue-beige-structured-blazer.svg",
+    "category": "outerwear",
+    "subcategory": "blazer",
+    "primary_colour": "green",
+    "gender_segment": "unisex",
+    "tags": [
+      "quietluxury",
+      "smart",
+      "neutral",
+      "formal",
+      "outerwear",
+      "blazer",
+      "blue",
+      "fashion_dna",
+      "green"
+    ],
+    "occasions": [
+      "office"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 40,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-OUT-0066",
+    "name": "Grey Denim Jacket — Vintage",
+    "brand": "Levi's",
+    "description": "Grey Denim Jacket — Vintage designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 3628,
+    "originalPrice": 4999,
+    "image": "/catalog/myi-out-0066-grey-denim-jacket-vintage.svg",
+    "category": "outerwear",
+    "subcategory": "jacket",
+    "primary_colour": "green",
+    "gender_segment": "unisex",
+    "tags": [
+      "streetwear",
+      "classic",
+      "casual",
+      "cool",
+      "outerwear",
+      "jacket",
+      "grey",
+      "fashion_dna",
+      "green"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "winter",
+    "stock_quantity": 47,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-OUT-0067",
+    "name": "Navy Beige Structured Blazer",
+    "brand": "Arrow",
+    "description": "Navy Beige Structured Blazer designed for office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 3903,
+    "originalPrice": 5999,
+    "image": "/catalog/myi-out-0067-navy-beige-structured-blazer.svg",
+    "category": "outerwear",
+    "subcategory": "blazer",
+    "primary_colour": "red",
+    "gender_segment": "unisex",
+    "tags": [
+      "quietluxury",
+      "smart",
+      "neutral",
+      "formal",
+      "outerwear",
+      "blazer",
+      "navy",
+      "fashion_dna",
+      "red"
+    ],
+    "occasions": [
+      "office"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 54,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-OUT-0068",
+    "name": "Beige Denim Jacket — Vintage",
+    "brand": "Levi's",
+    "description": "Beige Denim Jacket — Vintage designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 3449,
+    "originalPrice": 4999,
+    "image": "/catalog/myi-out-0068-beige-denim-jacket-vintage.svg",
+    "category": "outerwear",
+    "subcategory": "jacket",
+    "primary_colour": "pink",
+    "gender_segment": "unisex",
+    "tags": [
+      "streetwear",
+      "classic",
+      "casual",
+      "cool",
+      "outerwear",
+      "jacket",
+      "beige",
+      "fashion_dna",
+      "pink"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "winter",
+    "stock_quantity": 61,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-OUT-0069",
+    "name": "Green Beige Structured Blazer",
+    "brand": "Arrow",
+    "description": "Green Beige Structured Blazer designed for office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 2833,
+    "originalPrice": 5999,
+    "image": "/catalog/myi-out-0069-green-beige-structured-blazer.svg",
+    "category": "outerwear",
+    "subcategory": "blazer",
+    "primary_colour": "purple",
+    "gender_segment": "unisex",
+    "tags": [
+      "quietluxury",
+      "smart",
+      "neutral",
+      "formal",
+      "outerwear",
+      "blazer",
+      "green",
+      "fashion_dna",
+      "purple"
+    ],
+    "occasions": [
+      "office"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 68,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-OUT-0070",
+    "name": "Brown Denim Jacket — Vintage",
+    "brand": "Levi's",
+    "description": "Brown Denim Jacket — Vintage designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 2850,
+    "originalPrice": 4999,
+    "image": "/catalog/myi-out-0070-brown-denim-jacket-vintage.svg",
+    "category": "outerwear",
+    "subcategory": "jacket",
+    "primary_colour": "orange",
+    "gender_segment": "unisex",
+    "tags": [
+      "streetwear",
+      "classic",
+      "casual",
+      "cool",
+      "outerwear",
+      "jacket",
+      "brown",
+      "fashion_dna",
+      "orange"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "winter",
+    "stock_quantity": 75,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-FTW-0071",
+    "name": "White Platform Sneakers",
+    "brand": "HRX",
+    "description": "White Platform Sneakers designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1299,
+    "originalPrice": 2499,
+    "image": "/catalog/myi-ftw-0071-white-platform-sneakers.svg",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "primary_colour": "white",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "clean",
+      "everyday",
+      "neutral",
+      "footwear",
+      "sneakers",
+      "white",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 82,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-FTW-0072",
+    "name": "Chunky Sneakers — White",
+    "brand": "New Balance",
+    "description": "Chunky Sneakers — White designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 5519,
+    "originalPrice": 8999,
+    "image": "/catalog/myi-ftw-0072-chunky-sneakers-white.svg",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "primary_colour": "grey",
+    "gender_segment": "unisex",
+    "tags": [
+      "y2k",
+      "streetwear",
+      "bold",
+      "statement",
+      "footwear",
+      "sneakers",
+      "white",
+      "fashion_dna",
+      "grey"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 89,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-FTW-0073",
+    "name": "Grey White Platform Sneakers",
+    "brand": "HRX",
+    "description": "Grey White Platform Sneakers designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1291,
+    "originalPrice": 2499,
+    "image": "/catalog/myi-ftw-0073-grey-white-platform-sneakers.svg",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "primary_colour": "beige",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "clean",
+      "everyday",
+      "neutral",
+      "footwear",
+      "sneakers",
+      "grey",
+      "fashion_dna",
+      "beige"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 96,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-FTW-0074",
+    "name": "Grey Chunky Sneakers — White",
+    "brand": "New Balance",
+    "description": "Grey Chunky Sneakers — White designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 6347,
+    "originalPrice": 8999,
+    "image": "/catalog/myi-ftw-0074-grey-chunky-sneakers-white.svg",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "primary_colour": "brown",
+    "gender_segment": "unisex",
+    "tags": [
+      "y2k",
+      "streetwear",
+      "bold",
+      "statement",
+      "footwear",
+      "sneakers",
+      "grey",
+      "fashion_dna",
+      "brown"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 17,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-FTW-0075",
+    "name": "Beige White Platform Sneakers",
+    "brand": "HRX",
+    "description": "Beige White Platform Sneakers designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1235,
+    "originalPrice": 2499,
+    "image": "/catalog/myi-ftw-0075-beige-white-platform-sneakers.svg",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "primary_colour": "blue",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "clean",
+      "everyday",
+      "neutral",
+      "footwear",
+      "sneakers",
+      "beige",
+      "fashion_dna",
+      "blue"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 24,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-FTW-0076",
+    "name": "Beige Chunky Sneakers — White",
+    "brand": "New Balance",
+    "description": "Beige Chunky Sneakers — White designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 7256,
+    "originalPrice": 9070,
+    "image": "/catalog/myi-ftw-0076-beige-chunky-sneakers-white.svg",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "primary_colour": "navy",
+    "gender_segment": "unisex",
+    "tags": [
+      "y2k",
+      "streetwear",
+      "bold",
+      "statement",
+      "footwear",
+      "sneakers",
+      "beige",
+      "fashion_dna",
+      "navy"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 31,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-FTW-0077",
+    "name": "Brown White Platform Sneakers",
+    "brand": "HRX",
+    "description": "Brown White Platform Sneakers designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1449,
+    "originalPrice": 2499,
+    "image": "/catalog/myi-ftw-0077-brown-white-platform-sneakers.svg",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "primary_colour": "green",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "clean",
+      "everyday",
+      "neutral",
+      "footwear",
+      "sneakers",
+      "brown",
+      "fashion_dna",
+      "green"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 38,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-FTW-0078",
+    "name": "Brown Chunky Sneakers — White",
+    "brand": "New Balance",
+    "description": "Brown Chunky Sneakers — White designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 6899,
+    "originalPrice": 8999,
+    "image": "/catalog/myi-ftw-0078-brown-chunky-sneakers-white.svg",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "primary_colour": "olive",
+    "gender_segment": "unisex",
+    "tags": [
+      "y2k",
+      "streetwear",
+      "bold",
+      "statement",
+      "footwear",
+      "sneakers",
+      "brown",
+      "fashion_dna",
+      "olive"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 45,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-FTW-0079",
+    "name": "Blue White Platform Sneakers",
+    "brand": "HRX",
+    "description": "Blue White Platform Sneakers designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1052,
+    "originalPrice": 2499,
+    "image": "/catalog/myi-ftw-0079-blue-white-platform-sneakers.svg",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "primary_colour": "red",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "clean",
+      "everyday",
+      "neutral",
+      "footwear",
+      "sneakers",
+      "blue",
+      "fashion_dna",
+      "red"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 52,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-FTW-0080",
+    "name": "Blue Chunky Sneakers — White",
+    "brand": "New Balance",
+    "description": "Blue Chunky Sneakers — White designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 5701,
+    "originalPrice": 8999,
+    "image": "/catalog/myi-ftw-0080-blue-chunky-sneakers-white.svg",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "primary_colour": "pink",
+    "gender_segment": "unisex",
+    "tags": [
+      "y2k",
+      "streetwear",
+      "bold",
+      "statement",
+      "footwear",
+      "sneakers",
+      "blue",
+      "fashion_dna",
+      "pink"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 59,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-FTW-0081",
+    "name": "Navy White Platform Sneakers",
+    "brand": "HRX",
+    "description": "Navy White Platform Sneakers designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1823,
+    "originalPrice": 2499,
+    "image": "/catalog/myi-ftw-0081-navy-white-platform-sneakers.svg",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "primary_colour": "purple",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "clean",
+      "everyday",
+      "neutral",
+      "footwear",
+      "sneakers",
+      "navy",
+      "fashion_dna",
+      "purple"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 66,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-FTW-0082",
+    "name": "Navy Chunky Sneakers — White",
+    "brand": "New Balance",
+    "description": "Navy Chunky Sneakers — White designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 6441,
+    "originalPrice": 9149,
+    "image": "/catalog/myi-ftw-0082-navy-chunky-sneakers-white.svg",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "primary_colour": "yellow",
+    "gender_segment": "unisex",
+    "tags": [
+      "y2k",
+      "streetwear",
+      "bold",
+      "statement",
+      "footwear",
+      "sneakers",
+      "navy",
+      "fashion_dna",
+      "yellow"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 73,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-FTW-0083",
+    "name": "Minimal Interview Flats",
+    "brand": "StyleCore",
+    "description": "Minimal Interview Flats designed for interview, office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 499,
+    "originalPrice": 999,
+    "image": "/catalog/myi-ftw-0083-minimal-interview-flats.svg",
+    "category": "footwear",
+    "subcategory": "flats",
+    "primary_colour": "yellow",
+    "gender_segment": "unisex",
+    "tags": [
+      "smart casual",
+      "minimalist",
+      "comfortable",
+      "interview",
+      "hard_budget_anchor",
+      "footwear",
+      "flats",
+      "yellow",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "interview",
+      "office"
+    ],
+    "sizes": [
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 80,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-FTW-0084",
+    "name": "Formal Interview Flats",
+    "brand": "StyleCore",
+    "description": "Formal Interview Flats designed for interview, office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 549,
+    "originalPrice": 1099,
+    "image": "/catalog/myi-ftw-0084-formal-interview-flats.svg",
+    "category": "footwear",
+    "subcategory": "flats",
+    "primary_colour": "orange",
+    "gender_segment": "unisex",
+    "tags": [
+      "smart casual",
+      "formal",
+      "comfortable",
+      "interview",
+      "hard_budget_anchor",
+      "footwear",
+      "flats",
+      "orange",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "interview",
+      "office"
+    ],
+    "sizes": [
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 87,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-FTW-0085",
+    "name": "Classic Formal Shoes",
+    "brand": "StyleCore",
+    "description": "Classic Formal Shoes designed for interview, office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 599,
+    "originalPrice": 1199,
+    "image": "/catalog/myi-ftw-0085-classic-formal-shoes.svg",
+    "category": "footwear",
+    "subcategory": "formal_shoes",
+    "primary_colour": "black",
+    "gender_segment": "unisex",
+    "tags": [
+      "smart casual",
+      "formal",
+      "comfortable",
+      "interview",
+      "hard_budget_anchor",
+      "footwear",
+      "formal_shoes",
+      "black",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "interview",
+      "office"
+    ],
+    "sizes": [
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 94,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-FTW-0086",
+    "name": "Grey White Platform Sneakers",
+    "brand": "HRX",
+    "description": "Grey White Platform Sneakers designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1195,
+    "originalPrice": 2499,
+    "image": "/catalog/myi-ftw-0086-grey-white-platform-sneakers.svg",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "primary_colour": "grey",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "clean",
+      "everyday",
+      "neutral",
+      "footwear",
+      "sneakers",
+      "white",
+      "fashion_dna",
+      "grey"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 15,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-FTW-0087",
+    "name": "Beige Chunky Sneakers — White",
+    "brand": "New Balance",
+    "description": "Beige Chunky Sneakers — White designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 6479,
+    "originalPrice": 8999,
+    "image": "/catalog/myi-ftw-0087-beige-chunky-sneakers-white.svg",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "primary_colour": "beige",
+    "gender_segment": "unisex",
+    "tags": [
+      "y2k",
+      "streetwear",
+      "bold",
+      "statement",
+      "footwear",
+      "sneakers",
+      "white",
+      "fashion_dna",
+      "beige"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 22,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-FTW-0088",
+    "name": "Brown Grey White Platform Sneakers",
+    "brand": "HRX",
+    "description": "Brown Grey White Platform Sneakers designed for campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1374,
+    "originalPrice": 2499,
+    "image": "/catalog/myi-ftw-0088-brown-grey-white-platform-sneakers.svg",
+    "category": "footwear",
+    "subcategory": "sneakers",
+    "primary_colour": "brown",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "clean",
+      "everyday",
+      "neutral",
+      "footwear",
+      "sneakers",
+      "grey",
+      "fashion_dna",
+      "brown"
+    ],
+    "occasions": [
+      "campus"
+    ],
+    "sizes": [
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 29,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ACC-0089",
+    "name": "Sand Tote Bag",
+    "brand": "Aldo",
+    "description": "Sand Tote Bag designed for campus, travel styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 699,
+    "originalPrice": 1299,
+    "image": "/catalog/myi-acc-0089-sand-tote-bag.svg",
+    "category": "accessory",
+    "subcategory": "bag",
+    "primary_colour": "black",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "neutral",
+      "everyday",
+      "accessory",
+      "bag",
+      "black",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "campus",
+      "travel"
+    ],
+    "sizes": [
+      "ONE_SIZE"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 36,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ACC-0090",
+    "name": "Minimal Watch — Silver",
+    "brand": "Fastrack",
+    "description": "Minimal Watch — Silver designed for office, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 2023,
+    "originalPrice": 3500,
+    "image": "/catalog/myi-acc-0090-minimal-watch-silver.svg",
+    "category": "accessory",
+    "subcategory": "watch",
+    "primary_colour": "white",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "clean",
+      "classic",
+      "accessory",
+      "watch",
+      "black",
+      "fashion_dna",
+      "white"
+    ],
+    "occasions": [
+      "office",
+      "campus"
+    ],
+    "sizes": [
+      "ONE_SIZE"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 43,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ACC-0091",
+    "name": "Statement Earrings",
+    "brand": "Accessorize",
+    "description": "Statement Earrings designed for casual, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 377,
+    "originalPrice": 699,
+    "image": "/catalog/myi-acc-0091-statement-earrings.svg",
+    "category": "accessory",
+    "subcategory": "jewellery",
+    "primary_colour": "grey",
+    "gender_segment": "unisex",
+    "tags": [
+      "bold",
+      "colorful",
+      "accessory",
+      "y2k",
+      "top",
+      "t_shirt",
+      "black",
+      "fashion_dna",
+      "jewellery",
+      "grey"
+    ],
+    "occasions": [
+      "casual",
+      "campus"
+    ],
+    "sizes": [
+      "ONE_SIZE"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 50,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ACC-0092",
+    "name": "White Sand Tote Bag",
+    "brand": "Aldo",
+    "description": "White Sand Tote Bag designed for campus, travel styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 739,
+    "originalPrice": 1299,
+    "image": "/catalog/myi-acc-0092-white-sand-tote-bag.svg",
+    "category": "accessory",
+    "subcategory": "bag",
+    "primary_colour": "brown",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "neutral",
+      "everyday",
+      "accessory",
+      "bag",
+      "white",
+      "fashion_dna",
+      "brown"
+    ],
+    "occasions": [
+      "campus",
+      "travel"
+    ],
+    "sizes": [
+      "ONE_SIZE"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 57,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ACC-0093",
+    "name": "White Minimal Watch — Silver",
+    "brand": "Fastrack",
+    "description": "White Minimal Watch — Silver designed for office, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1780,
+    "originalPrice": 3500,
+    "image": "/catalog/myi-acc-0093-white-minimal-watch-silver.svg",
+    "category": "accessory",
+    "subcategory": "watch",
+    "primary_colour": "blue",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "clean",
+      "classic",
+      "accessory",
+      "watch",
+      "white",
+      "fashion_dna",
+      "blue"
+    ],
+    "occasions": [
+      "office",
+      "campus"
+    ],
+    "sizes": [
+      "ONE_SIZE"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 64,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ACC-0094",
+    "name": "White Statement Earrings",
+    "brand": "Accessorize",
+    "description": "White Statement Earrings designed for casual, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 360,
+    "originalPrice": 699,
+    "image": "/catalog/myi-acc-0094-white-statement-earrings.svg",
+    "category": "accessory",
+    "subcategory": "jewellery",
+    "primary_colour": "navy",
+    "gender_segment": "unisex",
+    "tags": [
+      "bold",
+      "colorful",
+      "accessory",
+      "y2k",
+      "top",
+      "t_shirt",
+      "white",
+      "fashion_dna",
+      "jewellery",
+      "navy"
+    ],
+    "occasions": [
+      "casual",
+      "campus"
+    ],
+    "sizes": [
+      "ONE_SIZE"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 71,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ACC-0095",
+    "name": "Grey Sand Tote Bag",
+    "brand": "Aldo",
+    "description": "Grey Sand Tote Bag designed for campus, travel styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 732,
+    "originalPrice": 1299,
+    "image": "/catalog/myi-acc-0095-grey-sand-tote-bag.svg",
+    "category": "accessory",
+    "subcategory": "bag",
+    "primary_colour": "olive",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "neutral",
+      "everyday",
+      "accessory",
+      "bag",
+      "grey",
+      "fashion_dna",
+      "olive"
+    ],
+    "occasions": [
+      "campus",
+      "travel"
+    ],
+    "sizes": [
+      "ONE_SIZE"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 78,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ACC-0096",
+    "name": "Grey Minimal Watch — Silver",
+    "brand": "Fastrack",
+    "description": "Grey Minimal Watch — Silver designed for office, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 2375,
+    "originalPrice": 3500,
+    "image": "/catalog/myi-acc-0096-grey-minimal-watch-silver.svg",
+    "category": "accessory",
+    "subcategory": "watch",
+    "primary_colour": "red",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "clean",
+      "classic",
+      "accessory",
+      "watch",
+      "grey",
+      "fashion_dna",
+      "red"
+    ],
+    "occasions": [
+      "office",
+      "campus"
+    ],
+    "sizes": [
+      "ONE_SIZE"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 85,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ACC-0097",
+    "name": "Grey Statement Earrings",
+    "brand": "Accessorize",
+    "description": "Grey Statement Earrings designed for casual, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 347,
+    "originalPrice": 699,
+    "image": "/catalog/myi-acc-0097-grey-statement-earrings.svg",
+    "category": "accessory",
+    "subcategory": "jewellery",
+    "primary_colour": "pink",
+    "gender_segment": "unisex",
+    "tags": [
+      "bold",
+      "colorful",
+      "accessory",
+      "y2k",
+      "top",
+      "t_shirt",
+      "grey",
+      "fashion_dna",
+      "jewellery",
+      "pink"
+    ],
+    "occasions": [
+      "casual",
+      "campus"
+    ],
+    "sizes": [
+      "ONE_SIZE"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 92,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ACC-0098",
+    "name": "Beige Sand Tote Bag",
+    "brand": "Aldo",
+    "description": "Beige Sand Tote Bag designed for campus, travel styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 868,
+    "originalPrice": 1299,
+    "image": "/catalog/myi-acc-0098-beige-sand-tote-bag.svg",
+    "category": "accessory",
+    "subcategory": "bag",
+    "primary_colour": "yellow",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "neutral",
+      "everyday",
+      "accessory",
+      "bag",
+      "beige",
+      "fashion_dna",
+      "yellow"
+    ],
+    "occasions": [
+      "campus",
+      "travel"
+    ],
+    "sizes": [
+      "ONE_SIZE"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 99,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ACC-0099",
+    "name": "Beige Minimal Watch — Silver",
+    "brand": "Fastrack",
+    "description": "Beige Minimal Watch — Silver designed for office, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 2908,
+    "originalPrice": 3635,
+    "image": "/catalog/myi-acc-0099-beige-minimal-watch-silver.svg",
+    "category": "accessory",
+    "subcategory": "watch",
+    "primary_colour": "orange",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "clean",
+      "classic",
+      "accessory",
+      "watch",
+      "beige",
+      "fashion_dna",
+      "orange"
+    ],
+    "occasions": [
+      "office",
+      "campus"
+    ],
+    "sizes": [
+      "ONE_SIZE"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 20,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ACC-0100",
+    "name": "Beige Statement Earrings",
+    "brand": "Accessorize",
+    "description": "Beige Statement Earrings designed for casual, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 353,
+    "originalPrice": 699,
+    "image": "/catalog/myi-acc-0100-beige-statement-earrings.svg",
+    "category": "accessory",
+    "subcategory": "jewellery",
+    "primary_colour": "black",
+    "gender_segment": "unisex",
+    "tags": [
+      "bold",
+      "colorful",
+      "accessory",
+      "y2k",
+      "top",
+      "t_shirt",
+      "beige",
+      "fashion_dna",
+      "jewellery",
+      "black"
+    ],
+    "occasions": [
+      "casual",
+      "campus"
+    ],
+    "sizes": [
+      "ONE_SIZE"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 27,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ACC-0101",
+    "name": "Brown Sand Tote Bag",
+    "brand": "Aldo",
+    "description": "Brown Sand Tote Bag designed for campus, travel styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 689,
+    "originalPrice": 1299,
+    "image": "/catalog/myi-acc-0101-brown-sand-tote-bag.svg",
+    "category": "accessory",
+    "subcategory": "bag",
+    "primary_colour": "grey",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "neutral",
+      "everyday",
+      "accessory",
+      "bag",
+      "brown",
+      "fashion_dna",
+      "grey"
+    ],
+    "occasions": [
+      "campus",
+      "travel"
+    ],
+    "sizes": [
+      "ONE_SIZE"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 34,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ACC-0102",
+    "name": "Brown Minimal Watch — Silver",
+    "brand": "Fastrack",
+    "description": "Brown Minimal Watch — Silver designed for office, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1877,
+    "originalPrice": 3500,
+    "image": "/catalog/myi-acc-0102-brown-minimal-watch-silver.svg",
+    "category": "accessory",
+    "subcategory": "watch",
+    "primary_colour": "beige",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "clean",
+      "classic",
+      "accessory",
+      "watch",
+      "brown",
+      "fashion_dna",
+      "beige"
+    ],
+    "occasions": [
+      "office",
+      "campus"
+    ],
+    "sizes": [
+      "ONE_SIZE"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 41,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ACC-0103",
+    "name": "Brown Statement Earrings",
+    "brand": "Accessorize",
+    "description": "Brown Statement Earrings designed for casual, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 307,
+    "originalPrice": 699,
+    "image": "/catalog/myi-acc-0103-brown-statement-earrings.svg",
+    "category": "accessory",
+    "subcategory": "jewellery",
+    "primary_colour": "brown",
+    "gender_segment": "unisex",
+    "tags": [
+      "bold",
+      "colorful",
+      "accessory",
+      "y2k",
+      "top",
+      "t_shirt",
+      "brown",
+      "fashion_dna",
+      "jewellery"
+    ],
+    "occasions": [
+      "casual",
+      "campus"
+    ],
+    "sizes": [
+      "ONE_SIZE"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 48,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ACC-0104",
+    "name": "Blue Sand Tote Bag",
+    "brand": "Aldo",
+    "description": "Blue Sand Tote Bag designed for campus, travel styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 785,
+    "originalPrice": 1299,
+    "image": "/catalog/myi-acc-0104-blue-sand-tote-bag.svg",
+    "category": "accessory",
+    "subcategory": "bag",
+    "primary_colour": "navy",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "neutral",
+      "everyday",
+      "accessory",
+      "bag",
+      "blue",
+      "fashion_dna",
+      "navy"
+    ],
+    "occasions": [
+      "campus",
+      "travel"
+    ],
+    "sizes": [
+      "ONE_SIZE"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 55,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ACC-0105",
+    "name": "Blue Minimal Watch — Silver",
+    "brand": "Fastrack",
+    "description": "Blue Minimal Watch — Silver designed for office, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 2898,
+    "originalPrice": 3622,
+    "image": "/catalog/myi-acc-0105-blue-minimal-watch-silver.svg",
+    "category": "accessory",
+    "subcategory": "watch",
+    "primary_colour": "green",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "clean",
+      "classic",
+      "accessory",
+      "watch",
+      "blue",
+      "fashion_dna",
+      "green"
+    ],
+    "occasions": [
+      "office",
+      "campus"
+    ],
+    "sizes": [
+      "ONE_SIZE"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 62,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ACC-0106",
+    "name": "Blue Statement Earrings",
+    "brand": "Accessorize",
+    "description": "Blue Statement Earrings designed for casual, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 490,
+    "originalPrice": 699,
+    "image": "/catalog/myi-acc-0106-blue-statement-earrings.svg",
+    "category": "accessory",
+    "subcategory": "jewellery",
+    "primary_colour": "olive",
+    "gender_segment": "unisex",
+    "tags": [
+      "bold",
+      "colorful",
+      "accessory",
+      "y2k",
+      "top",
+      "t_shirt",
+      "blue",
+      "fashion_dna",
+      "jewellery",
+      "olive"
+    ],
+    "occasions": [
+      "casual",
+      "campus"
+    ],
+    "sizes": [
+      "ONE_SIZE"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 69,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ACC-0107",
+    "name": "Structured Interview Tote Bag",
+    "brand": "StyleCore",
+    "description": "Structured Interview Tote Bag designed for interview, office styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 449,
+    "originalPrice": 899,
+    "image": "/catalog/myi-acc-0107-structured-interview-tote-bag.svg",
+    "category": "accessory",
+    "subcategory": "bag",
+    "primary_colour": "orange",
+    "gender_segment": "unisex",
+    "tags": [
+      "smart casual",
+      "minimalist",
+      "formal",
+      "interview",
+      "hard_budget_anchor",
+      "accessory",
+      "bag",
+      "orange",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "interview",
+      "office"
+    ],
+    "sizes": [
+      "ONE_SIZE"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 76,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ACC-0108",
+    "name": "Blue Sand Tote Bag",
+    "brand": "Aldo",
+    "description": "Blue Sand Tote Bag designed for campus, travel styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 783,
+    "originalPrice": 1299,
+    "image": "/catalog/myi-acc-0108-blue-sand-tote-bag.svg",
+    "category": "accessory",
+    "subcategory": "bag",
+    "primary_colour": "blue",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "neutral",
+      "everyday",
+      "accessory",
+      "bag",
+      "black",
+      "fashion_dna",
+      "blue"
+    ],
+    "occasions": [
+      "campus",
+      "travel"
+    ],
+    "sizes": [
+      "ONE_SIZE"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 83,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ACC-0109",
+    "name": "Navy Minimal Watch — Silver",
+    "brand": "Fastrack",
+    "description": "Navy Minimal Watch — Silver designed for office, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 2133,
+    "originalPrice": 3500,
+    "image": "/catalog/myi-acc-0109-navy-minimal-watch-silver.svg",
+    "category": "accessory",
+    "subcategory": "watch",
+    "primary_colour": "navy",
+    "gender_segment": "unisex",
+    "tags": [
+      "minimalist",
+      "clean",
+      "classic",
+      "accessory",
+      "watch",
+      "black",
+      "fashion_dna",
+      "navy"
+    ],
+    "occasions": [
+      "office",
+      "campus"
+    ],
+    "sizes": [
+      "ONE_SIZE"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 90,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ACC-0110",
+    "name": "Green Statement Earrings",
+    "brand": "Accessorize",
+    "description": "Green Statement Earrings designed for casual, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 349,
+    "originalPrice": 699,
+    "image": "/catalog/myi-acc-0110-green-statement-earrings.svg",
+    "category": "accessory",
+    "subcategory": "jewellery",
+    "primary_colour": "green",
+    "gender_segment": "unisex",
+    "tags": [
+      "bold",
+      "colorful",
+      "accessory",
+      "y2k",
+      "top",
+      "t_shirt",
+      "black",
+      "fashion_dna",
+      "jewellery",
+      "green"
+    ],
+    "occasions": [
+      "casual",
+      "campus"
+    ],
+    "sizes": [
+      "ONE_SIZE"
+    ],
+    "budgetTier": "mid_range",
+    "season": "all_season",
+    "stock_quantity": 97,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ETH-0111",
+    "name": "Minimal Cotton Kurta Set",
+    "brand": "Myntra Ethnic",
+    "description": "Minimal Cotton Kurta Set designed for festival, casual, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 899,
+    "originalPrice": 1799,
+    "image": "/catalog/myi-eth-0111-minimal-cotton-kurta-set.svg",
+    "category": "ethnic_set",
+    "subcategory": "kurta_set",
+    "primary_colour": "black",
+    "gender_segment": "unisex",
+    "tags": [
+      "ethnic",
+      "minimalist",
+      "comfortable",
+      "ethnic_set",
+      "kurta_set",
+      "black",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "festival",
+      "casual",
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 18,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ETH-0112",
+    "name": "Pastel Palazzo Kurta Set",
+    "brand": "Myntra Ethnic",
+    "description": "Pastel Palazzo Kurta Set designed for festival, wedding styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1011,
+    "originalPrice": 2199,
+    "image": "/catalog/myi-eth-0112-pastel-palazzo-kurta-set.svg",
+    "category": "ethnic_set",
+    "subcategory": "kurta_set",
+    "primary_colour": "white",
+    "gender_segment": "unisex",
+    "tags": [
+      "ethnic",
+      "pastel",
+      "elegant",
+      "ethnic_set",
+      "kurta_set",
+      "white",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "festival",
+      "wedding"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 25,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ETH-0113",
+    "name": "Embroidered Festive Kurta Set",
+    "brand": "Myntra Ethnic",
+    "description": "Embroidered Festive Kurta Set designed for festival, wedding styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1403,
+    "originalPrice": 2599,
+    "image": "/catalog/myi-eth-0113-embroidered-festive-kurta-set.svg",
+    "category": "ethnic_set",
+    "subcategory": "kurta_set",
+    "primary_colour": "purple",
+    "gender_segment": "unisex",
+    "tags": [
+      "ethnic",
+      "embroidered",
+      "festive",
+      "ethnic_set",
+      "kurta_set",
+      "purple",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "festival",
+      "wedding"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 32,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ETH-0114",
+    "name": "Contemporary Ethnic Set",
+    "brand": "Myntra Ethnic",
+    "description": "Contemporary Ethnic Set designed for festival, office, casual styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1149,
+    "originalPrice": 1999,
+    "image": "/catalog/myi-eth-0114-contemporary-ethnic-set.svg",
+    "category": "ethnic_set",
+    "subcategory": "kurta_set",
+    "primary_colour": "beige",
+    "gender_segment": "unisex",
+    "tags": [
+      "ethnic",
+      "contemporary",
+      "smart casual",
+      "ethnic_set",
+      "kurta_set",
+      "beige",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "festival",
+      "office",
+      "casual"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 39,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ETH-0115",
+    "name": "Brown Minimal Cotton Kurta Set",
+    "brand": "Myntra Ethnic",
+    "description": "Brown Minimal Cotton Kurta Set designed for festival, casual, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 791,
+    "originalPrice": 1799,
+    "image": "/catalog/myi-eth-0115-brown-minimal-cotton-kurta-set.svg",
+    "category": "ethnic_set",
+    "subcategory": "kurta_set",
+    "primary_colour": "brown",
+    "gender_segment": "unisex",
+    "tags": [
+      "ethnic",
+      "minimalist",
+      "comfortable",
+      "ethnic_set",
+      "kurta_set",
+      "brown",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "festival",
+      "casual",
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 46,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ETH-0116",
+    "name": "Blue Pastel Palazzo Kurta Set",
+    "brand": "Myntra Ethnic",
+    "description": "Blue Pastel Palazzo Kurta Set designed for festival, wedding styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1231,
+    "originalPrice": 2199,
+    "image": "/catalog/myi-eth-0116-blue-pastel-palazzo-kurta-set.svg",
+    "category": "ethnic_set",
+    "subcategory": "kurta_set",
+    "primary_colour": "blue",
+    "gender_segment": "unisex",
+    "tags": [
+      "ethnic",
+      "pastel",
+      "elegant",
+      "ethnic_set",
+      "kurta_set",
+      "blue",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "festival",
+      "wedding"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 53,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ETH-0117",
+    "name": "White Embroidered Festive Kurta Set",
+    "brand": "Myntra Ethnic",
+    "description": "White Embroidered Festive Kurta Set designed for festival, wedding styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1260,
+    "originalPrice": 2599,
+    "image": "/catalog/myi-eth-0117-white-embroidered-festive-kurta-set.svg",
+    "category": "ethnic_set",
+    "subcategory": "kurta_set",
+    "primary_colour": "white",
+    "gender_segment": "unisex",
+    "tags": [
+      "ethnic",
+      "embroidered",
+      "festive",
+      "ethnic_set",
+      "kurta_set",
+      "white",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "festival",
+      "wedding"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 60,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ETH-0118",
+    "name": "Green Contemporary Ethnic Set",
+    "brand": "Myntra Ethnic",
+    "description": "Green Contemporary Ethnic Set designed for festival, office, casual styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 999,
+    "originalPrice": 1999,
+    "image": "/catalog/myi-eth-0118-green-contemporary-ethnic-set.svg",
+    "category": "ethnic_set",
+    "subcategory": "kurta_set",
+    "primary_colour": "green",
+    "gender_segment": "unisex",
+    "tags": [
+      "ethnic",
+      "contemporary",
+      "smart casual",
+      "ethnic_set",
+      "kurta_set",
+      "green",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "festival",
+      "office",
+      "casual"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 67,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ETH-0119",
+    "name": "Olive Minimal Cotton Kurta Set",
+    "brand": "Myntra Ethnic",
+    "description": "Olive Minimal Cotton Kurta Set designed for festival, casual, campus styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 827,
+    "originalPrice": 1799,
+    "image": "/catalog/myi-eth-0119-olive-minimal-cotton-kurta-set.svg",
+    "category": "ethnic_set",
+    "subcategory": "kurta_set",
+    "primary_colour": "olive",
+    "gender_segment": "unisex",
+    "tags": [
+      "ethnic",
+      "minimalist",
+      "comfortable",
+      "ethnic_set",
+      "kurta_set",
+      "olive",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "festival",
+      "casual",
+      "campus"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 74,
+    "is_active": true
+  },
+  {
+    "sku": "MYI-ETH-0120",
+    "name": "Red Pastel Palazzo Kurta Set",
+    "brand": "Myntra Ethnic",
+    "description": "Red Pastel Palazzo Kurta Set designed for festival, wedding styling. Structured for Fashion DNA matching and outfit recommendation.",
+    "price": 1187,
+    "originalPrice": 2199,
+    "image": "/catalog/myi-eth-0120-red-pastel-palazzo-kurta-set.svg",
+    "category": "ethnic_set",
+    "subcategory": "kurta_set",
+    "primary_colour": "red",
+    "gender_segment": "unisex",
+    "tags": [
+      "ethnic",
+      "pastel",
+      "elegant",
+      "ethnic_set",
+      "kurta_set",
+      "red",
+      "fashion_dna"
+    ],
+    "occasions": [
+      "festival",
+      "wedding"
+    ],
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "budgetTier": "budget",
+    "season": "all_season",
+    "stock_quantity": 81,
+    "is_active": true
+  }
+]

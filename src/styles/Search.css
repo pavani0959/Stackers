@@ -1,5 +1,5 @@
 /* Search Screen */
-.search-screen { background: var(--bg); display: flex; flex-direction: column; overflow: hidden; }
+.search-screen { background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
 
 .srch-hdr { padding: 48px 18px 0; background: white; border-bottom: 1px solid var(--border); flex-shrink: 0; }
 .srch-back-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
@@ -39,3 +39,84 @@
 
 /* Empty results */
 .srch-empty { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: 60px 20px; }
+
+/* Phase 8: semantic and accessible controls */
+
+.back-btn,
+.srch-clear {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.srch-icon {
+  flex: 0 0 auto;
+  pointer-events: none;
+}
+
+.srch-cat-chip,
+.srch-suggestion,
+.wl-browse-btn {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.srch-suggestion {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.srch-empty-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.srch-empty-title {
+  margin: 0 0 6px;
+  font-size: 1rem;
+}
+
+.srch-empty-message {
+  margin: 0;
+  color: var(--text-2);
+  font-size: 0.75rem;
+}
+
+.srch-spinner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== RESPONSIVE: Search ===== */
+
+/* Mobile (<640px) */
+@media (max-width: 639px) {
+  .srch-hdr { padding: 40px 16px 0; }
+  .srch-body { padding: 12px 16px 80px; }
+}
+
+/* Tablet (640–1024px) */
+@media (min-width: 640px) and (max-width: 1024px) {
+  .srch-hdr { padding: 48px 28px 0; }
+  .srch-body { padding: 20px 28px 90px; }
+  .srch-results-hdr { margin-bottom: 16px; }
+}
+
+/* Desktop (>1024px) */
+@media (min-width: 1025px) {
+  .srch-hdr { padding: 32px 36px 0; }
+  .srch-body { padding: 24px 36px 90px; max-width: 960px; margin: 0 auto; }
+  .srch-input { font-size: 16px; }
+}
+

@@ -1,5 +1,4 @@
 from datetime import datetime, timezone
-import random
 
 from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.orm import Session
@@ -51,14 +50,86 @@ def create_event(
         if product:
             # We map some tags to traits to fake a vector if actual dna vector isn't on product
             # In a real system, products would have pre-computed vectors.
-            item_vector = {}
-            for tag in product.tags:
-                tag = tag.lower()
-                if "minimal" in tag: item_vector["minimalist"] = 0.5
-                if "street" in tag: item_vector["streetwear"] = 0.5
-                if "casual" in tag: item_vector["campusCasual"] = 0.5
-                if "luxury" in tag: item_vector["quietLuxury"] = 0.5
-                if "y2k" in tag: item_vector["y2k"] = 0.5
+            # Build the product vector on the same
+            # 0-100 scale as the stored Fashion DNA.
+            product_tags = (
+                product.tags
+                if isinstance(
+                    product.tags,
+                    (list, tuple, set),
+                )
+                else (
+                    [product.tags]
+                    if product.tags
+                    else []
+                )
+            )
+
+            searchable_parts = [
+                *product_tags,
+                product.category,
+                product.subcategory,
+                product.description,
+            ]
+
+            normalized_product_text = " ".join(
+                str(part)
+                .strip()
+                .lower()
+                .replace("_", " ")
+                .replace("-", " ")
+                for part in searchable_parts
+                if part
+            )
+
+            trait_keywords = {
+                "minimalist": (
+                    "minimalist",
+                    "minimal",
+                ),
+                "streetwear": (
+                    "streetwear",
+                    "street wear",
+                    "street",
+                ),
+                "campusCasual": (
+                    "campuscasual",
+                    "campus casual",
+                    "campus",
+                    "casual",
+                ),
+                "quietLuxury": (
+                    "quietluxury",
+                    "quiet luxury",
+                    "luxury",
+                ),
+                "y2k": (
+                    "y2k",
+                    "2000s",
+                ),
+            }
+
+            matched_traits = [
+                trait
+                for trait, keywords
+                in trait_keywords.items()
+                if any(
+                    keyword in normalized_product_text
+                    for keyword in keywords
+                )
+            ]
+
+            item_vector = (
+                {
+                    trait: (
+                        100.0
+                        / len(matched_traits)
+                    )
+                    for trait in matched_traits
+                }
+                if matched_traits
+                else {}
+            )
             
             if item_vector:
                 dna_service = DNAService(db)
@@ -184,7 +255,15 @@ def check_regret(
             models.Product.id != product.id
         ).limit(10).all()
         if alts:
-            alt_prod = random.choice(alts)
+            alt_prod = min(
+                alts,
+                key=lambda candidate: (
+                    float(
+                        candidate.price or 0
+                    ),
+                    candidate.id,
+                ),
+            )
             alternatives.append({
                 "id": alt_prod.id,
                 "name": alt_prod.name,

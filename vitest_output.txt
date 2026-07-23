@@ -1,0 +1,2297 @@
+
+> myntrahack@0.0.0 test
+> vitest run
+
+
+ RUN  v4.1.10 /home/aman_j07/stackers/Stackers
+
+ ✓ src/api/profile.test.js (2 tests) 27ms
+ ✓ src/data/quizAssets.test.js (2 tests) 6ms
+ ✓ src/app/providers.test.jsx (2 tests) 206ms
+ ❯ src/screens/IdentityCard/IdentityCard.test.jsx (3 tests | 1 failed) 389ms
+     ✓ renders the persisted identity without a buildDnaBars error 104ms
+     × shows the confidence explanation and evidence 84ms
+     ✓ opens the Profile editor when Edit Identity is clicked 198ms
+ ✓ src/screens/Home/Home.test.jsx (1 test) 122ms
+ ✓ src/screens/ProductDetail/ProductDetail.test.jsx (3 tests) 259ms
+ ✓ src/screens/DecisionIntelligence/DecisionIntelligence.test.jsx (2 tests) 437ms
+     ✓ loads only the stored snapshot and renders stored evidence  337ms
+ ✓ src/screens/FashionMemory/FashionMemory.test.jsx (3 tests) 296ms
+ ❯ src/screens/Profile/Profile.test.jsx (3 tests | 2 failed) 602ms
+     ✓ renders the existing persisted profile 82ms
+     × persists identity and canonical snake_case preference fields 400ms
+     × does not call the API when the name is empty 114ms
+ ❯ src/screens/DNAQuiz/DNAQuiz.test.jsx (3 tests | 1 failed) 772ms
+     ✓ contains exactly eight visual questions 5ms
+     × submits one question ID and choice ID for every question 697ms
+     ✓ does not submit before all eight questions are completed 67ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/screens/DNAQuiz/DNAQuiz.test.jsx > DNAQuiz > submits one question ID and choice ID for every question
+TestingLibraryElementError: Found multiple elements with the text: Campus
+
+Here are the matching elements:
+
+Ignored nodes: comments, script, style
+[36m<div[39m
+  [33mclass[39m=[32m"quiz-card-title"[39m
+[36m>[39m
+  [0mCampus[0m
+[36m</div>[39m
+
+Ignored nodes: comments, script, style
+[36m<div[39m
+  [33mclass[39m=[32m"quiz-card-pill"[39m
+[36m>[39m
+  [0mCampus[0m
+[36m</div>[39m
+
+(If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"screen quiz-shell"[39m
+    [36m>[39m
+      [36m<svg[39m
+        [33maria-hidden[39m=[32m"true"[39m
+        [33mclass[39m=[32m"quiz-deco-lines quiz-deco-tr"[39m
+        [33mfill[39m=[32m"none"[39m
+        [33mviewBox[39m=[32m"0 0 200 200"[39m
+      [36m>[39m
+        [36m<path[39m
+          [33md[39m=[32m"M40,0 Q200,30 200,180"[39m
+          [33mopacity[39m=[32m"0.35"[39m
+          [33mstroke[39m=[32m"var(--color-primary-soft)"[39m
+          [33mstroke-width[39m=[32m"1"[39m
+        [36m/>[39m
+        [36m<path[39m
+          [33md[39m=[32m"M80,0 Q210,60 195,200"[39m
+          [33mopacity[39m=[32m"0.3"[39m
+          [33mstroke[39m=[32m"var(--color-lavender)"[39m
+          [33mstroke-width[39m=[32m"1"[39m
+        [36m/>[39m
+      [36m</svg>[39m
+      [36m<svg[39m
+        [33maria-hidden[39m=[32m"true"[39m
+        [33mclass[39m=[32m"quiz-deco-lines quiz-deco-bl"[39m
+        [33mfill[39m=[32m"none"[39m
+        [33mviewBox[39m=[32m"0 0 200 200"[39m
+      [36m>[39m
+        [36m<path[39m
+          [33md[39m=[32m"M0,40 Q30,200 180,200"[39m
+          [33mopacity[39m=[32m"0.35"[39m
+          [33mstroke[39m=[32m"var(--color-primary-soft)"[39m
+          [33mstroke-width[39m=[32m"1"[39m
+        [36m/>[39m
+        [36m<path[39m
+          [33md[39m=[32m"M0,80 Q60,210 200,195"[39m
+          [33mopacity[39m=[32m"0.3"[39m
+          [33mstroke[39m=[32m"var(--color-lavender)"[39m
+          [33mstroke-width[39m=[32m"1"[39m
+        [36m/>[39m
+      [36m</svg>[39m
+      [36m<svg[39m
+        [33maria-hidden[39m=[32m"true"[39m
+        [33mclass[39m=[32m"quiz-sparkle qsp-1"[39m
+        [33mfill[39m=[32m"var(--gradient-hero-start)"[39m
+        [33mheight[39m=[32m"14"[39m
+        [33mviewBox[39m=[32m"0 0 24 24"[39m
+        [33mwidth[39m=[32m"14"[39m
+      [36m>[39m
+        [36m<path[39m
+          [33md[39m=[32m"M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z"[39m
+        [36m/>[39m
+      [36m</svg>[39m
+      [36m<svg[39m
+        [33maria-hidden[39m=[32m"true"[39m
+        [33mclass[39m=[32m"quiz-sparkle qsp-2"[39m
+        [33mfill[39m=[32m"var(--color-lavender)"[39m
+        [33mheight[39m=[32m"10"[39m
+        [33mviewBox[39m=[32m"0 0 24 24"[39m
+        [33mwidth[39m=[32m"10"[39m
+      [36m>[39m
+        [36m<path[39m
+          [33md[39m=[32m"M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z"[39m
+        [36m/>[39m
+      [36m</svg>[39m
+      [36m<svg[39m
+        [33maria-hidden[39m=[32m"true"[39m
+        [33mclass[39m=[32m"quiz-sparkle qsp-3"[39m
+        [33mfill[39m=[32m"var(--gradient-hero-end)"[39m
+        [33mheight[39m=[32m"18"[39m
+        [33mviewBox[39m=[32m"0 0 24 24"[39m
+        [33mwidth[39m=[32m"18"[39m
+      [36m>[39m
+        [36m<path[39m
+          [33md[39m=[32m"M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z"[39m
+        [36m/>[39m
+      [36m</svg>[39m
+      [36m<svg[39m
+        [33maria-hidden[39m=[32m"true"[39m
+        [33mclass[39m=[32m"quiz-sparkle qsp-4"[39m
+        [33mfill[39m=[32m"var(--gradient-hero-start)"[39m
+        [33mheight[39m=[32m"12"[39m
+        [33mviewBox[39m=[32m"0 0 24 24"[39m
+        [33mwidth[39m=[32m"12"[39m
+      [36m>[39m
+        [36m<path[39m
+          [33md[39m=[32m"M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z"[39m
+        [36m/>[39m
+      [36m</svg>[39m
+      [36m<svg[39m
+        [33maria-hidden[39m=[32m"true"[39m
+        [33mclass[39m=[32m"quiz-sparkle qsp-5"[39m
+        [33mfill[39m=[32m"var(--color-lavender)"[39m
+        [33mheight[39m=[32m"16"[39m
+        [33mviewBox[39m=[32m"0 0 24 24"[39m
+        [33mwidth[39m=[32m"16"[39m
+      [36m>[39m
+        [36m<path[39m
+          [33md[39m=[32m"M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z"[39m
+        [36m/>[39m
+      [36m</svg>[39m
+      [36m<svg[39m
+        [33maria-hidden[39m=[32m"true"[39m
+        [33mclass[39m=[32m"quiz-sparkle qsp-6"[39m
+        [33mfill[39m=[32m"var(--gradient-hero-end)"[39m
+        [33mheight[39m=[32m"10"[39m
+        [33mviewBox[39m=[32m"0 0 24 24"[39m
+        [33mwidth[39m=[32m"10"[39m
+      [36m>[39m
+        [36m<path[39m
+          [33md[39m=[32m"M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z"[39m
+        [36m/>[39m
+      [36m</svg>[39m
+      [36m<div[39m
+        [33maria-hidden[39m=[32m"true"[39m
+        [33mclass[39m=[32m"quiz-blob"[39m
+      [36m/>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"ob-shared-card quiz-card-wrapper"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"ob-shared-card-scroll"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"quiz-prog-bar"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"quiz-seg filled"[39m
+            [36m/>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"quiz-seg filled"[39m
+            [36m/>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"quiz-seg filled"[39m
+            [36m/>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"quiz-seg filled"[39m
+            [36m/>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"quiz-seg filled"[39m
+            [36m/>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"quiz-seg filled"[39m
+            [36m/>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"quiz-seg "[39m
+            [36m/>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"quiz-seg "[39m
+            [36m/>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"quiz-q-num"[39m
+            [33mdata-quiz-text[39m=[32m"true"[39m
+            [33mstyle[39m=[32m"translate: none; rotate: none; scale: none; transform: translate(20px, 0px); opacity: 0;"[39m
+          [36m>[39m
+            [0mQuestion [0m
+            [0m6[0m
+            [0m of [0m
+            [0m8[0m
+          [36m</div>[39m
+          [36m<h1[39m
+            [33mclass[39m=[32m"quiz-question"[39m
+            [33mdata-quiz-text[39m=[32m"true"[39m
+            [33mstyle[39m=[32m"translate: none; rotate: none; scale: none; transform: translate(20px, 0px); opacity: 0;"[39m
+          [36m>[39m
+            [0mWhich occasion matters most when you shop?[0m
+          [36m</h1>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"quiz-cards-grid"[39m
+          [36m>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"quiz-option-card "[39m
+              [33mdata-quiz-choice[39m=[32m"true"[39m
+              [33mstyle[39m=[32m"--card-accent: #0ea5e9; translate: none; rotate: none; scale: none; transform: translate(0px, 15px) scale(0.95, 0.95); opacity: 0;"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"quiz-card-check"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"quiz-card-ring"[39m
+                [36m/>[39m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"quiz-card-img-wrap"[39m
+              [36m>[39m
+                [36m<img[39m
+                  [33malt[39m=[32m"Practical campus outfit"[39m
+                  [33mclass[39m=[32m"quiz-card-img"[39m
+                  [33mdraggable[39m=[32m"false"[39m
+                  [33msrc[39m=[32m"/quiz/occasion-campus.webp"[39m
+                [36m/>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"quiz-card-body"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"quiz-card-title"[39m
+                [36m>[39m
+                  [0mCampus[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"quiz-card-desc"[39m
+                [36m>[39m
+                  [0mPractical daily campus looks[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"quiz-card-pill"[39m
+                [36m>[39m
+                  [0mCampus[0m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"quiz-option-card "[39m
+              [33mdata-quiz-choice[39m=[32m"true"[39m
+              [33mstyle[39m=[32m"--card-accent: #1e293b; translate: none; rotate: none; scale: none; transform: translate(0px, 15px) scale(0.95, 0.95); opacity: 0;"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"quiz-card-check"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"quiz-card-ring"[39m
+                [36m/>[39m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"quiz-card-img-wrap"[39m
+              [36m>[39m
+                [36m<img[39m
+                  [33malt[39m=[32m"Polished work and interview outfit"[39m
+                  [33mclass[39m=[32m"quiz-card-img"[39m
+                  [33mdraggable[39m=[32m"false"[39m
+                  [33msrc[39m=[32m"/quiz/occasion-work.webp"[39m
+                [36m/>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"quiz-card-body"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"quiz-card-title"[39m
+                [36m>[39m
+                  [0mWork[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"quiz-card-desc"[39m
+                [36m>[39m
+                  [0mPolished work and interview[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"quiz-card-pill"[39m
+                [36m>[39m
+                  [0mWork and interviews[0m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"quiz-option-card "[39m
+              [33mdata-quiz-choice[39m=[32m"true"[39m
+              [33mstyle[39m=[32m"--card-accent: #ec4899; translate: none; rotate: none; scale: none; transform: translate(0px, 15px) scale(0.95, 0.95); opacity: 0;"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"quiz-card-check"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"quiz-card-ring"[39m
+                [36m/>[39m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"quiz-card-img-wrap"[39m
+              [36m>[39m
+                [36m<img[39m
+                  [33malt[39m=[32m"Party and night-out outfit"[39m
+                  [33mclass[39m=[32m"quiz-card-img"[39m
+                  [33mdraggable[39m=[32m"false"[39m
+                  [33msrc[39m=[32m"/quiz/occasion-party.webp"[39m
+                [36m/>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"quiz-card-body"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"quiz-card-title"[39m
+                [36m>[39m
+                  [0mParties[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"quiz-card-desc"[39m
+                [36m>[39m
+                  [0mNight-outs and party style[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"quiz-card-pill"[39m
+                [36m>[39m
+                  [0mParties and night-outs[0m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+            [36m<button[39m
+              [33maria-pressed[39m=[32m"false"[39m
+              [33mclass[39m=[32m"quiz-option-card "[39m
+              [33mdata-quiz-choice[39m=[32m"true"[39m
+              [33mstyle[39m=[32m"--card-accent: #10b981; translate: none; rotate: none; scale: none; transform: translate(0px, 15px) scale(0.95, 0.95); opacity: 0;"[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"quiz-card-check"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"quiz-card-ring"[39m
+                [36m/>[39m
+              [36m</span>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"quiz-card-img-wrap"[39m
+              [36m>[39m
+                [36m<img[39m
+                  [33malt[39m=[32m"Versatile everyday outfit"[39m
+                  [33mclass[39m=[32m"quiz-card-img"[39m
+                  [33mdraggable[39m=[32m"false"[39m
+                  [33msrc[39m=[32m"/quiz/occasion-everyday.webp"[39m
+                [36m/>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"quiz-card-body"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"quiz-card-title"[39m
+                [36m>[39m
+                  [0mEveryday[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"quiz-card-desc"[39m
+                [36m>[39m
+                  [0mVersatile everyday outfits[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"quiz-card-pill"[39m
+                [36m>[39m
+                  [0mEveryday wear[0m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</button>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"ob-shared-card-footer"[39m
+        [36m>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"quiz-cta"[39m
+            [33mdisabled[39m=[32m""[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<span>[39m
+              [0mNEXT[0m
+            [36m</span>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-arrow-right"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"20"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"20"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M5 12h14"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"m12 5 7 7-7 7"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ getElementError node_modules/@testing-library/dom/dist/query-helpers.js:20:35
+ ❯ getMultipleElementsFoundError node_modules/@testing-library/dom/dist/query-helpers.js:23:10
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:55:13
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/screens/DNAQuiz/DNAQuiz.test.jsx:109:16
+    107|
+    108|       const choiceLabel =
+    109|         screen.getByText(
+       |                ^
+    110|           selectedChoice.label,
+    111|         );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  src/screens/IdentityCard/IdentityCard.test.jsx > IdentityCard > shows the confidence explanation and evidence
+TestingLibraryElementError: Unable to find an element with the text: /quiz answers: 8/i. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"id-res-shell"[39m
+    [36m>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"id-card-lbl"[39m
+      [36m>[39m
+        [0m✦ Your Aesthetic Passport[0m
+        [36m<span[39m
+          [33mclass[39m=[32m"id-new-badge"[39m
+        [36m>[39m
+          [0mNEW[0m
+        [36m</span>[39m
+      [36m</p>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"id-card-main"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"idc-header"[39m
+        [36m>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"idc-brand"[39m
+          [36m>[39m
+            [0mMYNTRA IDENTITY[0m
+          [36m</span>[39m
+          [36m<div[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"idc-dna-icon"[39m
+          [36m>[39m
+            [0m🧬[0m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<h1[39m
+          [33mclass[39m=[32m"idc-name"[39m
+        [36m>[39m
+          [0mTest Style Explorer[0m
+        [36m</h1>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"idc-meta"[39m
+        [36m>[39m
+          [36m<p>[39m
+            [0mStyle Member  •  Since [0m
+            [0mJuly 2026[0m
+          [36m</p>[39m
+          [36m<p>[39m
+            [0mFashion DNA Version [0m
+            [0m2[0m
+          [36m</p>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"idc-divider"[39m
+        [36m/>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"idc-identity-section"[39m
+        [36m>[39m
+          [36m<h2[39m
+            [33mclass[39m=[32m"idc-identity-title"[39m
+          [36m>[39m
+            [0mMinimalist Campus Casual[0m
+          [36m</h2>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"idc-identity-desc"[39m
+          [36m>[39m
+            [0mClean, versatile and campus-ready.[0m
+          [36m</p>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"idc-tags-row"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"idc-tag idc-tag-pink"[39m
+            [36m>[39m
+              [0mMinimalist[0m
+              [0m [0m
+              [0m55.0[0m
+              [0m%[0m
+            [36m</span>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"idc-tag idc-tag-purple"[39m
+            [36m>[39m
+              [0mCampus Casual[0m
+              [0m [0m
+              [0m30.0[0m
+              [0m%[0m
+            [36m</span>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"idc-tag idc-tag-blue"[39m
+            [36m>[39m
+              [0mQuiet Luxury[0m
+              [0m [0m
+              [0m15.0[0m
+              [0m%[0m
+            [36m</span>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"idc-tags-row idc-tags-secondary"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"idc-tag idc-tag-pink-light"[39m
+            [36m>[39m
+              [0m₹500 – ₹1,500[0m
+            [36m</span>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"idc-tag idc-tag-purple-light"[39m
+            [36m>[39m
+              [0mCampus[0m
+            [36m</span>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"idc-tag idc-tag-purple-light"[39m
+            [36m>[39m
+              [0mCasual[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"idc-divider"[39m
+        [36m/>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"idc-details"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"idc-detail-row"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"idc-detail-left"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"idc-detail-icon"[39m
+              [36m>[39m
+                [36m<svg[39m
+                  [33mfill[39m=[32m"none"[39m
+                  [33mheight[39m=[32m"14"[39m
+                  [33mstroke[39m=[32m"currentColor"[39m
+                  [33mstroke-linecap[39m=[32m"round"[39m
+                  [33mstroke-linejoin[39m=[32m"round"[39m
+                  [33mstroke-width[39m=[32m"2.5"[39m
+                  [33mviewBox[39m=[32m"0 0 24 24"[39m
+                  [33mwidth[39m=[32m"14"[39m
+                [36m>[39m
+                  [36m<circle[39m
+                    [33mcx[39m=[32m"13.5"[39m
+                    [33mcy[39m=[32m"6.5"[39m
+                    [33mfill[39m=[32m"currentColor"[39m
+                    [33mr[39m=[32m".5"[39m
+                  [36m/>[39m
+                  [36m<circle[39m
+                    [33mcx[39m=[32m"17.5"[39m
+                    [33mcy[39m=[32m"10.5"[39m
+                    [33mfill[39m=[32m"currentColor"[39m
+                    [33mr[39m=[32m".5"[39m
+                  [36m/>[39m
+                  [36m<circle[39m
+                    [33mcx[39m=[32m"8.5"[39m
+                    [33mcy[39m=[32m"7.5"[39m
+                    [33mfill[39m=[32m"currentColor"[39m
+                    [33mr[39m=[32m".5"[39m
+                  [36m/>[39m
+                  [36m<circle[39m
+                    [33mcx[39m=[32m"6.5"[39m
+                    [33mcy[39m=[32m"12.5"[39m
+                    [33mfill[39m=[32m"currentColor"[39m
+                    [33mr[39m=[32m".5"[39m
+                  [36m/>[39m
+                  [36m<path[39m
+                    [33md[39m=[32m"M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"[39m
+                  [36m/>[39m
+                [36m</svg>[39m
+              [36m</div>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"idc-detail-label"[39m
+              [36m>[39m
+                [0mColour Palette[0m
+              [36m</span>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"idc-detail-dots"[39m
+            [36m/>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"idc-detail-value"[39m
+            [36m>[39m
+              [0mBlack, White, Beige[0m
+            [36m</span>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"idc-detail-row"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"idc-detail-left"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"idc-detail-icon"[39m
+              [36m>[39m
+                [36m<svg[39m
+                  [33mfill[39m=[32m"none"[39m
+                  [33mheight[39m=[32m"14"[39m
+                  [33mstroke[39m=[32m"currentColor"[39m
+                  [33mstroke-linecap[39m=[32m"round"[39m
+                  [33mstroke-linejoin[39m=[32m"round"[39m
+                  [33mstroke-width[39m=[32m"2.5"[39m
+                  [33mviewBox[39m=[32m"0 0 24 24"[39m
+                  [33mwidth[39m=[32m"14"[39m
+                [36m>[39m
+                  [36m<path[39m
+                    [33md[39m=[32m"M20.38 3.46L16 2a8.5 8.5 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"[39m
+                  [36m/>[39m
+                [36m</svg>[39m
+              [36m</div>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"idc-detail-label"[39m
+              [36m>[39m
+                [0mPreferred Fit[0m
+              [36m</span>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"idc-detail-dots"[39m
+            [36m/>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"idc-detail-value"[39m
+            [36m>[39m
+              [0mRelaxed[0m
+            [36m</span>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"idc-detail-row"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"idc-detail-left"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"idc-detail-icon"[39m
+              [36m>[39m
+                [36m<svg[39m
+                  [33mfill[39m=[32m"none"[39m
+                  [33mheight[39m=[32m"14"[39m
+                  [33mstroke[39m=[32m"currentColor"[39m
+                  [33mstroke-linecap[39m=[32m"round"[39m
+                  [33mstroke-linejoin[39m=[32m"round"[39m
+                  [33mstroke-width[39m=[32m"2.5"[39m
+                  [33mviewBox[39m=[32m"0 0 24 24"[39m
+                  [33mwidth[39m=[32m"14"[39m
+                [36m>[39m
+                  [36m<circle[39m
+                    [33mcx[39m=[32m"12"[39m
+                    [33mcy[39m=[32m"12"[39m
+                    [33mr[39m=[32m"10"[39m
+                  [36m/>[39m
+                  [36m<circle[39m
+                    [33mcx[39m=[32m"12"[39m
+                    [33mcy[39m=[32m"12"[39m
+                    [33mr[39m=[32m"6"[39m
+                  [36m/>[39m
+                  [36m<circle[39m
+                    [33mcx[39m=[32m"12"[39m
+                    [33mcy[39m=[32m"12"[39m
+                    [33mr[39m=[32m"2"[39m
+                  [36m/>[39m
+                [36m</svg>[39m
+              [36m</div>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"idc-detail-label"[39m
+              [36m>[39m
+                [0mFashion Goal[0m
+              [36m</span>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"idc-detail-dots"[39m
+            [36m/>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"idc-detail-value"[39m
+            [36m>[39m
+              [0mMake smarter purchase decisions[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"idc-confidence-panel"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"idc-conf-left"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"idc-conf-lbl"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"16"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2.5"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"16"[39m
+              [36m>[39m
+                [36m<polyline[39m
+                  [33mpoints[39m=[32m"22 7 13.5 15.5 8.5 10.5 2 17"[39m
+                [36m/>[39m
+                [36m<polyline[39m
+                  [33mpoints[39m=[32m"16 7 22 7 22 13"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [0m Style Confidence[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"idc-conf-val"[39m
+            [36m>[39m
+              [0m73[0m
+              [0m%[0m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"idc-conf-ring"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33mheight[39m=[32m"72"[39m
+              [33mviewBox[39m=[32m"0 0 72 72"[39m
+              [33mwidth[39m=[32m"72"[39m
+            [36m>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"36"[39m
+                [33mcy[39m=[32m"36"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mopacity[39m=[32m"0.3"[39m
+                [33mr[39m=[32m"28"[39m
+                [33mstroke[39m=[32m"var(--color-primary-soft)"[39m
+                [33mstroke-width[39m=[32m"6"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"36"[39m
+                [33mcy[39m=[32m"36"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mr[39m=[32m"28"[39m
+                [33mstroke[39m=[32m"var(--color-primary)"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"6"[39m
+                [33mstyle[39m=[32m"stroke-dasharray: 175.92918860102841; stroke-dashoffset: 47.50088092227767; transform: rotate(-90deg); transform-origin: 50% 50%;"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"idc-conf-sparkle"[39m
+              [33mstyle[39m=[32m"transform: rotate(262.8deg);"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mstyle[39m=[32m"transform: translateY(-28px) rotate(-45deg);"[39m
+              [36m>[39m
+                [0m✨[0m
+              [36m</span>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"idc-conf-grid"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"idc-cg-item"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"idc-cg-icon pink"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"12"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"3"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"12"[39m
+              [36m>[39m
+                [36m<line[39m
+                  [33mx1[39m=[32m"8"[39m
+                  [33mx2[39m=[32m"21"[39m
+                  [33my1[39m=[32m"6"[39m
+                  [33my2[39m=[32m"6"[39m
+                [36m/>[39m
+                [36m<line[39m
+                  [33mx1[39m=[32m"8"[39m
+                  [33mx2[39m=[32m"21"[39m
+                  [33my1[39m=[32m"12"[39m
+                  [33my2[39m=[32m"12"[39m
+                [36m/>[39m
+                [36m<line[39m
+                  [33mx1[39m=[32m"8"[39m
+                  [33mx2[39m=[32m"21"[39m
+                  [33my1[39m=[32m"18"[39m
+                  [33my2[39m=[32m"18"[39m
+                [36m/>[39m
+                [36m<line[39m
+                  [33mx1[39m=[32m"3"[39m
+                  [33mx2[39m=[32m"3.01"[39m
+                  [33my1[39m=[32m"6"[39m
+                  [33my2[39m=[32m"6"[39m
+                [36m/>[39m
+                [36m<line[39m
+                  [33mx1[39m=[32m"3"[39m
+                  [33mx2[39m=[32m"3.01"[39m
+                  [33my1[39m=[32m"12"[39m
+                  [33my2[39m=[32m"12"[39m
+                [36m/>[39m
+                [36m<line[39m
+                  [33mx1[39m=[32m"3"[39m
+                  [33mx2[39m=[32m"3.01"[39m
+                  [33my1[39m=[32m"18"[39m
+                  [33my2[39m=[32m"18"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+            [36m</div>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"idc-cg-lbl"[39m
+            [36m>[39m
+              [0mQuiz completeness:[0m
+            [36m</span>[39m
+            [36m<strong[39m
+              [33mclass[39m=[32m"idc-cg-val"[39m
+            [36m>[39m
+              [0m40[0m
+              [0m/40[0m
+            [36m</strong>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"idc-cg-item"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"idc-cg-icon blue"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"12"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"3"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"12"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+            [36m</div>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"idc-cg-lbl"[39m
+            [36m>[39m
+              [0mAnswer consistency:[0m
+            [36m</span>[39m
+            [36m<strong[39m
+              [33mclass[39m=[32m"idc-cg-val"[39m
+            [36m>[39m
+              [0m13[0m
+              [0m/25[0m
+            [36m</strong>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"idc-cg-item"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"idc-cg-icon purple"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"12"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"3"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"12"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M22 11.08V12a10 10 0 1 1-5.93-9.14"[39m
+                [36m/>[39m
+                [36m<polyline[39m
+                  [33mpoints[39m=[32m"22 4 12 14.01 9 11.01"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+            [36m</div>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"idc-cg-lbl"[39m
+            [36m>[39m
+              [0mPreference coverage:[0m
+            [36m</span>[39m
+            [36m<strong[39m
+              [33mclass[39m=[32m"idc-cg-val"[39m
+            [36m>[39m
+              [0m20[0m
+              [0m/20[0m
+            [36m</strong>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"idc-cg-item"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"idc-cg-icon yellow"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"12"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"3"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"12"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"[39m
+                [36m/>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"12"[39m
+                  [33mcy[39m=[32m"7"[39m
+                  [33mr[39m=[32m"4"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+            [36m</div>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"idc-cg-lbl"[39m
+            [36m>[39m
+              [0mBehaviour evidence:[0m
+            [36m</span>[39m
+            [36m<strong[39m
+              [33mclass[39m=[32m"idc-cg-val"[39m
+            [36m>[39m
+              [0m0[0m
+              [0m/15[0m
+            [36m</strong>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"idc-footer"[39m
+        [36m>[39m
+          [36m<span>[39m
+            [0mQuiz answers: [0m
+            [36m<strong>[39m
+              [0m8[0m
+            [36m</strong>[39m
+          [36m</span>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"idc-footer-div"[39m
+          [36m/>[39m
+          [36m<span>[39m
+            [0mBehaviour events: [0m
+            [36m<strong>[39m
+              [0m0[0m
+            [36m</strong>[39m
+          [36m</span>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"id-actions"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"id-btn id-btn-outline"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"16"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2.5"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"16"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [0m Edit Identity[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"id-btn id-btn-solid"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"16"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2.5"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"16"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"[39m
+            [36m/>[39m
+            [36m<polyline[39m
+              [33mpoints[39m=[32m"16 6 12 2 8 6"[39m
+            [36m/>[39m
+            [36m<line[39m
+              [33mx1[39m=[32m"12"[39m
+              [33mx2[39m=[32m"12"[39m
+              [33my1[39m=[32m"2"[39m
+              [33my2[39m=[32m"15"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [0m Share My Aesthetic Passport[0m
+        [36m</button>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"id-btn id-btn-outline"[39m
+        [36m>[39m
+          [0mEnter My Myntra →[0m
+        [36m</button>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/screens/IdentityCard/IdentityCard.test.jsx:151:14
+    149|
+    150|     expect(
+    151|       screen.getByText(
+       |              ^
+    152|         /quiz answers: 8/i,
+    153|       ),
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  src/screens/Profile/Profile.test.jsx > Profile > persists identity and canonical snake_case preference fields
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name `/^edit$/i`
+
+Here are the accessible roles:
+
+  button:
+
+  Name "Go back":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Go back"[39m
+    [33mclass[39m=[32m"back-btn"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "✎ Edit":
+  [36m<button[39m
+    [33mclass[39m=[32m"prf-edit-btn-new"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Quick action":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Quick action"[39m
+    [33mclass[39m=[32m"prf-fab"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  strong:
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "":
+  [36m<strong />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"screen profile-screen"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"prf-hdr"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-back-row"[39m
+        [36m>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"Go back"[39m
+            [33mclass[39m=[32m"back-btn"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-arrow-left"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"21"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"21"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"m12 19-7-7 7-7"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 12H5"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-hdr-title"[39m
+          [36m>[39m
+            [0mMy Profile[0m
+          [36m</div>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"prf-edit-btn-new"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-edit-icon"[39m
+            [36m>[39m
+              [0m✎[0m
+            [36m</span>[39m
+            [0m Edit[0m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"prf-body"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-hero"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-avatar"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-avatar-emoji"[39m
+            [36m>[39m
+              [0m♀[0m
+            [36m</span>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-name"[39m
+          [36m>[39m
+            [0mOriginal Name[0m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-sub-info"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-badge-sm"[39m
+            [36m>[39m
+              [0m👤 [0m
+              [0mFemale[0m
+            [36m</span>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-badge-sm"[39m
+            [36m>[39m
+              [0m📅 Age [0m
+              [0m21[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-card dna-card"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-card-title-row"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-card-title"[39m
+            [36m>[39m
+              [0m🧬 Fashion DNA[0m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-dna-traits"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-dna-row"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-dna-name"[39m
+              [36m>[39m
+                [0mMinimalist[0m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-dna-bar-wrap"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"prf-dna-bar"[39m
+                  [33mstyle[39m=[32m"width: 60%;"[39m
+                [36m/>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-dna-pct"[39m
+              [36m>[39m
+                [0m60[0m
+                [0m%[0m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-dna-row"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-dna-name"[39m
+              [36m>[39m
+                [0mCampus Casual[0m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-dna-bar-wrap"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"prf-dna-bar"[39m
+                  [33mstyle[39m=[32m"width: 40%;"[39m
+                [36m/>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-dna-pct"[39m
+              [36m>[39m
+                [0m40[0m
+                [0m%[0m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-dna-summary-pills"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-identity-pill"[39m
+            [36m>[39m
+              [0m⭐ Identity: [0m
+              [36m<strong>[39m
+                [0mMinimalist Campus Casual[0m
+              [36m</strong>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-identity-pill"[39m
+            [36m>[39m
+              [0m📊 Confidence: [0m
+              [36m<strong>[39m
+                [0m72[0m
+                [0m%[0m
+              [36m</strong>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-card clickable"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-card-title-row"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-card-title"[39m
+            [36m>[39m
+              [0m💰 Budget Range[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-chevron"[39m
+            [36m>[39m
+              [0m›[0m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-value-pills"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-occ-chip active"[39m
+            [36m>[39m
+              [0m₹500–₹1,500[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-card clickable"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-card-title-row"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-card-title"[39m
+            [36m>[39m
+              [0m📅 Your Occasions[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-chevron"[39m
+            [36m>[39m
+              [0m›[0m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-value-pills"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-occ-chip active prf-color-party"[39m
+            [36m>[39m
+              [0mCampus[0m
+            [36m</span>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-occ-chip active prf-color-party"[39m
+            [36m>[39m
+              [0mCasual[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-card clickable"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-card-title-row"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-card-title"[39m
+            [36m>[39m
+              [0m🎨 Preferred Colours[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-chevron"[39m
+            [36m>[39m
+              [0m›[0m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-value-pills"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-occ-chip active prf-color-black"[39m
+            [36m>[39m
+              [0mBlack[0m
+            [36m</span>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-occ-chip active prf-color-white"[39m
+            [36m>[39m
+              [0mWhite[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-card clickable"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-card-title-row"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-card-title"[39m
+            [36m>[39m
+              [0m✨ Preferred Aesthetics[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-chevron"[39m
+            [36m>[39m
+              [0m›[0m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-value-pills"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-occ-chip active prf-color-aesthetic"[39m
+            [36m>[39m
+              [0mMinimalist[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-card clickable"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-card-title-row"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-card-title"[39m
+            [36m>[39m
+              [0m👕 Fit Preferences[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-chevron"[39m
+            [36m>[39m
+              [0m›[0m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-value-pills"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-occ-chip active prf-color-fit"[39m
+            [36m>[39m
+              [0mRelaxed[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-card clickable"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-card-title-row"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-card-title"[39m
+            [36m>[39m
+              [0m🏷️ Preferred Brands[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-chevron"[39m
+            [36m>[39m
+              [0m›[0m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-value-pills"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-occ-chip active prf-color-brand"[39m
+            [36m>[39m
+              [0mMango[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-card clickable"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-card-title-row"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-card-title"[39m
+            [36m>[39m
+              [0m🎯 Fashion Goal[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-chevron"[39m
+            [36m>[39m
+              [0m›[0m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-value-pills"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-occ-chip active prf-color-goal"[39m
+            [36m>[39m
+              [0mBuild A Versatile Wardrobe[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-card clickable"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-card-title-row"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-card-title"[39m
+            [36m>[39m
+              [0m⚖️ Comfort vs Expression[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-chevron"[39m
+            [36m>[39m
+              [0m›[0m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-value-pills"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-occ-chip active prf-color-comfort"[39m
+            [36m>[39m
+              [0m35[0m
+              [0m% Expression[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-accordions"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-accordion "[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-acc-hdr"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-acc-title"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"prf-acc-icon-svg"[39m
+                [36m>[39m
+                  [0m📈[0m
+                [36m</span>[39m
+                [0m Fashion Memory[0m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-acc-chevron"[39m
+              [36m>[39m
+                [0m⌄[0m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-accordion "[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-acc-hdr"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-acc-title"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"prf-acc-icon-svg"[39m
+                [36m>[39m
+                  [36m<svg[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"lucide lucide-heart"[39m
+                    [33mfill[39m=[32m"none"[39m
+                    [33mheight[39m=[32m"16"[39m
+                    [33mstroke[39m=[32m"currentColor"[39m
+                    [33mstroke-linecap[39m=[32m"round"[39m
+                    [33mstroke-linejoin[39m=[32m"round"[39m
+                    [33mstroke-width[39m=[32m"2"[39m
+                    [33mviewBox[39m=[32m"0 0 24 24"[39m
+                    [33mwidth[39m=[32m"16"[39m
+                    [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                  [36m>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"[39m
+                    [36m/>[39m
+                  [36m</svg>[39m
+                [36m</span>[39m
+                [0m My Wishlist[0m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-acc-chevron"[39m
+              [36m>[39m
+                [0m⌄[0m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-accordion "[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-acc-hdr"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-acc-title"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"prf-acc-icon-svg"[39m
+                [36m>[39m
+                  [36m<svg[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"lucide lucide-dna"[39m
+                    [33mfill[39m=[32m"none"[39m
+                    [33mheight[39m=[32m"16"[39m
+                    [33mstroke[39m=[32m"currentColor"[39m
+                    [33mstroke-linecap[39m=[32m"round"[39m
+                    [33mstroke-linejoin[39m=[32m"round"[39m
+                    [33mstroke-width[39m=[32m"2"[39m
+                    [33mviewBox[39m=[32m"0 0 24 24"[39m
+                    [33mwidth[39m=[32m"16"[39m
+                    [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                  [36m>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"m10 16 1.5 1.5"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"m14 8-1.5-1.5"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"M15 2c-1.798 1.998-2.518 3.995-2.807 5.993"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"m16.5 10.5 1 1"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"m17 6-2.891-2.891"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"M2 15c6.667-6 13.333 0 20-6"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"m20 9 .891.891"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"M3.109 14.109 4 15"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"m6.5 12.5 1 1"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"m7 18 2.891 2.891"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"M9 22c1.798-1.998 2.518-3.995 2.807-5.993"[39m
+                    [36m/>[39m
+                  [36m</svg>[39m
+                [36m</span>[39m
+                [0m DNA Identity Card[0m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-acc-chevron"[39m
+              [36m>[39m
+                [0m⌄[0m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Quick action"[39m
+          [33mclass[39m=[32m"prf-fab"[39m
+        [36m>[39m
+          [0m✨[0m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mdata-testid[39m=[32m"bottom-nav"[39m
+      [36m/>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/screens/Profile/Profile.test.jsx:147:14
+    145|
+    146|     fireEvent.click(
+    147|       screen.getByRole(
+       |              ^
+    148|         'button',
+    149|         {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  src/screens/Profile/Profile.test.jsx > Profile > does not call the API when the name is empty
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name `/^edit$/i`
+
+Here are the accessible roles:
+
+  button:
+
+  Name "Go back":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Go back"[39m
+    [33mclass[39m=[32m"back-btn"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "✎ Edit":
+  [36m<button[39m
+    [33mclass[39m=[32m"prf-edit-btn-new"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  Name "Quick action":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Quick action"[39m
+    [33mclass[39m=[32m"prf-fab"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  strong:
+
+  Name "":
+  [36m<strong />[39m
+
+  Name "":
+  [36m<strong />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"screen profile-screen"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"prf-hdr"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-back-row"[39m
+        [36m>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"Go back"[39m
+            [33mclass[39m=[32m"back-btn"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-arrow-left"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"21"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"21"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"m12 19-7-7 7-7"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M19 12H5"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-hdr-title"[39m
+          [36m>[39m
+            [0mMy Profile[0m
+          [36m</div>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"prf-edit-btn-new"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-edit-icon"[39m
+            [36m>[39m
+              [0m✎[0m
+            [36m</span>[39m
+            [0m Edit[0m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"prf-body"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-hero"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-avatar"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-avatar-emoji"[39m
+            [36m>[39m
+              [0m♀[0m
+            [36m</span>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-name"[39m
+          [36m>[39m
+            [0mOriginal Name[0m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-sub-info"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-badge-sm"[39m
+            [36m>[39m
+              [0m👤 [0m
+              [0mFemale[0m
+            [36m</span>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-badge-sm"[39m
+            [36m>[39m
+              [0m📅 Age [0m
+              [0m21[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-card dna-card"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-card-title-row"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-card-title"[39m
+            [36m>[39m
+              [0m🧬 Fashion DNA[0m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-dna-traits"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-dna-row"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-dna-name"[39m
+              [36m>[39m
+                [0mMinimalist[0m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-dna-bar-wrap"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"prf-dna-bar"[39m
+                  [33mstyle[39m=[32m"width: 60%;"[39m
+                [36m/>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-dna-pct"[39m
+              [36m>[39m
+                [0m60[0m
+                [0m%[0m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-dna-row"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-dna-name"[39m
+              [36m>[39m
+                [0mCampus Casual[0m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-dna-bar-wrap"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"prf-dna-bar"[39m
+                  [33mstyle[39m=[32m"width: 40%;"[39m
+                [36m/>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-dna-pct"[39m
+              [36m>[39m
+                [0m40[0m
+                [0m%[0m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-dna-summary-pills"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-identity-pill"[39m
+            [36m>[39m
+              [0m⭐ Identity: [0m
+              [36m<strong>[39m
+                [0mMinimalist Campus Casual[0m
+              [36m</strong>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-identity-pill"[39m
+            [36m>[39m
+              [0m📊 Confidence: [0m
+              [36m<strong>[39m
+                [0m72[0m
+                [0m%[0m
+              [36m</strong>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-card clickable"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-card-title-row"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-card-title"[39m
+            [36m>[39m
+              [0m💰 Budget Range[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-chevron"[39m
+            [36m>[39m
+              [0m›[0m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-value-pills"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-occ-chip active"[39m
+            [36m>[39m
+              [0m₹500–₹1,500[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-card clickable"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-card-title-row"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-card-title"[39m
+            [36m>[39m
+              [0m📅 Your Occasions[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-chevron"[39m
+            [36m>[39m
+              [0m›[0m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-value-pills"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-occ-chip active prf-color-party"[39m
+            [36m>[39m
+              [0mCampus[0m
+            [36m</span>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-occ-chip active prf-color-party"[39m
+            [36m>[39m
+              [0mCasual[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-card clickable"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-card-title-row"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-card-title"[39m
+            [36m>[39m
+              [0m🎨 Preferred Colours[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-chevron"[39m
+            [36m>[39m
+              [0m›[0m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-value-pills"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-occ-chip active prf-color-black"[39m
+            [36m>[39m
+              [0mBlack[0m
+            [36m</span>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-occ-chip active prf-color-white"[39m
+            [36m>[39m
+              [0mWhite[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-card clickable"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-card-title-row"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-card-title"[39m
+            [36m>[39m
+              [0m✨ Preferred Aesthetics[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-chevron"[39m
+            [36m>[39m
+              [0m›[0m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-value-pills"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-occ-chip active prf-color-aesthetic"[39m
+            [36m>[39m
+              [0mMinimalist[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-card clickable"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-card-title-row"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-card-title"[39m
+            [36m>[39m
+              [0m👕 Fit Preferences[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-chevron"[39m
+            [36m>[39m
+              [0m›[0m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-value-pills"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-occ-chip active prf-color-fit"[39m
+            [36m>[39m
+              [0mRelaxed[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-card clickable"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-card-title-row"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-card-title"[39m
+            [36m>[39m
+              [0m🏷️ Preferred Brands[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-chevron"[39m
+            [36m>[39m
+              [0m›[0m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-value-pills"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-occ-chip active prf-color-brand"[39m
+            [36m>[39m
+              [0mMango[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-card clickable"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-card-title-row"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-card-title"[39m
+            [36m>[39m
+              [0m🎯 Fashion Goal[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-chevron"[39m
+            [36m>[39m
+              [0m›[0m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-value-pills"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-occ-chip active prf-color-goal"[39m
+            [36m>[39m
+              [0mBuild A Versatile Wardrobe[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-card clickable"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-card-title-row"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-card-title"[39m
+            [36m>[39m
+              [0m⚖️ Comfort vs Expression[0m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-chevron"[39m
+            [36m>[39m
+              [0m›[0m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-value-pills"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"prf-occ-chip active prf-color-comfort"[39m
+            [36m>[39m
+              [0m35[0m
+              [0m% Expression[0m
+            [36m</span>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"prf-accordions"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-accordion "[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-acc-hdr"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-acc-title"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"prf-acc-icon-svg"[39m
+                [36m>[39m
+                  [0m📈[0m
+                [36m</span>[39m
+                [0m Fashion Memory[0m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-acc-chevron"[39m
+              [36m>[39m
+                [0m⌄[0m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-accordion "[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-acc-hdr"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-acc-title"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"prf-acc-icon-svg"[39m
+                [36m>[39m
+                  [36m<svg[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"lucide lucide-heart"[39m
+                    [33mfill[39m=[32m"none"[39m
+                    [33mheight[39m=[32m"16"[39m
+                    [33mstroke[39m=[32m"currentColor"[39m
+                    [33mstroke-linecap[39m=[32m"round"[39m
+                    [33mstroke-linejoin[39m=[32m"round"[39m
+                    [33mstroke-width[39m=[32m"2"[39m
+                    [33mviewBox[39m=[32m"0 0 24 24"[39m
+                    [33mwidth[39m=[32m"16"[39m
+                    [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                  [36m>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"[39m
+                    [36m/>[39m
+                  [36m</svg>[39m
+                [36m</span>[39m
+                [0m My Wishlist[0m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-acc-chevron"[39m
+              [36m>[39m
+                [0m⌄[0m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"prf-accordion "[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"prf-acc-hdr"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-acc-title"[39m
+              [36m>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"prf-acc-icon-svg"[39m
+                [36m>[39m
+                  [36m<svg[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33mclass[39m=[32m"lucide lucide-dna"[39m
+                    [33mfill[39m=[32m"none"[39m
+                    [33mheight[39m=[32m"16"[39m
+                    [33mstroke[39m=[32m"currentColor"[39m
+                    [33mstroke-linecap[39m=[32m"round"[39m
+                    [33mstroke-linejoin[39m=[32m"round"[39m
+                    [33mstroke-width[39m=[32m"2"[39m
+                    [33mviewBox[39m=[32m"0 0 24 24"[39m
+                    [33mwidth[39m=[32m"16"[39m
+                    [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                  [36m>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"m10 16 1.5 1.5"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"m14 8-1.5-1.5"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"M15 2c-1.798 1.998-2.518 3.995-2.807 5.993"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"m16.5 10.5 1 1"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"m17 6-2.891-2.891"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"M2 15c6.667-6 13.333 0 20-6"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"m20 9 .891.891"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"M3.109 14.109 4 15"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"m6.5 12.5 1 1"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"m7 18 2.891 2.891"[39m
+                    [36m/>[39m
+                    [36m<path[39m
+                      [33md[39m=[32m"M9 22c1.798-1.998 2.518-3.995 2.807-5.993"[39m
+                    [36m/>[39m
+                  [36m</svg>[39m
+                [36m</span>[39m
+                [0m DNA Identity Card[0m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"prf-acc-chevron"[39m
+              [36m>[39m
+                [0m⌄[0m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Quick action"[39m
+          [33mclass[39m=[32m"prf-fab"[39m
+        [36m>[39m
+          [0m✨[0m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mdata-testid[39m=[32m"bottom-nav"[39m
+      [36m/>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/screens/Profile/Profile.test.jsx:289:14
+    287|
+    288|     fireEvent.click(
+    289|       screen.getByRole(
+       |              ^
+    290|         'button',
+    291|         {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  3 failed | 7 passed (10)
+      Tests  4 failed | 20 passed (24)
+   Start at  13:09:41
+   Duration  3.32s (transform 1.63s, setup 1.23s, import 5.20s, tests 3.12s, environment 12.05s)
+

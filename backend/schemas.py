@@ -242,6 +242,55 @@ class WardrobeItemResponse(WardrobeItemCreate):
     updated_at: datetime
 
 
+class CheckoutItem(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+
+    product_id: int
+
+    size: str | None = Field(
+        default=None,
+        max_length=30,
+    )
+
+    recommendation_item_id: int | None = None
+
+    decision_snapshot_id: UUID | None = None
+
+
+class CheckoutRequest(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+
+    items: list[CheckoutItem] = Field(
+        min_length=1,
+    )
+
+
+class CheckoutResponse(BaseModel):
+    purchase_event_ids: list[int]
+    wardrobe_item_ids: list[int]
+
+
+class MemoryActionRequest(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+
+    reason: str | None = Field(
+        default=None,
+        max_length=500,
+    )
+
+
+class MemoryActionResponse(BaseModel):
+    event_id: int
+    wardrobe_item_id: int
+    event_type: str
+
+
 class RecommendationSessionCreate(BaseModel):
     session_type: str = "feed"
     raw_prompt: str | None = None
@@ -326,8 +375,10 @@ class FeedRequest(BaseModel):
 
 
 class ReverseShoppingRequest(BaseModel):
-    prompt: str
-    user_profile: UserProfile
+    prompt: str = Field(
+        min_length=3,
+        max_length=500,
+    )
 
 
 class ReverseOutfitItem(BaseModel):
@@ -341,16 +392,24 @@ class ReverseOutfitItem(BaseModel):
     tags: list[str] = Field(default_factory=list)
     occasions: list[str] = Field(default_factory=list)
 
-
 class ReverseOutfit(BaseModel):
     index: int
-    label: str           # "Best Match" | "Budget Smart" | "Style Stretch"
-    title: str           # same as label — kept for backward compat
-    score: int           # overall 0-100
+    label: str
+    title: str
+    score: int
     total: int
     within_budget: bool
-    breakdown: dict[str, int] = Field(default_factory=dict)  # style/occasion/budget/weather/wardrobe
-    why: list[str] = Field(default_factory=list)
+    recommendation_item_id: int
+    snapshot_id: UUID
+
+    breakdown: dict[str, int] = Field(
+        default_factory=dict,
+    )
+
+    why: list[str] = Field(
+        default_factory=list,
+    )
+
     items: list[ReverseOutfitItem]
 
 
@@ -544,7 +603,7 @@ class CurrentStyleProfileResponse(BaseModel):
         default_factory=dict,
     )
 
-    evidence: dict[str, int] = Field(
+    evidence: dict[str, Any] = Field(
         default_factory=dict,
     )
 
@@ -757,3 +816,71 @@ class DecisionMemoryResponse(BaseModel):
     items: list[DecisionMemoryEntry] = Field(
         default_factory=list,
     )
+
+class StyleTwinDatasetMetadata(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    type: str
+    label: str
+    generated_at: datetime
+
+
+class StyleTwinProductInsight(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    product_id: int
+    keep_count: int = Field(ge=0)
+    return_count: int = Field(ge=0)
+    keep_rate: float | None = Field(
+        default=None,
+        ge=0,
+        le=100,
+    )
+
+
+class StyleTwinResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    user_id: int
+    name: str
+    similarity: float = Field(
+        ge=0,
+        le=100,
+    )
+    cohort_size: int = Field(ge=0)
+    shared_traits: list[str] = Field(
+        default_factory=list,
+    )
+    product_insights: list[
+        StyleTwinProductInsight
+    ] = Field(
+        default_factory=list,
+    )
+
+
+class StyleTwinCollectionResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    dataset: StyleTwinDatasetMetadata
+    threshold: float = Field(
+        ge=0,
+        le=100,
+    )
+    twins: list[StyleTwinResponse] = Field(
+        default_factory=list,
+    )
+
+
+class CommunityProfileCard(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    id: int
+    name: str
+    handle: str | None = None
+    avatar: str | None = None
+    role: str
+    dna: dict[str, float] = Field(
+        default_factory=dict,
+    )
+    dna_label: str | None = None
+    recent_purchases: str | None = None

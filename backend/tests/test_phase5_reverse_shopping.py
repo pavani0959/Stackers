@@ -49,7 +49,9 @@ DEMO_PROFILE = {
 def _call_reverse(prompt: str) -> dict:
     resp = client.post(
         "/api/recommend/reverse",
-        json={"prompt": prompt, "user_profile": DEMO_PROFILE},
+        json={
+            "prompt": prompt,
+        },
     )
     assert resp.status_code == 200, resp.text
     return resp.json()
@@ -92,10 +94,14 @@ class TestIntentParsing:
 
     def test_two_different_budgets_produce_different_results(self):
         d1 = _call_reverse("College fest retro theme ₹1500")
-        d2 = _call_reverse("College fest retro theme ₹15000")
+        d2 = _call_reverse("College fest retro theme ₹150000")
         b1 = d1["budget_limit"]
         b2 = d2["budget_limit"]
         assert b1 != b2, "Different prompts should yield different budget limits"
+        
+        o1 = [[item["id"] for item in out["items"]] for out in d1.get("outfits", [])]
+        o2 = [[item["id"] for item in out["items"]] for out in d2.get("outfits", [])]
+        assert o1 != o2, "Different budgets should produce different ranked/filtered results"
 
     def test_parsed_intent_returned_in_response(self):
         data = _call_reverse("Interview tomorrow, smart casual, ₹2,000")
@@ -239,7 +245,7 @@ class TestErrorStates:
         """Empty or nonsense prompt should not crash the server."""
         resp = client.post(
             "/api/recommend/reverse",
-            json={"prompt": "zzzzzzzzz", "user_profile": DEMO_PROFILE},
+            json={"prompt": "zzzzzzzzz"},
         )
         assert resp.status_code == 200
         data = resp.json()
@@ -253,12 +259,30 @@ class TestErrorStates:
         )
         assert resp.status_code == 422
 
-    def test_missing_user_profile_returns_422(self):
+    def test_prompt_only_request_uses_server_profile(self):
         resp = client.post(
             "/api/recommend/reverse",
-            json={"prompt": "Interview tomorrow ₹2000"},
+            json={
+                "prompt": (
+                    "Interview tomorrow ₹2000"
+                ),
+            },
         )
-        assert resp.status_code == 422
+
+        assert resp.status_code == 200
+
+        data = resp.json()
+
+        assert data["prompt"] == (
+            "Interview tomorrow ₹2000"
+        )
+
+        assert (
+            data["parsed_intent"][
+                "budget_total"
+            ]
+            == 2000
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -275,3 +299,76 @@ class TestSessionPersistence:
         data = _call_reverse("Interview tomorrow, smart casual, ₹2,000")
         sid = data.get("session_id")
         assert sid is None or isinstance(sid, str)
+
+
+def test_interview_acceptance_prompt():
+    data = _call_reverse(
+        "Interview tomorrow, "
+        "smart casual, ₹2,000."
+    )
+
+    assert (
+        data["parsed_intent"]["occasion"]
+        == "interview"
+    )
+
+    assert (
+        data["parsed_intent"]["budget_total"]
+        == 2000
+    )
+
+    assert data["within_budget"] is True
+    assert len(data["outfits"]) == 3
+
+    combinations = []
+
+    for outfit in data["outfits"]:
+        assert outfit["total"] <= 2000
+        assert len(outfit["items"]) >= 3
+
+        assert (
+            outfit["recommendation_item_id"]
+            is not None
+        )
+
+        assert outfit["snapshot_id"]
+
+        item_ids = [
+            item["id"]
+            for item in outfit["items"]
+        ]
+
+        assert (
+            len(item_ids)
+            == len(set(item_ids))
+        )
+
+        combinations.append(
+            frozenset(item_ids)
+        )
+
+        explanation = " ".join(
+            outfit["why"]
+        ).lower()
+
+        assert "interview" in explanation
+        assert "budget" in explanation
+
+    assert len(set(combinations)) == 3
+
+def test_college_fest_no_duplicates():
+    data = _call_reverse("College fest Saturday, retro theme, ₹2000")
+    assert data["parsed_intent"]["budget_total"] == 2000
+    
+    outfits = data.get("outfits", [])
+    assert len(outfits) > 0
+    
+    combinations = []
+    for outfit in outfits:
+        assert outfit["total"] <= 2000
+        
+        item_ids = {item["id"] for item in outfit["items"]}
+        combinations.append(frozenset(item_ids))
+        
+    assert len(set(combinations)) == len(combinations), "Outfits must not be duplicates"
+

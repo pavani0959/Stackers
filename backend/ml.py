@@ -155,50 +155,7 @@ ACCESSORY_KEYWORDS = {
 }
 
 
-def calculate_dna_ml(user_tags_list: list):
-    """Match quiz tags to aesthetic clusters using TF-IDF cosine similarity."""
-    cluster_names = list(AESTHETIC_PROFILES.keys())
-    corpus = list(AESTHETIC_PROFILES.values())
-    corpus.append(" ".join(user_tags_list))
 
-    vectorizer = TfidfVectorizer()
-    tfidf_matrix = vectorizer.fit_transform(corpus)
-    similarities = cosine_similarity(tfidf_matrix[-1], tfidf_matrix[:-1])[0]
-
-    total_score = np.sum(similarities) or 1
-    dna_results = {}
-    for index, score in enumerate(similarities):
-        percentage = round((score / total_score) * 100)
-        if percentage > 0:
-            dna_results[cluster_names[index]] = percentage
-
-    sorted_dna = sorted(dna_results.items(), key=lambda item: item[1], reverse=True)
-    top1 = sorted_dna[0][0] if sorted_dna else "minimalist"
-    top2 = sorted_dna[1][0] if len(sorted_dna) > 1 else "campusCasual"
-
-    identity_name, identity_desc = IDENTITY_MAP.get(
-        f"{top1}+{top2}",
-        IDENTITY_MAP.get(
-            f"{top2}+{top1}",
-            (
-                f"{AESTHETIC_LABELS.get(top1, top1)} Explorer",
-                "Your style is a unique blend of "
-                f"{AESTHETIC_LABELS.get(top1, top1)} and "
-                f"{AESTHETIC_LABELS.get(top2, top2)}.",
-            ),
-        ),
-    )
-
-    top_bars = [
-        {"tag": key, "label": AESTHETIC_LABELS.get(key, key), "percentage": value}
-        for key, value in sorted_dna[:4]
-    ]
-
-    return {
-        "dna": dict(sorted_dna),
-        "identity": {"name": identity_name, "desc": identity_desc},
-        "topBars": top_bars,
-    }
 
 
 def calc_confidence_ml(product: dict, user_profile: dict):
@@ -443,7 +400,10 @@ def rank_products_for_query(prompt: str, user_profile: dict, all_products: list)
                 "confidence": confidence,
                 "nlp_score": nlp_score,
                 "final_score": final_score,
-                "category": classify_product(product),
+                "category": (
+            product.get("category")
+            or classify_product(product)
+        ),
             }
         )
         scored_products.append(result)
@@ -452,191 +412,11 @@ def rank_products_for_query(prompt: str, user_profile: dict, all_products: list)
     return scored_products, analysis
 
 
-def _combination_score(items: tuple[dict, dict, dict], budget_limit: int) -> int:
-    base_score = sum(item["final_score"] for item in items) / 3
-    total = sum(item["price"] for item in items)
-
-    tag_sets = [{_canonical(tag) for tag in item.get("tags", [])} for item in items]
-    shared_pairs = (
-        len(tag_sets[0].intersection(tag_sets[1]))
-        + len(tag_sets[0].intersection(tag_sets[2]))
-        + len(tag_sets[1].intersection(tag_sets[2]))
-    )
-    coherence_score = min(100, shared_pairs * 20)
-
-    if total <= budget_limit:
-        budget_score = max(70, 100 - int(((budget_limit - total) / budget_limit) * 20))
-    else:
-        over_ratio = (total - budget_limit) / budget_limit
-        budget_score = max(0, 60 - int(over_ratio * 100))
-
-    return int(round((base_score * 0.82) + (coherence_score * 0.08) + (budget_score * 0.10)))
 
 
-def _select_diverse_outfits(candidates: list[dict], maximum: int = 3) -> list[dict]:
-    selected = []
-    used_ids = set()
-
-    # First pass: prefer three fully disjoint outfits.
-    for candidate in candidates:
-        candidate_ids = {item["id"] for item in candidate["items"]}
-        if candidate_ids.isdisjoint(used_ids):
-            selected.append(candidate)
-            used_ids.update(candidate_ids)
-        if len(selected) == maximum:
-            return selected
-
-    # Fallback: only reuse an item when the catalogue/budget makes it necessary.
-    remaining = [candidate for candidate in candidates if candidate not in selected]
-    remaining.sort(
-        key=lambda candidate: (
-            len({item["id"] for item in candidate["items"]}.intersection(used_ids)),
-            -candidate["score"],
-            candidate["total"],
-        )
-    )
-    for candidate in remaining:
-        selected.append(candidate)
-        used_ids.update(item["id"] for item in candidate["items"])
-        if len(selected) == maximum:
-            break
-
-    return selected
 
 
-def generate_outfit_nlp(prompt: str, user_profile: dict, all_products: list) -> dict:
-    """Build diverse, complete, budget-validated outfits from the live catalogue."""
-    parsed_intent = extract_intent(prompt)
-    fallback_budget = _profile_budget_limit(user_profile)
-    budget_limit = parsed_intent.get("budget_total") or fallback_budget
-    budget_source = "prompt" if parsed_intent.get("budget_total") else "profile"
 
-    scored_products, analysis = rank_products_for_query(prompt, user_profile, all_products)
-    if not scored_products:
-        return {
-            "prompt": prompt,
-            "budget_limit": budget_limit,
-            "budget_source": budget_source,
-            "matched_terms": analysis["matched_terms"],
-            "within_budget": False,
-            "message": "The catalogue is empty, so no outfit can be built yet.",
-            "outfits": [],
-            "closest_total": None,
-            "closest_over_by": None,
-            "reused_items": False,
-            "parsed_intent": parsed_intent,
-            "session_id": None,
-        }
-
-    builder_result = build_outfits(parsed_intent, scored_products, fallback_budget)
-
-    if "error" in builder_result and not builder_result.get("outfits"):
-        return {
-            "prompt": prompt,
-            "budget_limit": budget_limit,
-            "budget_source": budget_source,
-            "matched_terms": analysis["matched_terms"],
-            "within_budget": False,
-            "message": builder_result["error"],
-            "outfits": [],
-            "closest_total": None,
-            "closest_over_by": None,
-            "reused_items": False,
-            "parsed_intent": parsed_intent,
-            "session_id": None,
-        }
-
-    response_outfits = []
-    for index, candidate in enumerate(builder_result["outfits"], start=1):
-        items = []
-        for raw_item in candidate["items"]:
-            items.append({
-                "id":        raw_item.get("id"),
-                "name":      raw_item.get("name", ""),
-                "brand":     raw_item.get("brand", ""),
-                "price":     raw_item.get("price", 0),
-                "image":     raw_item.get("image", ""),
-                "category":  raw_item.get("category", ""),
-                "tags":      list(raw_item.get("tags") or []),
-                "occasions": list(raw_item.get("occasions") or []),
-            })
-        label = candidate.get("label", f"Outfit {index}")
-        response_outfits.append({
-            "index":        index,
-            "label":        label,
-            "title":        label,
-            "score":        candidate["overall_score"],
-            "total":        candidate["total_price"],
-            "within_budget": True,
-            "breakdown":    candidate.get("breakdown", {}),
-            "why":          candidate.get("why", []),
-            "items":        items,
-        })
-
-    return {
-        "prompt":          prompt,
-        "budget_limit":    budget_limit,
-        "budget_source":   budget_source,
-        "matched_terms":   analysis["matched_terms"],
-        "within_budget":   True,
-        "message":         f"Built {len(response_outfits)} complete outfit(s) within ₹{budget_limit:,}.",
-        "outfits":         response_outfits,
-        "closest_total":   None,
-        "closest_over_by": None,
-        "reused_items":    False,
-        "parsed_intent":   parsed_intent,
-        "session_id":      builder_result.get("session_id"),
-    }
-
-
-def blend_dna(user_dna: dict, creator_dna: dict, blend_pct: int):
-    """Blend a percentage of the creator's DNA into the user's DNA."""
-    user_weight = (100 - blend_pct) / 100.0
-    creator_weight = blend_pct / 100.0
-    merged_dna = {}
-
-    for key in set(user_dna).union(creator_dna):
-        merged_value = (user_dna.get(key, 0) * user_weight) + (
-            creator_dna.get(key, 0) * creator_weight
-        )
-        if merged_value > 5:
-            merged_dna[key] = int(round(merged_value))
-
-    total = sum(merged_dna.values())
-    if total > 0:
-        merged_dna = {key: int(round((value / total) * 100)) for key, value in merged_dna.items()}
-
-    return merged_dna
-
-
-def find_twins(user_dna: dict, all_profiles: list):
-    """Use cosine similarity to find community profiles with nearby DNA."""
-    if not all_profiles:
-        return []
-
-    user_tags = [key for key, value in user_dna.items() if value > 15]
-    if not user_tags:
-        return [{"profile": profile, "match": 0} for profile in all_profiles[:3]]
-
-    documents = []
-    for profile in all_profiles:
-        import json
-
-        try:
-            profile_dna = json.loads(profile.dna_json)
-            documents.append(" ".join(key for key, value in profile_dna.items() if value > 15))
-        except (TypeError, ValueError):
-            documents.append("")
-
-    matrix = TfidfVectorizer().fit_transform(documents + [" ".join(user_tags)])
-    similarities = cosine_similarity(matrix[-1], matrix[:-1])[0]
-
-    scored_profiles = [
-        {"profile": profile, "match": int(round(similarities[index] * 100))}
-        for index, profile in enumerate(all_profiles)
-    ]
-    scored_profiles.sort(key=lambda item: item["match"], reverse=True)
-    return scored_profiles
 
 
 def _format_price(value: int) -> str:

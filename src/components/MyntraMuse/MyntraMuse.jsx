@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/useUser';
 import { apiRequest } from '../../api/client';
 import './MyntraMuse.css';
+import {
+  X,
+} from 'lucide-react';
 
 export default function MyntraMuse() {
   const navigate = useNavigate();
@@ -96,7 +99,10 @@ export default function MyntraMuse() {
               aria-label="Close Myntra Muse"
               type="button"
             >
-              ×
+              <X
+                aria-hidden="true"
+                size={20}
+              />
             </button>
           </div>
 

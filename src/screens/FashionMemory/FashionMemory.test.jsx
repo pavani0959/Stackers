@@ -68,8 +68,9 @@ describe('FashionMemory', () => {
     );
 
     expect(await screen.findByText('Minimal White Tee')).toBeInTheDocument();
-    // event label is now rendered as '🛒 Added to Cart'
-    expect(screen.getByText('🛒 Added to Cart')).toBeInTheDocument();
+    expect(
+      screen.getByText('Added to Cart'),
+    ).toBeInTheDocument();
     expect(mocks.getMemoryTimeline).toHaveBeenCalledTimes(1);
   });
 

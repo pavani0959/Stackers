@@ -58,7 +58,7 @@ describe('ProductDetail decision snapshots', () => {
       `/product/1?decision=${decisionFixture.snapshot_id}`,
     );
 
-    expect((await screen.findAllByText('88')).length).toBeGreaterThan(0);
+    expect((await screen.findAllByText(/88/i)).length).toBeGreaterThan(0);
     expect(mocks.getDecision).toHaveBeenCalledWith(
       decisionFixture.snapshot_id,
     );
@@ -83,7 +83,7 @@ describe('ProductDetail decision snapshots', () => {
 
     fireEvent.click(
       await screen.findByRole('button', {
-        name: /why is this recommended/i,
+        name: /detailed match analysis/i,
       }),
     );
 

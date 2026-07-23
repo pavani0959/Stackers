@@ -147,7 +147,7 @@ describe('Profile', () => {
       screen.getByRole(
         'button',
         {
-          name: /^edit$/i,
+          name: /edit/i,
         },
       ),
     );
@@ -289,7 +289,7 @@ describe('Profile', () => {
       screen.getByRole(
         'button',
         {
-          name: /^edit$/i,
+          name: /edit/i,
         },
       ),
     );

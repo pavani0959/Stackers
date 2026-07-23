@@ -1,30 +1,48 @@
 """
 Integration smoke test for the Reverse Shopping FastAPI endpoint.
-Uses shared conftest.py test.db — no private DB engine override.
+
+The endpoint loads Fashion DNA and preferences from the
+server-owned test database. The client sends only the prompt.
 """
+
 from fastapi.testclient import TestClient
+
 from main import app
+
 
 client = TestClient(app)
 
 
 def test_reverse_fastapi():
-    payload = {
-        "prompt": "Interview tomorrow under 2k",
-        "user_profile": {
-            "id": 1,
-            "name": "Bhavika",
-            "email": "demo@myntra.com",
-            "gender": "women",
-            "age": 20,
-            "onboarding_completed": True,
-            "dna": {"minimalist": 80},
-            "occasions": ["work"],
-            "budget": "premium"
-        }
-    }
-    response = client.post("/api/recommend/reverse", json=payload)
-    assert response.status_code == 200
+    response = client.post(
+        "/api/recommend/reverse",
+        json={
+            "prompt": (
+                "Interview tomorrow under 2k"
+            ),
+        },
+    )
+
+    assert (
+        response.status_code
+        == 200
+    ), response.text
+
     data = response.json()
+
     assert "outfits" in data
     assert "parsed_intent" in data
+
+    assert (
+        data["parsed_intent"][
+            "occasion"
+        ]
+        == "interview"
+    )
+
+    assert (
+        data["parsed_intent"][
+            "budget_total"
+        ]
+        == 2000
+    )

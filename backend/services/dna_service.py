@@ -464,3 +464,30 @@ class DNAService:
         new_profile.source = f"event_evolution_{event_type}"
         self.db.add(new_profile)
         self.db.commit()
+
+    def blend_with_creator(
+        self,
+        user_dna: dict[str, float],
+        creator_dna: dict[str, float],
+        blend_pct: int,
+    ) -> dict[str, int]:
+        """Blend a percentage of the creator's DNA into the user's DNA."""
+        user_weight = (100 - blend_pct) / 100.0
+        creator_weight = blend_pct / 100.0
+        merged_dna = {}
+
+        for key in set(user_dna).union(creator_dna):
+            merged_value = (user_dna.get(key, 0) * user_weight) + (
+                creator_dna.get(key, 0) * creator_weight
+            )
+            if merged_value > 5:
+                merged_dna[key] = int(round(merged_value))
+
+        total = sum(merged_dna.values())
+        if total > 0:
+            merged_dna = {
+                key: int(round((value / total) * 100))
+                for key, value in merged_dna.items()
+            }
+
+        return merged_dna

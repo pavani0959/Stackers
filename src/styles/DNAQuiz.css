@@ -1,57 +1,212 @@
-.quiz-screen { padding: 0; }
-.quiz-hdr { padding: 48px 22px 18px; background: var(--bg); position: sticky; top: 0; z-index: 5; }
-.quiz-prog-wrap { height: 4px; background: var(--surface-2); border-radius: 4px; margin-bottom: 14px; overflow: hidden; }
-.quiz-prog-fill { height: 100%; background: var(--gradient); border-radius: 4px; transition: width .5s cubic-bezier(.16,1,.3,1); }
-.quiz-q-num { font-size: 12px; color: var(--text-2); margin-bottom: 7px; font-weight: 500; }
-.quiz-question { font-size: 20px; font-weight: 800; line-height: 1.3; }
-.choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 14px 22px 100px; }
-.choice-card { border-radius: var(--radius); overflow: hidden; border: 3px solid transparent; cursor: pointer; transition: all .25s; position: relative; aspect-ratio: 0.75; }
-.choice-card:hover { transform: scale(1.02); }
-.choice-card.sel { border-color: var(--accent); }
-.choice-bg { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 10px; }
-.choice-label { font-size: 11px; font-weight: 700; color: white; text-align: center; background: rgba(0,0,0,.55); backdrop-filter: blur(4px); padding: 5px 10px; border-radius: 100px; line-height: 1.4; }
-.choice-card.sel::after { content: '✓'; position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: white; }
-.quiz-nav { position: absolute; bottom: 0; left: 0; right: 0; padding: 14px 22px 28px; background: linear-gradient(to top, var(--bg) 75%, transparent); }
-.choice-card {
-  appearance: none;
-  width: 100%;
-  padding: 0;
+/* ===================================================================
+   DNA Quiz — restyled to match screenshot
+   =================================================================== */
+
+/* ── Full-viewport gradient shell ── */
+.quiz-shell {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    145deg,
+    var(--color-bg-blush) 0%,
+    #ffffff 40%,
+    var(--color-bg-lavender) 100%
+  );
   overflow: hidden;
-  border: 2px solid transparent;
+  overflow-y: auto;
+  min-height: 100vh;
+  padding: 32px 24px;
+}
+
+/* ── Decorative wavy lines ── */
+.quiz-deco-lines {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.quiz-deco-tr {
+  width: clamp(140px, 22vw, 200px);
+  height: auto;
+  top: 0;
+  right: 0;
+}
+
+.quiz-deco-bl {
+  width: clamp(140px, 22vw, 200px);
+  height: auto;
+  bottom: 0;
+  left: 0;
+}
+
+/* ── Sparkle glyphs ── */
+.quiz-sparkle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  animation: quiz-sparkle-pulse 3s ease-in-out infinite;
+}
+
+.qsp-1 { top: 12%; left: 5%;  animation-delay: 0s; }
+.qsp-2 { top: 8%;  left: 9%;  animation-delay: 0.6s; }
+.qsp-3 { bottom: 14%; left: 4%;  animation-delay: 1.2s; }
+.qsp-4 { bottom: 18%; right: 5%;  animation-delay: 0.3s; }
+.qsp-5 { bottom: 12%; right: 9%; animation-delay: 0.9s; }
+.qsp-6 { top: 10%; right: 18%;   animation-delay: 0.5s; }
+
+@keyframes quiz-sparkle-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.75); }
+}
+
+/* ── Lavender blob ── */
+.quiz-blob {
+  position: fixed;
+  bottom: -80px;
+  left: -80px;
+  width: clamp(200px, 40vw, 320px);
+  height: clamp(200px, 40vw, 320px);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    var(--color-lavender-soft) 0%,
+    rgba(255, 182, 206, 0.18) 50%,
+    transparent 75%
+  );
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Content column ── */
+.quiz-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+  animation: fadeUp var(--motion-slow, 400ms) ease-out;
+}
+
+/* ── 8-segment progress bar ── */
+.quiz-prog-bar {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.quiz-seg {
+  height: 5px;
+  flex: 1;
+  background: var(--color-surface-muted);
+  border-radius: var(--radius-pill);
+  transition: background var(--motion-normal) ease;
+}
+
+.quiz-seg.filled {
+  background: linear-gradient(
+    90deg,
+    var(--gradient-hero-start),
+    var(--gradient-hero-end)
+  );
+}
+
+/* ── Question label + heading ── */
+.quiz-q-num {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.quiz-question {
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 800;
+  line-height: 1.3;
+  color: var(--color-text);
+  margin-bottom: 24px;
+}
+
+/* ── Answer cards grid ── */
+.quiz-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+/* ── Individual option card ── */
+.quiz-option-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
   border-radius: 18px;
-  background: transparent;
-  text-align: left;
+  overflow: hidden;
   cursor: pointer;
   transition:
-    transform 180ms ease,
-    border-color 180ms ease,
-    box-shadow 180ms ease;
+    border-color var(--motion-fast),
+    box-shadow var(--motion-fast),
+    transform var(--motion-fast);
+  appearance: none;
+  font: inherit;
+  color: inherit;
+  text-align: center;
+  padding: 0;
 }
 
-.choice-card:hover {
+.quiz-option-card:hover {
   transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
 }
 
-.choice-card.sel {
-  border-color: var(--color-primary, #ff3f6c);
-  box-shadow: 0 12px 30px rgb(0 0 0 / 12%);
+.quiz-option-card.sel {
+  border-color: var(--card-accent, var(--color-primary));
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
 }
 
-.choice-card:focus-visible {
-  outline: 3px solid rgb(255 63 108 / 30%);
-  outline-offset: 3px;
+/* ── Selection indicator ── */
+.quiz-card-check {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.choice-bg {
-  position: relative;
+.quiz-option-card.sel .quiz-card-check {
+  color: var(--card-accent, var(--color-primary));
+}
+
+.quiz-card-ring {
+  display: block;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--card-accent, var(--color-border));
+  background: transparent;
+}
+
+/* ── Card illustration area ── */
+.quiz-card-img-wrap {
   width: 100%;
-  overflow: hidden;
-  border-radius: 16px;
   aspect-ratio: 4 / 5;
-  background: #f3f3f3;
+  background: color-mix(in srgb, var(--card-accent, #e5e7eb) 8%, white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
-.dna-choice-image {
+.quiz-card-img {
   display: block;
   width: 100%;
   height: 100%;
@@ -59,26 +214,196 @@
   transition: transform 300ms ease;
 }
 
-.choice-card:hover .dna-choice-image {
+.quiz-option-card:hover .quiz-card-img {
   transform: scale(1.03);
 }
 
-.choice-label {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 28px 14px 14px;
-  color: #fff;
-  font-weight: 700;
-  background: linear-gradient(
-    to top,
-    rgb(0 0 0 / 78%),
-    transparent
-  );
+/* ── Optional swatch row ── */
+.quiz-card-swatches {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 10px 2px;
 }
 
+.quiz-swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+}
+
+/* ── Card body (title, desc, pill) ── */
+.quiz-card-body {
+  padding: 12px 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.quiz-card-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--color-text);
+  line-height: 1.3;
+}
+
+.quiz-card-desc {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  line-height: 1.35;
+  min-height: 2.7em;
+}
+
+.quiz-card-pill {
+  display: inline-flex;
+  align-self: center;
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 4px;
+  background: color-mix(in srgb, var(--card-accent, #e5e7eb) 12%, white);
+  color: var(--card-accent, var(--color-text));
+  border: 1px solid color-mix(in srgb, var(--card-accent, #e5e7eb) 20%, transparent);
+}
+
+.quiz-option-card.sel .quiz-card-pill {
+  background: var(--card-accent, var(--color-primary));
+  color: white;
+  border-color: transparent;
+}
+
+/* ── Gradient CTA button ── */
+.quiz-cta {
+  width: 100%;
+  max-width: 700px;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 24px;
+  border: none;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    135deg,
+    var(--gradient-hero-start) 0%,
+    var(--gradient-hero-end) 100%
+  );
+  font-family: var(--font-family);
+  font-size: 15px;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  letter-spacing: 0.8px;
+  box-shadow: 0 8px 24px rgba(255, 63, 108, 0.25);
+  transition:
+    transform var(--motion-fast),
+    box-shadow var(--motion-fast);
+}
+
+.quiz-cta:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 32px rgba(255, 63, 108, 0.35);
+}
+
+.quiz-cta:active {
+  transform: scale(0.98);
+}
+
+.quiz-cta:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── Legacy ── */
 .btn-primary:disabled {
   cursor: not-allowed;
   opacity: 0.45;
+}
+
+/* ===== RESPONSIVE: DNA Quiz ===== */
+
+/* Tablet & smaller (<1024px) — 2 columns */
+@media (max-width: 1024px) {
+  .quiz-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
+/* Mobile (<640px) */
+@media (max-width: 639px) {
+  .quiz-shell {
+    padding: 20px 14px;
+    align-items: flex-start;
+  }
+
+  .quiz-question {
+    font-size: 18px;
+  }
+
+  .quiz-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .quiz-option-card {
+    border-radius: 14px;
+  }
+
+  .quiz-card-body {
+    padding: 10px 8px 12px;
+  }
+
+  .quiz-card-title {
+    font-size: 13px;
+  }
+
+  .quiz-card-desc {
+    font-size: 11px;
+  }
+
+  .quiz-card-pill {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+}
+
+/* Small phones (<375px) — ensure cards don't squeeze */
+@media (max-width: 374px) {
+  .quiz-shell {
+    padding: 12px 8px;
+  }
+
+  .quiz-cards-grid {
+    grid-template-columns: repeat(2, minmax(140px, 1fr));
+    gap: 8px;
+  }
+}
+
+/* Wide desktop (>1200px) */
+@media (min-width: 1200px) {
+  .quiz-cards-grid {
+    gap: 18px;
+  }
+
+  .quiz-card-body {
+    padding: 14px 12px 16px;
+  }
+
+  .quiz-card-title {
+    font-size: 15px;
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .quiz-sparkle {
+    animation: none;
+  }
 }

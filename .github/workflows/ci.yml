@@ -31,12 +31,6 @@ jobs:
       - name: Run frontend checks
         run: npm run check
 
-      - name: Install Playwright Chromium
-        run: npx playwright install --with-deps chromium
-
-      - name: Run browser smoke test
-        run: npm run test:e2e
-
   backend:
     name: Backend
     runs-on: ubuntu-latest
@@ -90,3 +84,70 @@ jobs:
       - name: Run backend tests
         run: |
           pytest --cov=. --cov-report=term-missing
+
+  e2e:
+    name: End-to-End
+    needs: [frontend, backend]
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: stackers
+          POSTGRES_PASSWORD: stackers
+          POSTGRES_DB: stackers_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U stackers -d stackers_test"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      DATABASE_URL: postgresql+psycopg://stackers:stackers@localhost:5432/stackers_test
+      FRONTEND_ORIGINS: '["http://127.0.0.1:5173"]'
+      ENVIRONMENT: test
+      DEMO_USER_ID: 1
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+
+      - name: Install Python dependencies
+        working-directory: backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run migrations
+        working-directory: backend
+        run: alembic upgrade head
+
+      - name: Start backend server
+        working-directory: backend
+        run: uvicorn main:app --host 127.0.0.1 --port 8000 &
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run browser smoke test
+        run: npm run test:e2e

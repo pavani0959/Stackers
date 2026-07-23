@@ -6,6 +6,10 @@ import { gsap, useGSAP } from '../../motion/gsap';
 import ApiErrorState from '../../components/ApiErrorState/ApiErrorState';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import '../../styles/FashionMemory.css';
+import {
+  ArrowLeft,
+  ExternalLink,
+} from 'lucide-react';
 
 const EVENT_ICONS = {
   cart_add: '🛒',
@@ -26,6 +30,92 @@ const EVENT_LABELS = {
   view: 'Viewed',
   wear: 'Worn',
 };
+
+function MemoryItem({ item, navigate }) {
+  const [imgError, setImgError] = useState(false);
+  
+  const product = item.product;
+  const matchScore = item.metadata?.match_score;
+  const eventIcon = EVENT_ICONS[item.type] ?? '•';
+  const eventLabel = EVENT_LABELS[item.type] ?? item.type.toUpperCase();
+
+  return (
+    <article className="mem-item">
+      {product && (
+        <div className="mem-top">
+          <div className="mem-img-wrap">
+            {!imgError ? (
+              <img
+                className="mem-img"
+                src={product.image}
+                alt={product.name}
+                onError={() => setImgError(true)}
+              />
+            ) : (
+              <div className="img-fallback mem-img-fallback">
+                <span className="img-fallback-icon">👕</span>
+                <span className="img-fallback-text" style={{ fontSize: '9px' }}>{product.name}</span>
+              </div>
+            )}
+          </div>
+          <div className="mem-info">
+            <span className="mem-date">
+              {new Date(item.date).toLocaleDateString('en-IN', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+              })}
+            </span>
+            <strong className="mem-name">{product.name}</strong>
+            <span className="mem-price">
+              ₹{product.price.toLocaleString('en-IN')}
+            </span>
+            <span className={`mem-occ event-${item.type}`}>
+              <span aria-hidden="true">{eventIcon}</span>
+              <span>{eventLabel}</span>
+            </span>
+          </div>
+        </div>
+      )}
+
+      <div className="mem-bottom">
+        <div className="mem-metadata">
+          {matchScore != null && (
+            <span className={`mem-dna ${matchScore >= 80 ? 'good' : 'warn'}`}>
+              {matchScore}% match
+            </span>
+          )}
+          {item.metadata?.size && (
+            <span className="mem-size-chip">Size {item.metadata.size}</span>
+          )}
+        </div>
+
+        <div className="mem-actions">
+          {product && (
+            <button
+              type="button"
+              className="mem-view-link"
+              onClick={() => navigate(`/product/${product.id}`)}
+            >
+              <ExternalLink aria-hidden="true" size={16} />
+              <span>View product</span>
+            </button>
+          )}
+
+          {item.metadata?.decision_snapshot_id && (
+            <button
+              type="button"
+              className="mem-why-link"
+              onClick={() => navigate(`/decision/${item.metadata.decision_snapshot_id}`)}
+            >
+              Why was this recommended?
+            </button>
+          )}
+        </div>
+      </div>
+    </article>
+  );
+}
 
 export default function FashionMemory() {
   const navigate = useNavigate();
@@ -94,8 +184,18 @@ export default function FashionMemory() {
     <div className="screen fm-screen" ref={root}>
       <header className="fm-hdr">
         <div className="fm-back-row">
-          <button type="button" className="back-btn" onClick={() => navigate('/home')}>
-            ←
+          <button
+            type="button"
+            className="back-btn"
+            aria-label="Go to home"
+            onClick={() => {
+              navigate('/home');
+            }}
+          >
+            <ArrowLeft
+              aria-hidden="true"
+              size={21}
+            />
           </button>
           <div>
             <h1 className="fm-title">Fashion Memory</h1>
@@ -117,71 +217,9 @@ export default function FashionMemory() {
             </p>
           </div>
         ) : (
-          timeline.map((item) => {
-            const product = item.product;
-            const matchScore = item.metadata?.match_score;
-            const eventIcon = EVENT_ICONS[item.type] ?? '•';
-            const eventLabel = EVENT_LABELS[item.type] ?? item.type.toUpperCase();
-
-            return (
-              <article
-                className="mem-item"
-                key={item.id}
-                onClick={() => product ? navigate(`/product/${product.id}`) : null}
-                style={{ cursor: product ? 'pointer' : 'default' }}
-              >
-                {product && (
-                  <div className="mem-top">
-                    <img
-                      className="mem-img"
-                      src={product.image}
-                      alt={product.name}
-                    />
-                    <div className="mem-info">
-                      <span className="mem-date">
-                        {new Date(item.date).toLocaleDateString('en-IN', {
-                          day: 'numeric',
-                          month: 'short',
-                          year: 'numeric',
-                        })}
-                      </span>
-                      <strong className="mem-name">{product.name}</strong>
-                      <span className="mem-price">
-                        ₹{product.price.toLocaleString('en-IN')}
-                      </span>
-                      <span className={`mem-occ event-${item.type}`}>
-                        {eventIcon} {eventLabel}
-                      </span>
-                    </div>
-                  </div>
-                )}
-
-                {/* Human-readable metadata row */}
-                <div className="mem-bottom">
-                  {matchScore != null && (
-                    <span className={`mem-dna ${matchScore >= 80 ? 'good' : 'warn'}`}>
-                      {matchScore}% match
-                    </span>
-                  )}
-                  {item.metadata?.size && (
-                    <span className="mem-size-chip">Size {item.metadata.size}</span>
-                  )}
-                  {item.metadata?.decision_snapshot_id && (
-                    <button
-                      type="button"
-                      className="mem-why-link"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/decision/${item.metadata.decision_snapshot_id}`);
-                      }}
-                    >
-                      Why was this recommended? →
-                    </button>
-                  )}
-                </div>
-              </article>
-            );
-          })
+          timeline.map((item) => (
+            <MemoryItem key={item.id} item={item} navigate={navigate} />
+          ))
         )}
       </main>
 
