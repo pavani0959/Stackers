@@ -640,6 +640,11 @@ class DecisionContext(BaseModel):
         max_length=50,
     )
 
+    vibe: str | None = Field(
+        default=None,
+        max_length=40,
+    )
+
 
 class ProductDecisionRequest(BaseModel):
     model_config = ConfigDict(

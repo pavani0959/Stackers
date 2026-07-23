@@ -62,8 +62,33 @@ describe('Home decision feed', () => {
     expect(request).toEqual({
       limit: 20,
       antiTrend: false,
-      context: { occasion: 'campus' },
+      context: { occasion: 'campus', vibe: 'quiet' },
     });
     expect(JSON.stringify(request)).not.toContain('user_profile');
+  });
+
+  it('re-fetches feed when a vibe is clicked', async () => {
+    const { fireEvent } = await import('@testing-library/react');
+    
+    render(
+      <MemoryRouter>
+        <Home />
+      </MemoryRouter>,
+    );
+
+    expect(await screen.findByText('Minimal Campus Shirt')).toBeInTheDocument();
+    
+    // Initial fetch
+    expect(mocks.getDecisionFeed).toHaveBeenCalledTimes(1);
+    
+    const boldButton = screen.getByRole('button', { name: /bold/i });
+    fireEvent.click(boldButton);
+    
+    await waitFor(() => {
+      expect(mocks.getDecisionFeed).toHaveBeenCalledTimes(2);
+    });
+    
+    const secondRequest = mocks.getDecisionFeed.mock.calls[1][0];
+    expect(secondRequest.context.vibe).toBe('bold');
   });
 });
