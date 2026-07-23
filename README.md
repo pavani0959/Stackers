@@ -944,3 +944,6 @@ Before using the application commercially, review the licences and usage rights 
 **From product recommendations to confident fashion decisions.**
 
 </div>
+
+## Credits
+- Product photography sourced via [Pexels API](https://www.pexels.com/api/).

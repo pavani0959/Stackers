@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     gemini_api_key: str | None = None
     jwt_secret_key: str = "dev-only-change-me-in-production"
     jwt_expiry_minutes: int = 1440  # 24 hours
+    unsplash_access_key: str | None = None
 
     model_config = SettingsConfigDict(
         env_file=PROJECT_ROOT / ".env",
