@@ -603,7 +603,7 @@ class CurrentStyleProfileResponse(BaseModel):
         default_factory=dict,
     )
 
-    evidence: dict[str, int] = Field(
+    evidence: dict[str, Any] = Field(
         default_factory=dict,
     )
 

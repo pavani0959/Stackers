@@ -94,10 +94,14 @@ class TestIntentParsing:
 
     def test_two_different_budgets_produce_different_results(self):
         d1 = _call_reverse("College fest retro theme ₹1500")
-        d2 = _call_reverse("College fest retro theme ₹15000")
+        d2 = _call_reverse("College fest retro theme ₹150000")
         b1 = d1["budget_limit"]
         b2 = d2["budget_limit"]
         assert b1 != b2, "Different prompts should yield different budget limits"
+        
+        o1 = [[item["id"] for item in out["items"]] for out in d1.get("outfits", [])]
+        o2 = [[item["id"] for item in out["items"]] for out in d2.get("outfits", [])]
+        assert o1 != o2, "Different budgets should produce different ranked/filtered results"
 
     def test_parsed_intent_returned_in_response(self):
         data = _call_reverse("Interview tomorrow, smart casual, ₹2,000")
@@ -351,3 +355,20 @@ def test_interview_acceptance_prompt():
         assert "budget" in explanation
 
     assert len(set(combinations)) == 3
+
+def test_college_fest_no_duplicates():
+    data = _call_reverse("College fest Saturday, retro theme, ₹2000")
+    assert data["parsed_intent"]["budget_total"] == 2000
+    
+    outfits = data.get("outfits", [])
+    assert len(outfits) > 0
+    
+    combinations = []
+    for outfit in outfits:
+        assert outfit["total"] <= 2000
+        
+        item_ids = {item["id"] for item in outfit["items"]}
+        combinations.append(frozenset(item_ids))
+        
+    assert len(set(combinations)) == len(combinations), "Outfits must not be duplicates"
+

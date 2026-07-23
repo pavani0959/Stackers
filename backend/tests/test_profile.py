@@ -8,7 +8,7 @@ from main import app
 async def test_profile_is_persisted() -> None:
     transport = httpx.ASGITransport(
         app=app,
-        raise_app_exceptions=False,
+        raise_app_exceptions=True,
     )
 
     async with httpx.AsyncClient(
@@ -46,7 +46,7 @@ async def test_profile_is_persisted() -> None:
             "/api/profile"
         )
 
-    assert profile_response.status_code == 200
+    assert profile_response.status_code == 200, profile_response.text
 
     payload = profile_response.json()
 
@@ -60,7 +60,7 @@ async def test_profile_is_persisted() -> None:
 async def test_dna_creates_new_versions() -> None:
     transport = httpx.ASGITransport(
         app=app,
-        raise_app_exceptions=False,
+        raise_app_exceptions=True,
     )
 
     async with httpx.AsyncClient(
