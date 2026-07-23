@@ -7,26 +7,34 @@ export const quizQuestions = [
       {
         id: 'minimal-campus',
         label: 'Clean campus layers',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Neutral%20shirt%20with%20straight%20trousers%20and%20clean%20sneakers',
-        alt: 'Neutral shirt with straight trousers and clean sneakers',
+        image:
+          '/quiz/everyday-minimal-campus.webp',
+        alt:
+          'Neutral shirt with straight trousers and clean sneakers',
       },
       {
         id: 'street-ready',
         label: 'Relaxed street style',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Oversized%20graphic%20top%20with%20cargo%20trousers',
-        alt: 'Oversized graphic top with cargo trousers',
+        image:
+          '/quiz/everyday-street-ready.webp',
+        alt:
+          'Oversized graphic top with cargo trousers',
       },
       {
         id: 'soft-romantic',
         label: 'Soft romantic styling',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Soft%20pastel%20outfit%20with%20graceful%20details',
-        alt: 'Soft pastel outfit with graceful details',
+        image:
+          '/quiz/everyday-soft-romantic.webp',
+        alt:
+          'Soft pastel outfit with graceful details',
       },
       {
         id: 'quiet-luxury',
         label: 'Polished quiet luxury',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Refined%20neutral%20outfit%20with%20structured%20layers',
-        alt: 'Refined neutral outfit with structured layers',
+        image:
+          '/quiz/everyday-quiet-luxury.webp',
+        alt:
+          'Refined neutral outfit with structured layers',
       },
     ],
   },
@@ -38,25 +46,25 @@ export const quizQuestions = [
       {
         id: 'relaxed-fit',
         label: 'Relaxed',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Relaxed-fit%20everyday%20outfit',
+        image: '/quiz/fit-relaxed.webp',
         alt: 'Relaxed-fit everyday outfit',
       },
       {
         id: 'oversized-fit',
         label: 'Oversized',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Oversized%20streetwear%20outfit',
+        image: '/quiz/fit-oversized.webp',
         alt: 'Oversized streetwear outfit',
       },
       {
         id: 'regular-fit',
         label: 'Regular',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Regular-fit%20balanced%20outfit',
+        image: '/quiz/fit-regular.webp',
         alt: 'Regular-fit balanced outfit',
       },
       {
         id: 'fitted-fit',
         label: 'Fitted',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Fitted%20and%20structured%20outfit',
+        image: '/quiz/fit-fitted.webp',
         alt: 'Fitted and structured outfit',
       },
     ],
@@ -69,25 +77,26 @@ export const quizQuestions = [
       {
         id: 'clean-premium',
         label: 'Clean and premium',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Minimal%20premium%20fashion%20styling',
+        image: '/quiz/brand-clean-premium.webp',
         alt: 'Minimal premium fashion styling',
       },
       {
         id: 'youth-street',
         label: 'Youth streetwear',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Youth-focused%20streetwear%20styling',
+        image: '/quiz/brand-youth-street.webp',
         alt: 'Youth-focused streetwear styling',
       },
       {
         id: 'sporty-active',
         label: 'Sporty and active',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Sporty%20activewear%20styling',
+        image: '/quiz/brand-sporty-active.webp',
         alt: 'Sporty activewear styling',
       },
       {
         id: 'expressive-trend',
         label: 'Expressive and trend-led',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Expressive%20trend-focused%20fashion',
+        image:
+          '/quiz/brand-expressive-trend.webp',
         alt: 'Expressive trend-focused fashion',
       },
     ],
@@ -100,25 +109,25 @@ export const quizQuestions = [
       {
         id: 'neutral-palette',
         label: 'Neutral',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Black%20white%20beige%20and%20grey%20outfits',
+        image: '/quiz/palette-neutral.webp',
         alt: 'Black white beige and grey outfits',
       },
       {
         id: 'earthy-palette',
         label: 'Earthy',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Brown%20olive%20rust%20and%20cream%20outfits',
+        image: '/quiz/palette-earthy.webp',
         alt: 'Brown olive rust and cream outfits',
       },
       {
         id: 'pastel-palette',
         label: 'Pastel',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Lavender%20pink%20blue%20and%20mint%20outfits',
+        image: '/quiz/palette-pastel.webp',
         alt: 'Lavender pink blue and mint outfits',
       },
       {
         id: 'bold-palette',
         label: 'Bold',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Red%20cobalt%20orange%20and%20magenta%20outfits',
+        image: '/quiz/palette-bold.webp',
         alt: 'Red cobalt orange and magenta outfits',
       },
     ],
@@ -131,25 +140,28 @@ export const quizQuestions = [
       {
         id: 'comfort-first',
         label: 'Comfort first',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Highly%20comfortable%20casual%20outfit',
+        image: '/quiz/balance-comfort-first.webp',
         alt: 'Highly comfortable casual outfit',
       },
       {
         id: 'comfort-balanced',
         label: 'Mostly comfort',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Comfortable%20but%20polished%20outfit',
+        image:
+          '/quiz/balance-comfort-balanced.webp',
         alt: 'Comfortable but polished outfit',
       },
       {
         id: 'expression-balanced',
         label: 'Mostly expression',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Expressive%20but%20wearable%20outfit',
+        image:
+          '/quiz/balance-expression-balanced.webp',
         alt: 'Expressive but wearable outfit',
       },
       {
         id: 'expression-first',
         label: 'Expression first',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Bold%20highly%20expressive%20fashion%20outfit',
+        image:
+          '/quiz/balance-expression-first.webp',
         alt: 'Bold highly expressive fashion outfit',
       },
     ],
@@ -162,25 +174,25 @@ export const quizQuestions = [
       {
         id: 'campus-priority',
         label: 'Campus',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Practical%20campus%20outfit',
+        image: '/quiz/occasion-campus.webp',
         alt: 'Practical campus outfit',
       },
       {
         id: 'work-priority',
         label: 'Work and interviews',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Polished%20work%20and%20interview%20outfit',
+        image: '/quiz/occasion-work.webp',
         alt: 'Polished work and interview outfit',
       },
       {
         id: 'party-priority',
         label: 'Parties and night-outs',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Party%20and%20night-out%20outfit',
+        image: '/quiz/occasion-party.webp',
         alt: 'Party and night-out outfit',
       },
       {
         id: 'everyday-priority',
         label: 'Everyday wear',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Versatile%20everyday%20outfit',
+        image: '/quiz/occasion-everyday.webp',
         alt: 'Versatile everyday outfit',
       },
     ],
@@ -193,25 +205,27 @@ export const quizQuestions = [
       {
         id: 'versatility-first',
         label: 'It works with many outfits',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Versatile%20wardrobe%20essentials',
+        image:
+          '/quiz/motivation-versatility.webp',
         alt: 'Versatile wardrobe essentials',
       },
       {
         id: 'trend-discovery',
         label: 'It helps me try a trend',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Current%20fashion%20trend%20outfit',
+        image: '/quiz/motivation-trend.webp',
         alt: 'Current fashion trend outfit',
       },
       {
         id: 'statement-pieces',
         label: 'It makes a statement',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Bold%20statement%20fashion%20piece',
+        image:
+          '/quiz/motivation-statement.webp',
         alt: 'Bold statement fashion piece',
       },
       {
         id: 'quality-first',
         label: 'It feels high quality',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=High-quality%20refined%20wardrobe%20piece',
+        image: '/quiz/motivation-quality.webp',
         alt: 'High-quality refined wardrobe piece',
       },
     ],
@@ -224,25 +238,25 @@ export const quizQuestions = [
       {
         id: 'refine-signature',
         label: 'Refine my signature style',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Curated%20signature%20wardrobe',
+        image: '/quiz/goal-signature.webp',
         alt: 'Curated signature wardrobe',
       },
       {
         id: 'experiment-more',
         label: 'Experiment with new styles',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Experimental%20mixed-style%20wardrobe',
+        image: '/quiz/goal-experiment.webp',
         alt: 'Experimental mixed-style wardrobe',
       },
       {
         id: 'build-wardrobe',
         label: 'Build a versatile wardrobe',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Versatile%20capsule%20wardrobe',
+        image: '/quiz/goal-wardrobe.webp',
         alt: 'Versatile capsule wardrobe',
       },
       {
         id: 'shop-smarter',
         label: 'Make smarter purchases',
-        image: 'https://placehold.co/300x400/eeeeee/333333?text=Intentional%20smart%20fashion%20shopping',
+        image: '/quiz/goal-smart-shopping.webp',
         alt: 'Intentional smart fashion shopping',
       },
     ],
