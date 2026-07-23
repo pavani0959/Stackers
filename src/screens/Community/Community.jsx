@@ -9,6 +9,9 @@ import BottomNav from '../../components/BottomNav/BottomNav';
 import { useUser } from '../../context/useUser';
 import '../../styles/Community.css';
 import {
+  Sparkles,
+  Users,
+  Dna,
   X,
 } from 'lucide-react';
 
@@ -253,177 +256,73 @@ export default function Community() {
   return (
     <main className="community-screen">
       <header className="community-header">
-        <p className="community-eyebrow">
-          STYLE COMMUNITY
-        </p>
+        <div className="community-eyebrow">
+          STYLE COMMUNITY ✦
+          <span className="community-sparkles-dec">
+            ✨
+          </span>
+        </div>
 
-        <h1>
-          Style Twins
-        </h1>
+        <h1>Style Twins</h1>
 
         <p>
-          Seeded demo users with at least a{' '}
-          {percentage(
-            twinResponse.threshold,
-          )}
-          % weighted style match.
+          Seeded demo users with at least a {percentage(twinResponse.threshold)}% weighted style match.
         </p>
       </header>
 
       <section className="dataset-notice">
-        <strong>
-          {twinResponse.dataset?.label
-            ?? (
-              'Insights use a seeded '
-              + 'demo cohort'
-            )}
-        </strong>
+        <div className="dataset-notice-left">
+          <div className="dataset-icon">
+            <Sparkles size={16} fill="currentColor" />
+          </div>
+          <strong>
+            {twinResponse.dataset?.label ?? 'Insights use a seeded demo cohort'}
+          </strong>
+        </div>
 
         <span>
-          Dataset:{' '}
-          {twinResponse.dataset?.type
-            ?? 'seeded_demo'}
+          Dataset: {twinResponse.dataset?.type ?? 'seeded_demo'}
         </span>
       </section>
 
       <section className="community-section">
         <div className="community-section-heading">
           <div>
-            <p className="community-section-kicker">
-              EVIDENCE-BACKED MATCHES
-            </p>
-
-            <h2>
-              Your Style Twins
-            </h2>
+            <p className="community-section-kicker">EVIDENCE-BACKED MATCHES ✦</p>
+            <h2>Your Style Twins</h2>
           </div>
-
-          <span className="community-count">
-            {twinResponse.twins.length}
-          </span>
+          <span className="community-count">{twinResponse.twins.length}</span>
         </div>
 
         {twinResponse.twins.length === 0 ? (
           <div className="community-empty">
-            No seeded demo users currently meet
-            the {percentage(
-              twinResponse.threshold,
-            )}
-            % threshold.
+            <div className="community-empty-icon"><Users size={20} /></div>
+            <span>No seeded demo users currently meet the {percentage(twinResponse.threshold)}% threshold.</span>
           </div>
         ) : (
-          <div className="twin-grid">
-            {twinResponse.twins.map(
-              (twin) => (
-                <article
-                  className="twin-card"
-                  key={twin.user_id}
-                >
-                  <div className="twin-card-header">
-                    <div>
-                      <p className="twin-name">
-                        {twin.name}
-                      </p>
+          <div className="profile-grid">
+            {twinResponse.twins.map((twin) => (
+              <article className="profile-card compact" key={twin.user_id}>
+                <img
+                  src={twin.avatar || '/catalog/fallback-product.webp'}
+                  alt={twin.name}
+                  onError={(event) => {
+                    event.currentTarget.onerror = null;
+                    event.currentTarget.src = '/catalog/fallback-product.webp';
+                  }}
+                />
 
-                      <p className="twin-user-id">
-                        Demo user #{twin.user_id}
-                      </p>
-                    </div>
+                <div className="profile-info">
+                  <h3>{twin.name}</h3>
+                  <p>@{twin.name?.toLowerCase().replace(/\s+/g, '.') || `user${twin.user_id}`}</p>
+                  <strong>{twin.shared_traits?.[0] || 'Similar Style'}</strong>
+                </div>
 
-                    <div className="similarity-badge">
-                      {percentage(
-                        twin.similarity,
-                      )}
-                      %
-                    </div>
-                  </div>
-
-                  <p className="cohort-size">
-                    Cohort size:{' '}
-                    <strong>
-                      {twin.cohort_size}
-                    </strong>
-                  </p>
-
-                  <div className="shared-traits">
-                    {twin.shared_traits.map(
-                      (trait) => (
-                        <span key={trait}>
-                          {trait}
-                        </span>
-                      ),
-                    )}
-                  </div>
-
-                  <div className="product-insights">
-                    <h3>
-                      Cohort product evidence
-                    </h3>
-
-                    {twin.product_insights.length
-                      === 0 ? (
-                        <p className="no-evidence">
-                          No completed keep or return
-                          decisions are available for
-                          this cohort.
-                        </p>
-                      ) : (
-                        twin.product_insights.map(
-                          (insight) => {
-                            const denominator =
-                              insight.keep_count
-                              + insight.return_count;
-
-                            return (
-                              <div
-                                className="insight-row"
-                                key={
-                                  insight.product_id
-                                }
-                              >
-                                <div>
-                                  <strong>
-                                    Product{' '}
-                                    #{insight.product_id}
-                                  </strong>
-
-                                  <p>
-                                    Kept:{' '}
-                                    {insight.keep_count}
-                                    {' '}of{' '}
-                                    {denominator}
-                                    {' '}decisions
-                                  </p>
-
-                                  <p>
-                                    Returned:{' '}
-                                    {
-                                      insight
-                                        .return_count
-                                    }
-                                  </p>
-                                </div>
-
-                                <span>
-                                  {insight.keep_rate
-                                    == null
-                                    ? 'No rate'
-                                    : (
-                                      `${percentage(
-                                        insight
-                                          .keep_rate,
-                                      )}%`
-                                    )}
-                                </span>
-                              </div>
-                            );
-                          },
-                        )
-                      )}
-                  </div>
-                </article>
-              ),
-            )}
+                <div className="profile-badge">
+                  <Users size={18} />
+                </div>
+              </article>
+            ))}
           </div>
         )}
       </section>
@@ -431,61 +330,46 @@ export default function Community() {
       <section className="community-section">
         <div className="community-section-heading">
           <div>
-            <p className="community-section-kicker">
-              CREATOR DNA
-            </p>
-
-            <h2>
-              Creator Blends
-            </h2>
+            <p className="community-section-kicker">CREATOR DNA ✦</p>
+            <h2>Creator Blends</h2>
           </div>
         </div>
 
         <div className="profile-grid">
           {creators.map((creator) => (
-            <article
-              className="profile-card"
-              key={creator.id}
-            >
-              <img
-                src={
-                  creator.avatar
-                  || '/catalog/fallback-product.webp'
-                }
-                alt={creator.name}
-                onError={(event) => {
-                  event.currentTarget.onerror =
-                    null;
+            <article className="profile-card" key={creator.id}>
+              <div className="profile-card-top">
+                <img
+                  src={creator.avatar || '/catalog/fallback-product.webp'}
+                  alt={creator.name}
+                  onError={(event) => {
+                    event.currentTarget.onerror = null;
+                    event.currentTarget.src = '/catalog/fallback-product.webp';
+                  }}
+                />
 
-                  event.currentTarget.src =
-                    '/catalog/fallback-product.webp';
-                }}
-              />
+                <div className="profile-info">
+                  <h3>{creator.name}</h3>
+                  <p>{creator.handle || `@${creator.name.toLowerCase().replace(/\s+/g, '.')}`}</p>
+                  <strong>{creator.dna_label}</strong>
+                </div>
 
-              <div>
-                <h3>
-                  {creator.name}
-                </h3>
-
-                <p>
-                  {creator.handle}
-                </p>
-
-                <strong>
-                  {creator.dna_label}
-                </strong>
+                <div className="profile-badge-dna">
+                  <Dna size={18} />
+                </div>
               </div>
 
               <button
                 type="button"
                 className="community-primary-button"
-                onClick={() => {
-                  setSelectedCreator(
-                    creator,
-                  );
+                onClick={() => setSelectedCreator(creator)}
+                style={{
+                  background: creator.name.includes('Maya') 
+                    ? 'linear-gradient(90deg, #ff416c 0%, #ff4b2b 100%)' 
+                    : 'linear-gradient(90deg, #b06ab3 0%, #4568dc 100%)'
                 }}
               >
-                Blend DNA
+                <Dna size={16} /> Blend DNA
               </button>
             </article>
           ))}
@@ -496,60 +380,34 @@ export default function Community() {
         <section className="community-section">
           <div className="community-section-heading">
             <div>
-              <p className="community-section-kicker">
-                COMMUNITY DISCOVERY
-              </p>
-
-              <h2>
-                Community Profiles
-              </h2>
+              <p className="community-section-kicker">COMMUNITY DISCOVERY ✦</p>
+              <h2>Community Profiles</h2>
             </div>
           </div>
 
           <div className="profile-grid">
-            {communityMembers.map(
-              (profile) => (
-                <article
-                  className="profile-card compact"
-                  key={profile.id}
-                >
-                  <img
-                    src={
-                      profile.avatar
-                      || (
-                        '/catalog/'
-                        + 'fallback-product.webp'
-                      )
-                    }
-                    alt={profile.name}
-                    onError={(event) => {
-                      event.currentTarget.onerror =
-                        null;
+            {communityMembers.map((profile) => (
+              <article className="profile-card compact" key={profile.id}>
+                <img
+                  src={profile.avatar || '/catalog/fallback-product.webp'}
+                  alt={profile.name}
+                  onError={(event) => {
+                    event.currentTarget.onerror = null;
+                    event.currentTarget.src = '/catalog/fallback-product.webp';
+                  }}
+                />
 
-                      event.currentTarget.src =
-                        (
-                          '/catalog/'
-                          + 'fallback-product.webp'
-                        );
-                    }}
-                  />
+                <div className="profile-info">
+                  <h3>{profile.name}</h3>
+                  <p>{profile.handle || `@${profile.name.toLowerCase().replace(/\s+/g, '.')}`}</p>
+                  <strong>{profile.dna_label}</strong>
+                </div>
 
-                  <div>
-                    <h3>
-                      {profile.name}
-                    </h3>
-
-                    <p>
-                      {profile.handle}
-                    </p>
-
-                    <strong>
-                      {profile.dna_label}
-                    </strong>
-                  </div>
-                </article>
-              ),
-            )}
+                <div className="profile-badge">
+                  <Users size={18} />
+                </div>
+              </article>
+            ))}
           </div>
         </section>
       )}

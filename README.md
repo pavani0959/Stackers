@@ -128,21 +128,6 @@ The current implementation uses demonstration profiles and does not claim to rep
 
 ---
 
-### 6. High-Match Rewards
-
-Products with exceptionally strong Fashion DNA compatibility can receive a high-match badge or demonstration reward.
-
-This feature explores how a fashion platform could encourage confident purchasing decisions without changing the underlying recommendation system.
-
-Possible future rewards could include:
-
-* loyalty points,
-* early access,
-* style badges,
-* personalized collections,
-* or campaign-based promotional benefits.
-
----
 
 ### 7. Anti-Trend Mode
 
@@ -207,18 +192,11 @@ The browser transcribes the spoken input and uses it as the Reverse Shopping pro
 
 ### 10. Myntra Muse
 
-Myntra Muse is a floating fashion-assistant interface that uses the user's Fashion DNA and available Fashion Memory information to provide personalized responses.
+Myntra Muse is a floating fashion-assistant interface powered by Google Gemini (an LLM-backed assistant).
 
-The current backend uses intent-based response matching for common styling queries such as:
+It is deeply grounded in the user's stored profile, active wardrobe, and the live product catalog. It strictly recommends candidate products mathematically aligned with the user's DNA, preventing hallucinations. 
 
-```text
-What should I wear?
-Suggest something for a night out.
-What matches my style?
-Help me choose an outfit.
-```
-
-The architecture can later be extended using a production conversational AI or large language model with structured recommendation tools.
+If the LLM is unreachable or the API key is unconfigured, it gracefully falls back to an offline rule-based intent matching system.
 
 ---
 
@@ -879,6 +857,15 @@ The project currently contains a functional React and FastAPI foundation with:
 Some functionality currently uses a demonstration dataset, deterministic recommendation logic, browser-local state, or rule-based responses.
 
 The project is being developed incrementally toward a more production-ready architecture with persistent user profiles, structured fashion events, improved recommendation scoring, and evidence-based regret prevention.
+
+---
+
+## ⚠️ Known limitations / demo scope
+
+* **Virtual Try-On (AR):** This is purely a front-end UI simulation of what an AR fitting room would look like; no real computer vision or pose estimation runs in the background.
+* **Style Twins:** The community matches use a seeded synthetic cohort of demo users, not live production users.
+* **Myntra Muse AI:** When the Google Gemini API key is missing or unreachable, the assistant degrades gracefully to a simpler, rule-based fallback mode.
+* **Demo Mode:** The frontend runs as a client-side demo connected to a local backend.
 
 ---
 

@@ -1,13 +1,21 @@
 # 🏆 Myntra Identity App — Complete Feature & Verification Guide
 
 > **Stack:** React (Vite) + FastAPI (Python) + SQLite + Scikit-Learn
-> **Status:** 100% Production Ready. All backend ML algorithms and frontend interfaces are fully connected and functional. No mocked API responses.
+> **Status:** Backend ML services (ranking, decision scoring, and recommendation) are fully connected to real logic and databases, with Google Gemini serving as the LLM for generative responses.
+
+---
+
+## ⚠️ Known limitations / demo scope
+- **Virtual Try-On (AR):** This is purely a front-end UI simulation of what an AR fitting room would look like; no real computer vision or pose estimation runs in the background.
+- **Style Twins:** The community matches use a seeded synthetic cohort of demo users, not live production users.
+- **Myntra Muse AI:** When the Google Gemini API key is missing or unreachable, the assistant degrades gracefully to a simpler, rule-based fallback mode.
+- **Demo Mode:** The frontend runs as a client-side demo connected to a local backend.
 
 ---
 
 ## ✅ FEATURE 1 — AI Onboarding & DNA Quiz
 **Type:** Full-Stack ML
-**What it does:** A 4-step onboarding (Gender → Budget → Colours → Occasions) followed by a 5-question visual quiz. The answers are sent to the Python ML backend which calculates your Fashion DNA percentages using clustering logic.
+**What it does:** A 4-step onboarding (Gender → Budget → Colours → Occasions) followed by a 5-question visual quiz. The answers are sent to the Python ML backend which calculates your Fashion DNA percentages using prototype-based aesthetic similarity scoring using TF-IDF + cosine similarity against curated aesthetic profiles.
 **How to check:**
 1. Open `http://localhost:5173`
 2. Click through the splash screen.
@@ -93,20 +101,9 @@
 
 ---
 
-## ✅ FEATURE 9 — Dynamic DNA Pricing
-**Type:** Full-Stack
-**What it does:** When a product has a 90%+ DNA match confidence score, the backend automatically applies a 15% discount as a reward for buying items that fit your identity.
-**How to check:**
-1. Go to the **🏠 Home** tab (ensure Anti-Trend is OFF).
-2. Look for product cards showing **"✨ -15% DNA"** in green.
-3. Click on one of those products.
-4. **PROOF:** On the Product Detail page, you will see: *"💰 Because this is a 90%+ match, you unlocked a 15% DNA Discount!"*
-
----
-
 ## ✅ FEATURE 10 — Virtual Try-On (AR)
 **Type:** Frontend UI Simulation
-**What it does:** A simulated Augmented Reality fitting room. Shows a camera UI with the product overlaid using a scanning animation to demonstrate the UX of how ML pose estimation would work in a real production camera.
+**What it does:** A simulated Augmented Reality fitting room. Shows a camera UI with the product overlaid using a scanning animation to demonstrate the UX of how an AR fitting room would work. No actual computer vision or pose estimation runs.
 **How to check:**
 1. Click any product to go to its Detail page.
 2. Tap the **"📸 Try It On (AR)"** button on the bottom left of the product image.
@@ -126,9 +123,9 @@
 
 ## ✅ FEATURE 12 — Myntra Muse (AI Stylist Chatbot)
 **Type:** Full-Stack API
-**What it does:** A floating conversational AI that reads your Fashion DNA. It uses intent matching on the backend API (`/api/muse/chat`) to give personalized style advice.
+**What it does:** A floating conversational AI that reads your Fashion DNA. It uses Google Gemini (an LLM-backed assistant) grounded in the user's stored profile, wardrobe, and product catalog to give personalized style advice. It has a robust, rule-based offline fallback mode if the LLM cannot be reached.
 **How to check:**
 1. Look for the **✨** floating button in the bottom right of any screen.
 2. Tap it to open the chat window.
 3. Type: *"What should I wear?"* or *"Night out"*.
-4. **PROOF:** The bot sends the message to the Python server, which calculates a response using your live DNA (e.g. "Based on your DNA, you have an 85% affinity for Streetwear...").
+4. **PROOF:** The bot sends the message to the Python server, which constructs a grounded context, queries Gemini, and returns structured recommendations using your live DNA.

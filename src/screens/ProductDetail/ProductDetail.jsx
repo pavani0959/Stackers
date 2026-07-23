@@ -11,6 +11,7 @@ import {
 import { checkRegret } from '../../api/events';
 import ApiErrorState from '../../components/ApiErrorState/ApiErrorState';
 import BottomNav from '../../components/BottomNav/BottomNav';
+import CartIconButton from '../../components/CartIconButton/CartIconButton';
 import { useUser } from '../../context/useUser';
 import '../../styles/ProductDetail.css';
 import {
@@ -18,6 +19,9 @@ import {
   ArrowLeft,
   Heart,
   X,
+  Shirt,
+  Sparkles,
+  Dna,
 } from 'lucide-react';
 
 const SIZES = ['XS', 'S', 'M', 'L', 'XL'];
@@ -33,51 +37,31 @@ function AlternativeItem({ alternative, onAccept, onNavigate }) {
   const [imgError, setImgError] = useState(false);
 
   return (
-    <article
-      className="alt-item"
-      style={{
-        minWidth: '160px',
-        padding: '10px',
-        border: '1px solid var(--line-soft, #e7e7ec)',
-        borderRadius: '12px',
-      }}
-    >
-      <div style={{
-        width: '100%',
-        aspectRatio: '4 / 5',
-        borderRadius: '8px',
-        overflow: 'hidden',
-        background: 'var(--surface-2)',
-        position: 'relative'
-      }}>
+    <article className="alt-item det-alt-item">
+      <div className="det-alt-img-wrap">
         {!imgError ? (
           <img
             src={alternative.image}
             alt={alternative.name}
             onError={() => setImgError(true)}
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              display: 'block'
-            }}
+            className="det-alt-img"
           />
         ) : (
-          <div className="img-fallback" style={{ padding: '8px' }}>
-            <span className="img-fallback-icon" style={{ fontSize: '18px' }}>👕</span>
-            <span className="img-fallback-text" style={{ fontSize: '10px' }}>{alternative.name}</span>
+          <div className="img-fallback" className="det-alt-fallback">
+            <Shirt className="img-fallback-icon" size={18} />
+            <span className="img-fallback-text" className="det-alt-fallback-text">{alternative.name}</span>
           </div>
         )}
       </div>
 
-      <div style={{ fontSize: '0.8rem', marginTop: '8px' }}>
+      <div className="det-alt-info">
         <strong>{alternative.name}</strong>
-        <p style={{ margin: '4px 0 8px', color: 'var(--ink-500)', fontSize: '0.7rem' }}>
+        <p className="det-alt-reason">
           {alternative.reason}
         </p>
       </div>
 
-      <div style={{ display: 'grid', gap: '6px' }}>
+      <div className="det-alt-actions">
         <button
           type="button"
           className="primary-btn"
@@ -411,7 +395,7 @@ export default function ProductDetail() {
       <div className="det-img-wrap">
         {!imgError ? (
           <img
-            src={product.image}
+            src={product.image?.startsWith('/') ? `${import.meta.env.BASE_URL}${product.image.slice(1)}` : product.image}
             alt={product.name}
             onError={() => setImgError(true)}
           />
@@ -433,35 +417,35 @@ export default function ProductDetail() {
               size={21}
             />
           </button>
-          <button
-            type="button"
-            className="wish-top-btn"
-            onClick={handleWishlist}
-            aria-label={isWished ? 'Remove from wishlist' : 'Add to wishlist'}
-          >
-            <Heart
-              aria-hidden="true"
-              size={21}
-              fill={
-                isWished
-                  ? 'currentColor'
-                  : 'none'
-              }
-            />
-          </button>
+          <div className="det-header-actions">
+            <button
+              type="button"
+              className="wish-top-btn"
+              onClick={handleWishlist}
+              aria-label={isWished ? 'Remove from wishlist' : 'Add to wishlist'}
+            >
+              <Heart
+                aria-hidden="true"
+                size={21}
+                fill={
+                  isWished
+                    ? 'currentColor'
+                    : 'none'
+                }
+              />
+            </button>
+            <CartIconButton className="wish-top-btn" />
+          </div>
         </div>
 
-        <div className="det-conf-pill">
-          <span className="det-score">{decision.overall_score}</span>
-          <span className="det-score-lbl">Confidence Score</span>
-        </div>
-        <div className="det-action-bar" style={{ padding: '0 16px 16px', display: 'flex', gap: '10px' }}>
+        <div className="det-action-bar det-ar-bar">
           <button
             type="button"
             className="ar-btn"
             onClick={() => setShowAR(true)}
+
           >
-            Try it on AR
+            <Sparkles size={16} style={{ marginRight: '6px' }} /> Try it on AR
           </button>
         </div>
       </div>
@@ -470,14 +454,21 @@ export default function ProductDetail() {
         <section>
           <p className="det-brand">{product.brand}</p>
           <p className="det-name">{product.name}</p>
-          <div className="det-pr-row">
-            <span className="det-price">
-              ₹{product.price.toLocaleString('en-IN')}
-            </span>
-            <span className="det-og">
-              ₹{originalPrice.toLocaleString('en-IN')}
-            </span>
-            <span className="det-disc">{discount}% off</span>
+          <div className="det-pr-row det-flex-row">
+<div className="det-price-wrap">
+              <span className="det-price">
+                ₹{product.price.toLocaleString('en-IN')}
+              </span>
+              <span className="det-og">
+                ₹{originalPrice.toLocaleString('en-IN')}
+              </span>
+              <span className="det-disc">{discount}% off</span>
+            </div>
+            
+            <div className="det-conf-pill-inline det-match-pill">
+              <span className="det-score">{decision.overall_score}%</span>
+              <span className="det-score-lbl">Match</span>
+            </div>
           </div>
         </section>
 
@@ -487,40 +478,7 @@ export default function ProductDetail() {
           </p>
         )}
 
-        <section className="conf-card">
-          <div className="conf-card-hdr">
-            <div>
-              <h3>Confidence Score</h3>
-              <p>{decision.explanation.summary}</p>
-            </div>
-            <span className="conf-big">{decision.overall_score}</span>
-          </div>
-
-          {components.map(([name, component]) => (
-            <div className="conf-row" key={name}>
-              <span className="conf-lbl">
-                {COMPONENT_LABELS[name] ?? name}
-              </span>
-              <div className="conf-bar-wrap">
-                <div
-                  className="conf-bar-fill"
-                  style={{ '--target-w': `${component.score}%` }}
-                />
-              </div>
-              <span className="conf-pct">{component.score}%</span>
-            </div>
-          ))}
-
-          <button
-            type="button"
-            className="secondary-btn decision-link"
-            onClick={() => navigate(`/decision/${decision.snapshot_id}`)}
-          >
-            Why is this recommended for me? →
-          </button>
-        </section>
-
-        <section>
+        <section className="det-size-section">
           <p className="size-label">Select Size</p>
           <div className="size-row">
             {SIZES.map((availableSize) => (
@@ -536,9 +494,51 @@ export default function ProductDetail() {
           </div>
         </section>
 
-        <button type="button" className="primary-btn" onClick={handleAddToCart} disabled={checkingRegret}>
-          {checkingRegret ? 'Checking...' : `Add to Cart — ₹${product.price.toLocaleString('en-IN')}`}
-        </button>
+        <details className="conf-card-details det-dna-details">
+          <summary className="det-dna-summary">
+            <div className="det-dna-summary-left">
+              <Dna size={16} />
+              <span className="det-dna-title">Fashion DNA Breakdown</span>
+            </div>
+            <span className="det-dna-icon">▼</span>
+          </summary>
+          
+          <div className="det-dna-content">
+            <p className="det-dna-desc">
+              {decision.explanation.summary}
+            </p>
+
+            {components.map(([name, component]) => (
+              <div className="conf-row" key={name}>
+                <span className="conf-lbl">
+                  {COMPONENT_LABELS[name] ?? name}
+                </span>
+                <div className="conf-bar-wrap">
+                  <div
+                    className="conf-bar-fill"
+                    style={{ '--target-w': `${component.score}%` }}
+                  />
+                </div>
+                <span className="conf-pct">{component.score}%</span>
+              </div>
+            ))}
+
+            <button
+              type="button"
+              className="secondary-btn decision-link"
+              onClick={() => navigate(`/decision/${decision.snapshot_id}`)}
+
+            >
+              Detailed Match Analysis →
+            </button>
+          </div>
+        </details>
+
+        <div className="sticky-action-bar">
+          <button type="button" className="primary-btn" onClick={handleAddToCart} disabled={checkingRegret}>
+            {checkingRegret ? 'Checking...' : `Add to Cart — ₹${product.price.toLocaleString('en-IN')}`}
+          </button>
+        </div>
       </main>
 
       {regretWarning && (
@@ -618,6 +618,9 @@ export default function ProductDetail() {
             <h2>Virtual Try-On</h2>
             <p>See how it looks on you</p>
             <div className="ar-camera">Stand here</div>
+            <p className="ar-preview-label">
+              Preview simulation — not live AR pose tracking
+            </p>
           </div>
         </div>
       )}

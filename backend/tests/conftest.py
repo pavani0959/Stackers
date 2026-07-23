@@ -123,6 +123,7 @@ def seed_reverse_server_profile(request):
     reverse_test_files = {
         "test_fastapi_reverse.py",
         "test_phase5_reverse_shopping.py",
+        "test_e2e_reverse_shopping.py",
     }
 
     if request.node.path.name not in reverse_test_files:

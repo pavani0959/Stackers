@@ -471,10 +471,33 @@
 .budget-opt.sel .budget-chk { background: var(--color-primary); border-color: var(--color-primary); }
 
 /* Colours */
-.colour-grid { display: flex; flex-wrap: wrap; gap: 11px; margin-bottom: 8px; }
-.col-chip { width: 50px; height: 50px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: all .2s; position: relative; flex-shrink: 0; }
-.col-chip.sel { border-color: white !important; transform: scale(1.18); }
-.col-chip.sel::after { content: '✓'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: white; font-size: 17px; font-weight: 800; text-shadow: 0 1px 3px rgba(0,0,0,.6); }
+/* ── Colour Grid (New Design) ── */
+.col-content { max-width: 820px !important; }
+.ob-col-hdr { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 32px; }
+.ob-icon-badge { background: #fdf2f8; color: #ec4899; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.ob-col-hdr .ob-title { margin-bottom: 4px; }
+.ob-col-hdr .ob-sub { margin-bottom: 0; }
+
+.colour-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); gap: 24px 16px; margin-bottom: 36px; }
+.col-swatch { display: flex; flex-direction: column; align-items: center; gap: 10px; background: none; border: none; cursor: pointer; padding: 0; }
+.col-disc-wrap { position: relative; width: 66px; height: 66px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.col-swatch.sel .col-disc-wrap { border: 2.5px solid #ff3f6c; }
+.col-disc { width: 54px; height: 54px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 4px 8px rgba(0,0,0,0.04); }
+.col-swatch.is-white .col-disc { border-color: rgba(0,0,0,0.18); }
+.col-check { position: absolute; top: -2px; right: -2px; width: 22px; height: 22px; background: #ff3f6c; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.col-name { font-size: 13px; font-weight: 600; color: var(--color-text); }
+
+/* ── Your Picks Row ── */
+.ob-picks { margin-bottom: 40px; }
+.ob-picks-label { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 800; color: var(--color-text); margin-bottom: 14px; }
+.ob-picks-tray { display: flex; flex-wrap: wrap; gap: 10px; }
+.ob-pick-chip { display: flex; align-items: center; gap: 8px; background: #fdf2f8; color: var(--color-text); border: none; padding: 8px 14px; border-radius: 99px; cursor: pointer; transition: background var(--motion-fast); }
+.ob-pick-chip:hover { background: #fce7f3; }
+.ob-pick-dot { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.08); }
+.ob-pick-name { font-size: 13px; font-weight: 700; color: var(--color-text); }
+.ob-pick-rm { color: #ec4899; }
+
+.gradient-cta { background: linear-gradient(135deg, #ff3f6c, #ff6f61); color: white; border: none; box-shadow: 0 8px 20px rgba(255, 63, 108, 0.25); }
 
 /* Occasions — legacy */
 .chip-grid { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 8px; }

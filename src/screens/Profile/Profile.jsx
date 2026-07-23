@@ -269,8 +269,9 @@ export default function Profile() {
   const [saveError, setSaveError] =
     useState(null);
 
-  const [toast, setToast] =
-    useState('');
+  const [toast, setToast] = useState('');
+
+  const [expandedSection, setExpandedSection] = useState(null);
 
   useEffect(() => {
     if (editing) {
@@ -570,28 +571,25 @@ export default function Profile() {
             onClick={() => navigate(-1)}
             aria-label="Go back"
           >
-            <ArrowLeft
-              aria-hidden="true"
-              size={21}
-            />
+            <ArrowLeft aria-hidden="true" size={21} />
           </button>
 
           <div className="prf-hdr-title">
             My Profile
           </div>
 
-          {!editing ? (
+          {!editing && (
             <button
               type="button"
-              className="prf-edit-btn"
+              className="prf-edit-btn-new"
               onClick={() => {
                 setSaveError(null);
                 setEditing(true);
               }}
             >
-              Edit
+              <span className="prf-edit-icon">✎</span> Edit
             </button>
-          ) : null}
+          )}
         </div>
       </div>
 
@@ -607,449 +605,318 @@ export default function Profile() {
             <input
               className="prf-name-input"
               value={name}
-              onChange={(event) =>
-                setName(
-                  event.target.value,
-                )
-              }
+              onChange={(event) => setName(event.target.value)}
               placeholder="Your name"
               maxLength={120}
             />
           ) : (
             <div className="prf-name">
-              {user.name ||
-                'Style Explorer'}
+              {user.name || 'Style Explorer'}
             </div>
           )}
 
           <div className="prf-sub-info">
-            {user.gender ? (
-              <span className="prf-badge">
-                {formatLabel(
-                  user.gender,
-                )}
+            {user.gender && (
+              <span className="prf-badge-sm">
+                👤 {formatLabel(user.gender)}
               </span>
-            ) : null}
-
-            {user.age ? (
-              <span className="prf-badge">
-                Age {user.age}
+            )}
+            {user.age && (
+              <span className="prf-badge-sm">
+                📅 Age {user.age}
               </span>
-            ) : null}
+            )}
           </div>
         </div>
 
-        {dnaEntries.length > 0 ? (
-          <div className="prf-card">
-            <div className="prf-card-title">
-              🧬 Fashion DNA
-            </div>
-
-            {dnaEntries
-              .slice(0, 4)
-              .map(
-                ([
-                  style,
-                  percentage,
-                ]) => (
-                  <div
-                    key={style}
-                    className="prf-dna-row"
-                  >
-                    <div className="prf-dna-name">
-                      {formatLabel(
-                        style,
-                      )}
-                    </div>
-
-                    <div className="prf-dna-bar-wrap">
-                      <div
-                        className="prf-dna-bar"
-                        style={{
-                          width: `${percentage}%`,
-                        }}
-                      />
-                    </div>
-
-                    <div className="prf-dna-pct">
-                      {percentage}%
-                    </div>
-                  </div>
-                ),
-              )}
-
-            <div className="prf-identity-chip">
-              Identity:{' '}
-              <strong>
-                {user.identityName ||
-                  formatLabel(
-                    primaryDna?.[0],
-                  ) ||
-                  'Calculating…'}
-              </strong>
-            </div>
-
-            {user.profileConfidence !==
-              null &&
-            user.profileConfidence !==
-              undefined ? (
-              <div className="prf-identity-chip">
-                Confidence:{' '}
-                <strong>
-                  {
-                    user.profileConfidence
-                  }
-                  %
-                </strong>
+        {dnaEntries.length > 0 && (
+          <div className="prf-card dna-card">
+            <div className="prf-card-title-row">
+              <div className="prf-card-title">
+                🧬 Fashion DNA
               </div>
-            ) : null}
-          </div>
-        ) : null}
+            </div>
 
-        <div className="prf-card">
-          <div className="prf-card-title">
-            💰 Budget Range
+            <div className="prf-dna-traits">
+              {dnaEntries.slice(0, 4).map(([style, percentage]) => (
+                <div key={style} className="prf-dna-row">
+                  <div className="prf-dna-name">{formatLabel(style)}</div>
+                  <div className="prf-dna-bar-wrap">
+                    <div className="prf-dna-bar" style={{ width: `${percentage}%` }} />
+                  </div>
+                  <div className="prf-dna-pct">{percentage}%</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="prf-dna-summary-pills">
+              <div className="prf-identity-pill">
+                ⭐ Identity: <strong>{user.identityName || formatLabel(primaryDna?.[0]) || 'Calculating…'}</strong>
+              </div>
+              {user.profileConfidence != null && (
+                <div className="prf-identity-pill">
+                  📊 Confidence: <strong>{user.profileConfidence}%</strong>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        <div className={`prf-card ${!editing ? 'clickable' : ''}`} role={!editing ? "button" : undefined} tabIndex={!editing ? 0 : undefined} onKeyDown={(e) => { if(!editing && (e.key==='Enter'||e.key===' ')) { e.preventDefault(); setEditing(true); } }} onClick={() => !editing && setEditing(true)}>
+          <div className="prf-card-title-row">
+            <div className="prf-card-title">💰 Budget Range</div>
+            {!editing && <div className="prf-chevron">›</div>}
           </div>
 
           {editing ? (
             <div className="prf-budget-opts">
-              {BUDGET_OPTIONS.map(
-                (option) => (
-                  <button
-                    type="button"
-                    key={option.value}
-                    className={`prf-budget-btn ${
-                      budgetTier ===
-                      option.value
-                        ? 'active'
-                        : ''
-                    }`}
-                    onClick={() =>
-                      setBudgetTier(
-                        option.value,
-                      )
-                    }
-                  >
-                    <div className="prf-budget-lbl">
-                      {option.label}
-                    </div>
-
-                    <div className="prf-budget-desc">
-                      {
-                        option.description
-                      }
-                    </div>
-                  </button>
-                ),
-              )}
+              {BUDGET_OPTIONS.map((option) => (
+                <button
+                  type="button"
+                  key={option.value}
+                  className={`prf-budget-btn ${budgetTier === option.value ? 'active' : ''}`}
+                  onClick={() => setBudgetTier(option.value)}
+                >
+                  <div className="prf-budget-lbl">{option.label}</div>
+                  <div className="prf-budget-desc">{option.description}</div>
+                </button>
+              ))}
             </div>
           ) : (
-            <div className="prf-value">
-              {selectedBudget?.label ??
-                'Not selected'}
+            <div className="prf-value-pills">
+              {selectedBudget?.label ? (
+                <span className="prf-occ-chip active">{selectedBudget.label}</span>
+              ) : (
+                <span className="prf-not-selected">Not selected</span>
+              )}
             </div>
           )}
         </div>
 
-        <div className="prf-card">
-          <div className="prf-card-title">
-            📅 Your Occasions
+        <div className={`prf-card ${!editing ? 'clickable' : ''}`} role={!editing ? "button" : undefined} tabIndex={!editing ? 0 : undefined} onKeyDown={(e) => { if(!editing && (e.key==='Enter'||e.key===' ')) { e.preventDefault(); setEditing(true); } }} onClick={() => !editing && setEditing(true)}>
+          <div className="prf-card-title-row">
+            <div className="prf-card-title">📅 Your Occasions</div>
+            {!editing && <div className="prf-chevron">›</div>}
           </div>
 
           {editing ? (
             <>
               <div className="prf-occ-chips">
-                {OCCASION_OPTIONS.map(
-                  (occasion) => (
-                    <button
-                      type="button"
-                      key={occasion}
-                      className={`prf-occ-chip ${
-                        occasions.includes(
-                          occasion,
-                        )
-                          ? 'active'
-                          : ''
-                      }`}
-                      onClick={() =>
-                        toggleOccasion(
-                          occasion,
-                        )
-                      }
-                    >
-                      {formatLabel(
-                        occasion,
-                      )}
-                    </button>
-                  ),
-                )}
+                {OCCASION_OPTIONS.map((occasion) => (
+                  <button
+                    type="button"
+                    key={occasion}
+                    className={`prf-occ-chip ${occasions.includes(occasion) ? 'active' : ''}`}
+                    onClick={() => toggleOccasion(occasion)}
+                  >
+                    {formatLabel(occasion)}
+                  </button>
+                ))}
               </div>
 
-              {occasions.length > 0 ? (
+              {occasions.length > 0 && (
                 <label className="prf-field">
-                  <span>
-                    Primary occasion
-                  </span>
-
-                  <select
-                    value={
-                      primaryOccasion
-                    }
-                    onChange={(event) =>
-                      setPrimaryOccasion(
-                        event.target
-                          .value,
-                      )
-                    }
-                  >
-                    {occasions.map(
-                      (occasion) => (
-                        <option
-                          key={occasion}
-                          value={occasion}
-                        >
-                          {formatLabel(
-                            occasion,
-                          )}
-                        </option>
-                      ),
-                    )}
+                  <span>Primary occasion</span>
+                  <select value={primaryOccasion} onChange={(event) => setPrimaryOccasion(event.target.value)}>
+                    {occasions.map((occasion) => (
+                      <option key={occasion} value={occasion}>{formatLabel(occasion)}</option>
+                    ))}
                   </select>
                 </label>
-              ) : null}
+              )}
             </>
           ) : (
-            <div className="prf-occ-chips">
-              {(occasions.length > 0
-                ? occasions
-                : ['Not selected']
-              ).map((occasion) => (
-                <span
-                  key={occasion}
-                  className="prf-occ-chip active"
-                >
-                  {formatLabel(
-                    occasion,
-                  )}
-                </span>
-              ))}
+            <div className="prf-value-pills">
+              {occasions.length > 0 ? (
+                occasions.map((occasion) => (
+                  <span key={occasion} className="prf-occ-chip active prf-color-party">
+                    {formatLabel(occasion)}
+                  </span>
+                ))
+              ) : (
+                <span className="prf-not-selected">Not selected</span>
+              )}
             </div>
           )}
         </div>
 
-        <div className="prf-card">
-          <div className="prf-card-title">
-            🎨 Preferred Colours
+        <div className={`prf-card ${!editing ? 'clickable' : ''}`} role={!editing ? "button" : undefined} tabIndex={!editing ? 0 : undefined} onKeyDown={(e) => { if(!editing && (e.key==='Enter'||e.key===' ')) { e.preventDefault(); setEditing(true); } }} onClick={() => !editing && setEditing(true)}>
+          <div className="prf-card-title-row">
+            <div className="prf-card-title">🎨 Preferred Colours</div>
+            {!editing && <div className="prf-chevron">›</div>}
           </div>
 
           {editing ? (
             <div className="prf-occ-chips">
-              {COLOUR_OPTIONS.map(
-                (colour) => (
-                  <button
-                    type="button"
-                    key={colour}
-                    className={`prf-occ-chip ${
-                      colours.includes(
-                        colour,
-                      )
-                        ? 'active'
-                        : ''
-                    }`}
-                    onClick={() =>
-                      toggleArrayValue(
-                        colour,
-                        colours,
-                        setColours,
-                      )
-                    }
-                  >
-                    {formatLabel(colour)}
-                  </button>
-                ),
-              )}
-            </div>
-          ) : (
-            <div className="prf-occ-chips">
-              {(colours.length > 0
-                ? colours
-                : ['Not selected']
-              ).map((colour) => (
-                <span
+              {COLOUR_OPTIONS.map((colour) => (
+                <button
+                  type="button"
                   key={colour}
-                  className="prf-occ-chip active"
+                  className={`prf-occ-chip ${colours.includes(colour) ? 'active' : ''}`}
+                  onClick={() => toggleArrayValue(colour, colours, setColours)}
                 >
                   {formatLabel(colour)}
-                </span>
+                </button>
               ))}
+            </div>
+          ) : (
+            <div className="prf-value-pills">
+              {colours.length > 0 ? (
+                colours.map((colour) => (
+                  <span key={colour} className={`prf-occ-chip active prf-color-${colour.replace(' ', '')}`}>
+                    {formatLabel(colour)}
+                  </span>
+                ))
+              ) : (
+                <span className="prf-not-selected">Not selected</span>
+              )}
             </div>
           )}
         </div>
 
-        <div className="prf-card">
-          <div className="prf-card-title">
-            ✨ Preferred Aesthetics
+        <div className={`prf-card ${!editing ? 'clickable' : ''}`} role={!editing ? "button" : undefined} tabIndex={!editing ? 0 : undefined} onKeyDown={(e) => { if(!editing && (e.key==='Enter'||e.key===' ')) { e.preventDefault(); setEditing(true); } }} onClick={() => !editing && setEditing(true)}>
+          <div className="prf-card-title-row">
+            <div className="prf-card-title">✨ Preferred Aesthetics</div>
+            {!editing && <div className="prf-chevron">›</div>}
           </div>
 
           {editing ? (
             <div className="prf-occ-chips">
-              {AESTHETIC_OPTIONS.map(
-                (aesthetic) => (
-                  <button
-                    type="button"
-                    key={aesthetic}
-                    className={`prf-occ-chip ${
-                      aesthetics.includes(
-                        aesthetic,
-                      )
-                        ? 'active'
-                        : ''
-                    }`}
-                    onClick={() =>
-                      toggleArrayValue(
-                        aesthetic,
-                        aesthetics,
-                        setAesthetics,
-                      )
-                    }
-                  >
-                    {formatLabel(
-                      aesthetic,
-                    )}
-                  </button>
-                ),
-              )}
-            </div>
-          ) : (
-            <div className="prf-occ-chips">
-              {(aesthetics.length > 0
-                ? aesthetics
-                : ['Not selected']
-              ).map((aesthetic) => (
-                <span
+              {AESTHETIC_OPTIONS.map((aesthetic) => (
+                <button
+                  type="button"
                   key={aesthetic}
-                  className="prf-occ-chip active"
+                  className={`prf-occ-chip ${aesthetics.includes(aesthetic) ? 'active' : ''}`}
+                  onClick={() => toggleArrayValue(aesthetic, aesthetics, setAesthetics)}
                 >
-                  {formatLabel(
-                    aesthetic,
-                  )}
-                </span>
+                  {formatLabel(aesthetic)}
+                </button>
               ))}
+            </div>
+          ) : (
+            <div className="prf-value-pills">
+              {aesthetics.length > 0 ? (
+                aesthetics.map((aesthetic) => (
+                  <span key={aesthetic} className="prf-occ-chip active prf-color-aesthetic">
+                    {formatLabel(aesthetic)}
+                  </span>
+                ))
+              ) : (
+                <span className="prf-not-selected">Not selected</span>
+              )}
             </div>
           )}
         </div>
 
-        <div className="prf-card">
-          <div className="prf-card-title">
-            👕 Fit Preferences
+        <div className={`prf-card ${!editing ? 'clickable' : ''}`} role={!editing ? "button" : undefined} tabIndex={!editing ? 0 : undefined} onKeyDown={(e) => { if(!editing && (e.key==='Enter'||e.key===' ')) { e.preventDefault(); setEditing(true); } }} onClick={() => !editing && setEditing(true)}>
+          <div className="prf-card-title-row">
+            <div className="prf-card-title">👕 Fit Preferences</div>
+            {!editing && <div className="prf-chevron">›</div>}
           </div>
 
           {editing ? (
             <div className="prf-occ-chips">
-              {FIT_OPTIONS.map(
-                (fit) => (
-                  <button
-                    type="button"
-                    key={fit}
-                    className={`prf-occ-chip ${
-                      fitPreferences.includes(
-                        fit,
-                      )
-                        ? 'active'
-                        : ''
-                    }`}
-                    onClick={() =>
-                      toggleArrayValue(
-                        fit,
-                        fitPreferences,
-                        setFitPreferences,
-                      )
-                    }
-                  >
-                    {formatLabel(fit)}
-                  </button>
-                ),
-              )}
-            </div>
-          ) : (
-            <div className="prf-occ-chips">
-              {(fitPreferences.length >
-              0
-                ? fitPreferences
-                : ['Not selected']
-              ).map((fit) => (
-                <span
+              {FIT_OPTIONS.map((fit) => (
+                <button
+                  type="button"
                   key={fit}
-                  className="prf-occ-chip active"
+                  className={`prf-occ-chip ${fitPreferences.includes(fit) ? 'active' : ''}`}
+                  onClick={() => toggleArrayValue(fit, fitPreferences, setFitPreferences)}
                 >
                   {formatLabel(fit)}
-                </span>
+                </button>
               ))}
+            </div>
+          ) : (
+            <div className="prf-value-pills">
+              {fitPreferences.length > 0 ? (
+                fitPreferences.map((fit) => (
+                  <span key={fit} className="prf-occ-chip active prf-color-fit">
+                    {formatLabel(fit)}
+                  </span>
+                ))
+              ) : (
+                <span className="prf-not-selected">Not selected</span>
+              )}
             </div>
           )}
         </div>
 
-        <div className="prf-card">
-          <div className="prf-card-title">
-            🏷️ Preferred Brands
+        <div className={`prf-card ${!editing ? 'clickable' : ''}`} role={!editing ? "button" : undefined} tabIndex={!editing ? 0 : undefined} onKeyDown={(e) => { if(!editing && (e.key==='Enter'||e.key===' ')) { e.preventDefault(); setEditing(true); } }} onClick={() => !editing && setEditing(true)}>
+          <div className="prf-card-title-row">
+            <div className="prf-card-title">🏷️ Preferred Brands</div>
+            {!editing && <div className="prf-chevron">›</div>}
           </div>
 
           {editing ? (
             <div className="prf-occ-chips">
-              {BRAND_OPTIONS.map(
-                (brand) => (
-                  <button
-                    type="button"
-                    key={brand}
-                    className={`prf-occ-chip ${
-                      brands.includes(
-                        brand,
-                      )
-                        ? 'active'
-                        : ''
-                    }`}
-                    onClick={() =>
-                      toggleArrayValue(
-                        brand,
-                        brands,
-                        setBrands,
-                      )
-                    }
-                  >
-                    {brand}
-                  </button>
-                ),
-              )}
+              {BRAND_OPTIONS.map((brand) => (
+                <button
+                  type="button"
+                  key={brand}
+                  className={`prf-occ-chip ${brands.includes(brand) ? 'active' : ''}`}
+                  onClick={() => toggleArrayValue(brand, brands, setBrands)}
+                >
+                  {formatLabel(brand)}
+                </button>
+              ))}
             </div>
           ) : (
-            <div className="prf-occ-chips">
-              {(brands.length > 0
-                ? brands
-                : ['Not selected']
-              ).map((brand) => (
-                <span
-                  key={brand}
-                  className="prf-occ-chip active"
-                >
-                  {brand}
-                </span>
-              ))}
+            <div className="prf-value-pills">
+              {brands.length > 0 ? (
+                brands.map((brand) => (
+                  <span key={brand} className="prf-occ-chip active prf-color-brand">
+                    {formatLabel(brand)}
+                  </span>
+                ))
+              ) : (
+                <span className="prf-not-selected">Not selected</span>
+              )}
             </div>
           )}
         </div>
 
-        <div className="prf-card">
-          <div className="prf-card-title">
-            ⚖️ Comfort vs Expression
+        <div className={`prf-card ${!editing ? 'clickable' : ''}`} role={!editing ? "button" : undefined} tabIndex={!editing ? 0 : undefined} onKeyDown={(e) => { if(!editing && (e.key==='Enter'||e.key===' ')) { e.preventDefault(); setEditing(true); } }} onClick={() => !editing && setEditing(true)}>
+          <div className="prf-card-title-row">
+            <div className="prf-card-title">🎯 Fashion Goal</div>
+            {!editing && <div className="prf-chevron">›</div>}
+          </div>
+
+          {editing ? (
+            <div className="prf-occ-chips">
+              <select
+                className="prf-select"
+                value={fashionGoal}
+                onChange={(event) => setFashionGoal(event.target.value)}
+              >
+                <option value="">Select your fashion goal</option>
+                {FASHION_GOALS.map((goal) => (
+                  <option key={goal} value={goal}>{formatLabel(goal)}</option>
+                ))}
+              </select>
+            </div>
+          ) : (
+            <div className="prf-value-pills">
+              {fashionGoal ? (
+                <span className="prf-occ-chip active prf-color-goal">{formatLabel(fashionGoal)}</span>
+              ) : (
+                <span className="prf-not-selected">Not selected</span>
+              )}
+            </div>
+          )}
+        </div>
+
+        <div className={`prf-card ${!editing ? 'clickable' : ''}`} role={!editing ? "button" : undefined} tabIndex={!editing ? 0 : undefined} onKeyDown={(e) => { if(!editing && (e.key==='Enter'||e.key===' ')) { e.preventDefault(); setEditing(true); } }} onClick={() => !editing && setEditing(true)}>
+          <div className="prf-card-title-row">
+            <div className="prf-card-title">⚖️ Comfort vs Expression</div>
+            {!editing && <div className="prf-chevron">›</div>}
           </div>
 
           {editing ? (
             <div className="prf-range-wrap">
               <div className="prf-range-labels">
                 <span>Comfort</span>
-                <span>
-                  Self-expression
-                </span>
+                <span>Self-expression</span>
               </div>
 
               <input
@@ -1057,74 +924,24 @@ export default function Profile() {
                 min="0"
                 max="1"
                 step="0.05"
-                value={
-                  comfortExpressionBalance
-                }
-                onChange={(event) =>
-                  setComfortExpressionBalance(
-                    Number(
-                      event.target.value,
-                    ),
-                  )
-                }
+                value={comfortExpressionBalance}
+                onChange={(event) => setComfortExpressionBalance(Number(event.target.value))}
               />
 
-              <div className="prf-value">
-                {Math.round(
-                  comfortExpressionBalance *
-                    100,
-                )}
-                % expression
+              <div className="prf-value-sub">
+                {Math.round(comfortExpressionBalance * 100)}% expression
               </div>
             </div>
           ) : (
-            <div className="prf-value">
-              {Math.round(
-                comfortExpressionBalance *
-                  100,
-              )}
-              % expression
+            <div className="prf-value-pills">
+              <span className="prf-occ-chip active prf-color-comfort">
+                {Math.round(comfortExpressionBalance * 100)}% Expression
+              </span>
             </div>
           )}
         </div>
 
-        <div className="prf-card">
-          <div className="prf-card-title">
-            🎯 Fashion Goal
-          </div>
 
-          {editing ? (
-            <select
-              className="prf-select"
-              value={fashionGoal}
-              onChange={(event) =>
-                setFashionGoal(
-                  event.target.value,
-                )
-              }
-            >
-              <option value="">
-                Select your fashion goal
-              </option>
-
-              {FASHION_GOALS.map(
-                (goal) => (
-                  <option
-                    key={goal}
-                    value={goal}
-                  >
-                    {goal}
-                  </option>
-                ),
-              )}
-            </select>
-          ) : (
-            <div className="prf-value">
-              {fashionGoal ||
-                'Not selected'}
-            </div>
-          )}
-        </div>
 
         {saveError ? (
           <div
@@ -1162,54 +979,75 @@ export default function Profile() {
           </div>
         ) : null}
 
-        <div className="prf-links">
-          <button
-            type="button"
-            className="prf-link-row"
-            onClick={() =>
-              navigate('/memory')
-            }
-          >
-            <span>
-              📖 Fashion Memory
-            </span>
-            <span>→</span>
-          </button>
+        <div className="prf-accordions">
+          {/* Fashion Memory */}
+          <div className={`prf-accordion ${expandedSection === 'memory' ? 'expanded' : ''}`}>
+            <div
+              className="prf-acc-hdr"
+              onClick={() => setExpandedSection(expandedSection === 'memory' ? null : 'memory')}
+            >
+              <div className="prf-acc-title">
+                <span className="prf-acc-icon-svg">📈</span> Fashion Memory
+              </div>
+              <div className="prf-acc-chevron">{expandedSection === 'memory' ? '⌃' : '⌄'}</div>
+            </div>
+            {expandedSection === 'memory' && (
+              <div className="prf-acc-body">
+                <p>Track how your style evolves over time and past occasions.</p>
+                <button type="button" className="prf-acc-link-btn" onClick={() => navigate('/memory')}>
+                  Open Fashion Memory ›
+                </button>
+              </div>
+            )}
+          </div>
 
-          <button
-            type="button"
-            className="prf-link-row"
-            onClick={() =>
-              navigate('/wishlist')
-            }
-          >
-            <span><Heart
-              aria-hidden="true"
-              size={18}
-            />
-            <span>My Wishlist</span></span>
-            <span>→</span>
-          </button>
+          {/* My Wishlist */}
+          <div className={`prf-accordion ${expandedSection === 'wishlist' ? 'expanded' : ''}`}>
+            <div
+              className="prf-acc-hdr"
+              onClick={() => setExpandedSection(expandedSection === 'wishlist' ? null : 'wishlist')}
+            >
+              <div className="prf-acc-title">
+                <span className="prf-acc-icon-svg"><Heart size={16} /></span> My Wishlist
+              </div>
+              <div className="prf-acc-chevron">{expandedSection === 'wishlist' ? '⌃' : '⌄'}</div>
+            </div>
+            {expandedSection === 'wishlist' && (
+              <div className="prf-acc-body">
+                <p>You have {JSON.parse(localStorage.getItem('myntra_wishlist') || '[]').length} item(s) in your wishlist.</p>
+                <button type="button" className="prf-acc-link-btn" onClick={() => navigate('/wishlist')}>
+                  Open My Wishlist ›
+                </button>
+              </div>
+            )}
+          </div>
 
-          <button
-            type="button"
-            className="prf-link-row"
-            onClick={() =>
-              navigate(
-                '/identity-card',
-              )
-            }
-          >
-            <span>
-              <Dna
-              aria-hidden="true"
-              size={18}
-            />
-            <span>DNA Identity Card</span>
-            </span>
-            <span>→</span>
-          </button>
+          {/* DNA Identity Card */}
+          <div className={`prf-accordion ${expandedSection === 'dna' ? 'expanded' : ''}`}>
+            <div
+              className="prf-acc-hdr"
+              onClick={() => setExpandedSection(expandedSection === 'dna' ? null : 'dna')}
+            >
+              <div className="prf-acc-title">
+                <span className="prf-acc-icon-svg"><Dna size={16} /></span> DNA Identity Card
+              </div>
+              <div className="prf-acc-chevron">{expandedSection === 'dna' ? '⌃' : '⌄'}</div>
+            </div>
+            {expandedSection === 'dna' && (
+              <div className="prf-acc-body">
+                <p>View and share your personalized Aesthetic Passport.</p>
+                <button type="button" className="prf-acc-link-btn" onClick={() => navigate('/identity-card')}>
+                  Open Identity Card ›
+                </button>
+              </div>
+            )}
+          </div>
         </div>
+        
+        {/* Floating Action Button */}
+        <button className="prf-fab" aria-label="Quick action">
+          ✨
+        </button>
       </div>
 
       {toast ? (

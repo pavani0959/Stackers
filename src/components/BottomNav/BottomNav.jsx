@@ -1,15 +1,15 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { Home, Search, Sparkles, Globe, User } from 'lucide-react';
 import '../../styles/BottomNav.css';
 
 const navItems = [
-  { icon: '🏠', label: 'Home',    path: '/home' },
-  { icon: '🔍', label: 'Search',  path: '/search' },
-  { icon: '🔮', label: 'Reverse', path: '/reverse' },
-  { icon: '🌐', label: 'Tribe',   path: '/community' },
-  { icon: '👤', label: 'Profile', path: '/profile' },
+  { icon: <Home size={22} />, label: 'Home',    path: '/home' },
+  { icon: <Search size={22} />, label: 'Search',  path: '/search' },
+  { icon: <Sparkles size={22} />, label: 'Reverse', path: '/reverse' },
+  { icon: <Globe size={22} />, label: 'Tribe',   path: '/community' },
+  { icon: <User size={22} />, label: 'Profile', path: '/profile' },
 ];
-
 
 export default function BottomNav() {
   const navigate = useNavigate();

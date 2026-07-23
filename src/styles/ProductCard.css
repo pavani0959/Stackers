@@ -1,152 +1,27 @@
+/* ===================================================================
+   ProductCard — Fixed: uniform sizing, no duplication, token type-scale
+   =================================================================== */
+
+/* ── Card root ── */
 .prod-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
-.prod-img {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 4/5;
-  background: var(--surface-2);
-  /* Pulse skeleton loader for loading state */
-  animation: pulse-skeleton 1.5s infinite alternate ease-in-out;
-}
-
-@keyframes pulse-skeleton {
-  from { background-color: var(--surface-2); }
-  to { background-color: var(--border); }
-}
-
-.prod-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  text-indent: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  /* hide the background pulse when img is fully opaque */
   background: white;
-}
-
-.img-fallback {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background: var(--surface-2);
-  color: var(--text-3);
-  padding: 16px;
-  text-align: center;
-}
-.img-fallback-icon { font-size: 24px; }
-.img-fallback-text { font-size: 11px; font-weight: 600; line-height: 1.3; }
-
-.dna-badge {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--accent);
-  padding: 4px 6px;
-  border-radius: 2px;
-  font-size: 10px;
-  font-weight: 700;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.dna-badge.perfect {
-  background: var(--gradient);
-  color: white;
-}
-
-.wish-btn {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 30px;
-  height: 30px;
-  background: rgba(255, 255, 255, 0.9);
-  border: none;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.prod-info {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.prod-brand {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text);
-  line-height: 1;
-}
-
-.prod-name {
-  font-size: 12px;
-  color: var(--text-3);
-  white-space: nowrap;
+  border-radius: var(--radius-lg, 12px);
   overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.prod-pr-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 2px;
-}
-
-.prod-price {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text);
-}
-
-.prod-og {
-  font-size: 12px;
-  color: var(--text-3);
-  text-decoration: line-through;
-}
-
-.prod-disc {
-  font-size: 12px;
-  color: var(--accent);
-  font-weight: 600;
-}
-
-.prod-match-badge {
-  font-size: 10px;
-  color: white;
-  background: var(--color-primary);
-  padding: 2px 4px;
-  border-radius: 4px;
-  font-weight: 600;
-}
-
-
-/* Phase 8: accessible product card */
-
-.prod-card {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border, #eaeaec);
+  height: 100%;              /* BUG 3: fill grid cell uniformly */
+}
+.prod-card.is-gradient {
+  background: transparent;
+  border: none;
+}
+.prod-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
+/* ── Accessible overlay button ── */
 .prod-card-open {
   position: absolute;
   z-index: 1;
@@ -159,40 +34,274 @@
   background: transparent;
   cursor: pointer;
 }
-
 .prod-card-open:focus-visible {
-  outline: 3px solid
-    var(
-      --accent,
-      var(--color-primary, #ff3f6c)
-    );
+  outline: 3px solid var(--color-primary, #ff3f6c);
   outline-offset: 3px;
 }
 
+/* ── Gradient frame variant ── */
+.prod-gradient-frame {
+  position: relative;
+  padding: 12px 12px 0;
+  border-radius: var(--radius-lg, 12px);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.prod-grad-1 { background: linear-gradient(135deg, #ff7eb3 0%, #ffd4f2 100%); }
+.prod-grad-2 { background: linear-gradient(135deg, #818cf8 0%, #c4b5fd 100%); }
+.prod-grad-3 { background: linear-gradient(135deg, #f472b6 0%, #99f6e4 100%); }
+.prod-grad-4 { background: linear-gradient(135deg, #fb923c 0%, #fef08a 100%); }
+
+.prod-inner-card {
+  background: white;
+  border-radius: var(--radius-md, 8px) var(--radius-md, 8px) 0 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* ── Image container ── */
+/* BUG 1 FIX: This wrapper gets the fixed aspect-ratio, so both the <img>
+   and the fallback <div> occupy the EXACT same box. */
+.prod-img-container {
+  position: relative;
+}
+.prod-img-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--color-surface-muted, #f4f4f5);
+}
+.prod-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* BUG 1 FIX: Subtle, muted, small fallback — NOT a colored block. */
+.img-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--color-surface-muted, #f4f4f5);
+  color: var(--color-text-muted, #7e818c);
+}
+.img-fallback svg {
+  opacity: 0.4;
+}
+.img-fallback span {
+  font-size: var(--fs-xs, 11px);
+  font-weight: 500;
+  color: var(--color-text-muted, #7e818c);
+}
+
+/* ── Badge ── */
+.dna-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: var(--color-primary, #ff3f6c);
+  color: white;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm, 4px);
+  font-size: var(--fs-xs, 11px);
+  font-weight: 800;
+  z-index: 2;
+}
+.dna-badge.perfect {
+  background: linear-gradient(135deg, #ff3f6c, #ff7eb3);
+}
+
+/* ── Wishlist heart (overlay on standard card) ── */
 .wish-btn {
+  position: absolute;
+  z-index: 2;
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: var(--color-primary, #ff3f6c);
+}
+
+/* ── Info section (appears once per card) ── */
+.prod-info {
+  padding: 10px 12px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;               /* Push bottom strip down for uniform height */
+  min-width: 0;          /* Allow truncation to work inside flex */
+}
+.prod-label {
+  font-size: var(--fs-xs, 11px);
+  font-weight: 700;
+  color: var(--color-primary, #ff3f6c);
+  margin: 0;
+}
+.prod-name {
+  font-size: var(--fs-sm, 13px);
+  font-weight: 700;
+  color: var(--color-text, #282c3f);
+  margin: 2px 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+.prod-colour-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+.prod-colour-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+.prod-colour-text {
+  font-size: var(--fs-xs, 11px);
+  color: var(--color-text-muted, #7e818c);
+  text-transform: capitalize;
+}
+.prod-catalogue-link {
+  margin-top: auto;
+  padding-top: 8px;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--color-primary, #ff3f6c);
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.prod-catalogue-arrow {
+  font-size: var(--fs-xs, 11px);
+}
+
+/* ── Bottom strip (brand + price, appears once outside card body) ── */
+.prod-bottom {
+  padding: 8px 4px 4px;
+}
+.prod-bottom-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+.wish-btn-inline {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
   position: relative;
   z-index: 2;
 }
+.prod-bottom-heart {
+  flex-shrink: 0;
+  color: var(--color-primary, #ff3f6c);
+}
+.prod-brand {
+  font-size: var(--fs-xs, 11px);
+  font-weight: 600;
+  color: var(--color-text-muted, #7e818c);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.prod-pr-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.prod-price {
+  font-size: var(--fs-base, 15px);
+  font-weight: 800;
+  color: var(--color-text, #282c3f);
+}
+.prod-og {
+  font-size: var(--fs-xs, 11px);
+  color: var(--color-text-muted, #7e818c);
+  text-decoration: line-through;
+}
+.prod-match-badge {
+  font-size: var(--fs-xs, 11px);
+  color: white;
+  background: var(--color-primary, #ff3f6c);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm, 4px);
+  font-weight: 700;
+}
 
-/* ===== RESPONSIVE: Product Card ===== */
+/* ── Thumbnail Variant ── */
+.prod-thumb-card {
+  display: flex;
+  flex-direction: column;
+  appearance: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+}
+.prod-thumb-img-wrap {
+  width: 100%;
+  aspect-ratio: 1/1;
+  background: var(--color-surface-muted, #f4f4f5);
+  border-radius: var(--radius-md, 8px);
+  overflow: hidden;
+  margin-bottom: 8px;
+  position: relative;
+}
+.prod-thumb-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.prod-thumb-name {
+  font-size: var(--fs-xs, 11px);
+  color: var(--color-text-secondary, #535766);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+.prod-thumb-price {
+  font-size: var(--fs-xs, 11px);
+  font-weight: 800;
+  color: var(--color-text, #282c3f);
+}
 
-/* Mobile (<640px) */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 639px) {
-  .prod-info { padding: 8px; }
-  .prod-brand { font-size: 12px; }
-  .prod-name { font-size: 11px; }
-  .prod-price { font-size: 12px; }
+  .prod-info { padding: 8px 8px 6px; }
+  .prod-name { font-size: var(--fs-xs, 11px); }
+  .prod-price { font-size: var(--fs-sm, 13px); }
 }
-
-/* Tablet (640–1024px) */
-@media (min-width: 640px) and (max-width: 1024px) {
-  .prod-info { padding: 12px; }
-}
-
-/* Desktop (>1024px) */
 @media (min-width: 1025px) {
-  .prod-info { padding: 14px; gap: 6px; }
-  .prod-brand { font-size: 15px; }
-  .prod-name { font-size: 13px; }
+  .prod-info { padding: 12px 14px 10px; gap: 3px; }
+  .prod-name { font-size: var(--fs-base, 15px); }
 }
-

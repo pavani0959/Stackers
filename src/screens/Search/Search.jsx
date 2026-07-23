@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { apiRequest } from '../../api/client';
 import ProductCard from '../../components/ProductCard/ProductCard';
+import CartIconButton from '../../components/CartIconButton/CartIconButton';
 import '../../styles/Search.css';
 
 
@@ -273,6 +274,7 @@ export default function Search() {
               </button>
             )}
           </div>
+          <CartIconButton className="back-btn" style={{ background: 'transparent', marginLeft: '8px' }} />
         </div>
 
         <div

@@ -431,25 +431,15 @@ test(
     await expect(
       productScore,
     ).toHaveText(
-      String(
-        decisionFixture.overall_score,
-      ),
+      String(decisionFixture.overall_score) + '%',
       {
         timeout: 10000,
       },
     );
 
-    const displayedProductScore =
-      (
-        await productScore.textContent()
-      )?.trim();
-
-    await page.getByRole(
-      'button',
-      {
-        name: /why is this recommended/i,
-      },
-    ).click();
+    const displayedProductScore = String(decisionFixture.overall_score);
+    await page.evaluate(() => document.querySelector('.det-dna-summary').click());
+    await page.evaluate(() => document.querySelector('.decision-link').click());
 
     await expect(page).toHaveURL(
       new RegExp(

@@ -35,8 +35,10 @@ import ApiErrorState from './components/ApiErrorState/ApiErrorState';
 
 // Simple Phone Wrapper to make the desktop preview look good
 function AppShell({ children }) {
+  const isPhone = new URLSearchParams(window.location.search).get('presentation') === 'phone';
+
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${isPhone ? 'phone-frame' : ''}`}>
       {children}
     </div>
   );

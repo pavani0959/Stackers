@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/useUser';
-import { ArrowRight, User, CheckCircle } from 'lucide-react';
+import { ArrowRight, User, CheckCircle, X } from 'lucide-react';
 import '../../styles/Onboarding.css';
 import ApiErrorState from '../../components/ApiErrorState/ApiErrorState';
+import OnboardingProgress from '../../components/OnboardingProgress/OnboardingProgress';
+import OnboardingCard from '../../components/OnboardingCard/OnboardingCard';
 
 /* ── tiny 4-point sparkle SVG (shared across onboarding) ── */
 function Sparkle({ size = 16, color = 'var(--gradient-hero-start)', className = '' }) {
@@ -145,13 +147,21 @@ export function OnboardGender() {
 
   return (
     <OnboardShell>
-      <div className="ob-card">
-        {/* 3-segment step progress bar */}
-        <div className="ob-prog-wrap">
-          {[0, 1, 2].map(i => (
-            <div key={i} className={`ob-bar ${i === 0 ? 'active' : ''}`} />
-          ))}
-        </div>
+      <OnboardingCard
+        footer={
+          <button
+            type="button"
+            className="ob-cta"
+            disabled={saving}
+            onClick={next}
+          >
+            <span>{saving ? 'Saving…' : 'Continue'}</span>
+            <ArrowRight size={20} aria-hidden="true" />
+          </button>
+        }
+      >
+        {/* Shared step progress component (Step 1 of 4) */}
+        <OnboardingProgress currentStep={1} />
 
         <h1 className="ob-title">
           Before we begin,<br />let&rsquo;s understand you <span aria-hidden="true">👋</span>
@@ -183,9 +193,9 @@ export function OnboardGender() {
         <label className="ob-label">How do you identify?</label>
         <div className="gender-grid">
           {[
-            { id: 'male',      icon: '🧑', label: 'Male' },
-            { id: 'female',    icon: '👩', label: 'Female' },
-            { id: 'nonbinary', icon: '🌈', label: 'Non-Binary / Prefer not to say' },
+            { id: 'male',      icon: <User size={20} />, label: 'Male' },
+            { id: 'female',    icon: <User size={20} />, label: 'Female' },
+            { id: 'nonbinary', icon: <Users size={20} />, label: 'Non-Binary / Prefer not to say' },
           ].map((genderOption) => {
             const isSelected = gender === genderOption.id;
             return (
@@ -228,18 +238,7 @@ export function OnboardGender() {
             onRetry={next}
           />
         )}
-
-        {/* CTA */}
-        <button
-          type="button"
-          className="ob-cta"
-          disabled={saving}
-          onClick={next}
-        >
-          <span>{saving ? 'Saving…' : 'Continue'}</span>
-          <ArrowRight size={20} aria-hidden="true" />
-        </button>
-      </div>
+      </OnboardingCard>
     </OnboardShell>
   );
 }
@@ -255,11 +254,11 @@ export function OnboardBudget() {
 
   /* Budget tiers with icon/color for each badge */
   const BUDGET_TIERS = [
-    { ...BUDGET_OPTIONS[0], icon: '💼', badgeColor: '#dbeafe' },
-    { ...BUDGET_OPTIONS[1], icon: '🐷', badgeColor: '#fce7f3' },
-    { ...BUDGET_OPTIONS[2], icon: '🎓', badgeColor: '#e0e7ff' },
-    { ...BUDGET_OPTIONS[3], icon: '📈', badgeColor: '#d1fae5' },
-    { ...BUDGET_OPTIONS[4], icon: '💎', badgeColor: '#ede9fe' },
+    { ...BUDGET_OPTIONS[0], icon: <Briefcase size={20} />, badgeColor: '#dbeafe' },
+    { ...BUDGET_OPTIONS[1], icon: <PiggyBank size={20} />, badgeColor: '#fce7f3' },
+    { ...BUDGET_OPTIONS[2], icon: <GraduationCap size={20} />, badgeColor: '#e0e7ff' },
+    { ...BUDGET_OPTIONS[3], icon: <TrendingUp size={20} />, badgeColor: '#d1fae5' },
+    { ...BUDGET_OPTIONS[4], icon: <Gem size={20} />, badgeColor: '#ede9fe' },
   ];
 
   const next = () => {
@@ -283,13 +282,16 @@ export function OnboardBudget() {
 
   return (
     <OnboardShell>
-      <div className="ob-content">
-        {/* 3-segment step progress bar — first 2 filled */}
-        <div className="ob-prog-wrap">
-          {[0, 1, 2].map(i => (
-            <div key={i} className={`ob-bar ${i < 2 ? 'active' : ''}`} />
-          ))}
-        </div>
+      <OnboardingCard
+        footer={
+          <button type="button" className="ob-cta" onClick={next}>
+            <span>CONTINUE</span>
+            <ArrowRight size={20} aria-hidden="true" />
+          </button>
+        }
+      >
+        {/* Shared step progress component (Step 2 of 4) */}
+        <OnboardingProgress currentStep={2} />
 
         <h1 className="ob-title">
           What&rsquo;s your outfit budget? <span aria-hidden="true">💸</span>
@@ -328,13 +330,7 @@ export function OnboardBudget() {
             );
           })}
         </div>
-
-        {/* CTA */}
-        <button type="button" className="ob-cta" onClick={next}>
-          <span>CONTINUE</span>
-          <ArrowRight size={20} aria-hidden="true" />
-        </button>
-      </div>
+      </OnboardingCard>
     </OnboardShell>
   );
 }
@@ -343,57 +339,97 @@ export function OnboardBudget() {
 export function OnboardColours() {
   const navigate = useNavigate();
   const { user, updateUser } = useUser();
-  const [selected, setSelected] = useState(user.colours || ['#F5F0E8', '#8BA7BF', '#B0B0B0']);
+  const coloursData = [
+    { hex: '#F5F0E8', name: 'Cream' },
+    { hex: '#1A1A1A', name: 'Black' },
+    { hex: '#8B7355', name: 'Brown' },
+    { hex: '#C4A882', name: 'Beige' },
+    { hex: '#4A6741', name: 'Olive' },
+    { hex: '#8BA7BF', name: 'Blue' },
+    { hex: '#D4B8C0', name: 'Blush' },
+    { hex: '#E86D6D', name: 'Coral' },
+    { hex: '#5B4FCF', name: 'Purple' },
+    { hex: '#F5C842', name: 'Mustard' },
+    { hex: '#2C7865', name: 'Teal' },
+    { hex: '#B0B0B0', name: 'Grey' },
+    { hex: '#FFFFFF', name: 'White' },
+    { hex: '#FF7043', name: 'Orange' }
+  ];
 
-  const colours = ['#F5F0E8', '#1A1A1A', '#8B7355', '#C4A882', '#4A6741', '#8BA7BF', '#D4B8C0', '#E86D6D', '#5B4FCF', '#F5C842', '#2C7865', '#B0B0B0', '#FFFFFF', '#FF7043'];
+  // Map legacy color names to hex if they exist in user state
+  const initialColours = (user.colours || ['#F5F0E8', '#8BA7BF', '#B0B0B0']).map(c => {
+    const foundByName = coloursData.find(d => d.name.toLowerCase() === c.toLowerCase());
+    return foundByName ? foundByName.hex : c;
+  });
+
+  const [selected, setSelected] = useState(initialColours);
 
   const toggle = (c) => setSelected(prev => prev.includes(c) ? prev.filter(x => x !== c) : [...prev, c]);
   const next = () => { updateUser({ colours: selected }); navigate('/onboard/occasions'); };
 
   return (
-    <div className="screen ob-screen">
-      <div className="ob-prog-wrap">
-        {[0, 1, 2, 3].map(i => <div key={i} className={`ob-dot ${i < 2 ? 'done' : ''} ${i === 2 ? 'active' : ''}`} />)}
-      </div>
-      <h1 className="ob-title">Your colour palette 🎨</h1>
-      <p className="ob-sub">Pick the colours that feel like you.</p>
+    <OnboardShell>
+      <OnboardingCard
+        className="col-content"
+        footer={
+          <button type="button" className="ob-cta gradient-cta" onClick={next}>
+            <span>CONTINUE</span>
+            <ArrowRight size={20} aria-hidden="true" />
+          </button>
+        }
+      >
+        {/* Shared step progress component (Step 3 of 4) */}
+        <OnboardingProgress currentStep={3} />
+        
+        <header className="ob-col-hdr">
+          <div className="ob-icon-badge">🎨</div>
+          <div>
+            <h1 className="ob-title">Your colour palette</h1>
+            <p className="ob-sub">Pick the colours that feel like you.</p>
+          </div>
+        </header>
 
-      <div className="colour-grid">
-        {colours.map((colour) => {
-          const isSelected =
-            selected.includes(colour);
+        <div className="colour-grid">
+          {coloursData.map(({ hex, name }) => {
+            const isSelected = selected.includes(hex);
+            return (
+              <button
+                type="button"
+                key={hex}
+                className={`col-swatch ${isSelected ? 'sel' : ''} ${hex === '#FFFFFF' ? 'is-white' : ''}`}
+                aria-label={`Select colour ${name}`}
+                aria-pressed={isSelected}
+                onClick={() => toggle(hex)}
+              >
+                <div className="col-disc-wrap">
+                  <div className="col-disc" style={{ background: hex }} />
+                  {isSelected && <div className="col-check"><CheckCircle size={12} strokeWidth={3} /></div>}
+                </div>
+                <span className="col-name">{name}</span>
+              </button>
+            );
+          })}
+        </div>
 
-          return (
-            <button
-              type="button"
-              key={colour}
-              className={`col-chip ${isSelected
-                ? 'sel'
-                : ''
-                }`}
-              style={{
-                background: colour,
-                borderColor:
-                  colour === '#FFFFFF'
-                    ? 'rgba(0, 0, 0, 0.18)'
-                    : 'transparent',
-              }}
-              aria-label={
-                `Select colour ${colour}`
-              }
-              aria-pressed={isSelected}
-              onClick={() => {
-                toggle(colour);
-              }}
-            ></button>
-          );
-        })}
-      </div>
-
-      <div className="ob-footer">
-        <button type="button" className="btn-primary" onClick={next}>Continue →</button>
-      </div>
-    </div>
+        {selected.length > 0 && (
+          <div className="ob-picks">
+            <div className="ob-picks-label"><span style={{color: '#ec4899'}}>✦</span> Your picks</div>
+            <div className="ob-picks-tray">
+              {selected.map(hex => {
+                const colorObj = coloursData.find(c => c.hex === hex) || { name: 'Custom' };
+                return (
+                  <button key={hex} className="ob-pick-chip" onClick={() => toggle(hex)}>
+                    <span className="ob-pick-dot" style={{ background: hex, borderColor: hex === '#FFFFFF' ? '#e5e7eb' : 'transparent' }} />
+                    <span className="ob-pick-name">{colorObj.name}</span>
+                    <X size={14} className="ob-pick-rm" />
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </OnboardingCard>
+    </OnboardShell>
   );
 }
 
@@ -506,13 +542,21 @@ export function OnboardOccasions() {
 
   return (
     <OnboardShell>
-      <div className="ob-card">
-        {/* 3-segment progress bar — all 3 filled (last step) */}
-        <div className="ob-prog-wrap">
-          {[0, 1, 2].map(i => (
-            <div key={i} className={`ob-bar ${i < 2 ? 'active' : ''} ${i === 2 ? 'active' : ''}`} />
-          ))}
-        </div>
+      <OnboardingCard
+        footer={
+          <button
+            type="button"
+            className="ob-cta"
+            disabled={saving}
+            onClick={next}
+          >
+            <span>{saving ? 'Saving…' : 'CONTINUE'}</span>
+            <ArrowRight size={20} aria-hidden="true" />
+          </button>
+        }
+      >
+        {/* Shared step progress component (Step 4 of 4) */}
+        <OnboardingProgress currentStep={4} />
 
         <h1 className="ob-title">
           When do you dress up? <span aria-hidden="true">📅</span>
@@ -550,18 +594,7 @@ export function OnboardOccasions() {
             onRetry={next}
           />
         )}
-
-        {/* CTA */}
-        <button
-          type="button"
-          className="ob-cta"
-          disabled={saving}
-          onClick={next}
-        >
-          <span>{saving ? 'Saving…' : 'CONTINUE'}</span>
-          <ArrowRight size={20} aria-hidden="true" />
-        </button>
-      </div>
+      </OnboardingCard>
     </OnboardShell>
   );
 }

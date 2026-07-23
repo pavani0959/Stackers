@@ -30,6 +30,8 @@ export default function Cart() {
   const {
     user,
     clearCart,
+    removeFromCart,
+    updateCartItemQuantity,
   } = useUser();
 
   const [checkingOut, setCheckingOut] =
@@ -233,10 +235,38 @@ export default function Cart() {
                       {item.selectedSize ?? 'Default'}
                     </span>
 
-                    <span>
-                      Quantity: {quantity}
-                    </span>
+                    <div style={styles.qtyRow}>
+                      <button 
+                        type="button" 
+                        style={styles.qtyBtn} 
+                        onClick={() => {
+                          if (quantity > 1) {
+                            updateCartItemQuantity(item.id, item.selectedSize, quantity - 1);
+                          } else {
+                            removeFromCart(item.id, item.selectedSize);
+                          }
+                        }}
+                      >
+                        -
+                      </button>
+                      <span style={styles.qtyText}>{quantity}</span>
+                      <button 
+                        type="button" 
+                        style={styles.qtyBtn} 
+                        onClick={() => updateCartItemQuantity(item.id, item.selectedSize, quantity + 1)}
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
+                  
+                  <button 
+                    type="button" 
+                    style={styles.removeBtn} 
+                    onClick={() => removeFromCart(item.id, item.selectedSize)}
+                  >
+                    Remove
+                  </button>
 
                   {item.confidence?.overall != null && (
                     <p style={styles.confidence}>
@@ -606,4 +636,42 @@ const styles = {
     lineHeight: 1.7,
     color: '#6b7280',
   },
+
+  qtyBtn: {
+    width: '28px',
+    height: '28px',
+    borderRadius: '14px',
+    border: '1px solid #ececf1',
+    background: '#ffffff',
+    fontSize: '16px',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#202124'
+  },
+
+  qtyRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px'
+  },
+
+  qtyText: {
+    fontSize: '14px',
+    fontWeight: '600'
+  },
+
+  removeBtn: {
+    marginTop: '12px',
+    padding: '0',
+    background: 'none',
+    border: 'none',
+    color: '#e74c3c',
+    fontSize: '13px',
+    fontWeight: '600',
+    cursor: 'pointer',
+    textDecoration: 'underline'
+  }
 };
