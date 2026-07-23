@@ -134,7 +134,7 @@ jobs:
 
       - name: Seed database
         working-directory: backend
-        run: python seed.py
+        run: python seed.py --complete-demo-dna
 
       - name: Start backend server
         working-directory: backend

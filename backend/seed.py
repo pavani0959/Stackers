@@ -160,6 +160,79 @@ def seed_demo_user(
 
     return user
 
+def complete_demo_user_dna(
+    db: Session,
+    user: User,
+) -> None:
+    """
+    Give the demo user a completed onboarding + Fashion DNA profile.
+ 
+    seed_demo_user() intentionally leaves the demo user fresh (no DNA)
+    so local dev/demo sessions can walk through onboarding + the quiz.
+    Some automated flows (e.g. the Playwright e2e smoke test) skip
+    onboarding and hit product/decision endpoints directly, which
+    requires a completed StyleProfile to exist. This is opt-in via
+    --complete-demo-dna so it never changes default `seed.py` behaviour.
+    """
+ 
+    user.onboarding_completed = True
+ 
+    if user.preferences is None:
+        db.add(
+            UserPreference(
+                user_id=user.id,
+                budget_min=500,
+                budget_max=3000,
+                budget_tier="mid_range",
+                preferred_colours=[
+                    "black",
+                    "white",
+                    "beige",
+                ],
+                preferred_brands=[],
+                preferred_occasions=[
+                    "campus",
+                    "casual",
+                    "office",
+                ],
+                preferred_aesthetics=[
+                    "minimalist",
+                    "streetwear",
+                ],
+                fit_preferences=["regular"],
+                comfort_priority=0.5,
+                trend_openness=0.5,
+            )
+        )
+ 
+    has_style_profile = (
+        db.query(StyleProfile)
+        .filter(
+            StyleProfile.user_id == user.id,
+        )
+        .first()
+        is not None
+    )
+ 
+    if not has_style_profile:
+        db.add(
+            StyleProfile(
+                user_id=user.id,
+                version=1,
+                dna_vector={
+                    "minimalist": 70,
+                    "streetwear": 30,
+                },
+                primary_identity="minimalist",
+                secondary_identity="streetwear",
+                profile_confidence=86,
+                source="e2e_seed",
+                model_version="dna-v1",
+            )
+        )
+ 
+    db.flush()
+
 
 def seed_synthetic_users(
     db: Session,
@@ -353,13 +426,19 @@ def seed_events(
             db.add(event)
 
 
-def seed_database() -> None:
+def seed_database(
+    *,
+    complete_demo_dna: bool = False,
+) -> None:
     rng = random.Random(RANDOM_SEED)
     db: Session = SessionLocal()
 
     try:
         products = seed_products(db)
-        seed_demo_user(db)
+        demo_user = seed_demo_user(db)
+
+        if complete_demo_dna:
+            complete_demo_user_dna(db, demo_user)
 
         synthetic_users = seed_synthetic_users(
             db,
@@ -396,4 +475,22 @@ def seed_database() -> None:
 
 
 if __name__ == "__main__":
-    seed_database()
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--complete-demo-dna",
+        action="store_true",
+        help=(
+            "Also complete onboarding and Fashion DNA for the demo "
+            "user. Off by default so local/demo sessions can still "
+            "walk through onboarding from a fresh account. Needed by "
+            "automated flows (e.g. Playwright e2e) that hit product/"
+            "decision endpoints directly without onboarding first."
+        ),
+    )
+    args = parser.parse_args()
+
+    seed_database(
+        complete_demo_dna=args.complete_demo_dna,
+    )
