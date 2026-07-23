@@ -1014,7 +1014,7 @@ export default function Profile() {
             </div>
             {expandedSection === 'wishlist' && (
               <div className="prf-acc-body">
-                <p>You have {JSON.parse(localStorage.getItem('myntra_wishlist') || '[]').length} item(s) in your wishlist.</p>
+                <p>You have {(user.wishlist || []).length} item(s) in your wishlist.</p>
                 <button type="button" className="prf-acc-link-btn" onClick={() => navigate('/wishlist')}>
                   Open My Wishlist ›
                 </button>
