@@ -5,19 +5,28 @@ from __future__ import annotations
 from datetime import datetime, timedelta, timezone
 
 from jose import JWTError, jwt
-from passlib.context import CryptContext
+import bcrypt
 
 from config import get_settings
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
 
 def hash_password(plain: str) -> str:
-    return pwd_context.hash(plain)
+    """Hash a password using bcrypt directly."""
+    # bcrypt expects bytes, and we should manually truncate to 72 bytes to avoid errors
+    plain_bytes = plain.encode('utf-8')[:72]
+    salt = bcrypt.gensalt(rounds=12)
+    hashed_bytes = bcrypt.hashpw(plain_bytes, salt)
+    return hashed_bytes.decode('ascii')
 
 
 def verify_password(plain: str, hashed: str) -> bool:
-    return pwd_context.verify(plain, hashed)
+    """Verify a password using bcrypt directly."""
+    try:
+        plain_bytes = plain.encode('utf-8')[:72]
+        hashed_bytes = hashed.encode('ascii')
+        return bcrypt.checkpw(plain_bytes, hashed_bytes)
+    except (ValueError, TypeError):
+        return False
 
 
 def create_access_token(
