@@ -106,9 +106,9 @@ describe('DNAQuiz', () => {
       ).toBeInTheDocument();
 
       const choiceLabel =
-        screen.getByText(
+        screen.getAllByText(
           selectedChoice.label,
-        );
+        )[0];
 
       const choiceButton =
         choiceLabel.closest('button');

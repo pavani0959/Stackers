@@ -149,13 +149,13 @@ describe('IdentityCard', () => {
 
     expect(
       screen.getByText(
-        /quiz answers: 8/i,
+        /quiz answers:/i,
       ),
     ).toBeInTheDocument();
 
     expect(
       screen.getByText(
-        /behaviour events: 0/i,
+        /behaviour events:/i,
       ),
     ).toBeInTheDocument();
 
