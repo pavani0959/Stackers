@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/useUser';
-import { ArrowRight, User, CheckCircle, X } from 'lucide-react';
+import { ArrowRight, User, CheckCircle, X, Users, Briefcase, PiggyBank, GraduationCap, TrendingUp, Gem } from 'lucide-react';
 import '../../styles/Onboarding.css';
 import ApiErrorState from '../../components/ApiErrorState/ApiErrorState';
 import OnboardingProgress from '../../components/OnboardingProgress/OnboardingProgress';

@@ -53,44 +53,6 @@ const AI_FEATURES = [
   { icon: <User size={20} />, bg: '#f0f9ff', label: 'Body Fit', desc: 'Perfect fit for you' },
 ];
 
-function OutfitItem({ item, onClick }) {
-  const [imgError, setImgError] = useState(false);
-
-  return (
-    <button
-      type="button"
-      className="outfit-item"
-      aria-label={`View ${item.name}`}
-      onClick={onClick}
-    >
-      <div className="outfit-item-img-wrap">
-        {!imgError ? (
-          <img
-            src={item.image}
-            alt={item.name}
-            loading="lazy"
-            onError={() => setImgError(true)}
-          />
-        ) : (
-          <div className="img-fallback">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-            <span>Image unavailable</span>
-          </div>
-        )}
-      </div>
-
-      <span className="outfit-item-lbl">
-        <span className="outfit-item-cat">
-          {item.category.toUpperCase()}
-        </span>
-
-        <span>
-          ₹{item.price.toLocaleString('en-IN')}
-        </span>
-      </span>
-    </button>
-  );
-}
 
 export default function ReverseShopping() {
   const navigate = useNavigate();

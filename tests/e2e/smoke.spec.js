@@ -32,7 +32,7 @@ test('add to cart flow works end-to-end', async ({ page }) => {
   try {
     await stillWantBtn.waitFor({ state: 'visible', timeout: 2000 });
     await stillWantBtn.click();
-  } catch (e) {
+  } catch {
     // Modal did not appear, proceed normally
   }
   

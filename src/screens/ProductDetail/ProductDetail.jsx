@@ -47,9 +47,9 @@ function AlternativeItem({ alternative, onAccept, onNavigate }) {
             className="det-alt-img"
           />
         ) : (
-          <div className="img-fallback" className="det-alt-fallback">
+          <div className="img-fallback det-alt-fallback">
             <Shirt className="img-fallback-icon" size={18} />
-            <span className="img-fallback-text" className="det-alt-fallback-text">{alternative.name}</span>
+            <span className="img-fallback-text det-alt-fallback-text">{alternative.name}</span>
           </div>
         )}
       </div>
