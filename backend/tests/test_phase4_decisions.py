@@ -65,7 +65,7 @@ def db_session():
         models.StyleProfile(
             user_id=user.id,
             version=1,
-            dna_vector={"minimalist": 70.0, "streetwear": 30.0},
+            dna_vector={"minimalist": 50.0, "streetwear": 50.0},
             primary_identity="minimalist",
             secondary_identity="streetwear",
             profile_confidence=86,
@@ -122,6 +122,27 @@ def db_session():
                 sizes=["S", "M", "L"],
                 budgetTier="premium",
                 season="winter",
+                stock_quantity=10,
+                is_active=True,
+            ),
+            models.Product(
+                id=3,
+                sku="PHASE4-003",
+                name="Streetwear Cargo Tie",
+                brand="Test Brand",
+                description="Streetwear cargo trousers",
+                price=1499,
+                originalPrice=1999,
+                image="https://example.com/cargo3.jpg",
+                category="bottom",
+                subcategory="cargo_pants",
+                primary_colour="black",
+                gender_segment="women",
+                tags=["streetwear", "bold"],
+                occasions=["campus", "party"],
+                sizes=["S", "M", "L"],
+                budgetTier="mid_range",
+                season="all_season",
                 stock_quantity=10,
                 is_active=True,
             ),
@@ -374,3 +395,49 @@ def test_feed_uses_one_session_and_persists_ranked_items(client, db_session):
         .all()
     )
     assert [rank for (rank,) in ranks] == [1, 2]
+
+
+def test_feed_vibe_re_ranks_products(client, db_session):
+    # Quiet vibe biases towards 'minimalist' (PHASE4-001)
+    quiet_response = client.post(
+        "/api/decisions/feed",
+        json={
+            "limit": 2,
+            "anti_trend": False,
+            "context": {
+                "occasion": "campus",
+                "vibe": "quiet",
+            },
+        },
+    )
+    quiet_payload = quiet_response.json()
+    
+    # Bold vibe biases towards 'streetwear' and 'bold' (PHASE4-002)
+    bold_response = client.post(
+        "/api/decisions/feed",
+        json={
+            "limit": 2,
+            "anti_trend": False,
+            "context": {
+                "occasion": "campus",
+                "vibe": "bold",
+            },
+        },
+    )
+    bold_payload = bold_response.json()
+
+    # The top ranked product should be different for each vibe
+    quiet_top_sku = quiet_payload["items"][0]["product"]["sku"]
+    bold_top_sku = bold_payload["items"][0]["product"]["sku"]
+
+    print("QUIET SCORES:")
+    for item in quiet_payload["items"]:
+        print(f"  {item['product']['sku']}: {item['overall_score']}")
+
+    print("BOLD SCORES:")
+    for item in bold_payload["items"]:
+        print(f"  {item['product']['sku']}: {item['overall_score']} -> {item['score_breakdown']['vibe']['score']} (Vibe component score)")
+    
+    assert quiet_top_sku != bold_top_sku
+    assert quiet_top_sku == "PHASE4-001"
+    assert bold_top_sku == "PHASE4-003"

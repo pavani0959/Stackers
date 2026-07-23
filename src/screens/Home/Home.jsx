@@ -49,7 +49,7 @@ export default function Home() {
       setLoading(true);
       setError(null);
       try {
-        const data = await getDecisionFeed({ limit: 20, antiTrend, context: { occasion: primaryOccasion } });
+        const data = await getDecisionFeed({ limit: 20, antiTrend, context: { occasion: primaryOccasion, vibe: mood } });
         if (!cancelled) setFeed(data.items);
       } catch (requestError) {
         if (!cancelled) setError(requestError);
@@ -59,7 +59,7 @@ export default function Home() {
     }
     loadFeed();
     return () => { cancelled = true; };
-  }, [user?.id, primaryOccasion, profileLoading, antiTrend, retryKey]);
+  }, [user?.id, primaryOccasion, profileLoading, antiTrend, mood, retryKey]);
 
   const firstName = user.name?.trim().split(' ')[0] || 'Style Explorer';
   const gridProducts = showAllProducts ? feed : feed.slice(0, 4);

@@ -8,11 +8,12 @@ import models
 DECISION_MODEL_VERSION = "decision-v1.0.0"
 
 COMPONENT_WEIGHTS = {
-    "style": 0.35,
+    "style": 0.30,
     "occasion": 0.20,
-    "budget": 0.20,
+    "budget": 0.15,
     "wardrobe": 0.15,
     "season": 0.10,
+    "vibe": 0.10,
 }
 
 _CATEGORY_ALIASES = {
@@ -109,6 +110,10 @@ class DecisionScoreCalculator:
                 product=product,
             ),
             "season": self._season_component(
+                product=product,
+                context=context,
+            ),
+            "vibe": self._vibe_component(
                 product=product,
                 context=context,
             ),
@@ -435,5 +440,51 @@ class DecisionScoreCalculator:
             evidence={
                 "requested_season": requested_season,
                 "product_season": product_season,
+            },
+        )
+
+    def _vibe_component(
+        self,
+        *,
+        product: models.Product,
+        context: dict[str, Any],
+    ) -> dict[str, Any]:
+        requested_vibe = context.get("vibe")
+        vibe_key = _normalise_token(requested_vibe)
+        
+        product_tags = {
+            _normalise_token(tag)
+            for tag in _normalise_list(product.tags)
+        }
+        product_occasions = {
+            _normalise_token(occ)
+            for occ in _normalise_list(product.occasions)
+        }
+        
+        vibe_mappings = {
+            "quiet": {"minimalist", "neutral", "quietluxury", "classic", "elegant"},
+            "bold": {"bold", "colorful", "streetwear", "y2k", "statement"},
+            "grind": {"office", "comfort", "smartcasual", "formal", "casual", "everyday"},
+            "night": {"party", "evening", "date", "wedding"},
+        }
+        
+        score = 50
+        matched_tags = []
+        if vibe_key and vibe_key in vibe_mappings:
+            target_tags = vibe_mappings[vibe_key]
+            matched = target_tags.intersection(product_tags.union(product_occasions))
+            matched_tags = list(matched)
+            if matched_tags:
+                score = clamp_score(50 + (len(matched_tags) * 25))
+            else:
+                score = 30
+                
+        return _component(
+            score=score,
+            weight=COMPONENT_WEIGHTS["vibe"],
+            evidence_source="request_context" if vibe_key else "default",
+            evidence={
+                "requested_vibe": requested_vibe,
+                "matched_vibe_tags": matched_tags,
             },
         )
