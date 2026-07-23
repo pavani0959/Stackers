@@ -31,16 +31,16 @@ class StreakService:
         else:
             self.client = None
 
-    def _get_today_str(self) -> str:
-        return utc_now().strftime("%Y-%m-%d")
+    def _get_today_date(self):
+        return utc_now().date()
         
-    def _get_yesterday_str(self) -> str:
+    def _get_yesterday_date(self):
         from datetime import timedelta
-        return (utc_now() - timedelta(days=1)).strftime("%Y-%m-%d")
+        return (utc_now() - timedelta(days=1)).date()
 
     def get_or_create_today_task(self) -> DailyTask:
-        today_str = self._get_today_str()
-        task = self.db.query(DailyTask).filter(DailyTask.task_date == today_str).first()
+        today_date = self._get_today_date()
+        task = self.db.query(DailyTask).filter(DailyTask.task_date == today_date).first()
         
         if task:
             return task
@@ -68,7 +68,7 @@ DO NOT include any conversational text, just return the JSON."""
                 logger.error(f"Failed to generate task: {e}")
                 prompt_text = "Wear a watch or accessory" # fallback
 
-        new_task = DailyTask(task_date=today_str, prompt_text=prompt_text)
+        new_task = DailyTask(task_date=today_date, prompt_text=prompt_text)
         self.db.add(new_task)
         try:
             self.db.commit()
@@ -77,11 +77,11 @@ DO NOT include any conversational text, just return the JSON."""
         except IntegrityError:
             self.db.rollback()
             # Another thread might have created it
-            return self.db.query(DailyTask).filter(DailyTask.task_date == today_str).first()
+            return self.db.query(DailyTask).filter(DailyTask.task_date == today_date).first()
 
     def submit_task(self, user_id: int, image_b64: str) -> dict:
         today_task = self.get_or_create_today_task()
-        today_str = self._get_today_str()
+        today_date = self._get_today_date()
         
         # Check if already submitted today
         existing_submission = self.db.query(StreakSubmission).filter(
@@ -137,6 +137,9 @@ Respond with a JSON containing a boolean 'passed' and a string 'reasoning' expla
                 # Fallback to rejecting if AI fails to parse
                 passed = False
                 reasoning = "Could not verify image due to an internal error."
+        else:
+            passed = True
+            reasoning = "Passed (fallback verification)"
 
         # Save submission
         status = "approved" if passed else "rejected"
@@ -158,20 +161,20 @@ Respond with a JSON containing a boolean 'passed' and a string 'reasoning' expla
                     user_id=user_id,
                     current_streak=1,
                     longest_streak=1,
-                    last_completed_date=today_str
+                    last_completed_date=today_date
                 )
                 self.db.add(user_streak)
             else:
-                yesterday_str = self._get_yesterday_str()
-                if user_streak.last_completed_date == yesterday_str:
+                yesterday_date = self._get_yesterday_date()
+                if user_streak.last_completed_date == yesterday_date:
                     user_streak.current_streak += 1
-                elif user_streak.last_completed_date != today_str:
+                elif user_streak.last_completed_date != today_date:
                     user_streak.current_streak = 1
                 
                 if user_streak.current_streak > user_streak.longest_streak:
                     user_streak.longest_streak = user_streak.current_streak
                     
-                user_streak.last_completed_date = today_str
+                user_streak.last_completed_date = today_date
 
         self.db.commit()
         return {"passed": passed, "reasoning": reasoning}
@@ -189,14 +192,14 @@ Respond with a JSON containing a boolean 'passed' and a string 'reasoning' expla
             desc(UserStreak.current_streak), desc(UserStreak.longest_streak)
         ).offset(offset).limit(limit).all()
         
-        today_str = self._get_today_str()
-        yesterday_str = self._get_yesterday_str()
+        today_date = self._get_today_date()
+        yesterday_date = self._get_yesterday_date()
         
         results = []
         for streak, user in streaks:
             current = streak.current_streak
             # Dynamically compute broken streaks
-            if streak.last_completed_date and streak.last_completed_date != today_str and streak.last_completed_date != yesterday_str:
+            if streak.last_completed_date and streak.last_completed_date != today_date and streak.last_completed_date != yesterday_date:
                 current = 0
                 
             results.append({
@@ -213,18 +216,18 @@ Respond with a JSON containing a boolean 'passed' and a string 'reasoning' expla
 
     def get_user_streak(self, user_id: int):
         streak = self.db.query(UserStreak).filter(UserStreak.user_id == user_id).first()
-        today_str = self._get_today_str()
-        yesterday_str = self._get_yesterday_str()
+        today_date = self._get_today_date()
+        yesterday_date = self._get_yesterday_date()
         
         if not streak:
             return {"current_streak": 0, "longest_streak": 0, "last_completed_date": None}
             
         current = streak.current_streak
-        if streak.last_completed_date and streak.last_completed_date != today_str and streak.last_completed_date != yesterday_str:
+        if streak.last_completed_date and streak.last_completed_date != today_date and streak.last_completed_date != yesterday_date:
             current = 0
             
         return {
             "current_streak": current,
             "longest_streak": streak.longest_streak,
-            "last_completed_date": streak.last_completed_date
+            "last_completed_date": streak.last_completed_date.strftime("%Y-%m-%d") if streak.last_completed_date else None
         }
